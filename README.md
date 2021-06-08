@@ -17,3 +17,4 @@ This project is to automate the process of creating the weekly Qxf2 newsletter. 
  <li>
     `export FLASK_APP=run.py`
     `flask run`
+  </li>
