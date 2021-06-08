@@ -1,4 +1,4 @@
-# newsletter_automation
+# Newsletter automation
 This project is to automate the process of creating the weekly Qxf2 newsletter. We take the URLs posted on the Skype channel as input and create a MailChimp campaign.
 
 ## Setup
