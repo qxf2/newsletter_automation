@@ -4,11 +4,11 @@ This project is to automate the process of creating the weekly Qxf2 newsletter. 
 ## Setup
   1. Clone the repository
   
-  2. Setup and activate a virtual environment
+  2. Setup and activate a virtual environment: </br>
     `virtualenv env` <br />
-    `env\Scripts\activate` <br />
+    `source env\Scripts\activate` <br />
  
-  3. Install the dependencies 
+  3. Install the dependencies </br>
     `pip install -r requirements.txt`
  
  ## Run the project locally
