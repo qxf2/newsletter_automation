@@ -14,9 +14,10 @@ def Add_newsletter():
     "This page contains the form into which user enters the newsletter subject"
     form = Newsletter_AddForm(request.form)
     if request.method == 'POST':
-        if form.validate_on_submit():
-            subject = form.subject.data
-            preview_text = form.preview_text
+        # if form.validate_on_submit():
+            add_subject = AddNewsletter(form.subject.data)
+            db.session.add(add_subject)
+            db.session.commit()
             flash(f'Form submitted successfully', 'success')
             return redirect(url_for("Add_articles"))
     return render_template('add_newsletter.html',form=form)

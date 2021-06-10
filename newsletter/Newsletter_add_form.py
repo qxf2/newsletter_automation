@@ -1,13 +1,13 @@
 """
 This Module Contains the Form classs for newsletter_add
 """
-from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField
+from flask_wtf import Form
+from wtforms import StringField, SubmitField, SelectField, TextField
 from wtforms.validators import DataRequired, Length, Email
 import email_validator
 
-class Newsletter_AddForm(FlaskForm):
+class Newsletter_AddForm(Form):
     "Class for Newsletter_Add form"
-    subject = StringField('Subject',validators=[DataRequired()])
+    subject = TextField('subject',validators=[DataRequired()])
     preview_text = StringField('Preview Text',validators=[DataRequired()])
     add_article = SubmitField('Add Article')

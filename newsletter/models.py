@@ -6,8 +6,7 @@ class AddNewsletter(db.Model):
     newsletter_id = db.Column(db.Integer, primary_key=True)
     subject = db.Column(db.String(50))
 
-    def __init__(self, campaign_id, subject):
-        self.newsletter_id = newsletter_id
+    def __init__(self, subject):
         self.subject = subject
 
 db.create_all()
