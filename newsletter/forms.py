@@ -9,11 +9,9 @@ def length_check(form,field):
     
 
 class AddArticlesForm(Form):
-    dropdown_list = ['a','b','c']
-    url = TextField('url', validators=[ DataRequired()])
-    title = TextField('title', validators = [DataRequired()])
-    description = TextField('Description', validators = [DataRequired()])
-    #time = TextField('time', validators = [DataRequired()])
-#    category = SelectField('Delivery Types', choices=dropdown_list, default=1)
-    #category_id = TextField('category', validators = [DataRequired()])
-    submit = SubmitField('Submit')
+    url= TextField('url', validators= [DataRequired()])
+    title = TextField('title', validators= [DataRequired()])
+    description = TextField('description', validators= [ DataRequired(), Length(min=4)])
+    time = TextField('time',validators=[ DataRequired(), Length(min=6)])
+    category_id = TextField('category', validators= [DataRequired()])
+    submit = SubmitField('Sign Up')
