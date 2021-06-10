@@ -19,7 +19,13 @@ class AddNewsletter(db.Model):
         self.article_id = article_id
         self.opener = opener
         self.preview = preview
-        self.campaign_id = campaign
+        self.campaign_id = campaign_id
        
+class Article_category(db.Model):
+    category_id = db.Column('category_id', db.Integer, primary_key = True)
+    category_name = db.Column(db.String(100))
 
+    def __init__(self, category_name):
+        self.category_name = category_name
+        
 db.create_all()

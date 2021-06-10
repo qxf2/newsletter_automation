@@ -17,7 +17,7 @@ def Add_newsletter():
         if form.validate_on_submit():
             subject = request.form['subject']
             #preview_text = request.form['preview_text']
-            my_data = AddNewsletter(subject)
+            my_data = AddNewsletter(subject,0,0,0,0,0)
             db.session.add(my_data)
             db.session.commit()
             flash(f'Form submitted successfully', 'success')
@@ -28,9 +28,7 @@ def Add_newsletter():
 def Add_articles():
     "This page contains the form where user can add articles"
     form = ArticleForm(request.form)
-    if request.method == 'POST':
-        
-        if form.validate_on_submit():
+    if form.validate_on_submit():
             category=form.category.data
             url= form.url.data
             description=form.description.data
@@ -47,7 +45,9 @@ def Add_articles():
                     return redirect(url_for("index"))
                 else:
                     flash(f'Please enter the opener')
-        return render_template('add_article.html',form=form)
+    return render_template('add_article.html',form=form)
+    
+
 
 if __name__ == '__main__':
     app.run(debug=True)
