@@ -9,12 +9,13 @@ from . Article_add_form import ArticleForm
 def index():
     return render_template('home.html')
 
+@app.route("/newsletter",methods=["GET","POST"])
 @app.route("/add-newsletter",methods=["GET","POST"])
 def Add_newsletter():
     "This page contains the form into which user enters the newsletter subject"
     form = Newsletter_AddForm(request.form)
     if request.method == 'POST':
-        # if form.validate_on_submit():
+        if form.validate_on_submit():
             add_subject = AddNewsletter(form.subject.data)
             db.session.add(add_subject)
             db.session.commit()
