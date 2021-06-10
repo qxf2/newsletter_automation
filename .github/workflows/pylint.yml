@@ -2,7 +2,8 @@ name: Pylint
 
 on:
         push:
-                - master
+                branches:
+                        - master
 
 jobs:
   build:
