@@ -1,0 +1,41 @@
+{%extends "layout.html" %}
+{% block content %}
+<div>
+    <form method="POST", action="">
+        {{  form.hidden_tag( )}}
+        <fieldset class="form-group">
+            <legend>Add Article Form</legend>
+            <div class="form-group">
+                {{form.category.label(class="col-sm-1 col-form-label")}}
+                {{form.category}}
+            </div>
+            <div class="form-group">
+                {{form.url.label(class="col-sm-1 col-form-label")}}
+                {{form.url}}
+            </div>
+            <div class="form-group">
+                {{form.description.label(class="col-sm-1 col-form-label")}}
+                {{form.description}}
+            </div>
+            <div class="form-group">
+                {{form.reading_time.label(class="col-sm-1 col-form-label")}}
+                {{form.reading_time}}
+            </div>
+            <div class="form-group">
+                {{form.add_more(class="btn btn-outline-info")}}
+            </div>
+        </fieldset>
+
+            <div class="form-group">
+                {{form.opener.label(class="col-sm-1 col-form-label")}}
+                {{form.opener}}
+            </div>
+
+            <div class="form-group">
+                {{form.schedule(class="btn btn-outline-info")}}
+            </div>
+    </form>
+
+
+</div>
+{% endblock content %}
