@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+     <meta charset="utf-8">
+     <title>Newsletter Schedule</title>
+</head>
+<body>
+<h2>Newsletter Schedule</h2>
+
+   <form action = "/schedule" method = "post">
+         {{scheduleform.campaign_id(id="campaignId")}}
+         {{scheduleform.newsletter_id(id="newsletterId")}}
+         {{ scheduleform.newsletter_subject(id="newsletterSubject", value=subject, class="form-control", autofocus="",placeholder="Newsletter Subject")}}
+
+
+        {{ scheduleform.submit(class="btn btn-lg btn-primary btn-block")}}
+</form>
+<script>
+   let campaignId = document.getElementById("campaignId").value;
+   let newsletterId = document.getElementById("newsletterId").value;
+   let newsletterSubject = document.getElementById("newsletterSubject").value;
+</script>
+
+</body>
+</html>
