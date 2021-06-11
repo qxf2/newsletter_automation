@@ -25,7 +25,8 @@ class Article_category(db.Model):
 
     def __init__(self, category_name):
         self.category_name = category_name
-
-#ins = Article_category.insert().values([{category_name:'this week'},{category_name:'previous week'},{category_name:'comic'},{category_name:'automation'}])
+    
+    def __repr__(self):
+        return '<Article_category {}'.format(self.category_name)
 
 db.create_all()
