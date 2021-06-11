@@ -3,14 +3,29 @@ This Module Contains the Form classes for Add articles form
 """
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField, TextAreaField, FormField
-from wtforms.validators import DataRequired, Length, Email
-import email_validator
+from wtforms.validators import DataRequired, Length
+from wtforms.ext.sqlalchemy.fields import QuerySelectField
+from . models import Article_category,Articles,db
+from sqlalchemy.orm import sessionmaker
+
+
+
+def choice_query():
+    
+    return Article_category.query
+
+"""
+def choice_url():
+    
+    return db.session.query(Article_categoryArticles).filter(Articles.category_id == 5)
+"""
 
 class ArticleForm(FlaskForm):
     "Class for articles form"
-    categories=["Select Category","Comic","Articles from this week", "Articles from past","Automation corner"]
-    category = SelectField('Select_Category', choices=categories,validators=[DataRequired()],default="Select Category")
+    
+    category_id= QuerySelectField(query_factory=choice_query, allow_blank=True,get_label='category_name')
     title = StringField('Title')
+    #url= QuerySelectField(query_factory=choice_url, allow_blank=True,get_label='url')
     url = SelectField("Select a url", validate_choice=False)
     description = TextAreaField('Description')
     reading_time = StringField('Reading Time')
