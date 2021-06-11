@@ -21,7 +21,9 @@ def articles():
             article = Articles(addarticlesform.url.data,addarticlesform.title.data,addarticlesform.description.data, addarticlesform.time.data, addarticlesform.category_id.data.category_id)
             db.session.add(article)
             db.session.commit()
-            return redirect(url_for('articles'))
+            msg = "Record added Successfully"
+            #return redirect(url_for('articles'))
+            return render_template('result.html', msg=msg)
         return render_template('articles.html',addarticlesform=addarticlesform, category=category)
 
 if __name__ == '__main__':
