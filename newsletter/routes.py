@@ -1,12 +1,10 @@
+#Endpoints to different Pages/Endpoints
 from flask import Flask
 from flask import Flask, request, flash, url_for, redirect, render_template
-
 from . models import Articles, db, Article_category
 from . forms import AddArticlesForm
-from . models import Articles, db
 from flask import render_template
 from newsletter import app
-#from newsletter import db
 
 
 @app.route('/')
@@ -25,7 +23,6 @@ def articles():
             db.session.commit()
             return redirect(url_for('articles'))
         return render_template('articles.html',addarticlesform=addarticlesform, category=category)
-
 
 if __name__ == '__main__':
     app.run(debug=True)

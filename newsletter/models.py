@@ -1,10 +1,11 @@
+#Creating Db Schema
 from flask_sqlalchemy import SQLAlchemy
 from newsletter import app
+
 
 db = SQLAlchemy(app)
 
 class Articles(db.Model):
-
    article_id = db.Column('article_id', db.Integer, primary_key = True)
    url = db.Column(db.String(100))
    title = db.Column(db.String(250))
@@ -25,7 +26,7 @@ class Article_category(db.Model):
 
     def __init__(self, category_name):
         self.category_name = category_name
-    
+
     def __repr__(self):
         return '<Article_category {}'.format(self.category_name)
 
