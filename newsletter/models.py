@@ -19,9 +19,9 @@ class AddNewsletter(db.Model):
 class NewsletterContent(db.Model):
     __tablename__ = 'newsletter_content'
     newsletter_content_id = db.Column(db.Integer, primary_key=True)
-    newsletter_id = db.Column(db.Integer, db.ForeignKey('add_newsletter.category_id'))
-    category_id = db.Column(db.Integer)
-    article_id = db.Column(db.Integer)
+    newsletter_id = db.Column(db.Integer, db.ForeignKey('add_newsletter.newsletter_id'))
+    category_id = db.Column(db.Integer, db.ForeignKey('articles_category.category_id'))
+    article_id = db.Column(db.Integer, db.ForeignKey('articles.article_id'))
     campaign_id= db.Column(db.Integer)
     
 
@@ -37,5 +37,8 @@ class Article_category(db.Model):
 
     def __init__(self, category_name):
         self.category_name = category_name
+    
+    def __repr__(self):
+        return '<Article_category {}'.format(self.category_name)
         
 db.create_all()

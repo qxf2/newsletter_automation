@@ -34,45 +34,45 @@ def Add_articles():
     for url in articles_added:
         url_data += str(url) + "\n"
         form.added_articles.data = url_data
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            category= request.form['category']
+            url= request.form['url']
+            description=request.form['description']
+            reading_time=request.form['reading_time']
+            title = request.form['title']
+            opener= request.form['opener']
+            preview_text = request.form['preview_text']
 
-    if form.validate_on_submit():
-        category=form.category.data
-        url= form.url.data
-        description=form.description.data
-        reading_time=form.reading_time.data
-        title = form.title.data
-        opener= form.opener.data
-        preview_text = form.preview_text.data
-
-        if form.add_more.data:
-            if form.category.data=="Select Category":
-                flash(f'Please select category')
-                return redirect(url_for("Add_articles"))
-            else:
-                #To be replaced by database
-                file1 = open("replica_db.txt", "a")
-                file1.write("%s\t%s\t%s\t%s\t%s\n"%(category,url,title,description,reading_time))
-                file1.close()
-
-                articles_added.append(url)
-                return redirect(url_for("Add_articles"))
-
-        if form.schedule.data:
-            if opener:
-                if preview_text:
-                    #To be replace by database
-                    file1 = open("replica_db1.txt", "a")  # append mode
-                    file1.write("\t%s\t%s\n"%(opener,preview_text))
+            if form.add_more.data:
+                if form.category.data=="Select Category":
+                    flash(f'Please select category')
+                    return redirect(url_for("Add_articles"))
+                else:
+                    #To be replaced by database
+                    file1 = open("replica_db.txt", "a")
+                    file1.write("%s\t%s\t%s\t%s\t%s\n"%(category,url,title,description,reading_time))
                     file1.close()
 
-                    flash(f'Form submitted successfully', 'success')
-                    articles_added.clear()
-                    return redirect(url_for("index"))
-                else:
-                    flash(f'Enter preview text')
+                    articles_added.append(url)
+                    return redirect(url_for("Add_articles"))
 
-            else:
-                flash(f'Please enter the opener')
+            if form.schedule.data:
+                if opener:
+                    if preview_text:
+                        #To be replace by database
+                        file1 = open("replica_db1.txt", "a")  # append mode
+                        file1.write("\t%s\t%s\n"%(opener,preview_text))
+                        file1.close()
+
+                        flash(f'Form submitted successfully', 'success')
+                        articles_added.clear()
+                        return redirect(url_for("index"))
+                    else:
+                        flash(f'Enter preview text')
+
+                else:
+                    flash(f'Please enter the opener')
     return render_template('add_article.html',form=form)  
     
 
