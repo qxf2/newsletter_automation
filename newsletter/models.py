@@ -3,6 +3,7 @@ from newsletter import app
 from newsletter import db
 
 class AddNewsletter(db.Model):
+    __tablename__ = 'add_newsletter'
     newsletter_id = db.Column(db.Integer, primary_key=True)
     subject = db.Column(db.String(50))
     opener = db.Column(db.String(400))
@@ -18,7 +19,7 @@ class AddNewsletter(db.Model):
 class NewsletterContent(db.Model):
     __tablename__ = 'newsletter_content'
     newsletter_content_id = db.Column(db.Integer, primary_key=True)
-    newsletter_id = db.Column(db.Integer)
+    newsletter_id = db.Column(db.Integer, db.ForeignKey('add_newsletter.category_id'))
     category_id = db.Column(db.Integer)
     article_id = db.Column(db.Integer)
     campaign_id= db.Column(db.Integer)
@@ -29,7 +30,7 @@ class NewsletterContent(db.Model):
         self.category_id = category_id
         self.article_id = article_id
         self.campaign_id = campaign_id
-        
+
 class Article_category(db.Model):
     category_id = db.Column('category_id', db.Integer, primary_key = True)
     category_name = db.Column(db.String(100))

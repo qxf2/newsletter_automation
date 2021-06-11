@@ -1,4 +1,4 @@
-from flask import Flask, request, flash, url_for, redirect, render_template
+from flask import Flask, request, flash, url_for, redirect, render_template, jsonify
 from newsletter import app
 from . models import AddNewsletter, db
 from . Newsletter_add_form import Newsletter_AddForm
