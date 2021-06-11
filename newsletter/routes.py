@@ -19,7 +19,7 @@ def Add_newsletter():
         if form.validate_on_submit():
             subject = request.form['subject']
             #preview_text = request.form['preview_text']
-            my_data = AddNewsletter(subject,0,0,0,0,0)
+            my_data = AddNewsletter(subject,0,0)
             db.session.add(my_data)
             db.session.commit()
             flash(f'Form submitted successfully', 'success')
