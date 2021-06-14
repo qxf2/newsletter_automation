@@ -4,6 +4,7 @@ from . models import AddNewsletter, db, Article_category, Articles
 from . Newsletter_add_form import Newsletter_AddForm
 from . Article_add_form import ArticleForm
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
+from helpers.mailchimp_helper import Mailchimp_Helper
 
 articles_added=[]
 
@@ -23,6 +24,8 @@ def Add_newsletter():
             db.session.add(my_data)
             db.session.commit()
             flash(f'Form submitted successfully', 'success')
+            newsletterId = db.session.query(AddNewsletter).order_by(AddNewsletter.newsletter_id.desc()).first()
+            print("newsletter primary key", newsletterId)
             return redirect(url_for("Add_articles"))
     return render_template('add_newsletter.html',form=form)
 
@@ -30,58 +33,60 @@ def Add_newsletter():
 def Add_articles():
     "This page contains the form where user can add articles"
     url_data = ""
-    form = ArticleForm(request.form)
-    category = ArticleForm(request.form)
-    url = ArticleForm(request.form)
-    if category.validate_on_submit():
-            return '<html><h1>{}</h1></html>'.format(category.category_name.data.category_id)
-    
-        
+    form = ArticleForm()
+    # category = ArticleForm(request.form)
+    # url = ArticleForm(request.form)
+    # if category.validate_on_submit():
+    #         return '<html><h1>{}</h1></html>'.format(category.category_name.data.category_id)   
     for url in articles_added:
         url_data += str(url) + "\n"
         form.added_articles.data = url_data
-    if request.method == 'POST':
         
-        if form.validate_on_submit():
-            category=form.category_id.data.category_id
-            url= form.url.data
-            description=form.description.data
-            reading_time=form.reading_time.data
-            title = form.title.data
-            opener= form.opener.data
-            preview_text = form.preview_text.data
+    if form.validate_on_submit():
+        category = form.category_id.data
+        article_url = form.url.data.article_id
+        # description=form.description.data
+        # reading_time=form.reading_time.data
+        # title = form.title.data
+        opener= form.opener.data
+        preview_text = form.preview_text.data
+        if form.add_more.data:
+            if form.category.data=="Select Category":
+                flash(f'Please select category')
+                return redirect(url_for("Add_articles"))
+            else:
+                print(form)
+                print(category)
+                my_data = NewsletterContent(newsletterId,category,article_url,0)
+                db.session.add(my_data)
+                db.session.commit()
+                #To be replaced by database
+                file1 = open("replica_db.txt", "a")
+                file1.write("%s\t%s\t%s\t%s\t%s\n"%(category,article_url,title,description,reading_time))
+                file1.close()
+                articles_added.append(url)
+                return redirect(url_for("Add_articles"))
 
-            if form.add_more.data:
-                if form.category.data=="Select Category":
-                    flash(f'Please select category')
-                    return redirect(url_for("Add_articles"))
-                else:
-                    #To be replaced by database
-                    file1 = open("replica_db.txt", "a")
-                    file1.write("%s\t%s\t%s\t%s\t%s\n"%(category,url,title,description,reading_time))
+        if form.schedule.data:
+            if opener:
+                if preview_text:
+                    #To be replace by database
+                    file1 = open("replica_db1.txt", "a")  # append mode
+                    file1.write("\t%s\t%s\n"%(opener,preview_text))
                     file1.close()
 
-                    articles_added.append(url)
-                    return redirect(url_for("Add_articles"))
-
-            if form.schedule.data:
-                if opener:
-                    if preview_text:
-                        #To be replace by database
-                        file1 = open("replica_db1.txt", "a")  # append mode
-                        file1.write("\t%s\t%s\n"%(opener,preview_text))
-                        file1.close()
-
-                        flash(f'Form submitted successfully', 'success')
-                        articles_added.clear()
-                        return redirect(url_for("index"))
-                    else:
-                        flash(f'Enter preview text')
-
+                    flash(f'Form submitted successfully', 'success')
+                    articles_added.clear()
+                    client = Mailchimp_Helper()
+                    client.create_campaign(title,subject_line,preview_text)
+                    return redirect(url_for("schedule"))
                 else:
-                    flash(f'Please enter the opener')
-    return render_template('add_article.html',form=form, category=category)  
-    
+                    flash(f'Enter preview text')
+
+            else:
+                flash(f'Please enter the opener')
+    return render_template('add_article.html',form=form)  
+
 
 @app.route("/url/<category_id>")
 def url(category_id):
@@ -90,7 +95,6 @@ def url(category_id):
     url = Articles.query.filter_by(category_id=category_id).all()
     urlArray = []
     for each_element in url:
-        print(each_element)
         urlobj ={}
         urlobj['article_id']= each_element.article_id
         urlobj['url']= each_element.url
