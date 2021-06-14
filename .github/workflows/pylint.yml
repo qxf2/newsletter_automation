@@ -19,4 +19,4 @@ jobs:
         pip install -r requirements.txt
     - name: Analysing the code with pylint
       run:
-        python -m pylint --fail-under=9 `ls -R|grep .py$|xargs`
+        python -m pylint --fail-under=9 `find . -type f -name *.py 2> /dev/null | xargs`
