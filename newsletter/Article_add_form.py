@@ -11,15 +11,15 @@ from sqlalchemy.orm import sessionmaker
 
 
 def choice_query():
-    
+
     return Article_category.query
 
 
 class ArticleForm(FlaskForm):
     "Class for articles form"
-    
+
     category_id= QuerySelectField(query_factory=choice_query, allow_blank=True,get_label='category_name')
-    url = SelectField('url', choices=[])
+    url = SelectField("Select a url", validate_choice=False)
     title = StringField('Title')
     description = TextAreaField('Description')
     reading_time = StringField('Reading Time')
