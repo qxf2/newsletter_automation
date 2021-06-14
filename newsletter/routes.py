@@ -35,53 +35,53 @@ def Add_articles():
     url = ArticleForm(request.form)
     if category.validate_on_submit():
             return '<html><h1>{}</h1></html>'.format(category.category_name.data.category_id)
-    
-        
+            
     for url in articles_added:
         url_data += str(url) + "\n"
         form.added_articles.data = url_data
-    if request.method == 'POST':
+    #if request.method == 'POST':
         
-        if form.validate_on_submit():
-            category=form.category_id.data.category_id
-            url= form.url.data.article_id
-            description=form.description.data
-            reading_time=form.reading_time.data
-            title = form.title.data
-            opener= form.opener.data
-            preview_text = form.preview_text.data
+    if form.validate_on_submit():
+        category=form.category_id.data.category_id
+        url= form.url.data.article_id
+        description=form.description.data
+        reading_time=form.reading_time.data
+        title = form.title.data
+        opener= form.opener.data
+        preview_text = form.preview_text.data
+        
 
-            if form.add_more.data:
-                if form.category.data=="Select Category":
-                    flash(f'Please select category')
-                    return redirect(url_for("Add_articles"))
-                else:
-                    #To be replaced by database
-                    file1 = open("replica_db.txt", "a")
-                    file1.write("%s\t%s\t%s\t%s\t%s\n"%(category,url,title,description,reading_time))
+        if form.add_more.data:
+            if form.category.data=="Select Category":
+                flash(f'Please select category')
+                return redirect(url_for("Add_articles"))
+            else:
+                #To be replaced by database
+                file1 = open("replica_db.txt", "a")
+                file1.write("%s\t%s\t%s\t%s\t%s\n"%(category,url,title,description,reading_time))
+                file1.close()
+
+                articles_added.append(description)
+                return redirect(url_for("Add_articles"))
+
+        if form.schedule.data:
+            if opener:
+                if preview_text:
+                    #To be replace by database
+                    file1 = open("replica_db1.txt", "a")  # append mode
+                    file1.write("\t%s\t%s\n"%(opener,preview_text))
                     file1.close()
 
-                    articles_added.append(url)
-                    return redirect(url_for("Add_articles"))
-
-            if form.schedule.data:
-                if opener:
-                    if preview_text:
-                        #To be replace by database
-                        file1 = open("replica_db1.txt", "a")  # append mode
-                        file1.write("\t%s\t%s\n"%(opener,preview_text))
-                        file1.close()
-
-                        flash(f'Form submitted successfully', 'success')
-                        articles_added.clear()
-                        return redirect(url_for("index"))
-                    else:
-                        flash(f'Enter preview text')
-
+                    flash(f'Form submitted successfully', 'success')
+                    articles_added.clear()
+                    return redirect(url_for("index"))
                 else:
-                    flash(f'Please enter the opener')
+                    flash(f'Enter preview text')
+
+            else:
+                flash(f'Please enter the opener')
     return render_template('add_article.html',form=form, category=category)  
-    
+
 
 @app.route("/url/<category_id>")
 def url(category_id):
@@ -98,64 +98,57 @@ def url(category_id):
         
     return jsonify({'url':urlArray})
 
-@app.route("/description/<url>")
-def description(url):
+@app.route("/description/<article_id>")
+def description(article_id):
     "This page fetches the article description based on url selected"
+        
+    description = Articles.query.filter_by(article_id=article_id)
+    #description = db.session.query(Articles.description).filter(article_id=article_id).all()
     
-    print(url)
-    description = Articles.query.filter_by(article_id=url).all()
     print(description)
-    
+       
     descriptionArray = []
     for each_element in description:
-        print(each_element)
         desc_obj ={}
-        desc_obj['article_id']= each_element.article_id
+        #desc_obj['article_id']= each_element.article_id
         desc_obj['description']= each_element.description
         descriptionArray.append(desc_obj)
-        
-    return jsonify({'description':descriptionArray})
+        print("DEscription",descriptionArray)
+       
+    return jsonify(descriptionArray[0]['description'])
     
 
-@app.route("/readingtime/<url>")
-def reading_time(url):
+@app.route("/readingtime/<article_id>")
+def reading_time(article_id):
     "This article fetched reading time based on url selected"
 
-    #Data to be replace from DB
-    if url=="comic_url1":
-        reading_time = ""
-    if url=="comic_url2":
-        reading_time = ""
-    if url=="thisweek_url1":
-        reading_time = "10 mins"
-    if url=="thisweek_url2":
-        reading_time = "20 mins"
-    if url=="past_url1":
-        reading_time = "30 mins"
-    if url=="past_url2":
-        reading_time = "40 mins"
+    reading_time = Articles.query.filter_by(article_id=article_id).all()
+    print
+    
+    
+    readingArray = []
+    for each_element in reading_time:
+        read_obj ={}
+        read_obj['reading_time']= each_element.time
+        readingArray.append(read_obj)
+        
+    return jsonify(readingArray[0]['reading_time'])
 
-    return jsonify(reading_time)
-
-@app.route("/title/<url>")
-def title(url):
+@app.route("/title/<article_id>")
+def title(article_id):
     "This article fetched reading time based on url selected"
 
-    #Data to be replace from DB
-    if url=="comic_url1":
-        title = "Comic 1"
-    if url=="comic_url2":
-        title = "Comic 2"
-    if url=="thisweek_url1":
-        title = "This week Article 1"
-    if url=="thisweek_url2":
-        title = "This week Article 2"
-    if url=="past_url1":
-        title = "Past week Article 1"
-    if url=="past_url2":
-        title = "Past week Article 2"
-
-    return jsonify(title)
+    title = Articles.query.filter_by(article_id=article_id).all()
+    print(title)
+       
+    TitleArray = []
+    for each_element in title:
+        title_obj ={}
+        title_obj['title']= each_element.title
+        TitleArray.append(title_obj)
+        
+       
+    return jsonify(TitleArray[0]['title'])
 
 if __name__ == '__main__':
     app.run(debug=True)

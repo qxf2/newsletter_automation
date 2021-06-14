@@ -27,7 +27,7 @@ class ArticleForm(FlaskForm):
     #title = StringField('Title')
     #url= QuerySelectField(query_factory=choice_url, allow_blank=True,get_label='url')
     url = SelectField('url', choices=[])
-    title = SelectField('Title',choices=[])
+    title = StringField('Title')
     description = TextAreaField('Description')
     reading_time = StringField('Reading Time')
     add_more = SubmitField('Add More Articles')
