@@ -2,27 +2,36 @@
 {% block content %}
 <div>
     <form method="POST", action="">
-        {{  form.hidden_tag( )}}
+        
+        {{ form.csrf_token }}
         <fieldset class="form-group">
             <legend>Add Article Form</legend>
             <div class="form-group">
-                {{form.category.label(class="col-sm-1 col-form-label")}}
-                {{form.category}}
+                {{form.category_id.label(class="col-sm-1 col-form-label")}}
+                {{form.category_id(id="category_id")}}
             </div>
             <div class="form-group">
                 {{form.url.label(class="col-sm-1 col-form-label")}}
-                {{form.url}}
+                {{form.url(id="url")}}
+            </div>
+            <div class="form-group">
+                {{form.title.label(class="col-sm-1 col-form-label")}}
+                {{form.title(id="title")}}
             </div>
             <div class="form-group">
                 {{form.description.label(class="col-sm-1 col-form-label")}}
-                {{form.description}}
+                {{form.description(id="description")}}
             </div>
             <div class="form-group">
                 {{form.reading_time.label(class="col-sm-1 col-form-label")}}
-                {{form.reading_time}}
+                {{form.reading_time(id="reading_time")}}
             </div>
             <div class="form-group">
-                {{form.add_more(class="btn btn-outline-info")}}
+                {{form.add_more()}}
+            </div>
+            <div class="form-group">
+                {{form.added_articles.label(class="col-sm-1 col-form-label")}}
+                {{form.added_articles}}
             </div>
         </fieldset>
 
@@ -32,9 +41,62 @@
             </div>
 
             <div class="form-group">
+                {{form.preview_text.label(class="col-sm-1 col-form-label")}}
+                {{form.preview_text}}
+            </div>
+
+            <div class="form-group">
                 {{form.schedule(class="btn btn-outline-info")}}
             </div>
     </form>
+
+    <script>
+        let state_category = document.getElementById('category_id');
+        let state_url = document.getElementById('url');
+        let state_description = document.getElementById('description');
+        let state_readingtime = document.getElementById('reading_time');
+        let state_title = document.getElementById('title');
+
+        state_category.onchange = function(){
+            category = state_category.value;
+            fetch('/url/'+ category).then(function(response){
+                response.json().then(function(data){
+                    console.table(data)
+                    let optionHTML='<option selected="" value="Select URL">Select URL</option>';
+                    for(let url of data.url){
+                       // optionHTML +='<option value="' + url +'">' + url + '</option>';
+                        optionHTML += '<option value="' + url.article_id + '">' + url.url + '</option>';
+                    }
+                    state_url.innerHTML=optionHTML;
+
+                })
+
+            });
+        }
+
+        state_url.onchange = function(){
+            url=state_url.value;
+            fetch('/title/'+ url).then(function(response){
+                response.json().then(function(data){
+                    state_title.value=data;
+                })
+            });
+
+            fetch('/description/'+ url).then(function(response){
+                response.json().then(function(data){
+                    state_description.value=data;
+                })
+            });
+
+            fetch('/readingtime/'+ url).then(function(response){
+                response.json().then(function(data){
+                    state_readingtime.value=data;
+                })
+            });
+
+        }
+    </script>
+
 
 
 </div>
