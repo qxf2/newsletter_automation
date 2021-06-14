@@ -20,7 +20,11 @@ class NewsletterContent(db.Model):
     __tablename__ = 'newsletter_content'
     newsletter_content_id = db.Column(db.Integer, primary_key=True)
     newsletter_id = db.Column(db.Integer, db.ForeignKey('add_newsletter.newsletter_id'))
+<<<<<<< HEAD
+    category_id = db.Column(db.Integer, db.ForeignKey('articles_category.category_id'))
+=======
     category_id = db.Column(db.Integer, db.ForeignKey('article_category.category_id'))
+>>>>>>> newsletter_forms_team2
     article_id = db.Column(db.Integer, db.ForeignKey('articles.article_id'))
     campaign_id= db.Column(db.Integer)
     
