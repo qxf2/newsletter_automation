@@ -44,7 +44,7 @@ def Add_articles():
         
         if form.validate_on_submit():
             category=form.category_id.data.category_id
-            url= form.url.data
+            url= form.url.data.article_id
             description=form.description.data
             reading_time=form.reading_time.data
             title = form.title.data
@@ -101,22 +101,21 @@ def url(category_id):
 @app.route("/description/<url>")
 def description(url):
     "This page fetches the article description based on url selected"
-
-    #Data to be replaced from DB
-    if url=="comic_url1":
-        description = ""
-    if url=="comic_url2":
-        description = ""
-    if url=="thisweek_url1":
-        description = "this week article 1"
-    if url=="thisweek_url2":
-        description = "this week article 2"
-    if url=="past_url1":
-        description = "past week article 2"
-    if url=="past_url2":
-        description = "past week article 2"
-
-    return jsonify(description)
+    
+    print(url)
+    description = Articles.query.filter_by(article_id=url).all()
+    print(description)
+    
+    descriptionArray = []
+    for each_element in description:
+        print(each_element)
+        desc_obj ={}
+        desc_obj['article_id']= each_element.article_id
+        desc_obj['description']= each_element.description
+        descriptionArray.append(desc_obj)
+        
+    return jsonify({'description':descriptionArray})
+    
 
 @app.route("/readingtime/<url>")
 def reading_time(url):
