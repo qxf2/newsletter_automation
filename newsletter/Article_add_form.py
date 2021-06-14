@@ -15,18 +15,19 @@ def choice_query():
     return Article_category.query
 
 """
-def choice_url():
-    
-    return db.session.query(Article_categoryArticles).filter(Articles.category_id == 5)
+def choice_url(category):
+    print("Here in choice_url",category)
+    return db.session.query(Articles).filter(Articles.category_id == 5)
 """
 
 class ArticleForm(FlaskForm):
     "Class for articles form"
     
     category_id= QuerySelectField(query_factory=choice_query, allow_blank=True,get_label='category_name')
-    title = StringField('Title')
+    #title = StringField('Title')
     #url= QuerySelectField(query_factory=choice_url, allow_blank=True,get_label='url')
-    url = SelectField("Select a url", validate_choice=False)
+    url = SelectField('url', choices=[])
+    title = SelectField('Title',choices=[])
     description = TextAreaField('Description')
     reading_time = StringField('Reading Time')
     add_more = SubmitField('Add More Articles')

@@ -36,9 +36,7 @@ def Add_articles():
     if category.validate_on_submit():
             return '<html><h1>{}</h1></html>'.format(category.category_name.data.category_id)
     
-    if url.validate_on_submit():
-            return '<html><h1>{}</h1></html>'.format(url.url.data.url)
-    
+        
     for url in articles_added:
         url_data += str(url) + "\n"
         form.added_articles.data = url_data
@@ -85,24 +83,20 @@ def Add_articles():
     return render_template('add_article.html',form=form, category=category)  
     
 
-@app.route("/url/<category>")
-def url(category):
+@app.route("/url/<category_id>")
+def url(category_id):
     "This page fetches url based on category selected"
     
-    
-
-    #Data to be replace from DB
-    if category == "Comic":
-        url = ["comic_url1","comic_url2"]
-    elif category == "Articles from this week":
-        url = ["thisweek_url1","thisweek_url2"]
-    elif category == "Articles from past":
-        url= ["past_url1", "past_url2"]
-    elif category == "Automation corner":
-        url=["Automation_url1", "Automation_url2"]
-    
-
-    return jsonify(url)
+    url = Articles.query.filter_by(category_id=category_id).all()
+    urlArray = []
+    for each_element in url:
+        print(each_element)
+        urlobj ={}
+        urlobj['article_id']= each_element.article_id
+        urlobj['url']= each_element.url
+        urlArray.append(urlobj)
+        
+    return jsonify({'url':urlArray})
 
 @app.route("/description/<url>")
 def description(url):

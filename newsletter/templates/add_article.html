@@ -63,8 +63,9 @@
                 response.json().then(function(data){
                     console.table(data)
                     let optionHTML='<option selected="" value="Select URL">Select URL</option>';
-                    for(let url of data){
-                        optionHTML +='<option value="' + url +'">' + url + '</option>';
+                    for(let url of data.url){
+                       // optionHTML +='<option value="' + url +'">' + url + '</option>';
+                        optionHTML += '<option value="' + url.article_id + '">' + url.url + '</option>';
                     }
                     state_url.innerHTML=optionHTML;
 
