@@ -61,9 +61,16 @@
             category = state_category.value;
             fetch('/url/'+ category).then(function(response){
                 response.json().then(function(data){
+<<<<<<< HEAD
                     //console.table(data)
                     let optionHTML='<option selected="" value="Select URL">Select URL</option>';
                     for(let url of data.url){
+=======
+                    console.table(data)
+                    let optionHTML='<option selected="" value="Select URL">Select URL</option>';
+                    for(let url of data.url){
+                       // optionHTML +='<option value="' + url +'">' + url + '</option>';
+>>>>>>> newsletter_forms_team2
                         optionHTML += '<option value="' + url.article_id + '">' + url.url + '</option>';
                     }
                     state_url.innerHTML=optionHTML;
@@ -73,6 +80,7 @@
             });
         }
 
+<<<<<<< HEAD
 
         
         
@@ -85,6 +93,16 @@
                 })
             });
         
+=======
+        state_url.onchange = function(){
+            url=state_url.value;
+            fetch('/title/'+ url).then(function(response){
+                response.json().then(function(data){
+                    state_title.value=data;
+                })
+            });
+
+>>>>>>> newsletter_forms_team2
             fetch('/description/'+ url).then(function(response){
                 response.json().then(function(data){
                     state_description.value=data;
@@ -96,7 +114,11 @@
                     state_readingtime.value=data;
                 })
             });
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> newsletter_forms_team2
         }
     </script>
 
