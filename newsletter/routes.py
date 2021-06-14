@@ -31,11 +31,7 @@ def Add_articles():
     "This page contains the form where user can add articles"
     url_data = ""
     form = ArticleForm(request.form)
-    category = ArticleForm(request.form)
-    url = ArticleForm(request.form)
-    if category.validate_on_submit():
-            return '<html><h1>{}</h1></html>'.format(category.category_name.data.category_id)
-            
+      
     for url in articles_added:
         url_data += str(url) + "\n"
         form.added_articles.data = url_data
@@ -64,7 +60,12 @@ def Add_articles():
                 articles_added.append(description)
                 return redirect(url_for("Add_articles"))
 
-        if form.schedule.data:
+        #if form.schedule.data:
+        content_data = NewsletterContent(1,category,url,0)
+        db.session.add(content_data)
+        db.session.commit()
+            
+        """
             if opener:
                 if preview_text:
                     #To be replace by database
@@ -80,7 +81,9 @@ def Add_articles():
 
             else:
                 flash(f'Please enter the opener')
-    return render_template('add_article.html',form=form, category=category)  
+        """   
+                
+    return render_template('add_article.html',form=form)  
 
 
 @app.route("/url/<category_id>")
@@ -90,7 +93,6 @@ def url(category_id):
     url = Articles.query.filter_by(category_id=category_id).all()
     urlArray = []
     for each_element in url:
-        print(each_element)
         urlobj ={}
         urlobj['article_id']= each_element.article_id
         urlobj['url']= each_element.url
@@ -103,18 +105,13 @@ def description(article_id):
     "This page fetches the article description based on url selected"
         
     description = Articles.query.filter_by(article_id=article_id)
-    #description = db.session.query(Articles.description).filter(article_id=article_id).all()
-    
-    print(description)
-       
+              
     descriptionArray = []
     for each_element in description:
         desc_obj ={}
-        #desc_obj['article_id']= each_element.article_id
         desc_obj['description']= each_element.description
         descriptionArray.append(desc_obj)
-        print("DEscription",descriptionArray)
-       
+           
     return jsonify(descriptionArray[0]['description'])
     
 
@@ -123,9 +120,7 @@ def reading_time(article_id):
     "This article fetched reading time based on url selected"
 
     reading_time = Articles.query.filter_by(article_id=article_id).all()
-    print
-    
-    
+        
     readingArray = []
     for each_element in reading_time:
         read_obj ={}
@@ -139,8 +134,7 @@ def title(article_id):
     "This article fetched reading time based on url selected"
 
     title = Articles.query.filter_by(article_id=article_id).all()
-    print(title)
-       
+           
     TitleArray = []
     for each_element in title:
         title_obj ={}

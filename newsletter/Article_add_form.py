@@ -14,11 +14,6 @@ def choice_query():
     
     return Article_category.query
 
-"""
-def choice_url(category):
-    print("Here in choice_url",category)
-    return db.session.query(Articles).filter(Articles.category_id == 5)
-"""
 
 class ArticleForm(FlaskForm):
     "Class for articles form"
