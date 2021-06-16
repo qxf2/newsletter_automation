@@ -85,6 +85,12 @@ def Add_articles():
             else:
                 flash(f'Please enter the opener')
 
+        if form.cancel.data:
+            flash(f'Clear all Fields!! Now select the articles')
+            articles_added.clear()
+            return redirect(url_for("Add_articles"))
+            
+            
 
     return render_template('add_article.html',form=form)
 
