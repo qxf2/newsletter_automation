@@ -1,0 +1,19 @@
+{% include "header.html" %}
+{% include "layout.html" %}
+{% block content %}
+<div class="col-md-10">
+<form method="POST">
+   {{ scheduleform.csrf_token }}
+
+   {{ scheduleform.schedule_date(class="datepicker") }}
+   <input type=submit value="Schedule Newsletter">
+
+</form>
+{% if scheduleform.errors %}
+        <ul class="errors">{% for error in scheduleform.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+   {% else %}
+      <ul class="success"> The newsletter has been scheduled </ul>
+    {% endif %}
+
+</div>
+{% endblock content %}
