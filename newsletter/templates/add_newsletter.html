@@ -1,0 +1,21 @@
+{%extends "layout.html" %}
+{% block content %}
+<div>
+    <form method="POST", action="">
+        {{  form.hidden_tag( )}}
+        <fieldset class="form-group">
+            <legend>Add Newsletter Form</legend>
+            <div class="form-group">
+                {{form.subject.label(class="col-sm-1 col-form-label")}}
+                {{form.subject}}
+            </div>
+
+        </fieldset>
+            <div class="form-group">
+                {{form.add_article(class="btn btn-outline-info")}}
+            </div>
+    </form>
+
+
+</div>
+{% endblock content %}

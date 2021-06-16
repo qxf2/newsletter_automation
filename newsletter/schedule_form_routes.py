@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import Flask, request, flash, url_for, redirect, render_template
-from . models import Newsletter, Newsletter_schedule
+from . models import NewsletterContent, Newsletter_schedule, AddNewsletter
 from . schedule_forms import ScheduleForm, SendTestEmail
 from flask import render_template
 from newsletter import app
@@ -12,7 +12,7 @@ from newsletter import csrf
 @app.route("/sendtestemail",methods=["GET","POST"])
 def schedule_test_email():
     "Scheduling test email"
-    newsletter_info = db.session.query(Newsletter).order_by(desc(Newsletter.newsletter_id)).all()
+    newsletter_info = db.session.query(AddNewsletter).order_by(desc(AddNewsletter.newsletter_id)).all()
     newsletter_subject = newsletter_info[0].subject
     test_email_object = SendTestEmail()
     if request.method == 'POST':
@@ -25,7 +25,7 @@ def schedule_test_email():
 @app.route("/schedule",methods=["GET","POST"])
 def schedule_newsletter():
     "Schedule the newsletter"
-    newsletter_info = db.session.query(Newsletter).order_by(desc(Newsletter.newsletter_id)).all()
+    newsletter_info = db.session.query(NewsletterContent).order_by(desc(NewsletterContent.newsletter_id)).all()
     newsletter_id = newsletter_info[0].newsletter_id
     campaign_id = newsletter_info[0].campaign_id
     schedule_form_object = ScheduleForm()
