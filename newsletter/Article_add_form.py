@@ -15,13 +15,14 @@ def choice_query():
 class ArticleForm(FlaskForm):
     "Class for articles form"
     
-    subject = StringField('Subject',validators=[DataRequired()])
+    
     category_id= QuerySelectField(query_factory=choice_query, allow_blank=True,get_label='category_name')
     url = SelectField("Select a url", validate_choice=False)
     title = StringField('Title', render_kw ={'readonly':True})
     description = TextAreaField('Description',render_kw ={'readonly':True})
     reading_time = StringField('Reading Time', render_kw ={'readonly':True})
     add_more = SubmitField('Add More Articles')
+    subject = StringField('Subject')
     added_articles = my_field = TextAreaField('Added Articles:', render_kw={'readonly': True})
     opener = TextAreaField('Opener')
     preview_text = TextAreaField('Preview Text',render_kw={'maxlength': 150})
