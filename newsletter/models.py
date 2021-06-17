@@ -2,8 +2,6 @@
 Models for the Newsletter Automation app
 """
 
-from flask_sqlalchemy import SQLAlchemy
-from newsletter import app
 from newsletter import db
 
 class AddNewsletter(db.Model):
@@ -15,7 +13,6 @@ class AddNewsletter(db.Model):
     campaign_id= db.Column(db.Integer)
     
     def __init__(self, subject, opener, preview):
-        #self.newsletter_id = newsletter_id
         self.subject = subject
         self.opener = opener
         self.preview = preview
@@ -28,27 +25,28 @@ class NewsletterContent(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey('article_category.category_id'))
     article_id = db.Column(db.Integer, db.ForeignKey('articles.article_id'))
     
-    
     def __init__(self, newsletter_id, category_id, article_id, campaign_id):
         self.newsletter_id = newsletter_id
         self.category_id = category_id
         self.article_id = article_id
         self.campaign_id = campaign_id
 
-class Articles(db.Model):
-   article_id = db.Column('article_id', db.Integer, primary_key = True)
-   url = db.Column(db.String(100))
-   title = db.Column(db.String(250))
-   description = db.Column(db.String(500))
-   time = db.Column(db.String(300))
-   category_id = db.Column(db.Integer, db.ForeignKey('article_category.category_id'))
 
-   def __init__(self, url, title, description, time,category_id):
+class Articles(db.Model):
+    article_id = db.Column('article_id', db.Integer, primary_key = True)
+    url = db.Column(db.String(100))
+    title = db.Column(db.String(250))
+    description = db.Column(db.String(500))
+    time = db.Column(db.String(300))
+    category_id = db.Column(db.Integer, db.ForeignKey('article_category.category_id'))
+
+    def __init__(self, url, title, description, time,category_id):
         self.url = url
         self.title = title
         self.description = description
         self.time = time
         self.category_id = category_id
+
 
 class Article_category(db.Model):
     __tablename__ = 'article_category'
