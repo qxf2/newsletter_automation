@@ -56,7 +56,29 @@
                 {{form.cancel(class="btn btn-outline-info")}}
                 {{form.schedule(class="btn btn-outline-info")}}
             </div>
-            
+        
+            <table class="table table" border =1 >
+                <tr >
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>URL</th>
+                    <th>Description</th>
+                </tr>
+                {% for articles in all_articles %}
+                <tr>
+                    <td> {{articles.article_id}}</td>
+                    <td> {{articles.title}}</td>
+                    <td> {{articles.url}}</td>
+                    <td> {{articles.description}}</td>
+                    
+                    <td>
+                    <a href="/delete/{{articles.article_id}}" class="btn btn-danger btn-xs"
+                        onclick="return confirm('Are You Sure To Delete ?')">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+
     </form>
 
     <script>

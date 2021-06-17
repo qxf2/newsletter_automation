@@ -20,28 +20,25 @@ class AddNewsletter(db.Model):
         self.opener = opener
         self.preview = preview
 
-
 class NewsletterContent(db.Model):
     __tablename__ = 'newsletter_content'
     newsletter_content_id = db.Column(db.Integer, primary_key=True)
     newsletter_id = db.Column(db.Integer, db.ForeignKey('add_newsletter.newsletter_id'))
     article_id = db.Column(db.Integer, db.ForeignKey('articles.article_id'))
-    
-    
+        
     def __init__(self, newsletter_id,  article_id):
         self.newsletter_id = newsletter_id        
         self.article_id = article_id
-       
-
+    
 class Articles(db.Model):
-   article_id = db.Column('article_id', db.Integer, primary_key = True)
-   url = db.Column(db.String(100))
-   title = db.Column(db.String(250))
-   description = db.Column(db.String(500))
-   time = db.Column(db.String(300))
-   category_id = db.Column(db.Integer, db.ForeignKey('article_category.category_id'))
+    article_id = db.Column('article_id', db.Integer, primary_key = True)
+    url = db.Column(db.String(100))
+    title = db.Column(db.String(250))
+    description = db.Column(db.String(500))
+    time = db.Column(db.String(300))
+    category_id = db.Column(db.Integer, db.ForeignKey('article_category.category_id'))
 
-   def __init__(self, url, title, description, time,category_id):
+    def __init__(self, url, title, description, time,category_id):
         self.url = url
         self.title = title
         self.description = description
