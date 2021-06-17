@@ -93,15 +93,14 @@ def Add_articles():
             flash(f'Clear all Fields!! Now select the articles')
             articles_added.clear()
             return redirect(url_for("Add_articles"))
-            
-            
+    
 
     return render_template('add_article.html',form=form)
 
 
 @app.route("/url/<category_id>")
 def url(category_id):
-    "This page fetches url based on category selected"
+    "This method fetches url and article_id based on category selected"
 
     url = Articles.query.filter_by(category_id=category_id).all()
     urlArray = []
@@ -115,7 +114,7 @@ def url(category_id):
 
 @app.route("/description/<article_id>")
 def description(article_id):
-    "This page fetches the article description based on url selected"
+    "This method fetches the article description based on article selected"
 
     description = Articles.query.filter_by(article_id=article_id)
 
@@ -129,7 +128,7 @@ def description(article_id):
 
 @app.route("/readingtime/<article_id>")
 def reading_time(article_id):
-    "This article fetched reading time based on url selected"
+    "This method fetched reading time based on article selected"
 
     reading_time = Articles.query.filter_by(article_id=article_id).all()
 
