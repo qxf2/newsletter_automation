@@ -38,7 +38,8 @@ def Add_articles():
     for url in articles_added:
         url_data += str(url) + "\n"
         form.added_articles.data = url_data
-
+        
+    
     if form.validate_on_submit():
 
         if form.add_more.data:
@@ -58,32 +59,37 @@ def Add_articles():
                 return redirect(url_for("Add_articles"))
 
         if form.schedule.data:
+            subject = form.subject.data
             opener= form.opener.data
             preview_text = form.preview_text.data
-            if opener:
-                if preview_text:
-                    """
-                    #if form.schedule.data:
-                    content_data = NewsletterContent(1,category,url,0)
-                    db.session.add(content_data)
-                    db.session.commit()
-                    """
+            
+            if subject:                
+                if opener:
+                    if preview_text:
+                        """
+                        #if form.schedule.data:
+                        content_data = NewsletterContent(1,category,url,0)
+                        db.session.add(content_data)
+                        db.session.commit()
+                        """
 
-                    #To be replace by database
-                    file1 = open("replica_db1.txt", "a")  # append mode
-                    file1.write("\t%s\t%s\n"%(opener,preview_text))
-                    file1.close()
+                        #To be replace by database
+                        file1 = open("replica_db1.txt", "a")  # append mode
+                        file1.write("\t%s\t%s\n"%(opener,preview_text))
+                        file1.close()
 
-                    flash(f'Form submitted successfully', 'success')
-                    articles_added.clear()
-                    client = Mailchimp_Helper()
-                    client.create_campaign(title,subject_line,preview_text)
-                    return redirect(url_for("schedule"))
+                        flash(f'Form submitted successfully', 'success')
+                        articles_added.clear()
+                        client = Mailchimp_Helper()
+                        client.create_campaign(title,subject_line,preview_text)
+                        return redirect(url_for("schedule"))
+                    else:
+                        flash(f'Enter preview text')
+
                 else:
-                    flash(f'Enter preview text')
-
+                    flash(f'Please enter the opener')
             else:
-                flash(f'Please enter the opener')
+                    flash(f'Please enter the Subject')
 
         if form.cancel.data:
             flash(f'Clear all Fields!! Now select the articles')

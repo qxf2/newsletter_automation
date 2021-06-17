@@ -5,11 +5,8 @@
         
         {{ form.csrf_token }}
         <fieldset class="form-group">
-            <legend>Add Article Form</legend>
-            <div class="form-group">
-                {{form.subject.label(class="col-sm-1 col-form-label")}}
-                {{form.subject}}
-            </div>
+            <legend>Add Articles to the Newsletter</legend>
+           
             <div class="form-group">
                 {{form.category_id.label(class="col-sm-1 col-form-label")}}
                 {{form.category_id(id="category_id")}}
@@ -33,6 +30,10 @@
             </div>
             <div class="form-group">
                 {{form.add_more()}}
+            </div>
+            <div class="form-group">
+                {{form.subject.label(class="col-sm-1 col-form-label")}}
+                {{form.subject}}
             </div>
             <div class="form-group">
                 {{form.added_articles.label(class="col-sm-1 col-form-label")}}
