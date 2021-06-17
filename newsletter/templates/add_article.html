@@ -7,6 +7,10 @@
         <fieldset class="form-group">
             <legend>Add Article Form</legend>
             <div class="form-group">
+                {{form.subject.label(class="col-sm-1 col-form-label")}}
+                {{form.subject}}
+            </div>
+            <div class="form-group">
                 {{form.category_id.label(class="col-sm-1 col-form-label")}}
                 {{form.category_id(id="category_id")}}
             </div>
@@ -51,6 +55,7 @@
                 {{form.cancel(class="btn btn-outline-info")}}
                 {{form.schedule(class="btn btn-outline-info")}}
             </div>
+            
     </form>
 
     <script>
