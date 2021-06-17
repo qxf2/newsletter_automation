@@ -66,22 +66,23 @@ def Add_articles():
             if subject:                
                 if opener:
                     if preview_text:
-                        add_newsletter_object=AddNewsletter(subject=subject,opener=opener,preview=preview_text)
-                        db.session.add(add_newsletter_object)
-                        db.session.flush()
-                        newsletter_id = add_newsletter_object.newsletter_id
+                        """
+                        #if form.schedule.data:
+                        content_data = NewsletterContent(1,category,url,0)
+                        db.session.add(content_data)
                         db.session.commit()
+                        """
 
                         #To be replace by database
                         file1 = open("replica_db1.txt", "a")  # append mode
                         file1.write("\t%s\t%s\n"%(opener,preview_text))
                         file1.close()
 
-                        flash(f'Form submitted successfully')
+                        flash(f'Form submitted successfully', 'success')
                         articles_added.clear()
                         client = Mailchimp_Helper()
                         client.create_campaign(title,subject_line,preview_text)
-                        return redirect(url_for("Add_articles"))
+                        return redirect(url_for("schedule"))
                     else:
                         flash(f'Enter preview text')
 
