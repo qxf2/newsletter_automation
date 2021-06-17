@@ -1,12 +1,13 @@
 from flask import Flask, request, flash, url_for, redirect, render_template, jsonify
 from newsletter import app
-from . models import AddNewsletter, db, Article_category, Articles
+from . models import AddNewsletter, db, Article_category, Articles,NewsletterContent
 from . Newsletter_add_form import Newsletter_AddForm
 from . Article_add_form import ArticleForm
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from helpers.mailchimp_helper import Mailchimp_Helper
 
 articles_added=[]
+article_id_list=[]
 
 @app.route('/')
 def index():
@@ -50,11 +51,7 @@ def Add_articles():
                 flash(f'Please select category')
                 return redirect(url_for("Add_articles"))
             else:
-                #To be replaced by database
-                file1 = open("replica_db.txt", "a")
-                file1.write("%s\t%sn"%(category,article_id))
-                file1.close()
-
+                article_id_list.append(article_id)
                 articles_added.append(title)
                 return redirect(url_for("Add_articles"))
 
@@ -71,16 +68,18 @@ def Add_articles():
                         db.session.flush()
                         newsletter_id = add_newsletter_object.newsletter_id
                         db.session.commit()
-
-                        #To be replace by database
-                        file1 = open("replica_db1.txt", "a")  # append mode
-                        file1.write("\t%s\t%s\n"%(opener,preview_text))
-                        file1.close()
+                        for each_article in article_id_list:
+                            print(each_article)
+                            newletter_content_object = NewsletterContent(article_id=each_article,newsletter_id=newsletter_id)
+                            db.session.add(newletter_content_object)
+                            db.session.flush()
+                            newsletter_content_id = newletter_content_object.newsletter_content_id
+                            db.session.commit()                        
 
                         flash(f'Form submitted successfully')
                         articles_added.clear()
-                        client = Mailchimp_Helper()
-                        client.create_campaign(title,subject_line,preview_text)
+                        #client = Mailchimp_Helper()
+                        #client.create_campaign(title,subject_line,preview_text)
                         return redirect(url_for("Add_articles"))
                     else:
                         flash(f'Enter preview text')
