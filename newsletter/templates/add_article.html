@@ -2,12 +2,13 @@
 {% block content %}
 <div>
     <form method="POST", action="">
+        
         {{ form.csrf_token }}
         <fieldset class="form-group">
             <legend>Add Article Form</legend>
             <div class="form-group">
-                {{form.category.label(class="col-sm-1 col-form-label")}}
-                {{form.category(id="Category")}}
+                {{form.category_id.label(class="col-sm-1 col-form-label")}}
+                {{form.category_id(id="category_id")}}
             </div>
             <div class="form-group">
                 {{form.url.label(class="col-sm-1 col-form-label")}}
@@ -20,6 +21,7 @@
             <div class="form-group">
                 {{form.description.label(class="col-sm-1 col-form-label")}}
                 {{form.description(id="description")}}
+                
             </div>
             <div class="form-group">
                 {{form.reading_time.label(class="col-sm-1 col-form-label")}}
@@ -44,13 +46,15 @@
                 {{form.preview_text}}
             </div>
 
-            <div class="form-group">
+            <div class="form-group" align ="justify">
+                                  
+                {{form.cancel(class="btn btn-outline-info")}}
                 {{form.schedule(class="btn btn-outline-info")}}
             </div>
     </form>
 
     <script>
-        let state_category = document.getElementById('Category');
+        let state_category = document.getElementById('category_id');
         let state_url = document.getElementById('url');
         let state_description = document.getElementById('description');
         let state_readingtime = document.getElementById('reading_time');
@@ -61,8 +65,8 @@
             fetch('/url/'+ category).then(function(response){
                 response.json().then(function(data){
                     let optionHTML='<option selected="" value="Select URL">Select URL</option>';
-                    for(let url of data){
-                        optionHTML +='<option value="' + url +'">' + url + '</option>';
+                    for(let url of data.url){
+                        optionHTML += '<option value="' + url.article_id + '">' + url.url + '</option>';
                     }
                     state_url.innerHTML=optionHTML;
 
@@ -90,7 +94,6 @@
                     state_readingtime.value=data;
                 })
             });
-
         }
     </script>
 

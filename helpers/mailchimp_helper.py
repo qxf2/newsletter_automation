@@ -37,7 +37,7 @@ class Mailchimp_Helper:
         "check mailchimp connection health"
         try:
             response = self.client.ping.get()
-            return response.json()
+            return response
         except ApiClientError as error:
             return error.text
     
@@ -54,7 +54,7 @@ class Mailchimp_Helper:
                 "reply_to":REPLY_TO,
                 "template_id":TEMPLATE_ID
                 }})
-            self.campaign_id = response.json().id
+            self.campaign_id = response['id']
             return  self.campaign_id #campaign_id returned to be saved to db  
         except ApiClientError as error:
             return error.text
@@ -62,20 +62,25 @@ class Mailchimp_Helper:
     def set_campaign_content(self):
         "sets the content text for the campaign"
         try:
-            response = self.client.campaigns.set_content(self.campaign_id,{"template":{"id":TEMPLATE_ID}})
-    
+            response = self.client.campaigns.set_content(self.campaign_id,{"template":{"id":TEMPLATE_ID,"sections":{}}})
+            return response
+        except ApiClientError as error:
+            return error.text
+
     def schedule_campaign(self,schedule_time):
         "schedules a campaign to be delivered at a specified date"
         try:
-            response = self.client.campaigns.schedule(self.campaign_id, {"schedule_time": schedule_time}) ##UTC
-            return response.json()
+            response = self.client.campaigns.schedule(self.campaign_id, {"schedule_time": schedule_time}) ##UTC time
+            return response.status_code
         except ApiClientError as error:
+            print(error.text)
             return error.text
     
     def send_test_email(self,test_emails=[]):
         "send campaign test email"
         try:
             response = self.client.campaigns.send_test_email(self.campaign_id, {"test_emails": test_emails, "send_type": "html"})
-            return response.json()
+            return response.status_code
         except ApiClientError as error:
             return error.text
+

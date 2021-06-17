@@ -3,19 +3,26 @@ This Module Contains the Form classes for Add articles form
 """
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField, TextAreaField, FormField
-from wtforms.validators import DataRequired, Length, Email
-import email_validator
+from wtforms.validators import DataRequired, Length
+from wtforms.ext.sqlalchemy.fields import QuerySelectField
+from . models import Article_category,Articles,db
+from sqlalchemy.orm import sessionmaker
+
+def choice_query():
+    "Subquery for the QuerySelectField"
+    return Article_category.query
 
 class ArticleForm(FlaskForm):
     "Class for articles form"
-    categories=["Select Category","Comic","Articles from this week", "Articles from past","Automation corner"]
-    category = SelectField('Select_Category', choices=categories,validators=[DataRequired()],default="Select Category")
-    title = StringField('Title')
+
+    category_id= QuerySelectField(query_factory=choice_query, allow_blank=True,get_label='category_name')
     url = SelectField("Select a url", validate_choice=False)
-    description = TextAreaField('Description')
-    reading_time = StringField('Reading Time')
+    title = StringField('Title', render_kw ={'readonly':True})
+    description = TextAreaField('Description',render_kw ={'readonly':True})
+    reading_time = StringField('Reading Time', render_kw ={'readonly':True})
     add_more = SubmitField('Add More Articles')
     added_articles = my_field = TextAreaField('Added Articles:', render_kw={'readonly': True})
     opener = TextAreaField('Opener')
     preview_text = TextAreaField('Preview Text',render_kw={'maxlength': 150})
     schedule = SubmitField('Schedule')
+    cancel = SubmitField('Cancel')
