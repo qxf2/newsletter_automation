@@ -46,12 +46,10 @@
                 {{form.preview_text}}
             </div>
 
-            <div class="form-group">
-                {{form.schedule(class="btn btn-outline-info")}}
-            </div>
-
-            <div class="form-group">
+            <div class="form-group" align ="justify">
+                                  
                 {{form.cancel(class="btn btn-outline-info")}}
+                {{form.schedule(class="btn btn-outline-info")}}
             </div>
     </form>
 
@@ -66,7 +64,6 @@
             category = state_category.value;
             fetch('/url/'+ category).then(function(response){
                 response.json().then(function(data){
-                    //console.table(data)
                     let optionHTML='<option selected="" value="Select URL">Select URL</option>';
                     for(let url of data.url){
                         optionHTML += '<option value="' + url.article_id + '">' + url.url + '</option>';
