@@ -3,7 +3,7 @@ from newsletter import app
 from newsletter import db
 
 class AddNewsletter(db.Model):
-    __tablename__ = 'add_newsletter'
+    __tablename__ = 'addnewsletter'
     newsletter_id = db.Column(db.Integer, primary_key=True)
     subject = db.Column(db.String(50))
     opener = db.Column(db.String(400))
@@ -17,9 +17,9 @@ class AddNewsletter(db.Model):
 
 
 class NewsletterContent(db.Model):
-    __tablename__ = 'newsletter_content'
+    __tablename__ = 'newslettercontent'
     newsletter_content_id = db.Column(db.Integer, primary_key=True)
-    newsletter_id = db.Column(db.Integer, db.ForeignKey('add_newsletter.newsletter_id'))
+    newsletter_id = db.Column(db.Integer, db.ForeignKey('addnewsletter.newsletter_id'))
     category_id = db.Column(db.Integer, db.ForeignKey('article_category.category_id'))
     article_id = db.Column(db.Integer, db.ForeignKey('articles.article_id'))
     campaign_id= db.Column(db.Integer)
