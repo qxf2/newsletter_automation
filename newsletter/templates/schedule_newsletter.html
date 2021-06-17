@@ -5,15 +5,10 @@
 <form method="POST">
    {{ scheduleform.csrf_token }}
 
-   {{ scheduleform.schedule_date(class="datepicker") }}
-   <input type=submit class="btn btn-outline-info" value="Schedule Newsletter">
+   {{ scheduleform.schedule_date(class="_datepicker",id="larger") }}
+   <input type=submit class="btn btn-outline-info" value="Schedule Newsletter" >
 
 </form>
-{% if scheduleform.errors %}
-        <ul class="errors">{% for error in scheduleform.errors %}<li>{{ error }}</li>{% endfor %}</ul>
-   {% else %}
-      <ul class="success"> The newsletter has been scheduled </ul>
-    {% endif %}
 
 </div>
 {% endblock content %}

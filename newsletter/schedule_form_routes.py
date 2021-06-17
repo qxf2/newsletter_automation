@@ -1,27 +1,26 @@
-from flask import Flask
-from flask import Flask, request, flash, url_for, redirect, render_template
+"""
+This file is used to send test email from mail chimp and
+it schedule the newletter automation also
+"""
+from flask import request, flash, redirect, render_template
+from sqlalchemy import desc
+import pytz
+from newsletter import db
+from newsletter import app
+from helpers.mailchimp_helper import Mailchimp_Helper
 from . models import NewsletterContent, Newsletter_schedule, AddNewsletter
 from . schedule_forms import ScheduleForm, SendTestEmail
-from flask import render_template
-from newsletter import app
-from newsletter import db
-from sqlalchemy import desc
-from newsletter import csrf
-from helpers.mailchimp_helper import Mailchimp_Helper
 
 client = Mailchimp_Helper()
-
 
 @app.route("/sendtestemail",methods=["GET","POST"])
 def schedule_test_email():
     "Scheduling test email"
-    newsletter_info = db.session.query(AddNewsletter).order_by(desc(AddNewsletter.newsletter_id)).all()
+    newsletter_info = db.session.query(AddNewsletter).order_by(
+                            desc(AddNewsletter.newsletter_id)).all()
     newsletter_subject = newsletter_info[0].subject
     test_email_object = SendTestEmail()
     if request.method == 'POST':
-        #Discuss with rohan and remove the below two lines
-        #newsletter_info = db.session.query(NewsletterContent).order_by(desc(NewsletterContent.newsletter_id)).all()
-        #campaign_id = newsletter_info[0].campaign_id
         #Add the mail chimp api call to send test email
         test_emails = ["test@qxf2.com"]
         response = client.send_test_email(test_emails)
@@ -31,26 +30,39 @@ def schedule_test_email():
         else:
             flash("Test email has not been sent please try again")
 
-    return render_template('send_test_email.html',sendtestemail=test_email_object,subject=newsletter_subject)
+    return render_template('send_test_email.html',
+                            sendtestemail=test_email_object,
+                            subject=newsletter_subject)
+
+
+def convert_into_utc_format(date_to_schedule):
+    "Method converts into UTC format"
+    local = pytz.timezone("America/Los_Angeles")
+    date_to_schedule = local.localize(date_to_schedule, is_dst=None)
+    date_to_schedule = date_to_schedule.astimezone(pytz.utc)
+    #We can change the format as per our choice
+    date_to_schedule.strftime("%Y-%m-%d %H:%M:%S")
+
+    return date_to_schedule
 
 
 @app.route("/schedule",methods=["GET","POST"])
 def schedule_newsletter():
     "Schedule the newsletter"
-    newsletter_info = db.session.query(NewsletterContent).order_by(desc(NewsletterContent.newsletter_id)).all()
+    newsletter_info = db.session.query(NewsletterContent).order_by(
+                        desc(NewsletterContent.newsletter_id)).all()
     newsletter_id = newsletter_info[0].newsletter_id
-    campaign_id = newsletter_info[0].campaign_id
     schedule_form_object = ScheduleForm()
-    if request.method == 'POST' and schedule_form_object.validate():
-        date_to_schedule = schedule_form_object.schedule_date.data
-        #Add the mail chimp api call to schedule the newletter
-        #Missing items
-        #convert the date into utc time
-        #time picker 12,12.15,12.30
-        #client.schedule_campaign('2021-06-15 08:30:00.00000')
+    if request.method == 'POST':
+        scheduled_date = schedule_form_object.schedule_date.data
+        date_to_schedule = convert_into_utc_format(scheduled_date)
+        #Mailchimp API call to schedule
         response = client.schedule_campaign(date_to_schedule)
         if response == 204:
-            add_newsletter_schedule = Newsletter_schedule()
+            add_newsletter_schedule_object = Newsletter_schedule(newsletter_id=newsletter_id,
+                                                                schedule_date=date_to_schedule)
+            db.session.add(add_newsletter_schedule_object)
+            db.session.commit()
             flash("Newsletter has been scheduled")
         else:
             flash("Newsletter is not scheduled")
