@@ -56,6 +56,7 @@ def Add_articles():
 
                         flash('Form submitted successfully ')
                         articles_added.clear()
+                        article_id_list.clear()
                         return redirect(url_for("Add_articles"))
                     else:
                         flash('Enter preview text')

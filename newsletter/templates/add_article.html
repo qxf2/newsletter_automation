@@ -31,15 +31,12 @@
             <div class="form-group">
                 {{form.add_more()}}
             </div>
+          
+        </fieldset>
             <div class="form-group">
                 {{form.subject.label(class="col-sm-1 col-form-label")}}
                 {{form.subject}}
             </div>
-            <div class="form-group">
-                {{form.added_articles.label(class="col-sm-1 col-form-label")}}
-                {{form.added_articles}}
-            </div>
-        </fieldset>
 
             <div class="form-group">
                 {{form.opener.label(class="col-sm-1 col-form-label")}}
@@ -72,12 +69,17 @@
                     <td> {{articles.description}}</td>
                     
                     <td>
-                    <a href="/delete/{{articles.article_id}}" class="btn btn-danger btn-xs"
+                    <!--<a href="/delete/{{articles.article_id}}" class="btn btn-danger btn-xs" 
                         onclick="return confirm('Are You Sure To Delete ?')">Delete</a>
+                    -->
+                    
+                    <input  type ="submit" onclick ="remove_article(this)" data-articleid="{{articles.article_id}}" data-articlelist = "{{article_list}}" >
                     </td>
+
                 </tr>
                 {% endfor %}
             </table>
+            {{article_list}}
 
     </form>
 
@@ -122,6 +124,13 @@
                     state_readingtime.value=data;
                 })
             });
+        }
+    </script>
+    <script>
+        function remove_article(deleteaction){
+            article_id = deleteaction.getAttribute('data-articleid')
+            console.log("we are here", article_id)
+            article_list.remove(article_id);            
         }
     </script>
 
