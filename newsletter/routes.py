@@ -1,7 +1,6 @@
 from flask import request, flash, url_for, redirect, render_template, jsonify
 from newsletter import app
 from . models import AddNewsletter, db, Articles, NewsletterContent
-from . Newsletter_add_form import Newsletter_AddForm
 from . Article_add_form import ArticleForm
 
 articles_added=[]
@@ -10,22 +9,6 @@ article_id_list=[]
 @app.route('/')
 def index():
     return render_template('home.html')
-
-@app.route("/newsletter",methods=["GET","POST"])
-@app.route("/add-newsletter",methods=["GET","POST"])
-def Add_newsletter():
-    "This page contains the form into which user enters the newsletter subject"
-    form = Newsletter_AddForm(request.form)
-    if request.method == 'POST':
-        if form.validate_on_submit():
-            subject = request.form['subject']
-            my_data = AddNewsletter(subject,0,0)
-            db.session.add(my_data)
-            db.session.commit()
-            flash('Form submitted successfully', 'success')
-            newsletterId = db.session.query(AddNewsletter).order_by(AddNewsletter.newsletter_id.desc()).first()
-            return redirect(url_for("Add_articles"))
-    return render_template('add_newsletter.html',form=form)
 
 @app.route("/add-articles",methods=["GET","POST"])
 def Add_articles():
