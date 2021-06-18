@@ -5,7 +5,8 @@
         
         {{ form.csrf_token }}
         <fieldset class="form-group">
-            <legend>Add Article Form</legend>
+            <legend>Add Articles to the Newsletter</legend>
+           
             <div class="form-group">
                 {{form.category_id.label(class="col-sm-1 col-form-label")}}
                 {{form.category_id(id="category_id")}}
@@ -21,6 +22,7 @@
             <div class="form-group">
                 {{form.description.label(class="col-sm-1 col-form-label")}}
                 {{form.description(id="description")}}
+                
             </div>
             <div class="form-group">
                 {{form.reading_time.label(class="col-sm-1 col-form-label")}}
@@ -28,6 +30,10 @@
             </div>
             <div class="form-group">
                 {{form.add_more()}}
+            </div>
+            <div class="form-group">
+                {{form.subject.label(class="col-sm-1 col-form-label")}}
+                {{form.subject}}
             </div>
             <div class="form-group">
                 {{form.added_articles.label(class="col-sm-1 col-form-label")}}
@@ -45,9 +51,12 @@
                 {{form.preview_text}}
             </div>
 
-            <div class="form-group">
+            <div class="form-group" align ="justify">
+                                  
+                {{form.cancel(class="btn btn-outline-info")}}
                 {{form.schedule(class="btn btn-outline-info")}}
             </div>
+            
     </form>
 
     <script>
@@ -61,7 +70,6 @@
             category = state_category.value;
             fetch('/url/'+ category).then(function(response){
                 response.json().then(function(data){
-                    //console.table(data)
                     let optionHTML='<option selected="" value="Select URL">Select URL</option>';
                     for(let url of data.url){
                         optionHTML += '<option value="' + url.article_id + '">' + url.url + '</option>';
