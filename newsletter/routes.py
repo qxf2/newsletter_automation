@@ -35,6 +35,8 @@ def Add_articles():
     for url in articles_added:
         url_data += str(url) + "\n"
         form.added_articles.data = url_data
+        
+    
     if form.validate_on_submit():
         if form.add_more.data:
             category = form.category_id.data.category_id
@@ -52,21 +54,34 @@ def Add_articles():
                 return redirect(url_for("Add_articles"))
 
         if form.schedule.data:
+            subject = form.subject.data
             opener= form.opener.data
             preview_text = form.preview_text.data
-            if opener:
-                if preview_text:
-                    file1 = open("replica_db1.txt", "a")
-                    file1.write("\t%s\t%s\n"%(opener,preview_text))
-                    file1.close()
 
-                    flash('Form submitted successfully', 'success')
-                    articles_added.clear()
-                    return redirect(url_for("schedule"))
+            if subject:                
+                if opener:
+                    if preview_text:
+                        add_newsletter_object=AddNewsletter(subject=subject,opener=opener,preview=preview_text)
+                        db.session.add(add_newsletter_object)
+                        db.session.flush()
+                        newsletter_id = add_newsletter_object.newsletter_id
+                        db.session.commit()
+
+                
+                        file1 = open("replica_db1.txt", "a")  
+                        file1.write("\t%s\t%s\n"%(opener,preview_text))
+                        file1.close()
+
+                        flash(f'Form submitted successfully')
+                        articles_added.clear()
+                        return redirect(url_for("Add_articles"))
+                    else:
+                        flash(f'Enter preview text')
+
                 else:
-                    flash('Enter preview text')
+                    flash(f'Please enter the opener')
             else:
-                flash('Please enter the opener')
+                    flash(f'Please enter the Subject')
 
         if form.cancel.data:
             flash('Clear all Fields!! Now select the articles')

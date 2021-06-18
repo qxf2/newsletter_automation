@@ -63,7 +63,7 @@ class Article_category(db.Model):
     def __init__(self, category_name):
         "initializes category_name"
         self.category_name = category_name
-        
+       
     def __repr__(self):
         "returns printatble representation of category_name attribute of object"
         return '<Article_category {}'.format(self.category_name)
