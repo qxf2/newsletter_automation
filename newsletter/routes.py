@@ -1,6 +1,6 @@
 from flask import request, flash, url_for, redirect, render_template, jsonify
 from newsletter import app
-from . models import AddNewsletter, db, Articles
+from . models import AddNewsletter, db, Articles, NewsletterContent
 from . Newsletter_add_form import Newsletter_AddForm
 from . Article_add_form import ArticleForm
 
