@@ -1,10 +1,7 @@
-from flask import Flask, request, flash, url_for, redirect, render_template, jsonify
+from flask import request, flash, url_for, redirect, render_template, jsonify
 from newsletter import app
-from . models import AddNewsletter, db, Article_category, Articles,NewsletterContent
-from . Newsletter_add_form import Newsletter_AddForm
+from . models import AddNewsletter, db, Articles, NewsletterContent
 from . Article_add_form import ArticleForm
-from wtforms.ext.sqlalchemy.fields import QuerySelectField
-from helpers.mailchimp_helper import Mailchimp_Helper
 
 articles_added=[]
 article_id_list=[]
@@ -12,23 +9,6 @@ article_id_list=[]
 @app.route('/')
 def index():
     return render_template('home.html')
-
-@app.route("/newsletter",methods=["GET","POST"])
-@app.route("/add-newsletter",methods=["GET","POST"])
-def Add_newsletter():
-    "This page contains the form into which user enters the newsletter subject"
-    form = Newsletter_AddForm(request.form)
-    if request.method == 'POST':
-        if form.validate_on_submit():
-            subject = request.form['subject']
-            my_data = AddNewsletter(subject,0,0)
-            db.session.add(my_data)
-            db.session.commit()
-            flash(f'Form submitted successfully', 'success')
-            newsletterId = db.session.query(AddNewsletter).order_by(AddNewsletter.newsletter_id.desc()).first()
-            print("newsletter primary key", newsletterId)
-            return redirect(url_for("Add_articles"))
-    return render_template('add_newsletter.html',form=form)
 
 @app.route("/add-articles",methods=["GET","POST"])
 def Add_articles():
@@ -42,13 +22,12 @@ def Add_articles():
         
     
     if form.validate_on_submit():
-
         if form.add_more.data:
             category = form.category_id.data.category_id
             article_id = form.url.data
             title = form.title.data
             if form.category_id.data=="Select Category":
-                flash(f'Please select category')
+                flash('Please select category')
                 return redirect(url_for("Add_articles"))
             else:
                 article_id_list.append(article_id)
@@ -59,7 +38,7 @@ def Add_articles():
             subject = form.subject.data
             opener= form.opener.data
             preview_text = form.preview_text.data
-            
+
             if subject:                
                 if opener:
                     if preview_text:
@@ -75,21 +54,19 @@ def Add_articles():
                             newsletter_content_id = newletter_content_object.newsletter_content_id
                             db.session.commit()                        
 
-                        flash(f'Form submitted successfully')
+                        flash('Form submitted successfully ')
                         articles_added.clear()
-                        #client = Mailchimp_Helper()
-                        #client.create_campaign(title,subject_line,preview_text)
                         return redirect(url_for("Add_articles"))
                     else:
-                        flash(f'Enter preview text')
+                        flash('Enter preview text')
 
                 else:
-                    flash(f'Please enter the opener')
+                    flash('Please enter the opener')
             else:
-                    flash(f'Please enter the Subject')
+                    flash('Please enter the Subject')
 
         if form.cancel.data:
-            flash(f'Clear all Fields!! Now select the articles')
+            flash('Clear all Fields!! Now select the articles')
             articles_added.clear()
             article_id_list.clear()
             return redirect(url_for("Add_articles"))
@@ -114,12 +91,12 @@ def url(category_id):
 
     return jsonify({'url':urlArray})
 
+
 @app.route("/description/<article_id>")
 def description(article_id):
     "This method fetches the article description based on article selected"
 
     description = Articles.query.filter_by(article_id=article_id)
-
     descriptionArray = []
     for each_element in description:
         desc_obj ={}
@@ -127,6 +104,7 @@ def description(article_id):
         descriptionArray.append(desc_obj)
 
     return jsonify(descriptionArray[0]['description'])
+
 
 @app.route("/readingtime/<article_id>")
 def reading_time(article_id):
@@ -142,12 +120,12 @@ def reading_time(article_id):
 
     return jsonify(readingArray[0]['reading_time'])
 
+
 @app.route("/title/<article_id>")
 def title(article_id):
     "This article fetched reading time based on url selected"
 
     title = Articles.query.filter_by(article_id=article_id).all()
-
     TitleArray = []
     for each_element in title:
         title_obj ={}

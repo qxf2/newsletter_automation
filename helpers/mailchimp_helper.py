@@ -6,11 +6,12 @@ API references :
 2. https://mailchimp.com/developer/marketing/guides/quick-start/
 
 """
-import os,sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import mailchimp_marketing as MailchimpMarketing
-from mailchimp_marketing.api_client import ApiClientError
 import conf.mailchimp_conf as conf_file
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from mailchimp_marketing.api_client import ApiClientError
 
 API_KEY=conf_file.MAILCHIMP_API_KEY
 FROM_NAME = conf_file.FROM_NAME
@@ -24,6 +25,7 @@ class Mailchimp_Helper:
         "Initialize mailchimp marketing api client"
         self.set_mailchimp_config()
         self.campaign_id = None
+
         
     def set_mailchimp_config(self):
         "set mailchimp connection config"
@@ -32,6 +34,7 @@ class Mailchimp_Helper:
             "api_key": API_KEY,
             "server": SERVER_PREFIX
         })
+
         
     def ping_mailchimp(self):
         "check mailchimp connection health"
@@ -40,6 +43,7 @@ class Mailchimp_Helper:
             return response
         except ApiClientError as error:
             return error.text
+
     
     def create_campaign(self,title,subject_line,preview_text):
         "creates campaign on mailchimp"
@@ -58,6 +62,7 @@ class Mailchimp_Helper:
             return  self.campaign_id #campaign_id returned to be saved to db  
         except ApiClientError as error:
             return error.text
+
     
     def set_campaign_content(self):
         "sets the content text for the campaign"
@@ -67,14 +72,15 @@ class Mailchimp_Helper:
         except ApiClientError as error:
             return error.text
 
+
     def schedule_campaign(self,schedule_time):
         "schedules a campaign to be delivered at a specified date"
         try:
             response = self.client.campaigns.schedule(self.campaign_id, {"schedule_time": schedule_time}) ##UTC time
             return response.status_code
         except ApiClientError as error:
-            print(error.text)
             return error.text
+
     
     def send_test_email(self,test_emails=[]):
         "send campaign test email"
@@ -83,4 +89,3 @@ class Mailchimp_Helper:
             return response.status_code
         except ApiClientError as error:
             return error.text
-
