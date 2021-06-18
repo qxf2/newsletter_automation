@@ -2,11 +2,9 @@
 This Module Contains the Form classes for Add articles form
 """
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField, TextAreaField, FormField
-from wtforms.validators import DataRequired, Length
+from wtforms import StringField, SubmitField, SelectField, TextAreaField
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
-from . models import Article_category,Articles,db
-from sqlalchemy.orm import sessionmaker
+from . models import Article_category
 
 def choice_query():
     "Subquery for the QuerySelectField"
