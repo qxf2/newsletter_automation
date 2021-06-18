@@ -48,7 +48,6 @@ def Add_articles():
                         newsletter_id = add_newsletter_object.newsletter_id
                         db.session.commit()
                         for each_article in article_id_list:
-                            print(each_article)
                             newletter_content_object = NewsletterContent(article_id=each_article,newsletter_id=newsletter_id)
                             db.session.add(newletter_content_object)
                             db.session.flush()
@@ -57,6 +56,7 @@ def Add_articles():
 
                         flash('Form submitted successfully ')
                         articles_added.clear()
+                        article_id_list.clear()
                         return redirect(url_for("Add_articles"))
                     else:
                         flash('Enter preview text')
@@ -69,9 +69,13 @@ def Add_articles():
         if form.cancel.data:
             flash('Clear all Fields!! Now select the articles')
             articles_added.clear()
+            article_id_list.clear()
             return redirect(url_for("Add_articles"))
-            
-    return render_template('add_article.html',form=form)
+    
+    all_articles = [Articles.query.filter_by(article_id=article_id).one() for article_id in article_id_list]   
+    
+
+    return render_template('add_article.html',form=form, all_articles=all_articles,article_list=article_id_list)
 
 
 @app.route("/url/<category_id>")
@@ -130,3 +134,14 @@ def title(article_id):
         TitleArray.append(title_obj)
 
     return jsonify(TitleArray[0]['title'])
+"""
+@app.route("/delete/<article_id>")
+def delete_article(article_id_list,article_id):
+    "This article would be deleted before submitting form"
+    articleArray = article_id_list
+    articleArray.remove(article_id)
+    all_articles = [Articles.query.filter_by(article_id=article_id).one() for article_id in article_id_list]
+   
+
+    return render_template('add_article.html',form=form, all_articles=all_articles)
+"""   
