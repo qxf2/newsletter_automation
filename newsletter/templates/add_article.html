@@ -71,16 +71,13 @@
                     <td>
                     <!--<a href="/delete/{{articles.article_id}}" class="btn btn-danger btn-xs" 
                         onclick="return confirm('Are You Sure To Delete ?')">Delete</a>
-                    -->
-                    
-                    <input  type ="submit" onclick ="remove_article(this)" data-articleid="{{articles.article_id}}" data-articlelist = "{{article_list}}" >
+                    -->                                       
                     </td>
 
                 </tr>
                 {% endfor %}
             </table>
-            {{article_list}}
-
+           
     </form>
 
     <script>

@@ -134,7 +134,7 @@ def title(article_id):
         TitleArray.append(title_obj)
 
     return jsonify(TitleArray[0]['title'])
-
+"""
 @app.route("/delete/<article_id>")
 def delete_article(article_id_list,article_id):
     "This article would be deleted before submitting form"
@@ -144,4 +144,4 @@ def delete_article(article_id_list,article_id):
    
 
     return render_template('add_article.html',form=form, all_articles=all_articles)
-    
+"""   
