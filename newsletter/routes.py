@@ -97,7 +97,7 @@ def Add_articles():
     all_articles = [Articles.query.filter_by(article_id=article_id).one() for article_id in article_id_list]   
     
 
-    return render_template('add_article.html',form=form, all_articles=all_articles)
+    return render_template('add_article.html',form=form, all_articles=all_articles,article_list=article_id_list)
 
 
 @app.route("/url/<category_id>")
@@ -155,15 +155,14 @@ def title(article_id):
         TitleArray.append(title_obj)
 
     return jsonify(TitleArray[0]['title'])
-"""
+
 @app.route("/delete/<article_id>")
-def title(article_id):
+def delete_article(article_id_list,article_id):
     "This article would be deleted before submitting form"
     articleArray = article_id_list
-    for each_element in title:
-        title_obj ={}
-        title_obj['title']= each_element.title
-        TitleArray.append(title_obj)
+    articleArray.remove(article_id)
+    all_articles = [Articles.query.filter_by(article_id=article_id).one() for article_id in article_id_list]
+   
 
-    return jsonify(TitleArray[0]['title'])
-"""    
+    return render_template('add_article.html',form=form, all_articles=all_articles)
+    
