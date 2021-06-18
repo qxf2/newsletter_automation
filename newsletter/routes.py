@@ -5,6 +5,7 @@ from . Newsletter_add_form import Newsletter_AddForm
 from . Article_add_form import ArticleForm
 
 articles_added=[]
+article_id_list=[]
 
 @app.route('/')
 def index():
@@ -46,10 +47,7 @@ def Add_articles():
                 flash('Please select category')
                 return redirect(url_for("Add_articles"))
             else:
-                file1 = open("replica_db.txt", "a")
-                file1.write("%s\t%sn"%(category,article_id))
-                file1.close()
-
+                article_id_list.append(article_id)
                 articles_added.append(title)
                 return redirect(url_for("Add_articles"))
 
@@ -66,22 +64,24 @@ def Add_articles():
                         db.session.flush()
                         newsletter_id = add_newsletter_object.newsletter_id
                         db.session.commit()
+                        for each_article in article_id_list:
+                            print(each_article)
+                            newletter_content_object = NewsletterContent(article_id=each_article,newsletter_id=newsletter_id)
+                            db.session.add(newletter_content_object)
+                            db.session.flush()
+                            newsletter_content_id = newletter_content_object.newsletter_content_id
+                            db.session.commit()                        
 
-                
-                        file1 = open("replica_db1.txt", "a")  
-                        file1.write("\t%s\t%s\n"%(opener,preview_text))
-                        file1.close()
-
-                        flash(f'Form submitted successfully')
+                        flash('Form submitted successfully ')
                         articles_added.clear()
                         return redirect(url_for("Add_articles"))
                     else:
-                        flash(f'Enter preview text')
+                        flash('Enter preview text')
 
                 else:
-                    flash(f'Please enter the opener')
+                    flash('Please enter the opener')
             else:
-                    flash(f'Please enter the Subject')
+                    flash('Please enter the Subject')
 
         if form.cancel.data:
             flash('Clear all Fields!! Now select the articles')
@@ -93,7 +93,8 @@ def Add_articles():
 
 @app.route("/url/<category_id>")
 def url(category_id):
-    "This page fetches url based on category selected"
+    "This method fetches url and article_id based on category selected"
+
     url = Articles.query.filter_by(category_id=category_id).all()
     urlArray = []
     for each_element in url:
@@ -107,7 +108,7 @@ def url(category_id):
 
 @app.route("/description/<article_id>")
 def description(article_id):
-    "This page fetches the article description based on url selected"
+    "This method fetches the article description based on article selected"
 
     description = Articles.query.filter_by(article_id=article_id)
     descriptionArray = []
@@ -121,7 +122,7 @@ def description(article_id):
 
 @app.route("/readingtime/<article_id>")
 def reading_time(article_id):
-    "This article fetched reading time based on url selected"
+    "This method fetched reading time based on article selected"
 
     reading_time = Articles.query.filter_by(article_id=article_id).all()
 
