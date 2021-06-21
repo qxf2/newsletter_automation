@@ -1,3 +1,7 @@
+"""
+Flask App for Newsletter automation
+"""
+
 from newsletter import app
 
 
