@@ -1,10 +1,7 @@
 Flask
 Flask-WTF
 flask-sqlalchemy
-<<<<<<< HEAD
 mailchimp-marketing==3.0.44
 
 
-=======
 pylint
->>>>>>> main
