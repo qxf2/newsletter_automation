@@ -1,6 +1,9 @@
-from flask import request, flash, url_for, redirect, render_template, jsonify
+#Endpoints to different Pages/Endpoints
+from flask import Flask
+from flask import Flask, request, flash, url_for, redirect, render_template, jsonify
+from . models import Articles, db, Article_category, AddNewsletter, NewsletterContent
+from . forms import AddArticlesForm
 from newsletter import app
-from . models import AddNewsletter, db, Articles, NewsletterContent
 from . Article_add_form import ArticleForm
 
 articles_added=[]
@@ -9,6 +12,21 @@ article_id_list=[]
 @app.route('/')
 def index():
     return render_template('home.html')
+
+@app.route('/articles', methods=['GET', 'POST'])
+def articles():
+    "This page adds articles to the database"
+    addarticlesform = AddArticlesForm(request.form)
+    category = AddArticlesForm(request.form)
+    if category.validate_on_submit():
+        return '<html><h1>{}</h1></html>'.format(category.category_name.data.category_id)
+    if request.method == 'POST':
+        article = Articles(addarticlesform.url.data,addarticlesform.title.data,addarticlesform.description.data, addarticlesform.time.data, addarticlesform.category_id.data.category_id)
+        db.session.add(article)
+        db.session.commit()
+        msg = "Record added Successfully"
+        return render_template('result.html', msg=msg)
+    return render_template('articles.html',addarticlesform=addarticlesform, category=category)
 
 @app.route("/add-articles",methods=["GET","POST"])
 def Add_articles():
@@ -134,14 +152,4 @@ def title(article_id):
         TitleArray.append(title_obj)
 
     return jsonify(TitleArray[0]['title'])
-"""
-@app.route("/delete/<article_id>")
-def delete_article(article_id_list,article_id):
-    "This article would be deleted before submitting form"
-    articleArray = article_id_list
-    articleArray.remove(article_id)
-    all_articles = [Articles.query.filter_by(article_id=article_id).one() for article_id in article_id_list]
-   
 
-    return render_template('add_article.html',form=form, all_articles=all_articles)
-"""   
