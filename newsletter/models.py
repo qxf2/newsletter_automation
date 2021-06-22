@@ -62,7 +62,7 @@ class Article_category(db.Model):
 class Newsletter_schedule(db.Model):
     "Newsletter schedule table"
     schedule_id = db.Column('schedule_id', db.Integer, primary_key=True)
-    newsletter_id = db.Column('newsletter_id',db.Integer,db.ForeignKey(AddNewsletter.newsletter_id))
+    newsletter_id = db.Column('newsletter_id',db.Integer,db.ForeignKey('add_newsletter.newsletter_id'))
     schedule_date = db.Column('schedule_date',db.Integer)
 
     def __init__(self,schedule_id,newsletter_id,schedule_date):

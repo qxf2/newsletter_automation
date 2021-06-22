@@ -5,19 +5,22 @@ it schedule the newletter automation also
 from flask import request, flash, redirect, render_template
 from sqlalchemy import desc
 import pytz
-from newsletter import db
-from newsletter import app
 from helpers.mailchimp_helper import Mailchimp_Helper
-from . models import NewsletterContent, Newsletter_schedule, AddNewsletter
+from . models import AddNewsletter, NewsletterContent, Newsletter_schedule
 from . schedule_forms import ScheduleForm, SendTestEmail
+from newsletter import app
+from newsletter import db
+
 
 client = Mailchimp_Helper()
 
 @app.route("/sendtestemail",methods=["GET","POST"])
 def schedule_test_email():
     "Scheduling test email"
+    newsletter_list = []
     newsletter_info = db.session.query(AddNewsletter).order_by(
                             desc(AddNewsletter.newsletter_id)).all()
+
     newsletter_subject = newsletter_info[0].subject
     test_email_object = SendTestEmail()
     if request.method == 'POST':
@@ -57,6 +60,7 @@ def schedule_newsletter():
     if request.method == 'POST':
         scheduled_date = schedule_form_object.schedule_date.data
         date_to_schedule = convert_into_utc_format(scheduled_date)
+        date_to_schedule = date_to_schedule.isoformat()
         #Mailchimp API call to schedule
         response = client.schedule_campaign(date_to_schedule)
         if response == 204:
