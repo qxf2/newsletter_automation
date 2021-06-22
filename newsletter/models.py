@@ -12,7 +12,7 @@ class AddNewsletter(db.Model):
     opener = db.Column(db.String(400))
     preview = db.Column(db.String(400))
     #campaign_id= db.Column(db.Integer)
-    
+
     def __init__(self, subject, opener, preview):
         "initialize subject,opener,preview"
         self.subject = subject
@@ -25,11 +25,11 @@ class NewsletterContent(db.Model):
     newsletter_content_id = db.Column(db.Integer, primary_key=True)
     newsletter_id = db.Column(db.Integer, db.ForeignKey('add_newsletter.newsletter_id'))
     article_id = db.Column(db.Integer, db.ForeignKey('articles.article_id'))
-        
+
     def __init__(self, newsletter_id,  article_id):
-        self.newsletter_id = newsletter_id        
+        self.newsletter_id = newsletter_id
         self.article_id = article_id
-    
+
 class Articles(db.Model):
     "Class for Article db model"
     article_id = db.Column('article_id', db.Integer, primary_key = True)
@@ -57,10 +57,16 @@ class Article_category(db.Model):
     def __init__(self, category_name):
         "initializes category_name"
         self.category_name = category_name
-       
-    def __repr__(self):
-        "returns printatble representation of category_name attribute of object"
-        return '<Article_category {}'.format(self.category_name)
-        
-        
+
+
+class Newsletter_schedule(db.Model):
+    "Newsletter schedule table"
+    schedule_id = db.Column('schedule_id', db.Integer, primary_key=True)
+    newsletter_id = db.Column('newsletter_id',db.Integer,db.ForeignKey('add_newsletter.newsletter_id'))
+    schedule_date = db.Column('schedule_date',db.Integer)
+
+    def __init__(self,schedule_id,newsletter_id,schedule_date):
+        self.schedule_id = schedule_id
+        self.newsletter_id = newsletter_id
+        self.schedule_date = schedule_date
 db.create_all()
