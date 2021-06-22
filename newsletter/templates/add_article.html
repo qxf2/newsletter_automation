@@ -1,0 +1,137 @@
+{%extends "layout.html" %}
+{% block content %}
+<div>
+    <form method="POST", action="">
+        
+        {{ form.csrf_token }}
+        <fieldset class="form-group">
+            <legend>Add Articles to the Newsletter</legend>
+           
+            <div class="form-group">
+                {{form.category_id.label(class="col-sm-1 col-form-label")}}
+                {{form.category_id(id="category_id")}}
+            </div>
+            <div class="form-group">
+                {{form.url.label(class="col-sm-1 col-form-label")}}
+                {{form.url(id="url")}}
+            </div>
+            <div class="form-group">
+                {{form.title.label(class="col-sm-1 col-form-label")}}
+                {{form.title(id="title")}}
+            </div>
+            <div class="form-group">
+                {{form.description.label(class="col-sm-1 col-form-label")}}
+                {{form.description(id="description")}}
+                
+            </div>
+            <div class="form-group">
+                {{form.reading_time.label(class="col-sm-1 col-form-label")}}
+                {{form.reading_time(id="reading_time")}}
+            </div>
+            <div class="form-group">
+                {{form.add_more()}}
+            </div>
+          
+        </fieldset>
+            <div class="form-group">
+                {{form.subject.label(class="col-sm-1 col-form-label")}}
+                {{form.subject}}
+            </div>
+
+            <div class="form-group">
+                {{form.opener.label(class="col-sm-1 col-form-label")}}
+                {{form.opener}}
+            </div>
+
+            <div class="form-group">
+                {{form.preview_text.label(class="col-sm-1 col-form-label")}}
+                {{form.preview_text}}
+            </div>
+
+            <div class="form-group" align ="justify">
+                                  
+                {{form.cancel(class="btn btn-outline-info")}}
+                {{form.schedule(class="btn btn-outline-info")}}
+            </div>
+        
+            <table class="table table" border =1 >
+                <tr >
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>URL</th>
+                    <th>Description</th>
+                </tr>
+                {% for articles in all_articles %}
+                <tr>
+                    <td> {{articles.article_id}}</td>
+                    <td> {{articles.title}}</td>
+                    <td> {{articles.url}}</td>
+                    <td> {{articles.description}}</td>
+                    
+                    <td>
+                    <!--<a href="/delete/{{articles.article_id}}" class="btn btn-danger btn-xs" 
+                        onclick="return confirm('Are You Sure To Delete ?')">Delete</a>
+                    -->                                       
+                    </td>
+
+                </tr>
+                {% endfor %}
+            </table>
+           
+    </form>
+
+    <script>
+        let state_category = document.getElementById('category_id');
+        let state_url = document.getElementById('url');
+        let state_description = document.getElementById('description');
+        let state_readingtime = document.getElementById('reading_time');
+        let state_title = document.getElementById('title');
+
+        state_category.onchange = function(){
+            category = state_category.value;
+            fetch('/url/'+ category).then(function(response){
+                response.json().then(function(data){
+                    let optionHTML='<option selected="" value="Select URL">Select URL</option>';
+                    for(let url of data.url){
+                        optionHTML += '<option value="' + url.article_id + '">' + url.url + '</option>';
+                    }
+                    state_url.innerHTML=optionHTML;
+
+                })
+
+            });
+        }
+
+        state_url.onchange = function(){
+            url=state_url.value;
+            fetch('/title/'+ url).then(function(response){
+                response.json().then(function(data){
+                    state_title.value=data;
+                })
+            });
+
+            fetch('/description/'+ url).then(function(response){
+                response.json().then(function(data){
+                    state_description.value=data;
+                })
+            });
+
+            fetch('/readingtime/'+ url).then(function(response){
+                response.json().then(function(data){
+                    state_readingtime.value=data;
+                })
+            });
+        }
+    </script>
+    <script>
+        function remove_article(deleteaction){
+            article_id = deleteaction.getAttribute('data-articleid')
+            console.log("we are here", article_id)
+            article_list.remove(article_id);            
+        }
+    </script>
+
+
+
+</div>
+{% endblock content %}

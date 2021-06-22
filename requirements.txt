@@ -1,3 +1,5 @@
 Flask
+Flask-WTF
 flask-sqlalchemy
-flask-wtf
+mailchimp-marketing==3.0.44
+pylint
