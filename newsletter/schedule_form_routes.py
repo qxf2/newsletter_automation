@@ -24,11 +24,12 @@ def schedule_test_email():
         #Add the mail chimp api call to send test email
         test_emails = ["test@qxf2.com"]
         response = client.send_test_email(test_emails)
+        print(response)
         if response == 204:
             flash("Test email has been sent.")
             return redirect('/schedule')
         else:
-            flash("Test email has not been sent please try again")
+            flash(f"Test email has not been sent please try again. The error is  {response}")
 
     return render_template('send_test_email.html',
                             sendtestemail=test_email_object,
@@ -49,8 +50,8 @@ def convert_into_utc_format(date_to_schedule):
 @app.route("/schedule",methods=["GET","POST"])
 def schedule_newsletter():
     "Schedule the newsletter"
-    newsletter_info = db.session.query(NewsletterContent).order_by(
-                        desc(NewsletterContent.newsletter_id)).all()
+    newsletter_info = db.session.query(AddNewsletter).order_by(
+                            desc(AddNewsletter.newsletter_id)).all()
     newsletter_id = newsletter_info[0].newsletter_id
     schedule_form_object = ScheduleForm()
     if request.method == 'POST':
@@ -63,8 +64,8 @@ def schedule_newsletter():
                                                                 schedule_date=date_to_schedule)
             db.session.add(add_newsletter_schedule_object)
             db.session.commit()
-            flash("Newsletter has been scheduled")
+            flash(f"Newsletter has been scheduled on {date_to_schedule}")
         else:
-            flash("Newsletter is not scheduled")
+            flash(f"Newsletter is not scheduled. Please check the issue {response}")
 
     return render_template("schedule_newsletter.html",scheduleform=schedule_form_object)
