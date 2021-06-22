@@ -1,6 +1,9 @@
-from flask import request, flash, url_for, redirect, render_template, jsonify
+#Endpoints to different Pages/Endpoints
+from flask import Flask
+from flask import Flask, request, flash, url_for, redirect, render_template, jsonify
+from . models import Articles, db, Article_category, AddNewsletter, NewsletterContent
+from . forms import AddArticlesForm
 from newsletter import app
-from . models import AddNewsletter, db, Articles, NewsletterContent
 from . Article_add_form import ArticleForm
 
 articles_added=[]
@@ -9,6 +12,21 @@ article_id_list=[]
 @app.route('/')
 def index():
     return render_template('home.html')
+
+@app.route('/articles', methods=['GET', 'POST'])
+def articles():
+    "This page adds articles to the database"
+    addarticlesform = AddArticlesForm(request.form)
+    category = AddArticlesForm(request.form)
+    if category.validate_on_submit():
+        return '<html><h1>{}</h1></html>'.format(category.category_name.data.category_id)
+    if request.method == 'POST':
+        article = Articles(addarticlesform.url.data,addarticlesform.title.data,addarticlesform.description.data, addarticlesform.time.data, addarticlesform.category_id.data.category_id)
+        db.session.add(article)
+        db.session.commit()
+        msg = "Record added Successfully"
+        return render_template('result.html', msg=msg)
+    return render_template('articles.html',addarticlesform=addarticlesform, category=category)
 
 @app.route("/add-articles",methods=["GET","POST"])
 def Add_articles():
@@ -19,8 +37,8 @@ def Add_articles():
     for url in articles_added:
         url_data += str(url) + "\n"
         form.added_articles.data = url_data
-        
-    
+
+
     if form.validate_on_submit():
         if form.add_more.data:
             category = form.category_id.data.category_id
@@ -39,7 +57,7 @@ def Add_articles():
             opener= form.opener.data
             preview_text = form.preview_text.data
 
-            if subject:                
+            if subject:
                 if opener:
                     if preview_text:
                         add_newsletter_object=AddNewsletter(subject=subject,opener=opener,preview=preview_text)
@@ -48,15 +66,15 @@ def Add_articles():
                         newsletter_id = add_newsletter_object.newsletter_id
                         db.session.commit()
                         for each_article in article_id_list:
-                            print(each_article)
                             newletter_content_object = NewsletterContent(article_id=each_article,newsletter_id=newsletter_id)
                             db.session.add(newletter_content_object)
                             db.session.flush()
                             newsletter_content_id = newletter_content_object.newsletter_content_id
-                            db.session.commit()                        
+                            db.session.commit()
 
                         flash('Form submitted successfully ')
                         articles_added.clear()
+                        article_id_list.clear()
                         return redirect(url_for("Add_articles"))
                     else:
                         flash('Enter preview text')
@@ -69,9 +87,13 @@ def Add_articles():
         if form.cancel.data:
             flash('Clear all Fields!! Now select the articles')
             articles_added.clear()
+            article_id_list.clear()
             return redirect(url_for("Add_articles"))
-            
-    return render_template('add_article.html',form=form)
+
+    all_articles = [Articles.query.filter_by(article_id=article_id).one() for article_id in article_id_list]
+
+
+    return render_template('add_article.html',form=form, all_articles=all_articles,article_list=article_id_list)
 
 
 @app.route("/url/<category_id>")
@@ -130,3 +152,4 @@ def title(article_id):
         TitleArray.append(title_obj)
 
     return jsonify(TitleArray[0]['title'])
+

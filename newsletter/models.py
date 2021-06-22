@@ -19,7 +19,6 @@ class AddNewsletter(db.Model):
         self.opener = opener
         self.preview = preview
 
-
 class NewsletterContent(db.Model):
     "Class for NewsletterContent db model"
     __tablename__ = 'newsletter_content'
@@ -27,11 +26,9 @@ class NewsletterContent(db.Model):
     newsletter_id = db.Column(db.Integer, db.ForeignKey('add_newsletter.newsletter_id'))
     article_id = db.Column(db.Integer, db.ForeignKey('articles.article_id'))
 
-
     def __init__(self, newsletter_id,  article_id):
         self.newsletter_id = newsletter_id
         self.article_id = article_id
-
 
 class Articles(db.Model):
     "Class for Article db model"
@@ -72,3 +69,4 @@ class Newsletter_schedule(db.Model):
         self.schedule_id = schedule_id
         self.newsletter_id = newsletter_id
         self.schedule_date = schedule_date
+db.create_all()
