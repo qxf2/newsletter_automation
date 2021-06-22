@@ -37,8 +37,8 @@ def Add_articles():
     for url in articles_added:
         url_data += str(url) + "\n"
         form.added_articles.data = url_data
-        
-    
+
+
     if form.validate_on_submit():
         if form.add_more.data:
             category = form.category_id.data.category_id
@@ -57,7 +57,7 @@ def Add_articles():
             opener= form.opener.data
             preview_text = form.preview_text.data
 
-            if subject:                
+            if subject:
                 if opener:
                     if preview_text:
                         add_newsletter_object=AddNewsletter(subject=subject,opener=opener,preview=preview_text)
@@ -70,7 +70,7 @@ def Add_articles():
                             db.session.add(newletter_content_object)
                             db.session.flush()
                             newsletter_content_id = newletter_content_object.newsletter_content_id
-                            db.session.commit()                        
+                            db.session.commit()
 
                         flash('Form submitted successfully ')
                         articles_added.clear()
@@ -89,9 +89,9 @@ def Add_articles():
             articles_added.clear()
             article_id_list.clear()
             return redirect(url_for("Add_articles"))
-    
-    all_articles = [Articles.query.filter_by(article_id=article_id).one() for article_id in article_id_list]   
-    
+
+    all_articles = [Articles.query.filter_by(article_id=article_id).one() for article_id in article_id_list]
+
 
     return render_template('add_article.html',form=form, all_articles=all_articles,article_list=article_id_list)
 

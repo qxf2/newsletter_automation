@@ -11,5 +11,7 @@ app.config.from_object(__name__)
 
 db = SQLAlchemy(app)
 
+
 from newsletter import models
 from newsletter import routes
+from newsletter import schedule_form_routes

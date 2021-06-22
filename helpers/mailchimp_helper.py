@@ -26,7 +26,7 @@ class Mailchimp_Helper:
         self.set_mailchimp_config()
         self.campaign_id = None
 
-        
+
     def set_mailchimp_config(self):
         "set mailchimp connection config"
         self.client = MailchimpMarketing.Client()
@@ -35,7 +35,7 @@ class Mailchimp_Helper:
             "server": SERVER_PREFIX
         })
 
-        
+
     def ping_mailchimp(self):
         "check mailchimp connection health"
         try:
@@ -44,7 +44,7 @@ class Mailchimp_Helper:
         except ApiClientError as error:
             return error.text
 
-    
+
     def create_campaign(self,title,subject_line,preview_text):
         "creates campaign on mailchimp"
         try:
@@ -59,11 +59,11 @@ class Mailchimp_Helper:
                 "template_id":TEMPLATE_ID
                 }})
             self.campaign_id = response['id']
-            return  self.campaign_id #campaign_id returned to be saved to db  
+            return  self.campaign_id #campaign_id returned to be saved to db
         except ApiClientError as error:
             return error.text
 
-    
+
     def set_campaign_content(self):
         "sets the content text for the campaign"
         try:
@@ -81,7 +81,7 @@ class Mailchimp_Helper:
         except ApiClientError as error:
             return error.text
 
-    
+
     def send_test_email(self,test_emails=[]):
         "send campaign test email"
         try:
