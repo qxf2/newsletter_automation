@@ -1,6 +1,8 @@
 #Endpoints to different Pages/Endpoints
+from builtins import Exception
 from flask import Flask
 from flask import Flask, request, flash, url_for, redirect, render_template, jsonify
+from sqlalchemy.orm.exc import MultipleResultsFound
 from . models import Articles, db, Article_category, AddNewsletter, NewsletterContent
 from . forms import AddArticlesForm
 from newsletter import app
@@ -8,6 +10,7 @@ from . Article_add_form import ArticleForm
 
 articles_added=[]
 article_id_list=[]
+
 
 @app.route('/')
 def index():
@@ -23,8 +26,14 @@ def articles():
     if request.method == 'POST':
         article = Articles(addarticlesform.url.data,addarticlesform.title.data,addarticlesform.description.data, addarticlesform.time.data, addarticlesform.category_id.data.category_id)
         db.session.add(article)
-        db.session.commit()
-        msg = "Record added Successfully"
+        try:
+            if url == db.session.query(Articles).filter(Articles.url == addarticlesform.url.data).one_or_none():
+                msg = ""
+            else:
+                db.session.commit()
+                msg = "Record added Successfully"
+        except MultipleResultsFound as e:
+            msg = e
         return render_template('result.html', msg=msg)
     return render_template('articles.html',addarticlesform=addarticlesform, category=category)
 
@@ -152,4 +161,3 @@ def title(article_id):
         TitleArray.append(title_obj)
 
     return jsonify(TitleArray[0]['title'])
-
