@@ -10,14 +10,14 @@ class AddNewsletter(db.Model):
     newsletter_id = db.Column(db.Integer, primary_key=True)
     subject = db.Column(db.String(50))
     opener = db.Column(db.String(400))
-    preview = db.Column(db.String(400))
+    #preview = db.Column(db.String(400))
     #campaign_id= db.Column(db.Integer)
 
-    def __init__(self, subject, opener, preview):
-        "initialize subject,opener,preview"
+    def __init__(self, subject, opener):
+        "initialize subject,opener"
         self.subject = subject
         self.opener = opener
-        self.preview = preview
+        #self.preview = preview
 
 class NewsletterContent(db.Model):
     "Class for NewsletterContent db model"

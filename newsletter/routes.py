@@ -52,33 +52,28 @@ def Add_articles():
                 articles_added.append(title)
                 return redirect(url_for("Add_articles"))
 
-        if form.schedule.data:
+        if form.preview_newsletter.data:
             subject = form.subject.data
             opener= form.opener.data
-            preview_text = form.preview_text.data
 
             if subject:
-                if opener:
-                    if preview_text:
-                        add_newsletter_object=AddNewsletter(subject=subject,opener=opener,preview=preview_text)
-                        db.session.add(add_newsletter_object)
+                if opener:                
+                    add_newsletter_object=AddNewsletter(subject=subject,opener=opener)
+                    db.session.add(add_newsletter_object)
+                    db.session.flush()
+                    newsletter_id = add_newsletter_object.newsletter_id
+                    db.session.commit()
+                    for each_article in article_id_list:
+                        newletter_content_object = NewsletterContent(article_id=each_article,newsletter_id=newsletter_id)
+                        db.session.add(newletter_content_object)
                         db.session.flush()
-                        newsletter_id = add_newsletter_object.newsletter_id
+                        newsletter_content_id = newletter_content_object.newsletter_content_id
                         db.session.commit()
-                        for each_article in article_id_list:
-                            newletter_content_object = NewsletterContent(article_id=each_article,newsletter_id=newsletter_id)
-                            db.session.add(newletter_content_object)
-                            db.session.flush()
-                            newsletter_content_id = newletter_content_object.newsletter_content_id
-                            db.session.commit()
 
-                        flash('Form submitted successfully ')
-                        articles_added.clear()
-                        article_id_list.clear()
-                        return redirect(url_for("Add_articles"))
-                    else:
-                        flash('Enter preview text')
-
+                    flash('Form submitted successfully ')
+                    articles_added.clear()
+                    article_id_list.clear()
+                    return redirect(url_for("Add_articles"))
                 else:
                     flash('Please enter the opener')
             else:
