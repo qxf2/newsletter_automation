@@ -27,6 +27,7 @@ def articles():
         msg = "Record added Successfully"
         return render_template('result.html', msg=msg)
     return render_template('articles.html',addarticlesform=addarticlesform, category=category)
+    
 
 @app.route("/add-articles",methods=["GET","POST"])
 def Add_articles():
@@ -73,7 +74,7 @@ def Add_articles():
                     flash('Form submitted successfully ')
                     articles_added.clear()
                     article_id_list.clear()
-                    return redirect(url_for("Add_articles"))
+                    return redirect(url_for("preview_newsletter",newsletter_id=newsletter_id))
                 else:
                     flash('Please enter the opener')
             else:
@@ -90,6 +91,12 @@ def Add_articles():
 
     return render_template('add_article.html',form=form, all_articles=all_articles,article_list=article_id_list)
 
+@app.route("/preview_newsletter",methods=["GET","POST"])
+def preview_newsletter(newsletter_id):
+    flash (newsletter_id)
+    content = NewsletterContent(article_id)
+    flash (content)
+    return render_template('preview_newsletter.html')
 
 @app.route("/url/<category_id>")
 def url(category_id):
