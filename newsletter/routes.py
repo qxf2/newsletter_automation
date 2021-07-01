@@ -1,6 +1,7 @@
 #Endpoints to different Pages/Endpoints
 from flask import Flask
 from flask import Flask, request, flash, url_for, redirect, render_template, jsonify
+from sqlalchemy.orm import query
 from . models import Articles, db, Article_category, AddNewsletter, NewsletterContent
 from . forms import AddArticlesForm
 from newsletter import app
@@ -72,6 +73,8 @@ def Add_articles():
                             db.session.add(newletter_content_object)
                             db.session.flush()
                             newsletter_content_id = newletter_content_object.newsletter_content_id
+                            db.session.commit()
+                            articles_newsletter_id = Articles.query.filter(Articles.article_id==each_article).update({"newsletter_id":newsletter_id})
                             db.session.commit()
 
                         flash('Form submitted successfully ')
@@ -196,4 +199,12 @@ def update_article(article_id):
 
     return render_template('edit_article.html',form=form)
 
+@app.route("/delete/<article_id>", methods=["GET","POST"])
+def delete_article(article_id):
+    "Deletes an article"
+    article = Articles.query.filter_by(article_id=article_id).all()
 
+    delete_article = Articles.query.get(article_id)
+    db.session.delete(delete_article)
+    db.session.commit()
+    return redirect(url_for("view_articles"))

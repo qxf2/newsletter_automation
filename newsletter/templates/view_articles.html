@@ -16,6 +16,7 @@
                     <th>URL</th>
                     <th>Description</th>
                     <th>Reading Time</th>
+                    <th>Newsletter Id</th>
                 </tr>
                 {% for articles in article_data %}
                 <tr>
@@ -24,6 +25,7 @@
                     <td> {{articles.url}}</td>
                     <td> {{articles.description}}</td>
                     <td> {{articles.time}}</td>
+                    <td> {{articles.newsletter_id}}</td>
 
                     <td>
                         <a href="/edit/{{articles.article_id}}" class="btn btn-warning btn-xs" data-toggle="modal"
