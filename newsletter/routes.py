@@ -74,7 +74,7 @@ def Add_articles():
                     flash('Form submitted successfully ')
                     articles_added.clear()
                     article_id_list.clear()
-                    return redirect(url_for("preview_newsletter",newsletter_id=newsletter_id))
+                    return redirect(url_for("previewnewsletter",newsletter_id=newsletter_id))
                 else:
                     flash('Please enter the opener')
             else:
@@ -91,12 +91,14 @@ def Add_articles():
 
     return render_template('add_article.html',form=form, all_articles=all_articles,article_list=article_id_list)
 
-@app.route("/preview_newsletter",methods=["GET","POST"])
-def preview_newsletter(newsletter_id):
-    flash (newsletter_id)
-    content = NewsletterContent(article_id)
-    flash (content)
-    return render_template('preview_newsletter.html')
+@app.route("/preview_newsletter/<newsletter_id>",methods=["GET","POST"])
+def previewnewsletter(newsletter_id):
+    #newsletter_id1 = request.args.get('newsletter_id') #t.args.get('newsletter_id')
+    content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject)
+
+
+    return render_template('preview_newsletter.html',content=content)
+   # return'''<h1>The language value is: {}</h1>'''.format(newsletter_id1)
 
 @app.route("/url/<category_id>")
 def url(category_id):
@@ -154,4 +156,5 @@ def title(article_id):
         TitleArray.append(title_obj)
 
     return jsonify(TitleArray[0]['title'])
+
 
