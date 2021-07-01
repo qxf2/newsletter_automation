@@ -8,9 +8,34 @@
     <body>
       
         <div>
-            
+            <table>
+  <thead>
+    <tr>
+        <th>newsletter id</th>
+        <th>subject</th>
+        
+    </tr>
+    </thead>    
+    <tbody>
+     {% for row in content %}    
+            <tr>
+                <td>{{row[0]}}</td>
+                <td>{{row[1]}}</td>
+                
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
             <p>
-                content: {{content}}
+	    <!--content: {{content}}-->
+	<!--	<tbody>
+     {% for row in content %}
+            <tr>
+                <td>{{row[0]}}</td>
+                <td>{{row[1]}}</td>
+                <td>{{row[2]}}</td>
+            </tr>
+	    {% endfor %}-->
             </p>
 
         </div>

@@ -95,7 +95,7 @@ def Add_articles():
 def previewnewsletter(newsletter_id):
     #newsletter_id1 = request.args.get('newsletter_id') #t.args.get('newsletter_id')
     content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject)
-
+#    content = db.session.query(NewsletterContent).filter(newsletter_id == NewsletterContent.newsletter_id )
 
     return render_template('preview_newsletter.html',content=content)
    # return'''<h1>The language value is: {}</h1>'''.format(newsletter_id1)
