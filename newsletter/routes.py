@@ -93,10 +93,8 @@ def Add_articles():
 
 @app.route("/preview_newsletter/<newsletter_id>",methods=["GET","POST"])
 def previewnewsletter(newsletter_id):
-    #newsletter_id1 = request.args.get('newsletter_id') #t.args.get('newsletter_id')
-    content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject)
-#    content = db.session.query(NewsletterContent).filter(newsletter_id == NewsletterContent.newsletter_id )
-
+    content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,Articles.url,Articles.description,Articles.title,Articles.time,Article_category.category_name).filter(AddNewsletter.newsletter_id == newsletter_id).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
+    #article_list = NewsletterContent.query.with_entities(NewsletterContent.newsletter_id, NewsletterContent.article_id).filter(NewsletterContent.newsletter_id == newsletter_id)
     return render_template('preview_newsletter.html',content=content)
    # return'''<h1>The language value is: {}</h1>'''.format(newsletter_id1)
 
