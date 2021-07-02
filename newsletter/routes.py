@@ -67,6 +67,7 @@ def Add_articles():
                         db.session.flush()
                         newsletter_id = add_newsletter_object.newsletter_id
                         db.session.commit()
+                        print(article_id_list,"printing artilce")
                         for each_article in article_id_list:
                             newletter_content_object = NewsletterContent(article_id=each_article,newsletter_id=newsletter_id)
                             db.session.add(newletter_content_object)
@@ -206,3 +207,11 @@ def delete_article(article_id):
     db.session.delete(delete_article)
     db.session.commit()
     return redirect(url_for("view_articles"))
+
+@app.route("/removearticle",methods=["GET","POST"])
+def remove_article():
+    form = ArticleForm()
+    article_id = request.form.get('articleid')
+    article_id_list.remove(article_id)
+
+    return render_template('add_article.html',form=form,article_list=article_id_list)

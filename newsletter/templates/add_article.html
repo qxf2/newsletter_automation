@@ -124,10 +124,19 @@
     </script>
     <script>
         function removeArticle(deleteaction){
-            deleteaction.preventDefault();
             articleId = deleteaction.getAttribute('data-article-id');
             articleList = deleteaction.getAttribute('data-article-list');
-            $deleteAction.closest('tr').remove();
+            $.ajax({
+                type:'POST',
+                url:'/removearticle',
+                data:{
+                articleid:articleId,
+                articlelist:articleList},
+                success:function(data){
+                    $(deleteaction).closest('tr').remove();
+                }
+            })
+
             }
     </script>
 
