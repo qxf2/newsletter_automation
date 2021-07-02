@@ -67,7 +67,6 @@ def Add_articles():
                         db.session.flush()
                         newsletter_id = add_newsletter_object.newsletter_id
                         db.session.commit()
-                        print(article_id_list,"printing artilce")
                         for each_article in article_id_list:
                             newletter_content_object = NewsletterContent(article_id=each_article,newsletter_id=newsletter_id)
                             db.session.add(newletter_content_object)
