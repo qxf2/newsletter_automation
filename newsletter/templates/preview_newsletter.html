@@ -4,45 +4,60 @@
      <meta charset="utf-8">
         <title>Preview Newsletter</title>
     </head>
-    
+    <style>
+table {
+  width:100%;
+}
+     table, th, td,tr {
+ border: 1px solid black; 
+ border-collapse: collapse;
+}
+th, td {
+padding : 15px ; 
+ text-align: center;
+}
+
+
+#t01 th {
+  background-color: black;
+  color: white;
+}</style>
     <body>
       
         <div>
-            <table>
-  <thead>
+		<table id="t01">
+            <thead>
     <tr>
-        <th>newsletter id</th>
-        <th>subject</th>
-	<th>opener</th>
-	<th>url</th>
-	<th>description</th>
-	<th>title</th>
-	<th>time</th>
-	<th>category</th>
+        <th>Newsletter content preview</th>
         
     </tr>
-    </thead>    
+    </thead> 
     <tbody>
      {% for row in content %}    
             <tr>
-                <td>{{row[0]}}</td>
-                <td>{{row[1]}}</td>
-		<td>{{row[2]}}</td>
-		<td>{{row[3]}}</td>
-		<td>{{row[4]}}</td>
-		<td>{{row[5]}}</td>
-		<td>{{row[6]}}</td>
-		<td>{{row[7]}}</td>
-
-		<td>{{row[8]}}</td>
+                <td> Subject : {{row[1]}}</td>
+	    </tr><tr>
+		<td> Opener : {{row[2]}}</td>
+	    </tr><tr>
+		<td> Category : {{row[3]}}</td>
+	    </tr><tr>
+		    <td> Title :{{row[4]}}</td>
+		</tr><tr>
+		<td>  URL : {{row[5]}}</td>
+		</tr><tr>
+		<td> Description : {{row[6]}}</td>
+		</tr><tr>
+		<td> Reading/Doing Time  : {{row[7]}}</td>
+		</tr>
 
 	
 
 	
-            </tr>
+            
         {% endfor %}
     </tbody>
 </table>
+
             <p>
 	    <!--content: {{content}}-->
 	<!--	<tbody>
