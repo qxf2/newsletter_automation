@@ -38,7 +38,6 @@ def Add_articles():
         url_data += str(url) + "\n"
         form.added_articles.data = url_data
 
-
     if form.validate_on_submit():
         if form.add_more.data:
             category = form.category_id.data.category_id
@@ -92,7 +91,6 @@ def Add_articles():
 
     all_articles = [Articles.query.filter_by(article_id=article_id).one() for article_id in article_id_list]
 
-
     return render_template('add_article.html',form=form, all_articles=all_articles,article_list=article_id_list)
 
 
@@ -104,9 +102,10 @@ def url(category_id):
     urlArray = []
     for each_element in url:
         urlobj ={}
-        urlobj['article_id']= each_element.article_id
-        urlobj['url']= each_element.url
-        urlArray.append(urlobj)
+        if each_element.newsletter_id == None:
+            urlobj['article_id']= each_element.article_id
+            urlobj['url']= each_element.url
+            urlArray.append(urlobj)
 
     return jsonify({'url':urlArray})
 
@@ -152,4 +151,3 @@ def title(article_id):
         TitleArray.append(title_obj)
 
     return jsonify(TitleArray[0]['title'])
-

@@ -38,6 +38,7 @@ class Articles(db.Model):
     description = db.Column(db.String(500))
     time = db.Column(db.String(300))
     category_id = db.Column(db.Integer, db.ForeignKey('article_category.category_id'))
+    newsletter_id = db.Column(db.Integer,db.ForeignKey('add_newsletter.newsletter_id'))
 
     def __init__(self, url, title, description, time,category_id):
         "initializes url, title, description, time, category_id"
