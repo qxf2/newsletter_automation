@@ -1,10 +1,12 @@
 #Endpoints to different Pages/Endpoints
 from flask import Flask
 from flask import Flask, request, flash, url_for, redirect, render_template, jsonify
+from sqlalchemy.orm import query
 from . models import Articles, db, Article_category, AddNewsletter, NewsletterContent
 from . forms import AddArticlesForm
 from newsletter import app
 from . Article_add_form import ArticleForm
+from . Edit_ArticleForm import EditArticlesForm
 
 articles_added=[]
 article_id_list=[]
@@ -70,6 +72,8 @@ def Add_articles():
                             db.session.add(newletter_content_object)
                             db.session.flush()
                             newsletter_content_id = newletter_content_object.newsletter_content_id
+                            db.session.commit()
+                            articles_newsletter_id = Articles.query.filter(Articles.article_id==each_article).update({"newsletter_id":newsletter_id})
                             db.session.commit()
 
                         flash('Form submitted successfully ')
@@ -159,5 +163,46 @@ def view_articles():
     article_data = Articles.query.all()
     return render_template('view_articles.html', addarticlesform=addarticlesform,article_data=article_data)
 
+@app.route("/edit/<article_id>",methods=["GET","POST"])
+def update_article(article_id):
+    "This method is used to edit articles based on article_id"
 
+    article = Articles.query.filter_by(article_id=article_id).all()
+    articlelist = []
+    for each_article in article:
+        articleobj ={}
+        articleobj['title'] = each_article.title
+        articleobj['article_id']= each_article.article_id
+        articleobj['url']= each_article.url
+        articleobj['description']= each_article.description
+        articleobj['time'] = each_article.time
+        articleobj['category_id'] = each_article.category_id
+        articlelist.append(articleobj)
 
+    form = EditArticlesForm(title=articlelist[0]['title'],
+                            url=articlelist[0]['url'],
+                            description=articlelist[0]['description'],
+                            time=articlelist[0]['time'],
+                            category_id=articlelist[0]['category_id'])
+
+    if form.validate_on_submit():
+        edited_title=form.title.data
+        edited_url=form.url.data
+        edited_description=form.description.data
+        edited_time=form.time.data
+        edited_category= int(form.category_id.data)
+        Articles.query.filter(Articles.article_id==articlelist[0]['article_id']).update({"title":edited_title,"url":edited_url,"description":edited_description,"time":edited_time,"category_id":edited_category})
+
+        db.session.commit()
+        return redirect(url_for("view_articles"))
+
+    return render_template('edit_article.html',form=form)
+
+@app.route("/delete/<article_id>", methods=["GET","POST"])
+def delete_article(article_id):
+    "Deletes an article"
+    article = Articles.query.filter_by(article_id=article_id).all()
+    delete_article = Articles.query.get(article_id)
+    db.session.delete(delete_article)
+    db.session.commit()
+    return redirect(url_for("view_articles"))
