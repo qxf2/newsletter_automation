@@ -24,4 +24,4 @@ class EditArticlesForm(FlaskForm):
     description = TextAreaField('description', validators= [ DataRequired(), Length(min=4)])
     time = TextField('time',validators=[ DataRequired()])
     category_id= SelectField(choices=fetch_categories())
-    submit = SubmitField('Edit Article')
+    submit = SubmitField('Save Article')
