@@ -1,0 +1,59 @@
+name: automate-newsletter-project-deploy
+on:
+  push:
+    branches:
+      - automate_deploy
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Install the newsletter package
+      run: |
+        pip install virtualenv
+        virtualenv venv
+        source venv/bin/activate
+        cd /home/ubuntu/venv/lib/python3.8/site-packages/newsletter_automation
+        python run.py
+
+    - name: Verify flask app is running
+      run: |
+        END=$((SECONDS+30))
+        while [ $SECONDS -lt $END ]; do
+          status=`curl -s -o /dev/null -w "%{http_code}" http://3.136.56.183`
+
+          if [ "$status" -eq 200 ]; then
+            STARTED=1
+            echo "Service Started Successfully"
+            break
+          fi
+          sleep 2
+        done
+        if [ "$STARTED" -eq "" ]; then
+          exit 1
+        fi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # - name: Analysing the code with pylint
+    #   run:
+    #     python -m pylint --fail-under=9 $(git ls-files '*.py')
