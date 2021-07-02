@@ -26,6 +26,7 @@ def articles():
         db.session.commit()
         msg = "Record added Successfully"
         return render_template('result.html', msg=msg)
+        
     return render_template('articles.html',addarticlesform=addarticlesform, category=category)
 
 @app.route("/add-articles",methods=["GET","POST"])
@@ -153,3 +154,13 @@ def title(article_id):
 
     return jsonify(TitleArray[0]['title'])
 
+@app.route('/view-articles')
+def view_articles():
+    addarticlesform = AddArticlesForm(request.form)
+    article_data = Articles.query.all()
+    return render_template('view_articles.html', addarticlesform=addarticlesform,article_data=article_data)
+        
+
+
+    
+    
