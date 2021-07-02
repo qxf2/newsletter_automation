@@ -2,11 +2,11 @@
 {% block content %}
 <div>
     <form method="POST", action="">
-        
+
         {{ form.csrf_token }}
         <fieldset class="form-group">
             <legend>Add Articles to the Newsletter</legend>
-           
+
             <div class="form-group">
                 {{form.category_id.label(class="col-sm-1 col-form-label")}}
                 {{form.category_id(id="category_id")}}
@@ -22,7 +22,7 @@
             <div class="form-group">
                 {{form.description.label(class="col-sm-1 col-form-label")}}
                 {{form.description(id="description")}}
-                
+
             </div>
             <div class="form-group">
                 {{form.reading_time.label(class="col-sm-1 col-form-label")}}
@@ -31,7 +31,7 @@
             <div class="form-group">
                 {{form.add_more()}}
             </div>
-          
+
         </fieldset>
             <div class="form-group">
                 {{form.subject.label(class="col-sm-1 col-form-label")}}
@@ -49,12 +49,12 @@
             </div>
 
             <div class="form-group" align ="justify">
-                                  
+
                 {{form.cancel(class="btn btn-outline-info")}}
                 {{form.schedule(class="btn btn-outline-info")}}
             </div>
-        
-            <table class="table table" border =1 >
+
+            <table id="tableId" class="table table" border =1 >
                 <tr >
                     <th>ID</th>
                     <th>Title</th>
@@ -62,22 +62,21 @@
                     <th>Description</th>
                 </tr>
                 {% for articles in all_articles %}
-                <tr>
+                <tr id="articleRow">
                     <td> {{articles.article_id}}</td>
                     <td> {{articles.title}}</td>
                     <td> {{articles.url}}</td>
                     <td> {{articles.description}}</td>
-                    
+
                     <td>
-                    <!--<a href="/delete/{{articles.article_id}}" class="btn btn-danger btn-xs" 
-                        onclick="return confirm('Are You Sure To Delete ?')">Delete</a>
-                    -->                                       
+
+                    <input type="button" value="Remove" class="btn btn-danger" onclick="removeArticle(this)" data-article-id="{{articles.article_id}}" data-article-list="{{article_list}}" >
                     </td>
 
                 </tr>
                 {% endfor %}
             </table>
-           
+
     </form>
 
     <script>
@@ -124,11 +123,12 @@
         }
     </script>
     <script>
-        function remove_article(deleteaction){
-            article_id = deleteaction.getAttribute('data-articleid')
-            console.log("we are here", article_id)
-            article_list.remove(article_id);            
-        }
+        function removeArticle(deleteaction){
+            deleteaction.preventDefault();
+            articleId = deleteaction.getAttribute('data-article-id');
+            articleList = deleteaction.getAttribute('data-article-list');
+            $deleteAction.closest('tr').remove();
+            }
     </script>
 
 
