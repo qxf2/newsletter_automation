@@ -2,6 +2,5 @@ Flask
 Flask-WTF
 flask-sqlalchemy
 mailchimp-marketing==3.0.44
-
-
 pylint
+

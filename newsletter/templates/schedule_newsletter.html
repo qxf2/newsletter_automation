@@ -1,0 +1,14 @@
+{% include "header.html" %}
+{% include "layout.html" %}
+{% block content %}
+<div class="col-md-10">
+<form method="POST">
+   {{ scheduleform.csrf_token }}
+
+   {{ scheduleform.schedule_date(class="_datepicker",id="larger") }}
+   <input type=submit class="btn btn-outline-info" value="Schedule Newsletter" >
+
+</form>
+
+</div>
+{% endblock content %}

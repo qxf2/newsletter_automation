@@ -1,0 +1,13 @@
+{% include "header.html" %}
+{% include "layout.html" %}
+{% block content %}
+<div class="col-md-4">
+   <form method="POST">
+      {{ sendtestemail.hidden_tag() }}
+
+      {{ sendtestemail.newsletter_subject(id="newsletterSubject", value=subject, class="form-control",id="larger") }}
+      <br>
+<input type=submit class="btn btn-outline-info" value="Send test email" >  </form>
+
+</div>
+{% endblock content %}
