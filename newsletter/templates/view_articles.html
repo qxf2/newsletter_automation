@@ -1,0 +1,43 @@
+{%extends "layout.html" %}
+{% block content %}
+<div class="jumbotron p-3">
+<form method="POST" , action="">
+
+    {{ addarticlesform.csrf_token }}
+    <fieldset class="form-group">
+        <legend>View Articles</legend>
+
+        <div class="form-group">
+        </div>
+            <table class="table table-hover table" >
+                <tr>
+                    
+                    <th>Title</th>
+                    <th>URL</th>
+                    <th>Description</th>
+                    <th>Reading Time</th>
+                </tr>
+                {% for articles in article_data %}
+                <tr>
+                    
+                    <td> {{articles.title}}</td>
+                    <td> {{articles.url}}</td>
+                    <td> {{articles.description}}</td>
+                    <td> {{articles.time}}</td>
+            
+                    <td>
+                        <a href="/update/{{articles.article_id}}" class="btn btn-warning btn-xs" data-toggle="modal"
+                            >Edit</a>
+                        <a href="/delete/{{articles.article_id}}" class="btn btn-danger btn-xs"
+                            onclick="return confirm('Are You Sure To Delete ?')">Delete</a>
+                                       
+                    </td>
+            
+                </tr>
+                {% endfor %}
+            </table>
+            
+    </form>
+
+</div>
+{% endblock content %}
