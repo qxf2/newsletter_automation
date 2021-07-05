@@ -22,11 +22,7 @@ jobs:
         
     - name: Connect to the instance
       run: |
-        ssh -i secret.pem ubuntu@13.233.152.126 /home/ubuntu/deploy_flask.sh
-
-    - name: Install the newsletter package
-      run: |
-        deploy_flask.sh
+        ssh -i secret.pem ubuntu@13.233.152.126 bash /home/ubuntu/deploy_flask.sh
 
     - name: Verify flask app is running
       run: |
