@@ -23,8 +23,6 @@ jobs:
 
     - name: Connect to the instance
       run: |
-#        echo ${{ secrets.NEWSLETTER_INSTANCE_KEY }} > secret.pem
-#        ssh -i secret.pem ubuntu@3.136.56.183
         echo ${{ secrets.CHESS_DB_KEY }} > secret.pem
         ssh -i secret.pem ubuntu@13.233.152.126 /home/ubuntu/deploy_flask.sh
 
@@ -49,8 +47,6 @@ jobs:
         if [ "$STARTED" -eq "" ]; then
           exit 1
         fi
-
-
 
 
 
