@@ -17,12 +17,11 @@ jobs:
       run: |
         echo "${{ secrets.CHESS_DB_KEY }}" > secret.pem
         cat secret.pem | base64
-        scp -i secret.pem requirements.txt ubuntu@13.233.152.126:/home/ubuntu
-        scp -i secret.pem deploy_flask.sh ubuntu@13.233.152.126:/home/ubuntu
+        scp -o StrictHostKeyChecking=no -i secret.pem requirements.txt ubuntu@13.233.152.126:/home/ubuntu
+        scp -o StrictHostKeyChecking=no -i secret.pem deploy_flask.sh ubuntu@13.233.152.126:/home/ubuntu
         
     - name: Connect to the instance
       run: |
-        echo ${{ secrets.CHESS_DB_KEY }} > secret.pem
         ssh -i secret.pem ubuntu@13.233.152.126 /home/ubuntu/deploy_flask.sh
 
     - name: Install the newsletter package
