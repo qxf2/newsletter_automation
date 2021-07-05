@@ -4,20 +4,20 @@
      <meta charset="utf-8">
         <title>Preview Newsletter</title>
     </head>
-    
+
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-    
+
     <style>
 
 table {
   width:100%;
 }
      table, th, td,tr {
- border: 1px solid black; 
+ border: 1px solid black;
  border-collapse: collapse;
 }
 th, td {
-padding : 15px ; 
+padding : 15px ;
  text-align: center;
 }
 
@@ -27,17 +27,17 @@ padding : 15px ;
   color: white;
 }</style>
     <body>
-      
+
         <div>
 		<table id="t01">
             <thead>
     <tr>
         <th>Newsletter content preview</th>
-        
+
     </tr>
-    </thead> 
+    </thead>
     <tbody>
-     {% for row in content %}    
+     {% for row in content %}
             <tr>
                 <td> Subject : {{row[1]}}</td>
 	    </tr><tr>
@@ -54,20 +54,20 @@ padding : 15px ;
 		<td> Reading/Doing Time  : {{row[7]}}</td>
 		</tr>
 
-	
 
-	
-            
+
+
+
         {% endfor %}
     </tbody>
 </table>
 
-            
+
 
         </div>
-          <button id="campaign">Cam</button>
+          <button id="campaign">Create_campaign</button>
          </div>
-        
+
         <script>
             $(document).ready(function(){
             $("#campaign").click(function(){
@@ -86,6 +86,5 @@ padding : 15px ;
 
     </form>
     </body>
-    
+
     </html>
-    

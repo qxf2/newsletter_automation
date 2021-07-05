@@ -5,7 +5,7 @@ from . models import Articles, db, Article_category, AddNewsletter, NewsletterCo
 from . forms import AddArticlesForm
 from newsletter import app
 from . Article_add_form import ArticleForm
-from . Addpreview_form import Addpreviewform
+#from . Addpreview_form import Addpreviewform
 
 articles_added=[]
 article_id_list=[]
@@ -28,7 +28,7 @@ def articles():
         msg = "Record added Successfully"
         return render_template('result.html', msg=msg)
     return render_template('articles.html',addarticlesform=addarticlesform, category=category)
-    
+
 
 @app.route("/add-articles",methods=["GET","POST"])
 def Add_articles():
@@ -59,7 +59,7 @@ def Add_articles():
             opener= form.opener.data
 
             if subject:
-                if opener:                
+                if opener:
                     add_newsletter_object=AddNewsletter(subject=subject,opener=opener)
                     db.session.add(add_newsletter_object)
                     db.session.flush()
@@ -94,7 +94,7 @@ def Add_articles():
 
 @app.route("/preview_newsletter/<newsletter_id>",methods=["GET","POST"])
 def previewnewsletter(newsletter_id):
-    addpreviewform = Addpreviewform()
+    #addpreviewform = Addpreviewform()
     content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).filter(AddNewsletter.newsletter_id == newsletter_id).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
     #article_list = NewsletterContent.query.with_entities(NewsletterContent.newsletter_id, NewsletterContent.article_id).filter(NewsletterContent.newsletter_id == newsletter_id)
     return render_template('preview_newsletter.html',content=content)
@@ -102,7 +102,7 @@ def previewnewsletter(newsletter_id):
 
 @app.route("/create_campaign/",methods=["GET"])
 def create_campaign():
-    
+
     content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).filter(AddNewsletter.newsletter_id == 15).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
     print(content)
     return "abc"
@@ -163,5 +163,3 @@ def title(article_id):
         TitleArray.append(title_obj)
 
     return jsonify(TitleArray[0]['title'])
-
-
