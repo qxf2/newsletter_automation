@@ -16,7 +16,7 @@ jobs:
     - name: Copy required scripts
       run: |
         echo "${{ secrets.CHESS_DB_KEY }}" > secret.pem
-        cat secret.pem | base64
+        chmod 644 secret.pem
         scp -o StrictHostKeyChecking=no -i secret.pem requirements.txt ubuntu@13.233.152.126:/home/ubuntu
         scp -o StrictHostKeyChecking=no -i secret.pem deploy_flask.sh ubuntu@13.233.152.126:/home/ubuntu
         
