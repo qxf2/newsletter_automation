@@ -12,22 +12,26 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: 3.8
-    - name: Install dependencies
+
+    - name: Copy required scripts
       run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        echo ${{ secrets.CHESS_DB_KEY }} > secret.pem
+        scp -i secret.pem requirements.txt ubuntu@13.233.152.126:/home/ubuntu
+        scp -i secret.pem deploy_flask.sh ubuntu@13.233.152.126:/home/ubuntu
+        scp -i secret.pem run.py ubuntu@13.233.152.126:/home/ubuntu
+
 
     - name: Connect to the instance
       run: |
-        ssh -i ${{ secrets.NEWSLETTER_INSTANCE_KEY }} ubuntu@3.136.56.183
+#        echo ${{ secrets.NEWSLETTER_INSTANCE_KEY }} > secret.pem
+#        ssh -i secret.pem ubuntu@3.136.56.183
+        echo ${{ secrets.CHESS_DB_KEY }} > secret.pem
+        ssh -i secret.pem ubuntu@13.233.152.126 /home/ubuntu/deploy_flask.sh
+
 
     - name: Install the newsletter package
       run: |
-        pip install virtualenv
-        virtualenv venv
-        source venv/bin/activate
-        cd /home/ubuntu/venv/lib/python3.8/site-packages/newsletter_automation
-        python run.py
+        deploy_flask.sh
 
     - name: Verify flask app is running
       run: |
