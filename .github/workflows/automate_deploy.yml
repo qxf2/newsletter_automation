@@ -24,7 +24,6 @@ jobs:
         echo ${{ secrets.CHESS_DB_KEY }} > secret.pem
         ssh -i secret.pem ubuntu@13.233.152.126 /home/ubuntu/deploy_flask.sh
 
-
     - name: Install the newsletter package
       run: |
         deploy_flask.sh
