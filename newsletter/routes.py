@@ -203,12 +203,12 @@ def update_article(article_id):
 def delete_article(article_id):
     "Deletes an article"
     articles_delete = Articles.query.filter_by(article_id=article_id).value(Articles.newsletter_id)
-    print(articles_delete)
-    if articles_delete is None:
+    
+    if articles_delete is not None:
+        flash('Cannot delete!! Article is already a part of campaign')
+    else:
         delete_article = Articles.query.get(article_id)
         db.session.delete(delete_article)
         db.session.commit()
-    else:
-        flash('Cannot delete!! Article is already a part of campaign')
 
     return redirect(url_for("view_articles"))
