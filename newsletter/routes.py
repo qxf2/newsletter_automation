@@ -1,4 +1,6 @@
 #Endpoints to different Pages/Endpoints
+from operator import countOf
+import re
 from flask import Flask
 from flask import Flask, request, flash, url_for, redirect, render_template, jsonify
 from . models import Articles, db, Article_category, AddNewsletter, NewsletterContent
@@ -6,6 +8,10 @@ from . forms import AddArticlesForm
 from newsletter import app
 from . Article_add_form import ArticleForm
 #from . Addpreview_form import Addpreviewform
+<<<<<<< HEAD
+=======
+import  json
+>>>>>>> 72ef6841c3dc6e9ea39204b977276da65b9cce15
 
 articles_added=[]
 article_id_list=[]
@@ -100,12 +106,67 @@ def previewnewsletter(newsletter_id):
     return render_template('preview_newsletter.html',content=content)
    # return'''<h1>The language value is: {}</h1>'''.format(newsletter_id1)
 
-@app.route("/create_campaign/",methods=["GET"])
+@app.route("/create_campaign",methods=["GET","POST"])
 def create_campaign():
+<<<<<<< HEAD
 
     content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).filter(AddNewsletter.newsletter_id == 15).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
+=======
+    
+    content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,
+    Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).filter(AddNewsletter.newsletter_id == 17).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
+>>>>>>> 72ef6841c3dc6e9ea39204b977276da65b9cce15
     print(content)
-    return "abc"
+    
+    content_json = []
+    for each_element in content:
+        contobj = {}
+        contobj['title'] = each_element.title
+        contobj['opener'] = each_element.opener
+        contobj["category name"] = each_element.category_name
+        contobj["url"] = each_element.url
+        #content_json.append(contobj)
+        
+        
+    
+   
+        
+        #content_json = json.dumps(contobj, indent=5)
+
+         
+        
+
+        
+        #contobj = {"title": each_element.title, "opener": each_element.opener,}
+        #contentjson = json.dumps(contobj)
+        #print(contentjson)
+
+        #another method to convert dict to json object
+        #details = json.dumps(contobj)
+        #return details 
+      
+
+       #one way of doing json format
+       
+        jsonfile = 'campaign.json'
+        with open (jsonfile, "w") as filehandler1:
+            json.dump(contobj, filehandler1, indent=2)
+        
+        #open json file for reading
+        filehandler2 = open(jsonfile)
+        return filehandler2.read()
+        
+        
+           
+        #return contobj
+        
+        
+    
+    #return (content_json)
+
+    #return jsonify({'content': contobj['title']})
+
+
 
 @app.route("/url/<category_id>")
 def url(category_id):
