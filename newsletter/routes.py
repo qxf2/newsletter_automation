@@ -210,7 +210,7 @@ def delete_article(article_id):
         db.session.delete(delete_article)
         db.session.commit()
 
-    return redirect(url_for("view_articles"))
+    return redirect(url_for("manage_articles"))
 
 @app.route("/removearticle",methods=["GET","POST"])
 def remove_article():
