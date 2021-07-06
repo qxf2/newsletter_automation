@@ -105,9 +105,9 @@ def previewnewsletter(newsletter_id):
 
 @app.route("/create_campaign",methods=["GET","POST"])
 def create_campaign():
-    
+    newsletter_id = NewsletterContent.newsletter_id
     content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,
-    Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).filter(AddNewsletter.newsletter_id == 24).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
+    Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).filter(AddNewsletter.newsletter_id == newsletter_id).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
     result = db.session.execute(content)    
     
     content_json = []
@@ -125,10 +125,10 @@ def create_campaign():
     with open (jsonfile, "w") as filehandler1:
         json.dump(content_json, filehandler1, indent=2)
         
-    #open json file for reading
-    filehandler2 = open(jsonfile)
-    return filehandler2.read()
-    jsonfile.close()
+        #open json file for reading
+        filehandler2 = open(jsonfile)
+        return filehandler2.read()
+    jsonfile.close('campaign.json')
     
 @app.route("/url/<category_id>")
 def url(category_id):
