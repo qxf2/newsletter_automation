@@ -34,12 +34,10 @@ def articles():
 @app.route("/add-articles",methods=["GET","POST"])
 def Add_articles():
     "This page contains the form where user can add articles"
-    url_data = ""
     form = ArticleForm()
 
-    for url in articles_added:
-        url_data += str(url) + "\n"
-        form.added_articles.data = url_data
+    url_data = ",".join(articles_added)
+    form.opener.data = url_data
 
     if form.validate_on_submit():
         if form.add_more.data:
@@ -58,28 +56,31 @@ def Add_articles():
             subject = form.subject.data
             opener= form.opener.data
             preview_text = form.preview_text.data
-
+            print(article_id_list)
             if subject:
                 if opener:
                     if preview_text:
-                        add_newsletter_object=AddNewsletter(subject=subject,opener=opener,preview=preview_text)
-                        db.session.add(add_newsletter_object)
-                        db.session.flush()
-                        newsletter_id = add_newsletter_object.newsletter_id
-                        db.session.commit()
-                        for each_article in article_id_list:
-                            newletter_content_object = NewsletterContent(article_id=each_article,newsletter_id=newsletter_id)
-                            db.session.add(newletter_content_object)
+                        if article_id_list:
+                            add_newsletter_object=AddNewsletter(subject=subject,opener=opener,preview=preview_text)
+                            db.session.add(add_newsletter_object)
                             db.session.flush()
-                            newsletter_content_id = newletter_content_object.newsletter_content_id
+                            newsletter_id = add_newsletter_object.newsletter_id
                             db.session.commit()
-                            articles_newsletter_id = Articles.query.filter(Articles.article_id==each_article).update({"newsletter_id":newsletter_id})
-                            db.session.commit()
+                            for each_article in article_id_list:
+                                newletter_content_object = NewsletterContent(article_id=each_article,newsletter_id=newsletter_id)
+                                db.session.add(newletter_content_object)
+                                db.session.flush()
+                                newsletter_content_id = newletter_content_object.newsletter_content_id
+                                db.session.commit()
+                                articles_newsletter_id = Articles.query.filter(Articles.article_id==each_article).update({"newsletter_id":newsletter_id})
+                                db.session.commit()
 
-                        flash('Form submitted successfully ')
-                        articles_added.clear()
-                        article_id_list.clear()
-                        return redirect(url_for("Add_articles"))
+                            flash('Form submitted successfully ')
+                            articles_added.clear()
+                            article_id_list.clear()
+                            return redirect(url_for("Add_articles"))
+                        else:
+                            flash('Please select articles first')
                     else:
                         flash('Enter preview text')
 
@@ -202,7 +203,7 @@ def update_article(article_id):
 def delete_article(article_id):
     "Deletes an article"
     articles_delete = Articles.query.filter_by(article_id=article_id).value(Articles.newsletter_id)
-    
+
     if articles_delete is not None:
         flash('Cannot delete!! Article is already a part of campaign')
     else:
