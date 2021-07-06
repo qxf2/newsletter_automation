@@ -119,18 +119,15 @@ def create_campaign():
         contobj["url"] = each_element.url
         #content_json.append(contobj)
         
-        print(contobj["category name"])
-        print(contobj["url"])
-    #return jsonify(content_json)    
-    
         
+    
+   
         
         #content_json = json.dumps(contobj, indent=5)
 
          
         
-        #for key, value in contobj.items():
-         #   print(key,':',value)
+
         
         #contobj = {"title": each_element.title, "opener": each_element.opener,}
         #contentjson = json.dumps(contobj)
