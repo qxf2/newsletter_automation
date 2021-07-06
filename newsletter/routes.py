@@ -107,8 +107,8 @@ def previewnewsletter(newsletter_id):
 def create_campaign():
     
     content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,
-    Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).filter(AddNewsletter.newsletter_id == 17).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
-    print(content)
+    Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).filter(AddNewsletter.newsletter_id == 23).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
+    
     
     content_json = []
     for each_element in content:
@@ -116,37 +116,23 @@ def create_campaign():
         contobj['title'] = each_element.title
         contobj['opener'] = each_element.opener
         contobj["category name"] = each_element.category_name
-        contobj["url"] = each_element.url
-        #content_json.append(contobj)
+        contobj["url"] = each_element.url        
         
         
     
    
         
-        #content_json = json.dumps(contobj, indent=5)
-
-         
-        
-
-        
-        #contobj = {"title": each_element.title, "opener": each_element.opener,}
-        #contentjson = json.dumps(contobj)
-        #print(contentjson)
-
-        #another method to convert dict to json object
-        #details = json.dumps(contobj)
-        #return details 
-      
+    
 
        #one way of doing json format
        
-        jsonfile = 'campaign.json'
-        with open (jsonfile, "w") as filehandler1:
-            json.dump(contobj, filehandler1, indent=2)
+    jsonfile = 'campaign.json'
+    with open (jsonfile, "w") as filehandler1:
+        json.dump(contobj, filehandler1, indent=2)
         
-        #open json file for reading
-        filehandler2 = open(jsonfile)
-        return filehandler2.read()
+    #open json file for reading
+    filehandler2 = open(jsonfile)
+    return filehandler2.read()
         
         
            
