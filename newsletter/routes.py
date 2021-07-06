@@ -201,10 +201,15 @@ def update_article(article_id):
 @app.route("/delete/<article_id>", methods=["GET","POST"])
 def delete_article(article_id):
     "Deletes an article"
-    article = Articles.query.filter_by(article_id=article_id).all()
-    delete_article = Articles.query.get(article_id)
-    db.session.delete(delete_article)
-    db.session.commit()
+    articles_delete = Articles.query.filter_by(article_id=article_id).value(Articles.newsletter_id)
+    
+    if articles_delete is not None:
+        flash('Cannot delete!! Article is already a part of campaign')
+    else:
+        delete_article = Articles.query.get(article_id)
+        db.session.delete(delete_article)
+        db.session.commit()
+
     return redirect(url_for("manage_articles"))
 
 @app.route("/removearticle",methods=["GET","POST"])
