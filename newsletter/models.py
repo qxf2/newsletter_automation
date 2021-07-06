@@ -69,4 +69,14 @@ class Newsletter_schedule(db.Model):
         self.schedule_id = schedule_id
         self.newsletter_id = newsletter_id
         self.schedule_date = schedule_date
+
+class Newsletter_campaign(db.Model):
+    "Newsletter create campaign table"
+    campaign_id = db.Column('campaign_id', db.Integer, primary_key=True)
+    newsletter_id = db.Column('newsletter_id',db.Integer,db.ForeignKey('add_newsletter.newsletter_id'))
+
+    def __init__(self,campaign_id,newsletter_id):
+        self.campaign_id = campaign_id
+        self.newsletter_id = newsletter_id
+
 db.create_all()
