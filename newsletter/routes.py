@@ -41,7 +41,6 @@ def Add_articles():
         url_data += str(url) + "\n"
         form.added_articles.data = url_data
 
-
     if form.validate_on_submit():
         if form.add_more.data:
             category = form.category_id.data.category_id
@@ -97,7 +96,6 @@ def Add_articles():
 
     all_articles = [Articles.query.filter_by(article_id=article_id).one() for article_id in article_id_list]
 
-
     return render_template('add_article.html',form=form, all_articles=all_articles,article_list=article_id_list)
 
 
@@ -109,9 +107,10 @@ def url(category_id):
     urlArray = []
     for each_element in url:
         urlobj ={}
-        urlobj['article_id']= each_element.article_id
-        urlobj['url']= each_element.url
-        urlArray.append(urlobj)
+        if each_element.newsletter_id == None:
+            urlobj['article_id']= each_element.article_id
+            urlobj['url']= each_element.url
+            urlArray.append(urlobj)
 
     return jsonify({'url':urlArray})
 
@@ -158,11 +157,11 @@ def title(article_id):
 
     return jsonify(TitleArray[0]['title'])
 
-@app.route('/view-articles')
-def view_articles():
+@app.route('/manage-articles')
+def manage_articles():
     addarticlesform = AddArticlesForm(request.form)
     article_data = Articles.query.all()
-    return render_template('view_articles.html', addarticlesform=addarticlesform,article_data=article_data)
+    return render_template('manage_articles.html', addarticlesform=addarticlesform,article_data=article_data)
 
 @app.route("/edit/<article_id>",methods=["GET","POST"])
 def update_article(article_id):
@@ -195,7 +194,7 @@ def update_article(article_id):
         Articles.query.filter(Articles.article_id==articlelist[0]['article_id']).update({"title":edited_title,"url":edited_url,"description":edited_description,"time":edited_time,"category_id":edited_category})
 
         db.session.commit()
-        return redirect(url_for("view_articles"))
+        return redirect(url_for("manage_articles"))
 
     return render_template('edit_article.html',form=form)
 
@@ -212,3 +211,11 @@ def delete_article(article_id):
         db.session.commit()
 
     return redirect(url_for("view_articles"))
+
+@app.route("/removearticle",methods=["GET","POST"])
+def remove_article():
+    form = ArticleForm()
+    article_id = request.form.get('articleid')
+    article_id_list.remove(article_id)
+
+    return render_template('add_article.html',form=form,article_list=article_id_list)

@@ -12,13 +12,13 @@ import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mailchimp_marketing.api_client import ApiClientError
+from jinja2 import Template
 
 API_KEY=conf_file.MAILCHIMP_API_KEY
 FROM_NAME = conf_file.FROM_NAME
 REPLY_TO = conf_file.REPLY_TO
 SERVER_PREFIX = conf_file.SERVER_PREFIX
 SUBSCRIBER_LIST_ID = conf_file.SUBSCRIBER_LIST_ID
-TEMPLATE_ID =conf_file.TEMPLATE_ID
 
 class Mailchimp_Helper:
     def __init__(self):
@@ -55,8 +55,7 @@ class Mailchimp_Helper:
                 "preview_text":preview_text,
                 "title":title,
                 "from_name":FROM_NAME,
-                "reply_to":REPLY_TO,
-                "template_id":TEMPLATE_ID
+                "reply_to":REPLY_TO
                 }})
             self.campaign_id = response['id']
             return  self.campaign_id #campaign_id returned to be saved to db
@@ -64,10 +63,13 @@ class Mailchimp_Helper:
             return error.text
 
 
-    def set_campaign_content(self):
+    def set_campaign_content(self,newsletter_json):
         "sets the content text for the campaign"
         try:
-            response = self.client.campaigns.set_content(self.campaign_id,{"template":{"id":TEMPLATE_ID,"sections":{}}})
+            with open('Editable_Newsletter_Template.html') as raw_data:
+                template = Template(raw_data.read())
+            final_html =template.render(newsletter_json=newsletter_json)
+            response = self.client.campaigns.set_content(self.campaign_id,body={'html':final_html})
             return response
         except ApiClientError as error:
             return error.text
@@ -89,3 +91,4 @@ class Mailchimp_Helper:
             return response.status_code
         except ApiClientError as error:
             return error.text
+
