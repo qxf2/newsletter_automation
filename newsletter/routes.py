@@ -105,25 +105,32 @@ def previewnewsletter(newsletter_id):
 
 @app.route("/create_campaign",methods=["GET","POST"])
 def create_campaign():
-    """This method used for create campaign"""
-    content = AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,
-    Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).filter(AddNewsletter.newsletter_id == 4).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
+    newsletter_id = NewsletterContent.newsletter_id
+    content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,
+    Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).filter(AddNewsletter.newsletter_id == newsletter_id).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
+
+    result = db.session.execute(content)
 
     content_json = []
-    for each_element in content:
+    for each_element in result:
         contobj = {}
         contobj['title'] = each_element.title
+        contobj['subject'] = each_element.subject
         contobj['opener'] = each_element.opener
         contobj["category name"] = each_element.category_name
         contobj["url"] = each_element.url
+        content_json.append(contobj)
 
+    #writing the changes to campaign.json and returning the value
     jsonfile = 'campaign.json'
     with open (jsonfile, "w") as filehandler1:
-        json.dump(contobj, filehandler1, indent=2)
+        json.dump(content_json, filehandler1, indent=2)
 
-    filehandler2 = open(jsonfile)
-    return filehandler2.read()
+        #open json file for reading
+        filehandler2 = open(jsonfile)
+        return filehandler2.read()
 
+    #jsonfile.close('campaign.json')
 
 @app.route("/url/<category_id>")
 def url(category_id):

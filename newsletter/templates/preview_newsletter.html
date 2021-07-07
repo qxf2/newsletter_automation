@@ -66,11 +66,13 @@
             $.ajax({
             type : 'POST',
             url : "{{url_for('create_campaign')}}",
+            data: "{}",
             contentType: 'application/json;charset=UTF-8',
+            dataType : "json",
             success: function (response) {
-                        console.log(response.objt)
+                        //console.log(response.objt)
                         //alert(JSON.stringify(response.objt))
-                        alert(response)
+                        alert("Data added successfully")
                     },
             });
             });
