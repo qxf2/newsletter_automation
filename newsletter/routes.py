@@ -3,12 +3,14 @@ from operator import countOf
 import re
 from flask import Flask
 from flask import Flask, request, flash, url_for, redirect, render_template, jsonify
-from . models import Articles, db, Article_category, AddNewsletter, NewsletterContent
+from . models import Articles, db, Article_category, AddNewsletter, NewsletterContent,Newsletter_campaign
 from . forms import AddArticlesForm
 from newsletter import app
 from . Article_add_form import ArticleForm
 #from . Addpreview_form import Addpreviewform
 import  json
+from  helpers import mailchimp_helper
+
 
 articles_added=[]
 article_id_list=[]
@@ -115,12 +117,14 @@ def create_campaign():
     content_json = []
     for each_element in result:
         contobj = {}
+        contobj['newsletter_id']=each_element.newsletter_id
         contobj['title'] = each_element.title
         contobj['subject'] = each_element.subject
         contobj['opener'] = each_element.opener
         contobj["category name"] = each_element.category_name
         contobj["url"] = each_element.url
         content_json.append(contobj)
+    #add_campaign(content_json)
 
     #writing the changes to campaign.json and returning the value
     jsonfile = 'campaign.json'
@@ -132,6 +136,41 @@ def create_campaign():
         return filehandler2.read()
 
     #jsonfile.close('campaign.json')
+
+
+
+def add_campaign(jsonfile):
+
+   fil11 = json.dumps(jsonfile)
+   #print(fil1)
+   #campaign_content = '{"title":"title1","subject_line":"sub","preview_text":"preview texttt"}'
+   fil1 = json.loads(fil11)
+   print(fil1)
+   #for i in fil1:
+   #    print(type(i))
+   title=""
+   subject_line=""
+   preview_text=""
+   newsletter_id = 12
+   for i in fil1:
+       for k,v in i.items():
+           #print(k)
+           if k=="title":
+              title=v
+           elif k=="subject_line":
+              subject_line=v
+           elif k=="preview_text":
+              preview_text=v
+   campaign_id = mailchimp_helper.Mailchimp_Helper.create_campaign(title, subject_line, preview_text,preview_text)
+   print(campaign_id)
+   newletter_content_object = Newsletter_campaign(campaign_id==campaign_id,newsletter_id==12)
+   db.session.add(newletter_content_object)
+   db.session.commit()
+
+   newsletterjson='{"in_this_issue":"inthis issue: test","comic":"category_name","comic_url":"url of comic","comic_text":"title of comic"}'
+   newsletter_json = json.loads(newsletterjson)
+   mailchimp_helper.Mailchimp_Helper.set_campaign_content(newsletter_json)
+
 
 @app.route("/url/<category_id>")
 def url(category_id):
