@@ -48,7 +48,8 @@ class Mailchimp_Helper:
     def create_campaign(self,title,subject_line,preview_text):
         "creates campaign on mailchimp"
         try:
-            response = self.client.campaigns.create({"type": "regular",
+            client = MailchimpMarketing.Client()
+            response = client.campaigns.create({"type": "regular",
             "recipients":{"list_id":SUBSCRIBER_LIST_ID},
             "settings":
                 {"subject_line":subject_line,
