@@ -106,6 +106,7 @@ def previewnewsletter(newsletter_id):
 @app.route("/create_campaign",methods=["GET","POST"])
 def create_campaign():
     newsletter_id = NewsletterContent.newsletter_id
+
     content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,
     Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).filter(AddNewsletter.newsletter_id == newsletter_id).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
 
