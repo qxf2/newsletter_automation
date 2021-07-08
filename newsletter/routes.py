@@ -37,13 +37,17 @@ def Add_articles():
     form = ArticleForm()
 
     url_data = ",".join(articles_added)
-    if form.validate_on_submit():
+    if form.validate_on_submit():        
         if form.add_more.data:
-            category = form.category_id.data.category_id
+            if form.category_id.data is None:
+                flash('Please select Category','danger')
+                return redirect(url_for("Add_articles"))
+            
+            category = form.category_id.data
             article_id = form.url.data
             title = form.title.data
-            if form.category_id.data=="Select Category":
-                flash('Please select category')
+            if article_id=="Select URL":
+                flash('Please select URL','danger')
                 return redirect(url_for("Add_articles"))
             else:
                 if article_id not in article_id_list:
@@ -51,7 +55,7 @@ def Add_articles():
                     articles_added.append(title)
                     return redirect(url_for("Add_articles"))
                 else:
-                    flash('Already selected !! Please select another article ')
+                    flash('Already selected !! Please select another article ', 'danger')
                     return redirect(url_for("Add_articles"))
 
         if form.schedule.data:
@@ -77,22 +81,22 @@ def Add_articles():
                                 articles_newsletter_id = Articles.query.filter(Articles.article_id==each_article).update({"newsletter_id":newsletter_id})
                                 db.session.commit()
 
-                            flash('Form submitted successfully ')
+                            flash('Form submitted successfully!!','info')
                             articles_added.clear()
                             article_id_list.clear()
                             return redirect(url_for("Add_articles"))
                         else:
-                            flash('Please select articles first')
+                            flash('Please select articles first', 'danger')
                     else:
-                        flash('Enter preview text')
+                        flash('Enter preview text','danger')
 
                 else:
-                    flash('Please enter the opener')
+                    flash('Please enter the opener', 'danger')
             else:
-                    flash('Please enter the Subject')
+                    flash('Please enter the Subject','danger')
 
         if form.cancel.data:
-            flash('Clear all Fields!! Now select the articles')
+            flash('Clear all Fields!! Now select the articles', 'info')
             articles_added.clear()
             article_id_list.clear()
             return redirect(url_for("Add_articles"))
@@ -162,6 +166,8 @@ def title(article_id):
 
 @app.route('/manage-articles')
 def manage_articles():
+    "This page is used to editand delete articles"
+    
     addarticlesform = AddArticlesForm(request.form)
     article_data = Articles.query.all()
 
