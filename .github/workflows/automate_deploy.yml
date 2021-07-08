@@ -19,28 +19,29 @@ jobs:
         chmod 400 secret.pem
         scp -o StrictHostKeyChecking=no -i secret.pem requirements.txt ubuntu@15.207.110.45:/home/ubuntu
         scp -o StrictHostKeyChecking=no -i secret.pem deploy_flask.sh ubuntu@15.207.110.45:/home/ubuntu
+        scp -o StrictHostKeyChecking=no -i secret.pem check_app_status.sh ubuntu@15.207.110.45:/home/ubuntu
         
     - name: Connect to the instance
       run: |
         ssh -i secret.pem ubuntu@15.207.110.45 bash /home/ubuntu/deploy_flask.sh
+        ssh -i secret.pem ubuntu@15.207.110.45 bash /home/ubuntu/check_app_status.sh
 
-    - name: Verify flask app is running
-      run: |
-        END=$((SECONDS+30))
-        while [ $SECONDS -lt $END ]; do
-          status = `curl -s -o /dev/null -w "%{http_code}" http://15.207.110.45:8080`
-          if [ "$status" -eq 200 ]; then
-            STARTED=1;
-            echo "Service started successfully";
-            break
-          fi
-          echo "Not started yet"
-          sleep 2
-        done
-        if [ "$STARTED" = ""]; then
-          exit 1
-        fi
-      shell: bash
+    # - name: Verify flask app is running
+    #   run: |
+    #     END=$((SECONDS+30))
+    #     while [ $SECONDS -lt $END ]; do
+    #       status = `curl -s -o /dev/null -w "%{http_code}" http://15.207.110.45:8080`
+    #       if [ "$status" -eq 200 ]; then
+    #         STARTED=1;
+    #         echo "Service started successfully";
+    #         break
+    #       fi
+    #       echo "Not started yet"
+    #       sleep 2
+    #     done
+    #     if [ "$STARTED" = ""]; then
+    #       exit 1
+    #   shell: bash
     # - name: Analysing the code with pylint
     #   run:
     #     python -m pylint --fail-under=9 $(git ls-files '*.py')
