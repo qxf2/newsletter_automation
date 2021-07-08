@@ -118,7 +118,7 @@ def create_campaign():
     content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,
     Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).filter_by(newsletter_id=newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
     result = db.session.execute(content)    
-    
+        
     content_json = []
     for each_element in result:
         contobj = {}
@@ -129,8 +129,12 @@ def create_campaign():
         contobj["category name"] = each_element.category_name
         contobj["url"] = each_element.url  
         content_json.append(contobj)
-    add_campaign(content_json)    
-    #writing the changes to campaign.json and returning the value
+    
+    #creating MC campaign and setting content here
+    response = add_campaign(content_json)
+    #trying to return response here
+    return response
+    
     jsonfile = 'campaign.json'
     with open (jsonfile, "w") as filehandler1:
         json.dump(content_json, filehandler1, indent=2)
@@ -139,42 +143,90 @@ def create_campaign():
         filehandler2 = open(jsonfile)
         return filehandler2.read()
     jsonfile.close('campaign.json')
-
-
-
+    
 
 def add_campaign(jsonfile):
 
-   fil11 = json.dumps(jsonfile)
-   #print(fil1)
-   #campaign_content = '{"title":"title1","subject_line":"sub","preview_text":"preview texttt"}'
-   fil1 = json.loads(fil11)
-   print(fil1)
-   #for i in fil1:
-   #    print(type(i))
-   title=""
-   subject_line=""
-   preview_text=""
-   newsletter_id = 12
-   for i in fil1:
-       for k,v in i.items():
-           #print(k)
-           if k=="title":
-              title=v
-           elif k=="subject_line":
-              subject_line=v
-           elif k=="preview_text":
-              preview_text=v
-   campaign_id = mailchimp_helper.Mailchimp_Helper.create_campaign(title, subject_line, preview_text,preview_text)
-   print(campaign_id)
-   newletter_content_object = Newsletter_campaign(campaign_id==campaign_id,newsletter_id==12)
-   db.session.add(newletter_content_object)
-   db.session.commit()
-
-   newsletterjson='{"in_this_issue":"inthis issue: test","comic":"category_name","comic_url":"url of comic","comic_text":"title of comic"}'
-   newsletter_json = json.loads(newsletterjson)
-   mailchimp_helper.Mailchimp_Helper.set_campaign_content(newsletter_json)
-
+    fil11 = json.dumps(jsonfile)
+    fil1 = json.loads(fil11)
+    
+    title=""
+    subject_line=""
+    preview_text=""
+    newsletter_id = ""
+    for i in fil1:
+        for k,v in i.items():
+            if k=="title":
+                title=v
+            elif k=="subject_line":
+                subject_line=v
+            elif k=="preview_text":
+                preview_text=v
+    
+    #creating campaign here    
+    clientobj = mailchimp_helper.Mailchimp_Helper()
+    clientobj.create_campaign('Informed newsletter ','Informed testers','In this issue')
+    campaign_id = clientobj.campaign_id
+    print(clientobj.campaign_id)
+    
+    newletter_content_object = Newsletter_campaign(campaign_id==campaign_id,newsletter_id==newsletter_id)
+    db.session.add(newletter_content_object)
+    db.session.commit()
+    
+    #setting campaign content here
+    newsletter_json = {
+    "title":"Informed tester newsletter test",
+    "in_this_issue":"In this issue a comic , article from past and present",
+    "comic":{
+        "comic_url":"https://assets.amuniversal.com/5ff350b0e05d013825a4005056a9545d",
+        "comic_text":"This is a comic"
+    },
+    "this_week_articles":[
+        {
+            "title":"This week Article 1",
+            "url":"https://qxf2.com/blog/work-anniversary-image-skype-bot-using-aws-lambda/",
+            "description":"Description for this week article 1",
+            "reading_time":"2"
+        },
+        {
+            "title":"This week Article 2",
+            "url":"https://qxf2.com/blog/work-anniversary-image-skype-bot-using-aws-lambda/",
+            "description":"This week Article 2 description",
+            "reading_time":"5"
+        }
+    ],
+    "past_articles":[
+        {
+            "title":"Past Article 1",
+            "url":"https://qxf2.com/blog/work-anniversary-image-skype-bot-using-aws-lambda/",
+            "description":"Description for article 1",
+            "reading_time":"2"
+        },
+        {
+            "title":"Past Article 2",
+            "url":"https://qxf2.com/blog/work-anniversary-image-skype-bot-using-aws-lambda/",
+            "description":"Article 2 description",
+            "reading_time":"5 "
+        }
+    ],
+    "automation_corner":[
+        {
+            "title":"Tech Article 1",
+            "url":"https://qxf2.com/blog/work-anniversary-image-skype-bot-using-aws-lambda/",
+            "description":"Description for article 1",
+            "reading_time":"2 "
+        },
+        {
+            "title":"Tech Article 2",
+            "url":"https://qxf2.com/blog/work-anniversary-image-skype-bot-using-aws-lambda/",
+            "description":"Article 2 description",
+            "reading_time":"5 "
+        }
+        ]
+    }
+        
+    contentobj = mailchimp_helper.Mailchimp_Helper()
+    contentobj.set_campaign_content(newsletter_json)    
 
 @app.route("/url/<category_id>")
 def url(category_id):

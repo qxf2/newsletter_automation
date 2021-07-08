@@ -34,11 +34,12 @@ class Mailchimp_Helper:
             "api_key": API_KEY,
             "server": SERVER_PREFIX
         })
-
+        
 
     def ping_mailchimp(self):
         "check mailchimp connection health"
         try:
+            self.client = MailchimpMarketing.Client()
             response = self.client.ping.get()
             return response
         except ApiClientError as error:
@@ -48,8 +49,7 @@ class Mailchimp_Helper:
     def create_campaign(self,title,subject_line,preview_text):
         "creates campaign on mailchimp"
         try:
-            client = MailchimpMarketing.Client()
-            response = client.campaigns.create({"type": "regular",
+            response = self.client.campaigns.create({"type": "regular",
             "recipients":{"list_id":SUBSCRIBER_LIST_ID},
             "settings":
                 {"subject_line":subject_line,
