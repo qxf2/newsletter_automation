@@ -99,19 +99,24 @@ def Add_articles():
 
 @app.route("/preview_newsletter/<newsletter_id>",methods=["GET","POST"])
 def previewnewsletter(newsletter_id):
-    #addpreviewform = Addpreviewform()
+    "To populate the preview newsletter page"
     content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).filter(AddNewsletter.newsletter_id == newsletter_id).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
-    #article_list = NewsletterContent.query.with_entities(NewsletterContent.newsletter_id, NewsletterContent.article_id).filter(NewsletterContent.newsletter_id == newsletter_id)
+
     return render_template('preview_newsletter.html',content=content)
-   # return'''<h1>The language value is: {}</h1>'''.format(newsletter_id1)
 
 @app.route("/create_campaign",methods=["GET","POST"])
 def create_campaign():
-    newsletter_id = NewsletterContent.newsletter_id
-
+    """
+    create the campaign and return the campaign id
+    update campaign table with this id
+    create the newsletter_json needed for mailchimp api
+    call mailchimp content setting api
+    """
+    newsletter_id_db = db.session.query(NewsletterContent.newsletter_id).order_by(NewsletterContent.newsletter_id.desc()).first()
+    for row in newsletter_id_db:
+        newsletter_id= row
     content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,
-    Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).filter(AddNewsletter.newsletter_id == newsletter_id).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
-
+    Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).filter_by(newsletter_id=newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
     result = db.session.execute(content)
 
     content_json = []
@@ -136,6 +141,7 @@ def create_campaign():
         return filehandler2.read()
 
     #jsonfile.close('campaign.json')
+
 
 
 
