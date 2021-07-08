@@ -37,8 +37,6 @@ def Add_articles():
     form = ArticleForm()
 
     url_data = ",".join(articles_added)
-    form.opener.data = url_data
-
     if form.validate_on_submit():
         if form.add_more.data:
             category = form.category_id.data.category_id
@@ -166,7 +164,7 @@ def title(article_id):
 def manage_articles():
     addarticlesform = AddArticlesForm(request.form)
     article_data = Articles.query.all()
-    
+
     return render_template('manage_articles.html', addarticlesform=addarticlesform,article_data=article_data)
 
 @app.route("/edit/<article_id>",methods=["GET","POST"])
