@@ -48,9 +48,13 @@ def Add_articles():
                 flash('Please select category')
                 return redirect(url_for("Add_articles"))
             else:
-                article_id_list.append(article_id)
-                articles_added.append(title)
-                return redirect(url_for("Add_articles"))
+                if article_id not in article_id_list:
+                    article_id_list.append(article_id)
+                    articles_added.append(title)
+                    return redirect(url_for("Add_articles"))
+                else:
+                    flash('Already selected !! Please select another article ')
+                    return redirect(url_for("Add_articles"))
 
         if form.schedule.data:
             subject = form.subject.data
@@ -162,6 +166,7 @@ def title(article_id):
 def manage_articles():
     addarticlesform = AddArticlesForm(request.form)
     article_data = Articles.query.all()
+    
     return render_template('manage_articles.html', addarticlesform=addarticlesform,article_data=article_data)
 
 @app.route("/edit/<article_id>",methods=["GET","POST"])
