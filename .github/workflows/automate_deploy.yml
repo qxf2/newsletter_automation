@@ -40,7 +40,8 @@ jobs:
         if [ "$STARTED" = "" ]; then
             exit 1
         fi
-        
+      shell: bash
+
     # - name: Analysing the code with pylint
     #   run:
     #     python -m pylint --fail-under=9 $(git ls-files '*.py')
