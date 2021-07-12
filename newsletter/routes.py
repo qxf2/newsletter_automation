@@ -1,18 +1,14 @@
 #Endpoints to different Pages/Endpoints
-from operator import countOf
+import  json
 import re
-import ast
-import collections
+from operator import countOf
 from flask import Flask
 from flask import Flask, request, flash, url_for, redirect, render_template, jsonify
 from . models import Articles, db, Article_category, AddNewsletter, NewsletterContent,Newsletter_campaign
 from . forms import AddArticlesForm
 from newsletter import app
 from . Article_add_form import ArticleForm
-#from . Addpreview_form import Addpreviewform
-import  json
 from  helpers import mailchimp_helper
-
 
 articles_added=[]
 article_id_list=[]
@@ -120,40 +116,34 @@ def create_campaign():
     content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,
     Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).filter_by(newsletter_id=newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
     result = db.session.execute(content)
-    
+
     newsletter_json = []
-    #newsletter = '{"title": "", "in_this_issue": "", "comic": {"comic_url": "", "comic_text": ""}, "this_week_articles": ["title", "url", "description", "reading_time"], "past_articles": ["title", "url", "description", "reading_time"], "automation_corner": ["title", "url", "description", "reading_time"]}'
     newsletter = {'title': '', 'in_this_issue': '', 'comic': {'comic_url': '', 'comic_text': ''},
-    'this_week_articles': [{'title':'', 'url':'', 'description':'','reading_time':''}], 
+    'this_week_articles': [{'title':'', 'url':'', 'description':'','reading_time':''}],
     'past_articles':[ {'title':'', 'url':'', 'description' :'','reading_time':''}],
     'automation_corner':[{'title':'', 'url':'', 'description' :'','reading_time':''}]}
-    #newsletter_dict = json.loads(newsletter)
-    #newsletter_dict = ast.literal_eval(newsletter)
-    #newsletter_dict = get_data_structure(newsletter)
-    #print(type(newsletter_dict))
-    #print(newsletter_dict)
     for each_element in result:
-        newsletter['title']= 'Title of newsletter'
-        newsletter['in this issue'] = 'In this issue :'
-        
+        newsletter['title']= "Informed tester newsletter test"
+        newsletter['in_this_issue'] = "In this issue a comic , article from past and present"
+
         if each_element.category_name == 'comic':
-            newsletter['comic']['comic_url']='comic url'
-            newsletter['comic']['comic_text']='comic text isssss'
+            newsletter['comic']['comic_url']=each_element.url
+            newsletter['comic']['comic_text']= "This is a comic"
         if each_element.category_name == 'currentweek':
-            newsletter['this_week_articles'][0]['title']='title for this this_week_articles'
-            newsletter['this_week_articles'][0]['url']='url for this this_week_articles'
-            newsletter['this_week_articles'][0]['description']='description for this this_week_articles'
-            newsletter['this_week_articles'][0]['reading_time']='time for this this_week_articles'
+            newsletter['this_week_articles'][0]['title']=each_element.title
+            newsletter['this_week_articles'][0]['url']=each_element.url
+            newsletter['this_week_articles'][0]['description']=each_element.description
+            newsletter['this_week_articles'][0]['reading_time']=each_element.time
         if each_element.category_name == 'pastweek':
-            newsletter['past_articles'][0]['title']='title for this past_articles'
-            newsletter['past_articles'][0]['url']='url for this past_articles'
-            newsletter['past_articles'][0]['description']='description for this past_articles'
-            newsletter['past_articles'][0]['reading_time']='time for this past_articles'
+            newsletter['past_articles'][0]['title']=each_element.title
+            newsletter['past_articles'][0]['url']=each_element.url
+            newsletter['past_articles'][0]['description']=each_element.description
+            newsletter['past_articles'][0]['reading_time']=each_element.time
         if each_element.category_name == 'automation corner':
-            newsletter['automation_corner'][0]['title']='title for this automation_corner'
-            newsletter['automation_corner'][0]['url']='url for this automation_corner'
-            newsletter['automation_corner'][0]['description']='description for this automation_corner'
-            newsletter['automation_corner'][0]['reading_time']='time for this automation_corner'
+            newsletter['automation_corner'][0]['title']=each_element.title
+            newsletter['automation_corner'][0]['url']=each_element.url
+            newsletter['automation_corner'][0]['description']=each_element.description
+            newsletter['automation_corner'][0]['reading_time']=each_element.time
 
     newsletter_json.append(newsletter)
 
@@ -163,58 +153,6 @@ def create_campaign():
 
         flr = open(jsonfile)
         return flr.read()
-
-
-
-    """
-    content_json = []
-    for each_element in result:
-        contobj = {}
-        contobj['newsletter_id']=each_element.newsletter_id
-        contobj['title'] = each_element.title
-        contobj['subject'] = each_element.subject
-        contobj['opener'] = each_element.opener
-        contobj["category name"] = each_element.category_name
-        contobj["url"] = each_element.url
-        content_json.append(contobj)
-    #add_campaign(content_json)
-
-    #writing the changes to campaign.json and returning the value
-    jsonfile = 'campaign.json'
-    with open (jsonfile, "w") as filehandler1:
-        json.dump(content_json, filehandler1, indent=4)
-
-        #open json file for reading
-        filehandler2 = open(jsonfile)
-        return filehandler2.read()
-
-    #jsonfile.close('campaign.json')
-    """
-
-def get_data_structure(data):
-    """
-    Method used for converting nested dictionary/list to data similar to tabular form
-    """
-    obj = collections.OrderedDict()
-    def recurse(dataobject,parent_key=""):
-        """
-        Method will recurse through object
-        """
-        if isinstance(dataobject,list):
-            # loop through list and call recurse()
-            for i in range(len(dataobject)):
-                recurse(dataobject[i],parent_key + "_" + str(i) if parent_key else str(i))
-        elif isinstance(dataobject,dict):
-            # loop through dictionary and call recurse()
-            for key,value in dataobject.items():
-                recurse(value,parent_key + "_" + key if parent_key else key)
-        else:
-            # use the parent_key and store the value to obj
-            obj[parent_key] = dataobject
-
-    recurse(data)
-
-    return obj
 
 def add_campaign(jsonfile):
 
