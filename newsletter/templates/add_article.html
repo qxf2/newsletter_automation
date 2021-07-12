@@ -55,7 +55,8 @@
 
             <div class="form-group">
                 {{form.preview_text.label(class="col-sm-1 col-form-label")}}
-                {{form.preview_text}}
+                {{form.preview_text(id="preview_text")}}
+                <span id='remainingC'></span>
             </div>
 
             <div class="form-group" align ="justify">
@@ -77,9 +78,7 @@
                     <td> {{articles.title}}</td>
                     <td> {{articles.url}}</td>
                     <td> {{articles.description}}</td>
-
                     <td>
-
                     <input type="button" value="Remove" class="btn btn-danger" onclick="removeArticle(this)" data-article-id="{{articles.article_id}}" data-article-list="{{article_list}}" >
                     </td>
 
@@ -149,8 +148,24 @@
 
             }
     </script>
+    <script>
+        $(document).ready(function () {
+            var len = 0;
+            var maxchar = 150;
 
-
-
+            $('#preview_text').keyup(function () {
+                len = this.value.length
+                if (len > maxchar) {
+                    return false;
+                }
+                else if (len > 0) {
+                    $("#remainingC").html("Remaining characters: " + (maxchar - len));
+                }
+                else {
+                    $("#remainingC").html("Remaining characters: " + (maxchar));
+                }
+            })
+        });
+    </script>
 </div>
 {% endblock content %}

@@ -61,20 +61,26 @@ def Add_articles():
     form = ArticleForm()
 
     url_data = ",".join(articles_added)
-    form.opener.data = url_data
-
     if form.validate_on_submit():
         if form.add_more.data:
-            category = form.category_id.data.category_id
+            if form.category_id.data is None:
+                flash('Please select Category','danger')
+                return redirect(url_for("Add_articles"))
+
+            category = form.category_id.data
             article_id = form.url.data
             title = form.title.data
-            if form.category_id.data=="Select Category":
-                flash('Please select category')
+            if article_id=="Select URL":
+                flash('Please select URL','danger')
                 return redirect(url_for("Add_articles"))
             else:
-                article_id_list.append(article_id)
-                articles_added.append(title)
-                return redirect(url_for("Add_articles"))
+                if article_id not in article_id_list:
+                    article_id_list.append(article_id)
+                    articles_added.append(title)
+                    return redirect(url_for("Add_articles"))
+                else:
+                    flash('Already selected !! Please select another article ', 'danger')
+                    return redirect(url_for("Add_articles"))
 
         if form.schedule.data:
             subject = form.subject.data
@@ -87,7 +93,7 @@ def Add_articles():
                 flash('Please check have you selected the articles, filled the subject, opener or preview text')
 
         if form.cancel.data:
-            flash('Clear all Fields!! Now select the articles')
+            flash('Clear all Fields!! Now select the articles', 'info')
             articles_added.clear()
             article_id_list.clear()
             return redirect(url_for("Add_articles"))
