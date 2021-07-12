@@ -5,7 +5,7 @@ from sqlalchemy.orm import query
 from . models import Articles, db, Article_category, AddNewsletter, NewsletterContent
 from . forms import AddArticlesForm
 from newsletter import app
-from . article_add_form import ArticleForm
+from . create_newsletter_form import ArticleForm
 from . edit_article_form import EditArticlesForm
 
 articles_added=[]
