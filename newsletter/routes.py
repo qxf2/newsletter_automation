@@ -52,42 +52,42 @@ def add_articles_to_newsletter(subject, opener, preview_text):
         articles_added.clear()
         article_id_list.clear()
 
-    return redirect(url_for("Add_articles"))
+    return article_id_list
 
 
-@app.route("/add-articles",methods=["GET","POST"])
-def Add_articles():
+@app.route("/create-newsletter",methods=["GET","POST"])
+def add_articles():
     "This page contains the form where user can add articles"
     form = ArticleForm()
-
     url_data = ",".join(articles_added)
+    category = form.category_id.data
+    article_id = form.url.data
+    title = form.title.data
+    subject = form.subject.data
+    opener= form.opener.data
+    preview_text = form.preview_text.data
+
     if form.validate_on_submit():
         if form.add_more.data:
             if form.category_id.data is None:
                 flash('Please select Category','danger')
-                return redirect(url_for("Add_articles"))
-
-            category = form.category_id.data
-            article_id = form.url.data
-            title = form.title.data
+                return redirect(url_for("add_articles"))
             if article_id=="Select URL":
                 flash('Please select URL','danger')
-                return redirect(url_for("Add_articles"))
+                return redirect(url_for("add_articles"))
             else:
                 if article_id not in article_id_list:
                     article_id_list.append(article_id)
                     articles_added.append(title)
-                    return redirect(url_for("Add_articles"))
+                    return redirect(url_for("add_articles"))
                 else:
                     flash('Already selected !! Please select another article ', 'danger')
-                    return redirect(url_for("Add_articles"))
+                    return redirect(url_for("add_articles"))
 
         if form.schedule.data:
-            subject = form.subject.data
-            opener= form.opener.data
-            preview_text = form.preview_text.data
             if subject and opener and preview_text and article_id_list:
                 add_articles_to_newsletter(subject, opener, preview_text)
+                return redirect(url_for("add_articles"))
 
             else:
                 flash('Please check have you selected the articles, filled the subject, opener or preview text')
@@ -96,11 +96,11 @@ def Add_articles():
             flash('Clear all Fields!! Now select the articles', 'info')
             articles_added.clear()
             article_id_list.clear()
-            return redirect(url_for("Add_articles"))
+            return redirect(url_for("add_articles"))
 
     all_articles = [Articles.query.filter_by(article_id=article_id).one() for article_id in article_id_list]
 
-    return render_template('add_article.html',form=form, all_articles=all_articles,article_list=article_id_list)
+    return render_template('create_newsletter.html',form=form, all_articles=all_articles,article_list=article_id_list)
 
 
 @app.route("/url/<category_id>")
@@ -216,4 +216,4 @@ def remove_article():
     article_id = request.form.get('articleid')
     article_id_list.remove(article_id)
 
-    return render_template('add_article.html',form=form,article_list=article_id_list)
+    return render_template('create_newsletter.html',form=form,article_list=article_id_list)
