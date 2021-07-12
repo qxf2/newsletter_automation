@@ -119,6 +119,29 @@ def create_campaign():
     Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).filter_by(newsletter_id=newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
     result = db.session.execute(content)
 
+    newsletter_json = []
+    for each_element in result:
+        newsletter = {}
+        newsletter["title"] = each_element.title
+        newsletter["in_this_issue"]= each_element.subject
+        if each_element.category_name == 'pastweek':
+            newsletter["past_articles"] = each_element.category_name
+            newsletter["past_articles"]["title"].append(each_element.title)
+            newsletter["past_articles"]["url"]   = each_element.url
+            newsletter["past_articles"]["description"] = each_element.description
+            newsletter["past_articles"]["reading_time"] = each_element.reading_time
+            newsletter_json.append(newsletter)
+
+    jsonfile = 'newsletter.json'
+    with open(jsonfile, "w") as flw:
+        json.dump(newsletter_json, flw, indent=4)
+
+        flr = open(jsonfile)
+        return flr.read()
+
+
+
+    """
     content_json = []
     for each_element in result:
         contobj = {}
@@ -134,16 +157,14 @@ def create_campaign():
     #writing the changes to campaign.json and returning the value
     jsonfile = 'campaign.json'
     with open (jsonfile, "w") as filehandler1:
-        json.dump(content_json, filehandler1, indent=2)
+        json.dump(content_json, filehandler1, indent=4)
 
         #open json file for reading
         filehandler2 = open(jsonfile)
         return filehandler2.read()
 
     #jsonfile.close('campaign.json')
-
-
-
+    """
 
 def add_campaign(jsonfile):
 
