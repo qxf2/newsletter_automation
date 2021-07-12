@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@127.0.0.1/newsletter_automation'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://Annapoorani:TestQxf2@127.0.0.1/newsletter_automation'
 app.config['SECRET_KEY'] = "random string"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
