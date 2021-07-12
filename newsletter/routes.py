@@ -120,26 +120,42 @@ def create_campaign():
     content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,
     Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).filter_by(newsletter_id=newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
     result = db.session.execute(content)
-
+    
     newsletter_json = []
-    newsletter = '{"title": "", "in_this_issue": "", "comic": {"comic_url": "", "comic_text": ""}, "this_week_articles": ["title", "url", "description", "reading_time"], "past_articles": ["title", "url", "description", "reading_time"], "automation_corner": ["title", "url", "description", "reading_time"]}'
-    newsletter_dict = json.loads(newsletter)
+    #newsletter = '{"title": "", "in_this_issue": "", "comic": {"comic_url": "", "comic_text": ""}, "this_week_articles": ["title", "url", "description", "reading_time"], "past_articles": ["title", "url", "description", "reading_time"], "automation_corner": ["title", "url", "description", "reading_time"]}'
+    newsletter = {'title': '', 'in_this_issue': '', 'comic': {'comic_url': '', 'comic_text': ''},
+    'this_week_articles': [{'title':'', 'url':'', 'description':'','reading_time':''}], 
+    'past_articles':[ {'title':'', 'url':'', 'description' :'','reading_time':''}],
+    'automation_corner':[{'title':'', 'url':'', 'description' :'','reading_time':''}]}
+    #newsletter_dict = json.loads(newsletter)
     #newsletter_dict = ast.literal_eval(newsletter)
     #newsletter_dict = get_data_structure(newsletter)
-    print(type(newsletter_dict))
-    print(newsletter_dict)
+    #print(type(newsletter_dict))
+    #print(newsletter_dict)
     for each_element in result:
-        newsletter_dict["title"] = each_element.title
-        newsletter_dict["in_this_issue"]= each_element.subject
+        newsletter['title']= 'Title of newsletter'
+        newsletter['in this issue'] = 'In this issue :'
+        
         if each_element.category_name == 'comic':
-            newsletter_dict["comic"] = {"comic":each_element.url, "comic_text": "This is a comic"}
-            """
-            newsletter_dict["comic"]["comic_url"] = each_element.url
-            newsletter["past_articles"]["url"]   = each_element.url
-            newsletter["past_articles"]["description"] = each_element.description
-            newsletter["past_articles"]["reading_time"] = each_element.reading_time
-            """
-            newsletter_json.append(newsletter_dict)
+            newsletter['comic']['comic_url']='comic url'
+            newsletter['comic']['comic_text']='comic text isssss'
+        if each_element.category_name == 'currentweek':
+            newsletter['this_week_articles'][0]['title']='title for this this_week_articles'
+            newsletter['this_week_articles'][0]['url']='url for this this_week_articles'
+            newsletter['this_week_articles'][0]['description']='description for this this_week_articles'
+            newsletter['this_week_articles'][0]['reading_time']='time for this this_week_articles'
+        if each_element.category_name == 'pastweek':
+            newsletter['past_articles'][0]['title']='title for this past_articles'
+            newsletter['past_articles'][0]['url']='url for this past_articles'
+            newsletter['past_articles'][0]['description']='description for this past_articles'
+            newsletter['past_articles'][0]['reading_time']='time for this past_articles'
+        if each_element.category_name == 'automation corner':
+            newsletter['automation_corner'][0]['title']='title for this automation_corner'
+            newsletter['automation_corner'][0]['url']='url for this automation_corner'
+            newsletter['automation_corner'][0]['description']='description for this automation_corner'
+            newsletter['automation_corner'][0]['reading_time']='time for this automation_corner'
+
+    newsletter_json.append(newsletter)
 
     jsonfile = 'newsletter.json'
     with open(jsonfile, "w") as flw:
