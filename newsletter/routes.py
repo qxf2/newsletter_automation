@@ -1,6 +1,8 @@
 #Endpoints to different Pages/Endpoints
 from operator import countOf
 import re
+import ast
+import collections
 from flask import Flask
 from flask import Flask, request, flash, url_for, redirect, render_template, jsonify
 from . models import Articles, db, Article_category, AddNewsletter, NewsletterContent,Newsletter_campaign
@@ -120,17 +122,24 @@ def create_campaign():
     result = db.session.execute(content)
 
     newsletter_json = []
+    newsletter = '{"title": "", "in_this_issue": "", "comic": {"comic_url": "", "comic_text": ""}, "this_week_articles": ["title", "url", "description", "reading_time"], "past_articles": ["title", "url", "description", "reading_time"], "automation_corner": ["title", "url", "description", "reading_time"]}'
+    newsletter_dict = json.loads(newsletter)
+    #newsletter_dict = ast.literal_eval(newsletter)
+    #newsletter_dict = get_data_structure(newsletter)
+    print(type(newsletter_dict))
+    print(newsletter_dict)
     for each_element in result:
-        newsletter = {}
-        newsletter["title"] = each_element.title
-        newsletter["in_this_issue"]= each_element.subject
-        if each_element.category_name == 'pastweek':
-            newsletter["past_articles"] = each_element.category_name
-            newsletter["past_articles"]["title"].append(each_element.title)
+        newsletter_dict["title"] = each_element.title
+        newsletter_dict["in_this_issue"]= each_element.subject
+        if each_element.category_name == 'comic':
+            newsletter_dict["comic"] = each_element.category_name
+            """
+            newsletter_dict["comic"]["comic_url"] = each_element.url
             newsletter["past_articles"]["url"]   = each_element.url
             newsletter["past_articles"]["description"] = each_element.description
             newsletter["past_articles"]["reading_time"] = each_element.reading_time
-            newsletter_json.append(newsletter)
+            """
+            newsletter_json.append(newsletter_dict)
 
     jsonfile = 'newsletter.json'
     with open(jsonfile, "w") as flw:
@@ -166,38 +175,113 @@ def create_campaign():
     #jsonfile.close('campaign.json')
     """
 
+def get_data_structure(data):
+    """
+    Method used for converting nested dictionary/list to data similar to tabular form
+    """
+    obj = collections.OrderedDict()
+    def recurse(dataobject,parent_key=""):
+        """
+        Method will recurse through object
+        """
+        if isinstance(dataobject,list):
+            # loop through list and call recurse()
+            for i in range(len(dataobject)):
+                recurse(dataobject[i],parent_key + "_" + str(i) if parent_key else str(i))
+        elif isinstance(dataobject,dict):
+            # loop through dictionary and call recurse()
+            for key,value in dataobject.items():
+                recurse(value,parent_key + "_" + key if parent_key else key)
+        else:
+            # use the parent_key and store the value to obj
+            obj[parent_key] = dataobject
+
+    recurse(data)
+
+    return obj
+
 def add_campaign(jsonfile):
 
-   fil11 = json.dumps(jsonfile)
-   #print(fil1)
-   #campaign_content = '{"title":"title1","subject_line":"sub","preview_text":"preview texttt"}'
-   fil1 = json.loads(fil11)
-   print(fil1)
-   #for i in fil1:
-   #    print(type(i))
-   title=""
-   subject_line=""
-   preview_text=""
-   newsletter_id = 12
-   for i in fil1:
-       for k,v in i.items():
-           #print(k)
-           if k=="title":
-              title=v
-           elif k=="subject_line":
-              subject_line=v
-           elif k=="preview_text":
-              preview_text=v
-   campaign_id = mailchimp_helper.Mailchimp_Helper.create_campaign(title, subject_line, preview_text,preview_text)
-   print(campaign_id)
-   newletter_content_object = Newsletter_campaign(campaign_id==campaign_id,newsletter_id==12)
-   db.session.add(newletter_content_object)
-   db.session.commit()
+    fil11 = json.dumps(jsonfile)
+    fil1 = json.loads(fil11)
 
-   newsletterjson='{"in_this_issue":"inthis issue: test","comic":"category_name","comic_url":"url of comic","comic_text":"title of comic"}'
-   newsletter_json = json.loads(newsletterjson)
-   mailchimp_helper.Mailchimp_Helper.set_campaign_content(newsletter_json)
+    title=""
+    subject_line=""
+    preview_text=""
+    newsletter_id = ""
+    for i in fil1:
+        for k,v in i.items():
+            if k=="title":
+                title=v
+            elif k=="subject_line":
+                subject_line=v
+            elif k=="preview_text":
+                preview_text=v
 
+    #creating campaign here
+    clientobj = mailchimp_helper.Mailchimp_Helper()
+    clientobj.create_campaign('Informed newsletter ','Informed testers','In this issue')
+    campaign_id = clientobj.campaign_id
+    print(clientobj.campaign_id)
+
+    newletter_content_object = Newsletter_campaign(campaign_id==campaign_id,newsletter_id==newsletter_id)
+    db.session.add(newletter_content_object)
+    db.session.commit()
+
+    #setting campaign content here
+    newsletter_json = {
+    "title":"Informed tester newsletter test",
+    "in_this_issue":"In this issue a comic , article from past and present",
+    "comic":{
+        "comic_url":"https://assets.amuniversal.com/5ff350b0e05d013825a4005056a9545d",
+        "comic_text":"This is a comic"
+    },
+    "this_week_articles":[
+        {
+            "title":"This week Article 1",
+            "url":"https://qxf2.com/blog/work-anniversary-image-skype-bot-using-aws-lambda/",
+            "description":"Description for this week article 1",
+            "reading_time":"2"
+        },
+        {
+            "title":"This week Article 2",
+            "url":"https://qxf2.com/blog/work-anniversary-image-skype-bot-using-aws-lambda/",
+            "description":"This week Article 2 description",
+            "reading_time":"5"
+        }
+    ],
+    "past_articles":[
+        {
+            "title":"Past Article 1",
+            "url":"https://qxf2.com/blog/work-anniversary-image-skype-bot-using-aws-lambda/",
+            "description":"Description for article 1",
+            "reading_time":"2"
+        },
+        {
+            "title":"Past Article 2",
+            "url":"https://qxf2.com/blog/work-anniversary-image-skype-bot-using-aws-lambda/",
+            "description":"Article 2 description",
+            "reading_time":"5 "
+        }
+    ],
+    "automation_corner":[
+        {
+            "title":"Tech Article 1",
+            "url":"https://qxf2.com/blog/work-anniversary-image-skype-bot-using-aws-lambda/",
+            "description":"Description for article 1",
+            "reading_time":"2 "
+        },
+        {
+            "title":"Tech Article 2",
+            "url":"https://qxf2.com/blog/work-anniversary-image-skype-bot-using-aws-lambda/",
+            "description":"Article 2 description",
+            "reading_time":"5 "
+        }
+        ]
+    }
+
+    contentobj = mailchimp_helper.Mailchimp_Helper()
+    contentobj.set_campaign_content(newsletter_json)
 
 @app.route("/url/<category_id>")
 def url(category_id):
