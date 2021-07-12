@@ -132,7 +132,7 @@ def create_campaign():
         newsletter_dict["title"] = each_element.title
         newsletter_dict["in_this_issue"]= each_element.subject
         if each_element.category_name == 'comic':
-            newsletter_dict["comic"] = each_element.category_name
+            newsletter_dict["comic"] = {"comic":each_element.url, "comic_text": "This is a comic"}
             """
             newsletter_dict["comic"]["comic_url"] = each_element.url
             newsletter["past_articles"]["url"]   = each_element.url
