@@ -1,0 +1,53 @@
+{%extends "base.html" %}
+{%include "layout.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+
+            <div class="jumbotron p-3">
+
+                <h2>Manage <b>Articles </b> <a href="/articles" class="btn btn-success float-right"
+                   >Add New Articles</a>
+                </h2>
+
+            <form method="POST" , action="">
+
+                    <table class="table table-hover table" >
+                        <tr>
+
+                            <th>Title</th>
+                            <th>URL</th>
+                            <th>Description</th>
+                            <th>Reading Time</th>
+                            <th>Newsletter Id</th>
+                        </tr>
+                        {% for articles in article_data %}
+                        <tr>
+
+                            <td> {{articles.title}}</td>
+                            <td> {{articles.url}}</td>
+                            <td> {{articles.description}}</td>
+                            <td> {{articles.time}}</td>
+                            <td> {{articles.newsletter_id}}</td>
+
+                            <td>
+                                <a href="/edit/{{articles.article_id}}" class="btn btn-primary btn-xs"
+                                    >Edit</a>
+                                <a href="/delete/{{articles.article_id}}" class="btn btn-danger btn-xs"
+                                    onclick="return confirm('Are You Sure To Delete ?')">Delete</a>
+
+                            </td>
+
+                        </tr>
+                        {% endfor %}
+                    </table>
+
+            </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
