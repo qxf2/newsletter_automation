@@ -152,36 +152,31 @@ def create_campaign():
         json.dump(newsletter_json, flw, indent=4)
 
         flr = open(jsonfile)
+        add_campaign(newsletter_json,newsletter_id)
+
         return flr.read()
+    
 
-def add_campaign(jsonfile):
+def add_campaign(jsonfile,newsletter_id):
+    print(jsonfile)
+    for values in jsonfile:
+       title=values['title']
+       subject=values['in_this_issue']
+       preview_text=values['in_this_issue']
 
-    fil11 = json.dumps(jsonfile)
-    fil1 = json.loads(fil11)
-
-    title=""
-    subject_line=""
-    preview_text=""
-    newsletter_id = ""
-    for i in fil1:
-        for k,v in i.items():
-            if k=="title":
-                title=v
-            elif k=="subject_line":
-                subject_line=v
-            elif k=="preview_text":
-                preview_text=v
 
     #creating campaign here
     clientobj = mailchimp_helper.Mailchimp_Helper()
-    clientobj.create_campaign('Informed newsletter ','Informed testers','In this issue')
+    print("title,subject,preview",title,subject,preview_text)
+    clientobj.create_campaign(title,subject,preview_text)
     campaign_id = clientobj.campaign_id
-    print(clientobj.campaign_id)
+    print("camp id",campaign_id)
 
-    newletter_content_object = Newsletter_campaign(campaign_id==campaign_id,newsletter_id==newsletter_id)
+    newletter_content_object = Newsletter_campaign(campaign_id=campaign_id,newsletter_id=newsletter_id)
     db.session.add(newletter_content_object)
     db.session.commit()
 
+    """
     #setting campaign content here
     newsletter_json = {
     "title":"Informed tester newsletter test",
@@ -233,9 +228,9 @@ def add_campaign(jsonfile):
         }
         ]
     }
-
+    """
     contentobj = mailchimp_helper.Mailchimp_Helper()
-    contentobj.set_campaign_content(newsletter_json)
+    contentobj.set_campaign_content(jsonfile,campaign_id)
 
 @app.route("/url/<category_id>")
 def url(category_id):
