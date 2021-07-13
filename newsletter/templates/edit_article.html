@@ -1,0 +1,36 @@
+{%extends "layout.html" %}
+{% block content %}
+<div class="jumbotron p-3">
+    <span style="float: right">
+
+    <h2><a href="/manage-articles" class="btn btn-success" >Cancel</a>
+    </h2>
+    </span>
+</div>
+
+        <form action="" method = "POST">
+            {{ form.csrf_token }}
+            <fieldset class="form-group">
+            <legend>Edit Article</legend>
+            <table class="table table-hover table" >
+                <tr>
+
+                    <th>URL</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Reading Time</th>
+                    <th>Category</th>
+                </tr>
+                <tr>
+                    <td> {{ form.url(id="url",placeholder="URL")}} </td>
+                    <td> {{ form.title(id="title",placeholder="Title")}} </td>
+                    <td> {{ form.description(id="description",placeholder="Description")}} </td>
+                    <td> {{ form.time(placeholder="Time",id="time") }} </td>
+                    <td> {{ form.category_id(placeholder="category",id="category_id") }} </td>
+                    <td> {{ form.submit(class="btn btn-lg btn-primary btn-block")}} </td>
+                </tr>
+            </table>
+        </form>
+</div>
+
+{% endblock content %}
