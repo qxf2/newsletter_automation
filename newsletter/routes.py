@@ -115,6 +115,7 @@ def create_campaign():
         newsletter_id= row
     content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,
     Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).filter_by(newsletter_id=newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
+
     result = db.session.execute(content)
 
     newsletter = {'title': '', 'in_this_issue': '', 'comic': {'comic_url': '', 'comic_text': ''},
@@ -125,7 +126,6 @@ def create_campaign():
     for each_element in result:
         newsletter['title']= "Informed tester newsletter test"
         newsletter['in_this_issue'] = "In this issue a comic , article from past and present"
-
         if each_element.category_name == 'comic':
             newsletter['comic']['comic_url']=each_element.url
             newsletter['comic']['comic_text']= "This is a comic"
@@ -135,25 +135,6 @@ def create_campaign():
             newsletter['past_articles'].append({'title':each_element['title'], 'url':each_element['url'], 'description':each_element['description'],'reading_time':each_element['time']})
         if each_element.category_name == 'automation corner':
             newsletter['automation_corner'].append({'title':each_element['title'], 'url':each_element['url'], 'description':each_element['description'],'reading_time':each_element['time']})
-
-        """
-        if each_element.category_name == 'currentweek':
-            newsletter['this_week_articles'][0]['title']=each_element.title
-            newsletter['this_week_articles'][0]['url']=each_element.url
-            newsletter['this_week_articles'][0]['description']=each_element.description
-            newsletter['this_week_articles'][0]['reading_time']=each_element.time
-        if each_element.category_name == 'pastweek':
-            newsletter['past_articles'][0]['title']=each_element.title
-            newsletter['past_articles'][0]['url']=each_element.url
-            newsletter['past_articles'][0]['description']=each_element.description
-            newsletter['past_articles'][0]['reading_time']=each_element.time
-        if each_element.category_name == 'automation corner':
-            newsletter['automation_corner'][0]['title']=each_element.title
-            newsletter['automation_corner'][0]['url']=each_element.url
-            newsletter['automation_corner'][0]['description']=each_element.description
-            newsletter['automation_corner'][0]['reading_time']=each_element.time
-
-        """
     #add_campaign(newsletter,newsletter_id)
     newsletter_json.append(newsletter)
     jsonfile = 'newsletter.json'
