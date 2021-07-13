@@ -117,7 +117,6 @@ def create_campaign():
     Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).filter_by(newsletter_id=newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
     result = db.session.execute(content)
 
-    newsletter_json = []
     newsletter = {'title': '', 'in_this_issue': '', 'comic': {'comic_url': '', 'comic_text': ''},
     'this_week_articles': [{'title':'', 'url':'', 'description':'','reading_time':''}],
     'past_articles':[ {'title':'', 'url':'', 'description' :'','reading_time':''}],
@@ -144,94 +143,31 @@ def create_campaign():
             newsletter['automation_corner'][0]['url']=each_element.url
             newsletter['automation_corner'][0]['description']=each_element.description
             newsletter['automation_corner'][0]['reading_time']=each_element.time
-
-    newsletter_json.append(newsletter)
-
-    jsonfile = 'newsletter.json'
-    with open(jsonfile, "w") as flw:
-        json.dump(newsletter_json, flw, indent=4)
-
-        flr = open(jsonfile)
-        add_campaign(newsletter_json,newsletter_id)
-
-        return flr.read()
+    add_campaign(newsletter,newsletter_id)
+    return(newsletter)
     
 
-def add_campaign(jsonfile,newsletter_id):
-    print(jsonfile)
-    for values in jsonfile:
-       title=values['title']
-       subject=values['in_this_issue']
-       preview_text=values['in_this_issue']
-
-
+def add_campaign(newsletter,newsletter_id):
+    
+    for values in newsletter:
+       title="title"
+       subject="in_this_issue"
+       preview_text="preview"
+    
     #creating campaign here
     clientobj = mailchimp_helper.Mailchimp_Helper()
-    print("title,subject,preview",title,subject,preview_text)
+    #print("title,subject,preview",title,subject,preview_text)
     clientobj.create_campaign(title,subject,preview_text)
     campaign_id = clientobj.campaign_id
-    print("camp id",campaign_id)
-
+    
     newletter_content_object = Newsletter_campaign(campaign_id=campaign_id,newsletter_id=newsletter_id)
     db.session.add(newletter_content_object)
     db.session.commit()
-
-    """
-    #setting campaign content here
-    newsletter_json = {
-    "title":"Informed tester newsletter test",
-    "in_this_issue":"In this issue a comic , article from past and present",
-    "comic":{
-        "comic_url":"https://assets.amuniversal.com/5ff350b0e05d013825a4005056a9545d",
-        "comic_text":"This is a comic"
-    },
-    "this_week_articles":[
-        {
-            "title":"This week Article 1",
-            "url":"https://qxf2.com/blog/work-anniversary-image-skype-bot-using-aws-lambda/",
-            "description":"Description for this week article 1",
-            "reading_time":"2"
-        },
-        {
-            "title":"This week Article 2",
-            "url":"https://qxf2.com/blog/work-anniversary-image-skype-bot-using-aws-lambda/",
-            "description":"This week Article 2 description",
-            "reading_time":"5"
-        }
-    ],
-    "past_articles":[
-        {
-            "title":"Past Article 1",
-            "url":"https://qxf2.com/blog/work-anniversary-image-skype-bot-using-aws-lambda/",
-            "description":"Description for article 1",
-            "reading_time":"2"
-        },
-        {
-            "title":"Past Article 2",
-            "url":"https://qxf2.com/blog/work-anniversary-image-skype-bot-using-aws-lambda/",
-            "description":"Article 2 description",
-            "reading_time":"5 "
-        }
-    ],
-    "automation_corner":[
-        {
-            "title":"Tech Article 1",
-            "url":"https://qxf2.com/blog/work-anniversary-image-skype-bot-using-aws-lambda/",
-            "description":"Description for article 1",
-            "reading_time":"2 "
-        },
-        {
-            "title":"Tech Article 2",
-            "url":"https://qxf2.com/blog/work-anniversary-image-skype-bot-using-aws-lambda/",
-            "description":"Article 2 description",
-            "reading_time":"5 "
-        }
-        ]
-    }
-    """
+    
+    
     contentobj = mailchimp_helper.Mailchimp_Helper()
-    contentobj.set_campaign_content(jsonfile,campaign_id)
-
+    contentobj.set_campaign_content(newsletter,campaign_id)
+    
 @app.route("/url/<category_id>")
 def url(category_id):
     "This method fetches url and article_id based on category selected"
