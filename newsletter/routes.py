@@ -118,9 +118,10 @@ def create_campaign():
     result = db.session.execute(content)
 
     newsletter = {'title': '', 'in_this_issue': '', 'comic': {'comic_url': '', 'comic_text': ''},
-    'this_week_articles': [{'title':'', 'url':'', 'description':'','reading_time':''}],
-    'past_articles':[ {'title':'', 'url':'', 'description' :'','reading_time':''}],
-    'automation_corner':[{'title':'', 'url':'', 'description' :'','reading_time':''}]}
+    'this_week_articles': [],
+    'past_articles':[],
+    'automation_corner':[]}
+    newsletter_json = []
     for each_element in result:
         newsletter['title']= "Informed tester newsletter test"
         newsletter['in_this_issue'] = "In this issue a comic , article from past and present"
@@ -128,6 +129,14 @@ def create_campaign():
         if each_element.category_name == 'comic':
             newsletter['comic']['comic_url']=each_element.url
             newsletter['comic']['comic_text']= "This is a comic"
+        if each_element.category_name == 'currentweek':
+            newsletter['this_week_articles'].append({'title':each_element['title'], 'url':each_element['url'], 'description':each_element['description'],'reading_time':each_element['time']})
+        if each_element.category_name == 'pastweek':
+            newsletter['past_articles'].append({'title':each_element['title'], 'url':each_element['url'], 'description':each_element['description'],'reading_time':each_element['time']})
+        if each_element.category_name == 'automation corner':
+            newsletter['automation_corner'].append({'title':each_element['title'], 'url':each_element['url'], 'description':each_element['description'],'reading_time':each_element['time']})
+
+        """
         if each_element.category_name == 'currentweek':
             newsletter['this_week_articles'][0]['title']=each_element.title
             newsletter['this_week_articles'][0]['url']=each_element.url
@@ -143,31 +152,41 @@ def create_campaign():
             newsletter['automation_corner'][0]['url']=each_element.url
             newsletter['automation_corner'][0]['description']=each_element.description
             newsletter['automation_corner'][0]['reading_time']=each_element.time
-    add_campaign(newsletter,newsletter_id)
+
+        """
+    #add_campaign(newsletter,newsletter_id)
+    newsletter_json.append(newsletter)
+    jsonfile = 'newsletter.json'
+    with open(jsonfile, "w") as flw:
+        json.dump(newsletter_json, flw, indent=4)
+
+        flr = open(jsonfile)
+        return flr.read()
+
     return(newsletter)
-    
+
 
 def add_campaign(newsletter,newsletter_id):
-    
+
     for values in newsletter:
        title="title"
        subject="in_this_issue"
        preview_text="preview"
-    
+
     #creating campaign here
     clientobj = mailchimp_helper.Mailchimp_Helper()
     #print("title,subject,preview",title,subject,preview_text)
     clientobj.create_campaign(title,subject,preview_text)
     campaign_id = clientobj.campaign_id
-    
+
     newletter_content_object = Newsletter_campaign(campaign_id=campaign_id,newsletter_id=newsletter_id)
     db.session.add(newletter_content_object)
     db.session.commit()
-    
-    
+
+
     contentobj = mailchimp_helper.Mailchimp_Helper()
     contentobj.set_campaign_content(newsletter,campaign_id)
-    
+
 @app.route("/url/<category_id>")
 def url(category_id):
     "This method fetches url and article_id based on category selected"
