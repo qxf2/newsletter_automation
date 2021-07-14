@@ -1,7 +1,5 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
-
 
 app = Flask(__name__)
 
@@ -12,11 +10,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config.from_object(__name__)
 
 db = SQLAlchemy(app)
-login_manager = LoginManager()
-login_manager.init_app(app)
-@login_manager.user_loader
-def load_user(user_id):
-    return User.get(user_id)
 
 
 from newsletter import models

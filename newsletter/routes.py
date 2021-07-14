@@ -7,6 +7,7 @@ from . models import Articles, db, Article_category, AddNewsletter, NewsletterCo
 from . forms import AddArticlesForm
 from newsletter import app
 from flask_login import current_user
+from functools import wraps
 from . create_newsletter_form import ArticleForm
 from . edit_article_form import EditArticlesForm
 import newsletter.sso_google_oauth as sso
@@ -14,14 +15,35 @@ import newsletter.sso_google_oauth as sso
 articles_added=[]
 article_id_list=[]
 
+def requires_auth(func):
+    "verify given user authentication details"
+    @wraps(func)
+    def decorated(*args, **kwargs):
+        "Execute func only if authentication is valid"
+        try:
+            current_user = session['logged_user']
+            if current_user:
+                return func(*args, **kwargs)
+        except Exception as e:
+            return render_template("login.html")
+
+    return decorated
+
+
 @app.route("/")
 def home():
-    if current_user.is_authenticated:
-        return render_template('home.html')
-    else:
-        return redirect(sso.REQ_URI)
+    "Login page for an app"
+    return """
+    <a href="/login">Login with SimpleLogin</a> """
 
-@app.route('/login')
+
+@app.route("/login")
+def login():
+    "Login redirect"
+    return redirect(sso.REQ_URI)
+
+
+@app.route('/callback')
 def callback():
     "Redirect after Google login & consent"
 
@@ -56,17 +78,20 @@ def callback():
     user_info = info['email']
     user_email_domain = re.search("@[\w.]+",user_info).group()
     if user_email_domain == '@qxf2.com':
-        session['logged_user'] = user_email_domain
+        session['logged_user'] = user_info
         return render_template('home.html')
     else:
         return render_template('login.html')
 
 
 @app.route('/home')
+@requires_auth
 def index():
     return render_template('home.html')
 
+
 @app.route('/articles', methods=['GET', 'POST'])
+@requires_auth
 def articles():
     "This page adds articles to the database"
     addarticlesform = AddArticlesForm(request.form)
@@ -107,6 +132,7 @@ def add_articles_to_newsletter(subject, opener, preview_text):
 
 
 @app.route("/create-newsletter",methods=["GET","POST"])
+@requires_auth
 def add_articles():
     "This page contains the form where user can add articles"
     form = ArticleForm()
@@ -155,6 +181,7 @@ def add_articles():
 
 
 @app.route("/url/<category_id>")
+@requires_auth
 def url(category_id):
     "This method fetches url and article_id based on category selected"
 
@@ -171,6 +198,7 @@ def url(category_id):
 
 
 @app.route("/description/<article_id>")
+@requires_auth
 def description(article_id):
     "This method fetches the article description based on article selected"
 
@@ -185,6 +213,7 @@ def description(article_id):
 
 
 @app.route("/readingtime/<article_id>")
+@requires_auth
 def reading_time(article_id):
     "This method fetched reading time based on article selected"
 
@@ -200,6 +229,7 @@ def reading_time(article_id):
 
 
 @app.route("/title/<article_id>")
+@requires_auth
 def title(article_id):
     "This article fetched reading time based on url selected"
 
@@ -213,6 +243,7 @@ def title(article_id):
     return jsonify(Title_array[0]['title'])
 
 @app.route('/manage-articles')
+@requires_auth
 def manage_articles():
     add_articles_form = AddArticlesForm(request.form)
     article_data = Articles.query.all()
@@ -220,6 +251,7 @@ def manage_articles():
 
 
 @app.route("/edit/<article_id>",methods=["GET","POST"])
+@requires_auth
 def update_article(article_id):
     "This method is used to edit articles based on article_id"
 
@@ -246,6 +278,7 @@ def update_article(article_id):
 
 
 @app.route("/delete/<article_id>", methods=["GET","POST"])
+@requires_auth
 def delete_article(article_id):
     "Deletes an article"
     articles_delete = Articles.query.filter_by(article_id=article_id).value(Articles.newsletter_id)
@@ -261,6 +294,7 @@ def delete_article(article_id):
 
 
 @app.route("/removearticle",methods=["GET","POST"])
+@requires_auth
 def remove_article():
     "Remove article from the list"
     form = ArticleForm()

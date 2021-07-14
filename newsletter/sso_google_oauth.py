@@ -2,18 +2,15 @@
 A Flask app for Google SSO
 """
 
-import json
-import requests
-from flask import Flask, redirect, request
 from  oauthlib import oauth2
 import conf
 
-CLIENT_ID = "Enter your client id"
-CLIENT_SECRET = "Enter your client secret"
+CLIENT_ID = "Enter client id"
+CLIENT_SECRET = "Enter client secret"
 
 DATA = {
         'response_type':"code",
-        'redirect_uri':"http://localhost:5000/login",
+        'redirect_uri':"http://localhost:5000/callback",
         'scope': 'https://www.googleapis.com/auth/userinfo.email',
         'client_id':CLIENT_ID,
         'prompt':'consent'}
