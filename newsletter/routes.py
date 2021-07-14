@@ -9,6 +9,7 @@ from . forms import AddArticlesForm
 from newsletter import app
 from . Article_add_form import ArticleForm
 from  helpers import mailchimp_helper
+import datetime
 
 articles_added=[]
 article_id_list=[]
@@ -123,8 +124,8 @@ def create_campaign():
     'automation_corner':[]}
     newsletter_json = []
     for each_element in result:
-        newsletter['title']= "Informed tester newsletter test"
-        newsletter['in_this_issue'] = "In this issue a comic , article from past and present"
+        newsletter['title']= "The Informed Tester’s Newsletter:" + datetime.date.today().strftime('%d-%B-%Y')
+        newsletter['in_this_issue'] = "In this issue "+ each_element.opener
 
         if each_element.category_name == 'comic':
             newsletter['comic']['comic_url']=each_element.url
@@ -136,29 +137,11 @@ def create_campaign():
         if each_element.category_name == 'automation corner':
             newsletter['automation_corner'].append({'title':each_element['title'], 'url':each_element['url'], 'description':each_element['description'],'reading_time':each_element['time']})
 
-        """
-        if each_element.category_name == 'currentweek':
-            newsletter['this_week_articles'][0]['title']=each_element.title
-            newsletter['this_week_articles'][0]['url']=each_element.url
-            newsletter['this_week_articles'][0]['description']=each_element.description
-            newsletter['this_week_articles'][0]['reading_time']=each_element.time
-        if each_element.category_name == 'pastweek':
-            newsletter['past_articles'][0]['title']=each_element.title
-            newsletter['past_articles'][0]['url']=each_element.url
-            newsletter['past_articles'][0]['description']=each_element.description
-            newsletter['past_articles'][0]['reading_time']=each_element.time
-        if each_element.category_name == 'automation corner':
-            newsletter['automation_corner'][0]['title']=each_element.title
-            newsletter['automation_corner'][0]['url']=each_element.url
-            newsletter['automation_corner'][0]['description']=each_element.description
-            newsletter['automation_corner'][0]['reading_time']=each_element.time
-
-        """
-    #add_campaign(newsletter,newsletter_id)
-    newsletter_json.append(newsletter)
+    add_campaign(newsletter,newsletter_id,content)
+    #newsletter_json.append(newsletter)
     jsonfile = 'newsletter.json'
     with open(jsonfile, "w") as flw:
-        json.dump(newsletter_json, flw, indent=4)
+        json.dump(newsletter, flw, indent=4)
 
         flr = open(jsonfile)
         return flr.read()
@@ -166,17 +149,21 @@ def create_campaign():
     return(newsletter)
 
 
-def add_campaign(newsletter,newsletter_id):
+def add_campaign(newsletter,newsletter_id,content):
 
-    for values in newsletter:
-       title="title"
-       subject="in_this_issue"
-       preview_text="preview"
+    #result = db.session.execute(content)
+    #titles=""
+    #subject=""
+    #preview_text=""
+    
+    campaign_name=newsletter['title']
+    subject=newsletter['title'] 
+    preview_text="preview new1"
 
     #creating campaign here
     clientobj = mailchimp_helper.Mailchimp_Helper()
     #print("title,subject,preview",title,subject,preview_text)
-    clientobj.create_campaign(title,subject,preview_text)
+    clientobj.create_campaign(campaign_name,subject,preview_text)
     campaign_id = clientobj.campaign_id
 
     newletter_content_object = Newsletter_campaign(campaign_id=campaign_id,newsletter_id=newsletter_id)
