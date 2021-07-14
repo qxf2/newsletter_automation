@@ -1,17 +1,68 @@
 #Endpoints to different Pages/Endpoints
 from flask import Flask
-from flask import Flask, request, flash, url_for, redirect, render_template, jsonify
+from flask import Flask, request, flash, url_for, redirect, render_template, jsonify, session
+import requests, json, re
 from sqlalchemy.orm import query
 from . models import Articles, db, Article_category, AddNewsletter, NewsletterContent
 from . forms import AddArticlesForm
 from newsletter import app
+from flask_login import current_user
 from . create_newsletter_form import ArticleForm
 from . edit_article_form import EditArticlesForm
+import newsletter.sso_google_oauth as sso
 
 articles_added=[]
 article_id_list=[]
 
-@app.route('/')
+@app.route("/")
+def home():
+    if current_user.is_authenticated:
+        return render_template('home.html')
+    else:
+        return redirect(sso.REQ_URI)
+
+@app.route('/login')
+def callback():
+    "Redirect after Google login & consent"
+
+    # Get the code after authenticating from the URL
+    code = request.args.get('code')
+
+    # Generate URL to generate token
+    token_url, headers, body = sso.CLIENT.prepare_token_request(
+            sso.URL_DICT['token_gen'],
+            authorisation_response=request.url,
+            # request.base_url is same as DATA['redirect_uri']
+            redirect_url=request.base_url,
+            code=code)
+
+    # Generate token to access Google API
+    token_response = requests.post(
+            token_url,
+            headers=headers,
+            data=body,
+            auth=(sso.CLIENT_ID, sso.CLIENT_SECRET))
+
+    # Parse the token response
+    sso.CLIENT.parse_request_body_response(json.dumps(token_response.json()))
+
+    # Add token to the  Google endpoint to get the user info
+    # oauthlib uses the token parsed in the previous step
+    uri, headers, body = sso.CLIENT.add_token(sso.URL_DICT['get_user_info'])
+
+    # Get the user info
+    response_user_info = requests.get(uri, headers=headers, data=body)
+    info = response_user_info.json()
+    user_info = info['email']
+    user_email_domain = re.search("@[\w.]+",user_info).group()
+    if user_email_domain == '@qxf2.com':
+        session['logged_user'] = user_email_domain
+        return render_template('home.html')
+    else:
+        return render_template('login.html')
+
+
+@app.route('/home')
 def index():
     return render_template('home.html')
 
