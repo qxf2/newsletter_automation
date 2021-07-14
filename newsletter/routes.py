@@ -116,6 +116,7 @@ def create_campaign():
         newsletter_id= row
     content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,
     Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).filter_by(newsletter_id=newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
+
     result = db.session.execute(content)
 
     newsletter = {'title': '', 'in_this_issue': '', 'comic': {'comic_url': '', 'comic_text': ''},
@@ -126,7 +127,6 @@ def create_campaign():
     for each_element in result:
         newsletter['title']= "The Informed Tester’s Newsletter:" + datetime.date.today().strftime('%d-%B-%Y')
         newsletter['in_this_issue'] = "In this issue "+ each_element.opener
-
         if each_element.category_name == 'comic':
             newsletter['comic']['comic_url']=each_element.url
             newsletter['comic']['comic_text']= "This is a comic"
@@ -137,7 +137,7 @@ def create_campaign():
         if each_element.category_name == 'automation corner':
             newsletter['automation_corner'].append({'title':each_element['title'], 'url':each_element['url'], 'description':each_element['description'],'reading_time':each_element['time']})
 
-    add_campaign(newsletter,newsletter_id,content)
+    add_campaign(newsletter,newsletter_id)
     #newsletter_json.append(newsletter)
     jsonfile = 'newsletter.json'
     with open(jsonfile, "w") as flw:
@@ -149,13 +149,8 @@ def create_campaign():
     return(newsletter)
 
 
-def add_campaign(newsletter,newsletter_id,content):
+def add_campaign(newsletter,newsletter_id):
 
-    #result = db.session.execute(content)
-    #titles=""
-    #subject=""
-    #preview_text=""
-    
     campaign_name=newsletter['title']
     subject=newsletter['title'] 
     preview_text="preview new1"
