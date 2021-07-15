@@ -18,8 +18,7 @@ article_id_list=[]
 @app.route("/")
 def home():
     "Login page for an app"
-    return """
-    <a href="/login">Login with SimpleLogin</a> """
+    return render_template('login.html')
 
 
 @app.route("/login")
@@ -66,7 +65,13 @@ def callback():
         session['logged_user'] = user_info
         return render_template('home.html')
     else:
-        return render_template('login.html')
+        return render_template('unauthorized.html')
+
+@app.route('/logout')
+def logout():
+    for key in list(session.keys()):
+        session.pop(key)
+    return redirect('/')
 
 
 @app.route('/home')

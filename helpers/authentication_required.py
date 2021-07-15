@@ -16,6 +16,6 @@ class Authentication_Required:
                 if current_user:
                     return func(*args, **kwargs)
             except Exception as e:
-                return render_template("login.html")
+                return render_template("unauthorized.html")
 
         return decorated
