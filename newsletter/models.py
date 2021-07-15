@@ -10,14 +10,14 @@ class AddNewsletter(db.Model):
     newsletter_id = db.Column(db.Integer, primary_key=True)
     subject = db.Column(db.String(50))
     opener = db.Column(db.String(400))
-    #preview = db.Column(db.String(400))
+    preview = db.Column(db.String(400))
     #campaign_id= db.Column(db.Integer)
 
-    def __init__(self, subject, opener):
+    def __init__(self, subject, opener,preview):
         "initialize subject,opener"
         self.subject = subject
         self.opener = opener
-        #self.preview = preview
+        self.preview = preview
 
 class NewsletterContent(db.Model):
     "Class for NewsletterContent db model"
@@ -38,6 +38,7 @@ class Articles(db.Model):
     description = db.Column(db.String(500))
     time = db.Column(db.String(300))
     category_id = db.Column(db.Integer, db.ForeignKey('article_category.category_id'))
+    newsletter_id = db.Column(db.Integer, db.ForeignKey('add_newsletter.newsletter_id'))
 
     def __init__(self, url, title, description, time,category_id):
         "initializes url, title, description, time, category_id"
