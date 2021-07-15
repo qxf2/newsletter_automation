@@ -3,10 +3,11 @@ A Flask app for Google SSO
 """
 
 from  oauthlib import oauth2
-import conf
+import conf.sso_conf as conf
 
-CLIENT_ID = "Enter client id"
-CLIENT_SECRET = "Enter client secret"
+
+CLIENT_ID = conf.CLIENT_ID
+CLIENT_SECRET = conf.CLIENT_SECRET
 
 DATA = {
         'response_type':"code",
