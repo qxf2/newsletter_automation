@@ -10,6 +10,7 @@ from newsletter import app
 #from . Article_add_form import ArticleForm
 from  helpers import mailchimp_helper
 import datetime
+
 from sqlalchemy.orm import query
 from . models import Articles, db, Article_category, AddNewsletter, NewsletterContent
 from . forms import AddArticlesForm
@@ -59,8 +60,8 @@ def add_articles_to_newsletter(subject, opener, preview_text):
         flash('Form submitted successfully ')
         articles_added.clear()
         article_id_list.clear()
-
     return article_id_list, newsletter_id
+
 
 
 @app.route("/create-newsletter",methods=["GET","POST"])
@@ -97,7 +98,6 @@ def add_articles():
                 article_list, newsletter_id = add_articles_to_newsletter(subject, opener, preview_text)
                 return redirect(url_for("previewnewsletter",newsletter_id=newsletter_id))
                 #return redirect(url_for("add_articles"))
-
             else:
                 flash('Please check have you selected the articles, filled the subject, opener or preview text')
 
@@ -184,6 +184,7 @@ def add_campaign(newsletter,newsletter_id):
     contentobj = mailchimp_helper.Mailchimp_Helper()
     contentobj.set_campaign_content(newsletter,campaign_id)
 
+
 @app.route("/url/<category_id>")
 def url(category_id):
     "This method fetches url and article_id based on category selected"
@@ -241,6 +242,64 @@ def title(article_id):
         Title_array.append(title_obj)
 
     return jsonify(Title_array[0]['title'])
+
+
+@app.route('/manage-articles')
+def manage_articles():
+    add_articles_form = AddArticlesForm(request.form)
+    article_data = Articles.query.all()
+    return render_template('manage_articles.html', addarticlesform=add_articles_form,article_data=article_data)
+
+
+@app.route("/edit/<article_id>",methods=["GET","POST"])
+def update_article(article_id):
+    "This method is used to edit articles based on article_id"
+
+    article = Articles.query.filter_by(article_id=article_id).all()
+    for each_article in article:
+        form = EditArticlesForm(title=each_article.title,
+                            url=each_article.url,
+                            description=each_article.description,
+                            time=each_article.time,
+                            category_id=each_article.category_id)
+
+    if form.validate_on_submit():
+        edited_title=form.title.data
+        edited_url=form.url.data
+        edited_description=form.description.data
+        edited_time=form.time.data
+        edited_category= int(form.category_id.data)
+        Articles.query.filter(Articles.article_id==article_id).update({"title":edited_title,"url":edited_url,"description":edited_description,"time":edited_time,"category_id":edited_category})
+
+        db.session.commit()
+        return redirect(url_for("manage_articles"))
+
+    return render_template('edit_article.html',form=form)
+
+
+@app.route("/delete/<article_id>", methods=["GET","POST"])
+def delete_article(article_id):
+    "Deletes an article"
+    articles_delete = Articles.query.filter_by(article_id=article_id).value(Articles.newsletter_id)
+
+    if articles_delete is not None:
+        flash('Cannot delete!! Article is already a part of campaign')
+    else:
+        delete_article = Articles.query.get(article_id)
+        db.session.delete(delete_article)
+        db.session.commit()
+
+    return redirect(url_for("manage_articles"))
+
+
+@app.route("/removearticle",methods=["GET","POST"])
+def remove_article():
+    "Remove article from the list"
+    form = ArticleForm()
+    article_id = request.form.get('articleid')
+    article_id_list.remove(article_id)
+
+
 
 @app.route('/manage-articles')
 def manage_articles():
