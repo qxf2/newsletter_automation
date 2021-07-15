@@ -69,9 +69,9 @@ class Mailchimp_Helper:
         try:
             with open('Editable_Newsletter_Template.html') as raw_data:
                 template = Template(raw_data.read())
-            print(newsletter_json)
+            #print(newsletter_json)
             final_html =template.render(newsletter_json=newsletter_json)
-            print(final_html)
+            #print(final_html)
             response = self.client.campaigns.set_content(campaign_id,body={'html':final_html})
             return response
         except ApiClientError as error:
