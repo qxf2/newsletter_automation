@@ -139,7 +139,7 @@ def create_campaign():
     'automation_corner':[]}
     newsletter_json = []
     for each_element in result:
-        newsletter['title']= "The Informed Tester’s Newsletter:" + datetime.date.today().strftime('%d-%B-%Y')
+        newsletter['title']= each_element.subject +" " + datetime.date.today().strftime('%d-%B-%Y')
         newsletter['in_this_issue'] = "In this issue "+ each_element.opener
         newsletter['preview']=each_element.preview
         if each_element.category_name == 'comic':
