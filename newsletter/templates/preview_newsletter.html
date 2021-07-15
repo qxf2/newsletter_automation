@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+     <meta charset="utf-8">
+        <title>Preview Newsletter</title>
+    </head>
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+    <style>
+
+            table {
+            width:100%;
+            }
+            table, th, td,tr {
+            border: 1px solid black;
+            border-collapse: collapse;
+            }
+            th, td {
+            padding : 15px ;
+            text-align: center;
+            }
+            #t01 th {
+            background-color: black;
+            color: white;
+            }
+        </style>
+
+<body>
+
+    <div>
+        <table id="t01">
+            <thead>
+                <tr>
+                    <th>Newsletter content preview</th>
+
+                </tr>
+            </thead>
+            <tbody>
+            {% for row in content %}
+                <tr>
+                        <td> Subject : {{row[1]}}</td>
+                        </tr><tr>
+                        <td> Opener : {{row[2]}}</td>
+                        </tr>
+			<tr>
+                        <td> Preview text : {{row[3]}}</td>
+                        </tr><tr>
+			<tr>
+                        <td> Category : {{row[4]}}</td>
+                        </tr><tr>
+                        <td> Title :{{row[5]}}</td>
+                        </tr><tr>
+                        <td>  URL : {{row[6]}}</td>
+                        </tr><tr>
+                        <td> Description : {{row[7]}}</td>
+                        </tr><tr>
+                        <td> Reading/Doing Time  : {{row[8]}}</td>
+                </tr>
+
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+        <button id="campaign">Campaign</button>
+        <script>
+            $(document).ready(function(){
+            $("#campaign").click(function(){
+            $.ajax({
+            type : 'POST',
+            url : "{{url_for('create_campaign')}}",
+            data: "{}",
+            contentType: 'application/json;charset=UTF-8',
+            dataType : "json",
+            success: function (response) {
+                        //console.log(response.objt)
+                        //alert(JSON.stringify(response.objt))
+                        alert("Data added successfully")
+                        console.log("created campaign and set content too")
+                    },
+            });
+            });
+            });
+        </script>
+</body>
+</html>
