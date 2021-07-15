@@ -114,7 +114,7 @@ def add_articles():
 @app.route("/preview_newsletter/<newsletter_id>",methods=["GET","POST"])
 def previewnewsletter(newsletter_id):
     "To populate the preview newsletter page"
-    content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).filter(AddNewsletter.newsletter_id == newsletter_id).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
+    content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,AddNewsletter.preview,Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).filter(AddNewsletter.newsletter_id == newsletter_id).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
 
     return render_template('preview_newsletter.html',content=content)
 
@@ -129,12 +129,11 @@ def create_campaign():
     newsletter_id_db = db.session.query(NewsletterContent.newsletter_id).order_by(NewsletterContent.newsletter_id.desc()).first()
     for row in newsletter_id_db:
         newsletter_id= row
-    content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,
-    Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).filter_by(newsletter_id=newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
+    content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,AddNewsletter.preview,Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).filter_by(newsletter_id=newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
 
     result = db.session.execute(content)
 
-    newsletter = {'title': '', 'in_this_issue': '', 'comic': {'comic_url': '', 'comic_text': ''},
+    newsletter = {'title': '', 'in_this_issue': '','preview':'', 'comic': {'comic_url': '', 'comic_text': ''},
     'this_week_articles': [],
     'past_articles':[],
     'automation_corner':[]}
@@ -142,6 +141,7 @@ def create_campaign():
     for each_element in result:
         newsletter['title']= "The Informed Tester’s Newsletter:" + datetime.date.today().strftime('%d-%B-%Y')
         newsletter['in_this_issue'] = "In this issue "+ each_element.opener
+        newsletter['preview']=each_element.preview
         if each_element.category_name == 'comic':
             newsletter['comic']['comic_url']=each_element.url
             newsletter['comic']['comic_text']= "This is a comic"
@@ -168,7 +168,7 @@ def add_campaign(newsletter,newsletter_id):
 
     campaign_name=newsletter['title']
     subject=newsletter['title'] 
-    preview_text="preview new1"
+    preview_text=newsletter['preview']
 
     #creating campaign here
     clientobj = mailchimp_helper.Mailchimp_Helper()
