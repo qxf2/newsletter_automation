@@ -60,7 +60,7 @@ def add_articles_to_newsletter(subject, opener, preview_text):
         articles_added.clear()
         article_id_list.clear()
 
-    return article_id_list
+    return article_id_list, newsletter_id
 
 
 @app.route("/create-newsletter",methods=["GET","POST"])
@@ -92,10 +92,11 @@ def add_articles():
                     flash('Already selected !! Please select another article ', 'danger')
                     return redirect(url_for("add_articles"))
 
-        if form.schedule.data:
+        if form.preview_text.data:
             if subject and opener and preview_text and article_id_list:
-                add_articles_to_newsletter(subject, opener, preview_text)
-                return redirect(url_for("add_articles"))
+                article_list, newsletter_id = add_articles_to_newsletter(subject, opener, preview_text)
+                return redirect(url_for("previewnewsletter",newsletter_id=newsletter_id))
+                #return redirect(url_for("add_articles"))
 
             else:
                 flash('Please check have you selected the articles, filled the subject, opener or preview text')
