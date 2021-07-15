@@ -114,9 +114,9 @@ def add_articles_to_newsletter(subject, opener, preview_text):
         articles_newsletter_id = Articles.query.filter(Articles.article_id==each_article).update({"newsletter_id":newsletter_id})
         db.session.commit()
 
-        flash('Form submitted successfully ')
-        articles_added.clear()
-        article_id_list.clear()
+    flash('Form submitted successfully ')
+    articles_added.clear()
+    article_id_list.clear()
 
     return article_id_list
 
