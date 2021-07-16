@@ -1,31 +1,90 @@
 #Endpoints to different Pages/Endpoints
 import  json
 import re
+import requests
 from operator import countOf
-from flask import Flask
-from flask import Flask, request, flash, url_for, redirect, render_template, jsonify
+from flask import Flask, request, flash, url_for, redirect, render_template, jsonify,session
 from . models import Articles, db, Article_category, AddNewsletter, NewsletterContent,Newsletter_campaign
 from . forms import AddArticlesForm
 from newsletter import app
-#from . Article_add_form import ArticleForm
 from  helpers import mailchimp_helper
 import datetime
-
 from sqlalchemy.orm import query
-from . models import Articles, db, Article_category, AddNewsletter, NewsletterContent
 from . forms import AddArticlesForm
-from newsletter import app
 from . create_newsletter_form import ArticleForm
 from . edit_article_form import EditArticlesForm
+import newsletter.sso_google_oauth as sso
+from helpers.authentication_required import Authentication_Required
 
 articles_added=[]
 article_id_list=[]
 
-@app.route('/')
+
+@app.route("/")
+def home():
+    "Login page for an app"
+    return render_template('login.html')
+
+
+@app.route("/login")
+def login():
+    "Login redirect"
+    return redirect(sso.REQ_URI)
+
+
+@app.route('/callback')
+def callback():
+    "Redirect after Google login & consent"
+
+    # Get the code after authenticating from the URL
+    code = request.args.get('code')
+
+    # Generate URL to generate token
+    token_url, headers, body = sso.CLIENT.prepare_token_request(
+            sso.URL_DICT['token_gen'],
+            authorisation_response=request.url,
+            # request.base_url is same as DATA['redirect_uri']
+            redirect_url=request.base_url,
+            code=code)
+
+    # Generate token to access Google API
+    token_response = requests.post(
+            token_url,
+            headers=headers,
+            data=body,
+            auth=(sso.CLIENT_ID, sso.CLIENT_SECRET))
+
+    # Parse the token response
+    sso.CLIENT.parse_request_body_response(json.dumps(token_response.json()))
+
+    # Add token to the  Google endpoint to get the user info
+    # oauthlib uses the token parsed in the previous step
+    uri, headers, body = sso.CLIENT.add_token(sso.URL_DICT['get_user_info'])
+
+    # Get the user info
+    response_user_info = requests.get(uri, headers=headers, data=body)
+    info = response_user_info.json()
+    user_info = info['email']
+    user_email_domain = re.search("@[\w.]+",user_info).group()
+    if user_email_domain == '@qxf2.com':
+        session['logged_user'] = user_info
+        return render_template('home.html')
+    else:
+        return render_template('unauthorized.html')
+
+@app.route('/logout')
+def logout():
+    for key in list(session.keys()):
+        session.pop(key)
+    return redirect('/')
+
+@app.route('/home')
+@Authentication_Required.requires_auth
 def index():
     return render_template('home.html')
 
 @app.route('/articles', methods=['GET', 'POST'])
+@Authentication_Required.requires_auth
 def articles():
     "This page adds articles to the database"
     addarticlesform = AddArticlesForm(request.form)
@@ -57,14 +116,15 @@ def add_articles_to_newsletter(subject, opener, preview_text):
         articles_newsletter_id = Articles.query.filter(Articles.article_id==each_article).update({"newsletter_id":newsletter_id})
         db.session.commit()
 
-        flash('Form submitted successfully ')
-        articles_added.clear()
-        article_id_list.clear()
+    flash('Form submitted successfully ')
+    articles_added.clear()
+    article_id_list.clear()
+
     return article_id_list, newsletter_id
 
-
-
 @app.route("/create-newsletter",methods=["GET","POST"])
+@Authentication_Required.requires_auth
+
 def add_articles():
     "This page contains the form where user can add articles"
     form = ArticleForm()
@@ -186,6 +246,8 @@ def add_campaign(newsletter,newsletter_id):
 
 
 @app.route("/url/<category_id>")
+@Authentication_Required.requires_auth
+
 def url(category_id):
     "This method fetches url and article_id based on category selected"
 
@@ -202,6 +264,8 @@ def url(category_id):
 
 
 @app.route("/description/<article_id>")
+@Authentication_Required.requires_auth
+
 def description(article_id):
     "This method fetches the article description based on article selected"
 
@@ -216,6 +280,8 @@ def description(article_id):
 
 
 @app.route("/readingtime/<article_id>")
+@Authentication_Required.requires_auth
+
 def reading_time(article_id):
     "This method fetched reading time based on article selected"
 
@@ -231,6 +297,8 @@ def reading_time(article_id):
 
 
 @app.route("/title/<article_id>")
+@Authentication_Required.requires_auth
+
 def title(article_id):
     "This article fetched reading time based on url selected"
 
@@ -245,6 +313,8 @@ def title(article_id):
 
 
 @app.route('/manage-articles')
+@Authentication_Required.requires_auth
+
 def manage_articles():
     add_articles_form = AddArticlesForm(request.form)
     article_data = Articles.query.all()
@@ -252,6 +322,8 @@ def manage_articles():
 
 
 @app.route("/edit/<article_id>",methods=["GET","POST"])
+@Authentication_Required.requires_auth
+
 def update_article(article_id):
     "This method is used to edit articles based on article_id"
 
@@ -278,6 +350,8 @@ def update_article(article_id):
 
 
 @app.route("/delete/<article_id>", methods=["GET","POST"])
+@Authentication_Required.requires_auth
+
 def delete_article(article_id):
     "Deletes an article"
     articles_delete = Articles.query.filter_by(article_id=article_id).value(Articles.newsletter_id)
@@ -293,6 +367,8 @@ def delete_article(article_id):
 
 
 @app.route("/removearticle",methods=["GET","POST"])
+@Authentication_Required.requires_auth
+
 def remove_article():
     "Remove article from the list"
     form = ArticleForm()
