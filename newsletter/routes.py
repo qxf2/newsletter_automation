@@ -78,12 +78,10 @@ def logout():
         session.pop(key)
     return redirect('/')
 
-
 @app.route('/home')
 @Authentication_Required.requires_auth
 def index():
     return render_template('home.html')
-
 
 @app.route('/articles', methods=['GET', 'POST'])
 @Authentication_Required.requires_auth
@@ -123,8 +121,6 @@ def add_articles_to_newsletter(subject, opener, preview_text):
     article_id_list.clear()
 
     return article_id_list, newsletter_id
-
-
 
 @app.route("/create-newsletter",methods=["GET","POST"])
 @Authentication_Required.requires_auth
