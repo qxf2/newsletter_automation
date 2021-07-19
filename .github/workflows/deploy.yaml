@@ -21,4 +21,4 @@ jobs:
       run: |
         echo "${{ secrets.KEY }}" > secret.pem
         chmod 400 secret.pem
-        scp -o StrictHostKeyChecking=no -i secret.pem dist/newsletter-automation-0.1-1.tar.gz ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/ubuntu
+        scp -o StrictHostKeyChecking=no -i secret.pem dist/*.tar.gz ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/ubuntu
