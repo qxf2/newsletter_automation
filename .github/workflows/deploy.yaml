@@ -26,6 +26,6 @@ jobs:
 
     - name: Run Deploy script
       run: 
-              ssh -o StrictHostKeyChecking=no -i secret.pem {{ secrets.USERNAME }}@${{ secrets.HOST }} bash /home/ubuntu/deploy_app.sh
+              ssh -o StrictHostKeyChecking=no -i secret.pem ${{ secrets.USERNAME }}@${{ secrets.HOST }} bash /home/ubuntu/deploy_app.sh
 
 
