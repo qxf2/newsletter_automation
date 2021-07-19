@@ -19,6 +19,13 @@ jobs:
         
     - name: Copy required scripts
       run: |
-        echo "${{ secrets.KEY }}" > secret.pem
-        chmod 400 secret.pem
-        scp -o StrictHostKeyChecking=no -i secret.pem dist/*.tar.gz ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/ubuntu
+              echo "${{ secrets.KEY }}" > secret.pem
+              chmod 400 secret.pem
+              scp -o StrictHostKeyChecking=no -i secret.pem dist/*.tar.gz ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/ubuntu
+              scp -o StrictHostKeyChecking=no -i secret.pem deploy_app.sh ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/ubuntu
+
+    - name: Run Deploy script
+      run: 
+              ssh -o StrictHostKeyChecking=no -i secret.pem {{ secrets.USERNAME }}@${{ secrets.HOST }} bash /home/ubuntu/deploy_app.sh
+
+
