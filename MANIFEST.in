@@ -3,4 +3,5 @@ recursive-include  newsletter_automation/conf *
 recursive-include  newsletter_automation/helpers *
 recursive-include  newsletter_automation/newsletter *
 recursive-include  newsletter_automation/newsletter/templates *
+recursive-include  newsletter_automation/newsletter/static *
 global-exclude *.py[cod]
