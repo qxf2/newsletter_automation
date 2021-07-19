@@ -34,11 +34,12 @@ class Mailchimp_Helper:
             "api_key": API_KEY,
             "server": SERVER_PREFIX
         })
-
+        
 
     def ping_mailchimp(self):
         "check mailchimp connection health"
         try:
+            self.client = MailchimpMarketing.Client()
             response = self.client.ping.get()
             return response
         except ApiClientError as error:
@@ -63,13 +64,15 @@ class Mailchimp_Helper:
             return error.text
 
 
-    def set_campaign_content(self,newsletter_json):
+    def set_campaign_content(self,newsletter_json,campaign_id):
         "sets the content text for the campaign"
         try:
             with open('Editable_Newsletter_Template.html') as raw_data:
                 template = Template(raw_data.read())
+            #print(newsletter_json)
             final_html =template.render(newsletter_json=newsletter_json)
-            response = self.client.campaigns.set_content(self.campaign_id,body={'html':final_html})
+            #print(final_html)
+            response = self.client.campaigns.set_content(campaign_id,body={'html':final_html})
             return response
         except ApiClientError as error:
             return error.text
