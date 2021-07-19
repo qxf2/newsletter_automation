@@ -1,0 +1,6 @@
+recursive-include  newsletter_automation/ *
+recursive-include  newsletter_automation/conf *
+recursive-include  newsletter_automation/helpers *
+recursive-include  newsletter_automation/newsletter *
+recursive-include  newsletter_automation/newsletter/templates *
+global-exclude *.py[cod]
