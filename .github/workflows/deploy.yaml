@@ -22,7 +22,6 @@ jobs:
               echo "${{ secrets.KEY }}" > secret.pem
               chmod 400 secret.pem
               scp -o StrictHostKeyChecking=no -i secret.pem dist/*.tar.gz ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/ubuntu
-              scp -o StrictHostKeyChecking=no -i secret.pem deploy_app.sh ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/ubuntu
 
     - name: Run Deploy script
           uses: appleboy/ssh-action@master
@@ -32,8 +31,8 @@ jobs:
             key: ${{ secrets.KEY }}
             port: 22
             script: |
-                      sudo systemctl stop newsletter_automation_app
-                      sudo source /home/ubuntu/venv/newsletter_app/bin/activate
-                      cd /home/ubuntu/
-                      sudo python -m pip install *.tar.gz
-                      sudo systemctl start newsletter_automation_app
+              sudo systemctl stop newsletter_automation_app
+              sudo source /home/ubuntu/venv/newsletter_app/bin/activate
+              cd /home/ubuntu/
+              sudo python -m pip install *.tar.gz
+              sudo systemctl start newsletter_automation_app
