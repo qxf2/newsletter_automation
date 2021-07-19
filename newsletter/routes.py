@@ -72,16 +72,19 @@ def callback():
     else:
         return render_template('unauthorized.html')
 
+
 @app.route('/logout')
 def logout():
     for key in list(session.keys()):
         session.pop(key)
     return redirect('/')
 
+
 @app.route('/home')
 @Authentication_Required.requires_auth
 def index():
     return render_template('home.html')
+
 
 @app.route('/articles', methods=['GET', 'POST'])
 @Authentication_Required.requires_auth
@@ -99,6 +102,7 @@ def articles():
         return render_template('result.html', msg=msg)
 
     return render_template('articles.html',addarticlesform=addarticlesform, category=category)
+
 
 def add_articles_to_newsletter(subject, opener, preview_text):
     "Adding articles to newsletter"
@@ -122,9 +126,9 @@ def add_articles_to_newsletter(subject, opener, preview_text):
 
     return article_id_list, newsletter_id
 
+
 @app.route("/create-newsletter",methods=["GET","POST"])
 @Authentication_Required.requires_auth
-
 def add_articles():
     "This page contains the form where user can add articles"
     form = ArticleForm()
@@ -159,7 +163,7 @@ def add_articles():
                 return redirect(url_for("previewnewsletter",newsletter_id=newsletter_id))
                 #return redirect(url_for("add_articles"))
             else:
-                flash('Please check have you selected the articles, filled the subject, opener or preview text')
+                flash('Please check have you selected the articles, filled the subject, opener or preview text','danger')
 
         if form.cancel.data:
             flash('Clear all Fields!! Now select the articles', 'info')
@@ -227,7 +231,7 @@ def create_campaign():
 def add_campaign(newsletter,newsletter_id):
 
     campaign_name=newsletter['title']
-    subject=newsletter['title'] 
+    subject=newsletter['title']
     preview_text=newsletter['preview']
 
     #creating campaign here
