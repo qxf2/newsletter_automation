@@ -318,7 +318,7 @@ def title(article_id):
     return jsonify(Title_array[0]['title'])
 
 
-@app.route('/manage-articles')
+@app.route('/manage-articles',methods=["GET","POST"])
 @Authentication_Required.requires_auth
 def manage_articles():
     add_articles_form = AddArticlesForm(request.form)
