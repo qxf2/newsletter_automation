@@ -1,11 +1,15 @@
 #Endpoints to different Pages/Endpoints
-from flask import Flask
-from flask import Flask, request, flash, url_for, redirect, render_template, jsonify, session
-import requests, json, re
-from sqlalchemy.orm import query
-from . models import Articles, db, Article_category, AddNewsletter, NewsletterContent
-from . forms import AddArticlesForm
+import  json
+import re
+import requests
+from operator import countOf
+from flask import Flask, request, flash, url_for, redirect, render_template, jsonify,session
+from . models import Articles, db, Article_category, AddNewsletter, NewsletterContent,Newsletter_campaign
 from newsletter import app
+from  helpers import mailchimp_helper
+import datetime
+from sqlalchemy.orm import query
+from . forms import AddArticlesForm
 from . create_newsletter_form import ArticleForm
 from . edit_article_form import EditArticlesForm
 import newsletter.sso_google_oauth as sso
@@ -118,12 +122,11 @@ def add_articles_to_newsletter(subject, opener, preview_text):
     articles_added.clear()
     article_id_list.clear()
 
-    return article_id_list
+    return article_id_list, newsletter_id
 
 
 @app.route("/create-newsletter",methods=["GET","POST"])
 @Authentication_Required.requires_auth
-
 def add_articles():
     "This page contains the form where user can add articles"
     form = ArticleForm()
@@ -152,13 +155,13 @@ def add_articles():
                     flash('Already selected !! Please select another article ', 'danger')
                     return redirect(url_for("add_articles"))
 
-        if form.schedule.data:
+        if form.preview_text.data:
             if subject and opener and preview_text and article_id_list:
-                add_articles_to_newsletter(subject, opener, preview_text)
-                return redirect(url_for("add_articles"))
-
+                article_list, newsletter_id = add_articles_to_newsletter(subject, opener, preview_text)
+                return redirect(url_for("previewnewsletter",newsletter_id=newsletter_id))
+                #return redirect(url_for("add_articles"))
             else:
-                flash('Please check have you selected the articles, filled the subject, opener or preview text')
+                flash('Please check have you selected the articles, filled the subject, opener or preview text','danger')
 
         if form.cancel.data:
             flash('Clear all Fields!! Now select the articles', 'info')
@@ -169,6 +172,79 @@ def add_articles():
     all_articles = [Articles.query.filter_by(article_id=article_id).one() for article_id in article_id_list]
 
     return render_template('create_newsletter.html',form=form, all_articles=all_articles,article_list=article_id_list)
+
+@app.route("/preview_newsletter/<newsletter_id>",methods=["GET","POST"])
+def previewnewsletter(newsletter_id):
+    "To populate the preview newsletter page"
+    content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,AddNewsletter.preview,Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).filter(AddNewsletter.newsletter_id == newsletter_id).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
+
+    return render_template('preview_newsletter.html',content=content)
+
+@app.route("/create_campaign",methods=["GET","POST"])
+def create_campaign():
+    """
+    create the campaign and return the campaign id
+    update campaign table with this id
+    create the newsletter_json needed for mailchimp api
+    call mailchimp content setting api
+    """
+    newsletter_id_db = db.session.query(NewsletterContent.newsletter_id).order_by(NewsletterContent.newsletter_id.desc()).first()
+    for row in newsletter_id_db:
+        newsletter_id= row
+    content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,AddNewsletter.preview,Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).filter_by(newsletter_id=newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
+
+    result = db.session.execute(content)
+
+    newsletter = {'title': '', 'in_this_issue': '','preview':'', 'comic': {'comic_url': '', 'comic_text': ''},
+    'this_week_articles': [],
+    'past_articles':[],
+    'automation_corner':[]}
+    newsletter_json = []
+    for each_element in result:
+        newsletter['title']= each_element.subject +" " + datetime.date.today().strftime('%d-%B-%Y')
+        newsletter['in_this_issue'] = "In this issue "+ each_element.opener
+        newsletter['preview']=each_element.preview
+        if each_element.category_name == 'comic':
+            newsletter['comic']['comic_url']=each_element.url
+            newsletter['comic']['comic_text']= "This is a comic"
+        if each_element.category_name == 'currentweek':
+            newsletter['this_week_articles'].append({'title':each_element['title'], 'url':each_element['url'], 'description':each_element['description'],'reading_time':each_element['time']})
+        if each_element.category_name == 'pastweek':
+            newsletter['past_articles'].append({'title':each_element['title'], 'url':each_element['url'], 'description':each_element['description'],'reading_time':each_element['time']})
+        if each_element.category_name == 'automation corner':
+            newsletter['automation_corner'].append({'title':each_element['title'], 'url':each_element['url'], 'description':each_element['description'],'reading_time':each_element['time']})
+
+    add_campaign(newsletter,newsletter_id)
+    #newsletter_json.append(newsletter)
+    jsonfile = 'newsletter.json'
+    with open(jsonfile, "w") as flw:
+        json.dump(newsletter, flw, indent=4)
+
+        flr = open(jsonfile)
+        return flr.read()
+
+    return(newsletter)
+
+
+def add_campaign(newsletter,newsletter_id):
+
+    campaign_name=newsletter['title']
+    subject=newsletter['title']
+    preview_text=newsletter['preview']
+
+    #creating campaign here
+    clientobj = mailchimp_helper.Mailchimp_Helper()
+    #print("title,subject,preview",title,subject,preview_text)
+    clientobj.create_campaign(campaign_name,subject,preview_text)
+    campaign_id = clientobj.campaign_id
+
+    newletter_content_object = Newsletter_campaign(campaign_id=campaign_id,newsletter_id=newsletter_id)
+    db.session.add(newletter_content_object)
+    db.session.commit()
+
+
+    contentobj = mailchimp_helper.Mailchimp_Helper()
+    contentobj.set_campaign_content(newsletter,campaign_id)
 
 
 @app.route("/url/<category_id>")
@@ -236,6 +312,7 @@ def title(article_id):
         Title_array.append(title_obj)
 
     return jsonify(Title_array[0]['title'])
+
 
 @app.route('/manage-articles')
 @Authentication_Required.requires_auth

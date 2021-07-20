@@ -13,8 +13,8 @@ class AddNewsletter(db.Model):
     preview = db.Column(db.String(400))
     #campaign_id= db.Column(db.Integer)
 
-    def __init__(self, subject, opener, preview):
-        "initialize subject,opener,preview"
+    def __init__(self, subject, opener,preview):
+        "initialize subject,opener"
         self.subject = subject
         self.opener = opener
         self.preview = preview
@@ -70,4 +70,15 @@ class Newsletter_schedule(db.Model):
         self.schedule_id = schedule_id
         self.newsletter_id = newsletter_id
         self.schedule_date = schedule_date
+
+class Newsletter_campaign(db.Model):
+    "Newsletter create campaign table"
+    Newsletter_campaign_id =db.Column('Newsletter_campaign_id', db.Integer, primary_key=True)
+    campaign_id = db.Column('campaign_id', db.String(50))
+    newsletter_id = db.Column('newsletter_id',db.Integer,db.ForeignKey('add_newsletter.newsletter_id'))
+
+    def __init__(self,campaign_id,newsletter_id):
+        self.campaign_id = campaign_id
+        self.newsletter_id = newsletter_id
+
 db.create_all()

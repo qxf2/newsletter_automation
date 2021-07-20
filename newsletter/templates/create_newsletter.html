@@ -1,15 +1,12 @@
-
-{%extends "layout.html" %}
+{%include "layout.html" %}
+{%include "menu.html" %}
 {% block content %}
 
-<div class="jumbotron p-3">
-    <span style="float: right">
-
-    <h2><a href="/manage-articles" class="btn btn-success" >Manage Articles</a>
-    </h2>
-    </span>
+<div class="logoutLblPos">
+    <button type="button" onclick="location.href = '/logout'">
+        Logout
+    </button>
 </div>
-  
 <div>
     <form method="POST", action="">
 
@@ -63,6 +60,8 @@
 
                 {{form.cancel(class="btn btn-secondary")}}
                 {{form.schedule(class="btn btn-primary")}}
+                {{form.preview_newsletter(class="btn btn-primary")}}
+
             </div>
 
             <table id="tableId" class="table table-hover table" >

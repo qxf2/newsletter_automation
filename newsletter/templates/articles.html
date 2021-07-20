@@ -9,6 +9,11 @@
    <form action="manage-articles">
       <button type="submit">Manage Articles</button>
    </form>
+   <div>
+      <button type="button" onclick="location.href = '/logout'">
+         Logout
+      </button>
+   </div>
    </h2>
 <form action="" method = "post">
 
@@ -20,13 +25,7 @@
          {{ addarticlesform.category_id(placeholder="category",id="category_id", class="form-control", required="") }}
          {{ addarticlesform.submit(class="btn btn-lg btn-primary btn-block")}}
          <br></br>
-         <div>
-            <button type = "button" onclick =
-            "location.href = '/logout'">
-            Logout
-        </button>
-         </div>
-
+        
 </form>
 </body>
 </html>
