@@ -2,7 +2,7 @@ name: automate-newsletter-project-deploy
 on:
   push:
     branches:
-      - deploy_changes
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
