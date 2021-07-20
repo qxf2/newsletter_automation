@@ -1,0 +1,38 @@
+name: automate-newsletter-project-deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    
+    - name: Create a python dist
+      run:
+        python ./setup.py sdist
+        
+    - name: Copy required scripts
+      run: |
+        echo "${{ secrets.KEY }}" > secret.pem
+        chmod 400 secret.pem
+        scp -o StrictHostKeyChecking=no -i secret.pem dist/*.tar.gz ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/ubuntu
+
+    - name: Run Deploy script
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        port: 22
+        script: |
+          sudo systemctl stop newsletter_automation_app
+          source /home/ubuntu/venv/newsletter_app/bin/activate
+          cd /home/ubuntu/
+          python -m pip install *.tar.gz
+          sudo systemctl start newsletter_automation_app

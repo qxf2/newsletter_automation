@@ -3,7 +3,9 @@ import  json
 import re
 import requests
 from operator import countOf
+from builtins import Exception
 from flask import Flask, request, flash, url_for, redirect, render_template, jsonify,session
+from sqlalchemy.orm.exc import MultipleResultsFound
 from . models import Articles, db, Article_category, AddNewsletter, NewsletterContent,Newsletter_campaign
 from . forms import AddArticlesForm
 from newsletter import app
@@ -97,8 +99,16 @@ def articles():
     if request.method == 'POST':
         article = Articles(addarticlesform.url.data,addarticlesform.title.data,addarticlesform.description.data, addarticlesform.time.data, addarticlesform.category_id.data.category_id)
         db.session.add(article)
-        db.session.commit()
-        msg = "Record added Successfully"
+        try:
+            if url == db.session.query(Articles).filter(Articles.url == addarticlesform.url.data).one_or_none():
+                msg = ""
+            else:
+                db.session.commit()
+                msg = "Record added Successfully"
+        except MultipleResultsFound as e:
+            msg = e
+        #db.session.commit()
+        #msg = "Record added Successfully"
         return render_template('result.html', msg=msg)
 
     return render_template('articles.html',addarticlesform=addarticlesform, category=category)
@@ -119,8 +129,6 @@ def add_articles_to_newsletter(subject, opener, preview_text):
         db.session.commit()
         articles_newsletter_id = Articles.query.filter(Articles.article_id==each_article).update({"newsletter_id":newsletter_id})
         db.session.commit()
-
-    flash('Form submitted successfully ')
     articles_added.clear()
     article_id_list.clear()
 
@@ -157,11 +165,10 @@ def add_articles():
                     flash('Already selected !! Please select another article ', 'danger')
                     return redirect(url_for("add_articles"))
 
-        if form.preview_text.data:
+        if form.preview_newsletter.data:
             if subject and opener and preview_text and article_id_list:
                 article_list, newsletter_id = add_articles_to_newsletter(subject, opener, preview_text)
                 return redirect(url_for("previewnewsletter",newsletter_id=newsletter_id))
-                #return redirect(url_for("add_articles"))
             else:
                 flash('Please check have you selected the articles, filled the subject, opener or preview text','danger')
 
