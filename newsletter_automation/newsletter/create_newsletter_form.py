@@ -24,6 +24,6 @@ class ArticleForm(FlaskForm):
     added_articles = my_field = TextAreaField('Added Articles:', render_kw={'readonly': True})
     opener = TextAreaField('Opener')
     preview_text = TextAreaField('Preview Text',render_kw={'maxlength': 150})
-    schedule = SubmitField('Schedule')
+    #schedule = SubmitField('Schedule')
     preview_newsletter = SubmitField('Preview Newsletter')
     cancel = SubmitField('Cancel')
