@@ -3,7 +3,9 @@ import  json
 import re
 import requests
 from operator import countOf
+from builtins import Exception
 from flask import Flask, request, flash, url_for, redirect, render_template, jsonify,session
+from sqlalchemy.orm.exc import MultipleResultsFound
 from . models import Articles, db, Article_category, AddNewsletter, NewsletterContent,Newsletter_campaign
 from . forms import AddArticlesForm
 from newsletter import app
@@ -97,8 +99,16 @@ def articles():
     if request.method == 'POST':
         article = Articles(addarticlesform.url.data,addarticlesform.title.data,addarticlesform.description.data, addarticlesform.time.data, addarticlesform.category_id.data.category_id)
         db.session.add(article)
-        db.session.commit()
-        msg = "Record added Successfully"
+        try:
+            if url == db.session.query(Articles).filter(Articles.url == addarticlesform.url.data).one_or_none():
+                msg = ""
+            else:
+                db.session.commit()
+                msg = "Record added Successfully"
+        except MultipleResultsFound as e:
+            msg = e
+        #db.session.commit()
+        #msg = "Record added Successfully"
         return render_template('result.html', msg=msg)
 
     return render_template('articles.html',addarticlesform=addarticlesform, category=category)
