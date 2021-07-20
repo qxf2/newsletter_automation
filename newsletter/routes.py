@@ -129,8 +129,6 @@ def add_articles_to_newsletter(subject, opener, preview_text):
         db.session.commit()
         articles_newsletter_id = Articles.query.filter(Articles.article_id==each_article).update({"newsletter_id":newsletter_id})
         db.session.commit()
-
-    flash('Form submitted successfully ')
     articles_added.clear()
     article_id_list.clear()
 
@@ -167,11 +165,10 @@ def add_articles():
                     flash('Already selected !! Please select another article ', 'danger')
                     return redirect(url_for("add_articles"))
 
-        if form.preview_text.data:
+        if form.preview_newsletter.data:
             if subject and opener and preview_text and article_id_list:
                 article_list, newsletter_id = add_articles_to_newsletter(subject, opener, preview_text)
                 return redirect(url_for("previewnewsletter",newsletter_id=newsletter_id))
-                #return redirect(url_for("add_articles"))
             else:
                 flash('Please check have you selected the articles, filled the subject, opener or preview text','danger')
 
