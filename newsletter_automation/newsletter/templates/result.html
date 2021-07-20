@@ -1,3 +1,5 @@
+{%include "menu.html" %}
+
 <!doctype html>
 <html lang="en"></html>
 <head>
@@ -6,16 +8,16 @@
 </head>
 <html>
    <body>
+      <div class="logoutLblPos">
+         <button type="button" onclick="location.href = '/logout'">
+            Logout
+         </button>
+      </div>
       Result of addition : {{ msg }}
       <h2><a href = "./articles">Go back to articles page</a></h2>
       <h2><a href="./manage-articles">Go to Manage articles page</a></h2>
+      <h2><a href="./create-newsletter">Go to Create newsletter page</a></h2>
       <h2><a href = "./home">Go back to Home page</a></h2>
       <br></br>
-      <div>
-         <button type = "button" onclick =
-         "location.href = '/logout'">
-         Logout
-     </button>
-      </div>
    </body>
 </html>

@@ -47,3 +47,44 @@ li {
 .field-value {
     font-size: .9em;
 }
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+
+.logoutLblPos {
+    position: fixed;
+    right: 80px;
+    top: 5px;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+.glyphicon.glyphicon-menu-hamburger {
+      font-size: 25px;
+  }
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+
+.wrapper {
+    position:absolute;
+    top:5px;
+    right:180px;
+  }

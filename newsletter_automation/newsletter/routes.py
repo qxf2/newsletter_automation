@@ -7,7 +7,6 @@ from builtins import Exception
 from flask import Flask, request, flash, url_for, redirect, render_template, jsonify,session
 from sqlalchemy.orm.exc import MultipleResultsFound
 from . models import Articles, db, Article_category, AddNewsletter, NewsletterContent,Newsletter_campaign
-from . forms import AddArticlesForm
 from newsletter import app
 from  helpers import mailchimp_helper
 import datetime
@@ -74,7 +73,6 @@ def callback():
     else:
         return render_template('unauthorized.html')
 
-
 @app.route('/logout')
 def logout():
     for key in list(session.keys()):
@@ -137,7 +135,7 @@ def add_articles_to_newsletter(subject, opener, preview_text):
 
 @app.route("/create-newsletter",methods=["GET","POST"])
 @Authentication_Required.requires_auth
-def add_articles():
+def create_newsletter():
     "This page contains the form where user can add articles"
     form = ArticleForm()
     url_data = ",".join(articles_added)
@@ -150,20 +148,18 @@ def add_articles():
 
     if form.validate_on_submit():
         if form.add_more.data:
-            if form.category_id.data is None:
-                flash('Please select Category','danger')
-                return redirect(url_for("add_articles"))
-            if article_id=="Select URL":
-                flash('Please select URL','danger')
-                return redirect(url_for("add_articles"))
+            if form.category_id.data is None or article_id == "Select URL":
+                flash('Please check Category and URL are selected','danger')
+                return redirect(url_for("create_newsletter"))
+
             else:
                 if article_id not in article_id_list:
                     article_id_list.append(article_id)
                     articles_added.append(title)
-                    return redirect(url_for("add_articles"))
+                    return redirect(url_for("create_newsletter"))
                 else:
                     flash('Already selected !! Please select another article ', 'danger')
-                    return redirect(url_for("add_articles"))
+                    return redirect(url_for("create_newsletter"))
 
         if form.preview_newsletter.data:
             if subject and opener and preview_text and article_id_list:
@@ -176,20 +172,23 @@ def add_articles():
             flash('Clear all Fields!! Now select the articles', 'info')
             articles_added.clear()
             article_id_list.clear()
-            return redirect(url_for("add_articles"))
+            return redirect(url_for("create_newsletter"))
 
     all_articles = [Articles.query.filter_by(article_id=article_id).one() for article_id in article_id_list]
 
     return render_template('create_newsletter.html',form=form, all_articles=all_articles,article_list=article_id_list)
 
 @app.route("/preview_newsletter/<newsletter_id>",methods=["GET","POST"])
+@Authentication_Required.requires_auth
 def previewnewsletter(newsletter_id):
     "To populate the preview newsletter page"
     content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,AddNewsletter.preview,Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).filter(AddNewsletter.newsletter_id == newsletter_id).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
 
     return render_template('preview_newsletter.html',content=content)
 
+
 @app.route("/create_campaign",methods=["GET","POST"])
+@Authentication_Required.requires_auth
 def create_campaign():
     """
     create the campaign and return the campaign id
@@ -258,7 +257,6 @@ def add_campaign(newsletter,newsletter_id):
 
 @app.route("/url/<category_id>")
 @Authentication_Required.requires_auth
-
 def url(category_id):
     "This method fetches url and article_id based on category selected"
 
@@ -276,7 +274,6 @@ def url(category_id):
 
 @app.route("/description/<article_id>")
 @Authentication_Required.requires_auth
-
 def description(article_id):
     "This method fetches the article description based on article selected"
 
@@ -292,7 +289,6 @@ def description(article_id):
 
 @app.route("/readingtime/<article_id>")
 @Authentication_Required.requires_auth
-
 def reading_time(article_id):
     "This method fetched reading time based on article selected"
 
@@ -309,7 +305,6 @@ def reading_time(article_id):
 
 @app.route("/title/<article_id>")
 @Authentication_Required.requires_auth
-
 def title(article_id):
     "This article fetched reading time based on url selected"
 
@@ -325,7 +320,6 @@ def title(article_id):
 
 @app.route('/manage-articles')
 @Authentication_Required.requires_auth
-
 def manage_articles():
     add_articles_form = AddArticlesForm(request.form)
     article_data = Articles.query.all()
@@ -334,7 +328,6 @@ def manage_articles():
 
 @app.route("/edit/<article_id>",methods=["GET","POST"])
 @Authentication_Required.requires_auth
-
 def update_article(article_id):
     "This method is used to edit articles based on article_id"
 
@@ -362,7 +355,6 @@ def update_article(article_id):
 
 @app.route("/delete/<article_id>", methods=["GET","POST"])
 @Authentication_Required.requires_auth
-
 def delete_article(article_id):
     "Deletes an article"
     articles_delete = Articles.query.filter_by(article_id=article_id).value(Articles.newsletter_id)
@@ -379,7 +371,6 @@ def delete_article(article_id):
 
 @app.route("/removearticle",methods=["GET","POST"])
 @Authentication_Required.requires_auth
-
 def remove_article():
     "Remove article from the list"
     form = ArticleForm()
