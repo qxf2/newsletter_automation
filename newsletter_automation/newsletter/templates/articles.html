@@ -6,9 +6,14 @@
 </head>
 <body>
 <h2>Add <b>Articles </b> <span style="float: right">
-   <form action="manage-articles">
+   <form action="./manage-articles">
       <button type="submit">Manage Articles</button>
    </form>
+   <div>
+      <button type="button" onclick="location.href = '/logout'">
+         Logout
+      </button>
+   </div>
    </h2>
 <form action="" method = "post">
 
@@ -22,17 +27,12 @@
          <br></br>
          <div>
             <button type = "button" onclick =
-            "location.href = '/logout'">
-            Logout
-        </button>
-         </div>
-         <div>
-            <button type = "button" onclick =
             "location.href = './home'">
             Go back to Home
         </button>
          </div>
 
+        
 </form>
 </body>
 </html>

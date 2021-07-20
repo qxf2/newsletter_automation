@@ -1,18 +1,17 @@
-{%extends "base.html" %}
 {%include "layout.html" %}
+{%include "base.html" %}
+{%include "menu.html" %}
 {% block content %}
-
+<div class="logoutLblPos">
+    <button type="button" onclick="location.href = '/logout'">
+        Logout
+    </button>
+</div>
 <div class="container">
     <div class="row">
         <div class="col md-12">
-
-            <div class="jumbotron p-3">
-
-                <h2>Manage <b>Articles </b> <a href="/articles" class="btn btn-success float-right"
-                   >Add New Articles</a>
-                </h2>
-
             <form method="POST" , action="">
+                <legend>Manage Articles </legend>
 
                     <table class="table table-hover table" >
                         <tr>
@@ -46,16 +45,12 @@
                     <br></br>
                     <div>
                         <button type = "button" onclick =
-                        "location.href = '/logout'">
-                        Logout
-                    </button>
-                    </div>
-                        <button type = "button" onclick =
                         "location.href = './home'">
                         Go back to Home
                     </button>
                     </div>
 
+                   
             </form>
 
             </div>
