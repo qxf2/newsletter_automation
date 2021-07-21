@@ -9,7 +9,7 @@
     <div>
     <table class="table table-hover table" >
     <tr>
-        <th>subject</th>
+        <th>Subject</th>
         <th>Opener</th>
         <th>Preview</th>
     </tr>
@@ -29,7 +29,7 @@
                             <th>Title</th>
                             <th>URL</th>
                             <th>Description</th>
-                            <th>Reading Time</th>       
+                            <th>Reading Time</th>
                         </tr>
                         {% for row in content %}
                         <tr>
@@ -43,8 +43,8 @@
                     </table>
     </div>
     <div class="form-group" align ="justify">
-        <button type="submit" class="btn btn-primary" id="campaign">Create Campaign</button> 
-        <button type="submit" class="btn btn-primary" id="schedule">Schedule Campaign</button>        
+        <button type="submit" class="btn btn-primary" id="campaign">Create Campaign</button>
+        <button type="submit" class="btn btn-primary" id="schedule">Schedule Campaign</button>
     </div>
         <script>
             $(document).ready(function(){
@@ -52,7 +52,7 @@
             $.ajax({
             type : 'POST',
             url : "{{url_for('create_campaign')}}",
-            
+
             contentType: 'application/json;charset=UTF-8',
             dataType : "json",
             success: function () {
