@@ -11,7 +11,7 @@ CLIENT_SECRET = conf.CLIENT_SECRET
 
 DATA = {
         'response_type':"code",
-        'redirect_uri':"http://localhost:5000/callback",
+        'redirect_uri':"https://newsletter-generator.qxf2.com/callback",
         'scope': 'https://www.googleapis.com/auth/userinfo.email',
         'client_id':CLIENT_ID,
         'prompt':'consent'}
