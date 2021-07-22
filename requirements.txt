@@ -1,9 +1,9 @@
 Flask
 Flask-WTF
+wtforms-components
 flask-sqlalchemy
 mailchimp-marketing==3.0.44
 pylint
 PyMySQL==1.0.2
 oauthlib==3.1.1
 pytz
-

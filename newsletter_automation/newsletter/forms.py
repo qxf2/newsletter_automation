@@ -1,6 +1,7 @@
 #Flask Form To add Data
 from flask_wtf import FlaskForm
 from wtforms import TextField, TextAreaField, SubmitField
+from wtforms_components import TimeField
 from wtforms.validators import DataRequired, Length
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from . models import Article_category
@@ -19,6 +20,6 @@ class AddArticlesForm(FlaskForm):
     url= TextField('url', validators= [DataRequired()])
     title = TextField('title', validators= [DataRequired()])
     description = TextField('description', validators= [ DataRequired(), Length(min=4)])
-    time = TextField('time',validators=[ DataRequired()])
+    time = TimeField('time',validators=[ DataRequired()])
     category_id = QuerySelectField(query_factory=choice_query, allow_blank=True,get_label='category_name')
     submit = SubmitField('Add Article')
