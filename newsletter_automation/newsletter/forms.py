@@ -1,7 +1,10 @@
 #Flask Form To add Data
+#from newsletter.routes import description
 from flask_wtf import FlaskForm
+from flask_wtf.recaptcha import validators
 from wtforms import TextField, TextAreaField, SubmitField
-from wtforms.validators import DataRequired, Length
+from wtforms.fields.core import Label, StringField
+from wtforms.validators import DataRequired, Length,ValidationError
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from . models import Article_category
 
@@ -17,8 +20,8 @@ def choice_query():
 #To add articles data
 class AddArticlesForm(FlaskForm):
     url= TextField('url', validators= [DataRequired()])
-    title = TextField('title', validators= [DataRequired()])
-    description = TextField('description', validators= [ DataRequired(), Length(min=4)])
-    time = TextField('time',validators=[ DataRequired()])
+    title = TextField('Title', validators= [DataRequired()])
+    description = TextAreaField('Description', validators = None)
+    time = TextField('Time',validators = None)
     category_id = QuerySelectField(query_factory=choice_query, allow_blank=True,get_label='category_name')
     submit = SubmitField('Add Article')

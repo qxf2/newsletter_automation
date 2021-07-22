@@ -17,6 +17,8 @@ from . edit_article_form import EditArticlesForm
 import newsletter.sso_google_oauth as sso
 from helpers.authentication_required import Authentication_Required
 
+from newsletter import forms
+
 articles_added=[]
 article_id_list=[]
 
@@ -90,27 +92,39 @@ def index():
 @Authentication_Required.requires_auth
 def articles():
     "This page adds articles to the database"
-    addarticlesform = AddArticlesForm(request.form)
-    category = AddArticlesForm(request.form)
-    if category.validate_on_submit():
-        return '<html><h1>{}</h1></html>'.format(category.category_name.data.category_id)
-    if request.method == 'POST':
-        article = Articles(addarticlesform.url.data,addarticlesform.title.data,addarticlesform.description.data, addarticlesform.time.data, addarticlesform.category_id.data.category_id)
-        db.session.add(article)
-        try:
-            if url == db.session.query(Articles).filter(Articles.url == addarticlesform.url.data).one_or_none():
-                msg = ""
-            else:
-                db.session.commit()
-                msg = "Record added Successfully"
-        except MultipleResultsFound as e:
-            msg = e
-        #db.session.commit()
-        #msg = "Record added Successfully"
-        return render_template('result.html', msg=msg)
+    try:
+        addarticlesform = AddArticlesForm(request.form)
+        category = AddArticlesForm(request.form)
+        if request.method == 'POST':
+            if addarticlesform.submit.data:
+                category1 = request.form.get('category_id')
+                if category1 == '1':
+                    pass
+                else:
+                    if not(addarticlesform.description.data):
+                        flash("Please Provide Description")
+                        return render_template('articles.html',addarticlesform=addarticlesform, category=category)
+                    if not (addarticlesform.time.data):
+                        flash("Please Provide Time")
+                        return render_template('articles.html',addarticlesform=addarticlesform, category=category)
+            
+            article = Articles(addarticlesform.url.data,addarticlesform.title.data,addarticlesform.description.data, addarticlesform.time.data, addarticlesform.category_id.data.category_id)
+            db.session.add(article)
+            try:
+                if url == db.session.query(Articles).filter(Articles.url == addarticlesform.url.data).one_or_none():
+                    msg = ""
+                else:
+                    db.session.commit()
+                    msg = "Record added Successfully"
+            except MultipleResultsFound as e:
+                msg = e
+            #db.session.commit()
+            #msg = "Record added Successfully"
+            return render_template('result.html', msg=msg)
 
-    return render_template('articles.html',addarticlesform=addarticlesform, category=category)
-
+        return render_template('articles.html',addarticlesform=addarticlesform, category=category)
+    except Exception as e:
+            print(e)
 
 def add_articles_to_newsletter(subject, opener, preview_text):
     "Adding articles to newsletter"
