@@ -20,7 +20,7 @@ def choice_query():
 #To add articles data
 class AddArticlesForm(FlaskForm):
     url= TextField('url', validators= [DataRequired()])
-    title = TextField('Title', validators= [DataRequired()])
+    title = TextField('title', validators= [DataRequired()])
     description = TextAreaField('Description', validators = None)
     time = TextField('Time',validators = None)
     category_id = QuerySelectField(query_factory=choice_query, allow_blank=True,get_label='category_name')
