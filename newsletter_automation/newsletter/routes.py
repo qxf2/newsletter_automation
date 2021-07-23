@@ -13,6 +13,7 @@ import datetime
 from sqlalchemy.orm import query
 from . forms import AddArticlesForm
 from . create_newsletter_form import ArticleForm
+from . edit_preview_newsletter_form import ArticleForm
 from . edit_article_form import EditArticlesForm
 import newsletter.sso_google_oauth as sso
 from helpers.authentication_required import Authentication_Required
@@ -186,6 +187,19 @@ def previewnewsletter(newsletter_id):
     only_sub_op_preview=AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,AddNewsletter.preview).filter(AddNewsletter.newsletter_id == newsletter_id).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id).all()
     only_one_row = set(only_sub_op_preview)
     return render_template('preview_newsletter.html',content=content, only_sub_op_preview=only_one_row)
+
+
+@app.route("/edit_preview_newsletter/<newsletter_id>",methods=["GET","POST"])
+@Authentication_Required.requires_auth
+def edit_preview_newsletter(newsletter_id):
+    "To populate the edit preview newsletter page"
+    #content = Select subject, opener, preview from add_newsletter; - to populate the textboxes
+    #Select columns for articles from articles;  to show on the table
+    
+    modified_sub_op_preview = AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,AddNewsletter.preview).filter(AddNewsletter.newsletter_id == newsletter_id).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id).all()
+
+    modified_one_row = set(modified_sub_op_preview)
+    return render_template('preview_newsletter.html',modified_sub_op_preview=modified_one_row)
 
 
 @app.route("/create_campaign",methods=["GET","POST"])

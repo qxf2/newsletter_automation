@@ -23,54 +23,70 @@
     </table>
     &nbsp;
     &nbsp;
-        <table class="table table-hover table" >
-                        <tr>
-                            <th>Category</th>
-                            <th>Title</th>
-                            <th>URL</th>
-                            <th>Description</th>
-                            <th>Reading Time</th>
-                        </tr>
-                        {% for row in content %}
-                        <tr>
-                            <td> {{row.category_name}}</td>
-                            <td> {{row.title}}</td>
-                            <td> {{row.url}}</td>
-                            <td> {{row.description}}</td>
-                            <td> {{row.time}}</td>
-                        </tr>
-                        {% endfor %}
-                    </table>
+    <table class="table table-hover table" >
+        <tr>
+            <th>Category</th>
+            <th>Title</th>
+            <th>URL</th>
+            <th>Description</th>
+            <th>Reading Time</th>
+        </tr>
+        {% for row in content %}
+        <tr>
+            <td> {{row.category_name}}</td>
+            <td> {{row.title}}</td>
+            <td> {{row.url}}</td>
+            <td> {{row.description}}</td>
+            <td> {{row.time}}</td>
+        </tr>
+        {% endfor %}
+    </table>
     </div>
     <div class="form-group" align ="justify">
         <button type="submit" class="btn btn-primary" id="campaign">Create Campaign</button>
         <button type="submit" class="btn btn-primary" id="schedule">Schedule Campaign</button>
+        <button type="submit" class="btn btn-primary" id="edit_preview_newsletter">Edit preview newsletter</button>
     </div>
-        <script>
-            $(document).ready(function(){
-            $("#campaign").click(function(){
-            $.ajax({
-            type : 'POST',
-            url : "{{url_for('create_campaign')}}",
+    <script>
+        $(document).ready(function(){
+        $("#campaign").click(function(){
+        $.ajax({
+        type : 'POST',
+        url : "{{url_for('create_campaign')}}",
 
-            contentType: 'application/json;charset=UTF-8',
-            dataType : "json",
-            success: function () {
-                        alert("Data added successfully");
-                        console.log("created campaign and set content too")
-                    }
-            })
-            alert("Wait for sometime as API calls are being made, there might be delay.....");
-            });
-            });
-        </script>
+        contentType: 'application/json;charset=UTF-8',
+        dataType : "json",
+        success: function () {
+                    alert("Data added successfully");
+                    console.log("created campaign and set content too")
+                }
+        })
+        alert("Wait for sometime as API calls are being made, there might be delay.....");
+        });
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+        $("#edit_preview_newsletter").click(function(){
+        $.ajax({
+        type : 'POST',
+        url : "{{url_for('edit_preview_newsletter')}}",
+
+        contentType: 'application/json;charset=UTF-8',
+        dataType : "json",
+        success: function () {
+                    console.log("editing preview newsletter")
+                }
+        })
+        });
+        });
+    </script>
 
 </div>
 &nbsp;
 <div>
-                        <button type = "button" onclick =
-                        "location.href = '/logout'">
-                        Logout
-                    </button>
-                     </div>
+    <button type = "button" onclick ="location.href = '/logout'">
+        Logout
+    </button>
+</div>
 {% endblock content %}
