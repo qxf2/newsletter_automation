@@ -147,12 +147,10 @@ def create_newsletter():
 
     if form.validate_on_submit():
         if form.add_more.data:
-            if form.category_id.data is None:
-                flash('Please select Category','danger')
+            if form.category_id.data is None or article_id == "Select URL":
+                flash('Please check Category and URL are selected','danger')
                 return redirect(url_for("create_newsletter"))
 
-            if article_id == "Select URL":
-                flash('please select URL','danger')                
             else:
                 if article_id not in article_id_list:
                     article_id_list.append(article_id)
