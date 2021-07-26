@@ -21,9 +21,6 @@
             <div class="form-group">
                 {{form.url.label(class="col-sm-1 col-form-label")}}
                 {{form.url(id="url")}}
-                {% for message in get_flashed_messages() %}
-                    <textarea style="display:none;" id="message" type="hidden">{{message}}</textarea>     
-                {% endfor %}
             </div>
             <div class="form-group">
                 {{form.title.label(class="col-sm-1 col-form-label")}}
@@ -109,30 +106,6 @@
                 })
 
             });
-        }
-
-        let message = document.getElementById('message')
-        console.log((message.value))
-        if(message.value == "please select URL")
-        {
-            console.log(true)
-            category = state_category.value;
-            fetch('/url/'+ category).then(function(response){
-                response.json().then(function(data){
-                    let optionHTML='<option selected="" value="Select URL">Select URL</option>';
-                    for(let url of data.url){
-                        optionHTML += '<option value="' + url.article_id + '">' + url.url + '</option>';
-                    }
-                    state_url.innerHTML=optionHTML;
-
-                })
-
-            });
-        
-        }
-        else
-        {
-            console.log(false)
         }
 
         state_url.onchange = function(){
