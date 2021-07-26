@@ -153,8 +153,6 @@ def create_newsletter():
 
             if article_id == "Select URL":
                 flash('please select URL','danger')                
-
-
             else:
                 if article_id not in article_id_list:
                     article_id_list.append(article_id)
