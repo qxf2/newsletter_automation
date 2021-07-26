@@ -39,7 +39,6 @@ def callback():
 
     # Get the code after authenticating from the URL
     code = request.args.get('code')
-
     # Generate URL to generate token
     token_url, headers, body = sso.CLIENT.prepare_token_request(
             sso.URL_DICT['token_gen'],
@@ -54,7 +53,6 @@ def callback():
             headers=headers,
             data=body,
             auth=(sso.CLIENT_ID, sso.CLIENT_SECRET))
-
     # Parse the token response
     sso.CLIENT.parse_request_body_response(json.dumps(token_response.json()))
 
@@ -69,9 +67,10 @@ def callback():
     user_email_domain = re.search("@[\w.]+",user_info).group()
     if user_email_domain == '@qxf2.com':
         session['logged_user'] = user_info
-        return render_template('home.html')
+        return redirect(url_for('index'))
     else:
         return render_template('unauthorized.html')
+
 
 @app.route('/logout')
 def logout():
@@ -175,7 +174,6 @@ def create_newsletter():
             return redirect(url_for("create_newsletter"))
 
     all_articles = [Articles.query.filter_by(article_id=article_id).one() for article_id in article_id_list]
-
     return render_template('create_newsletter.html',form=form, all_articles=all_articles,article_list=article_id_list)
 
 @app.route("/preview_newsletter/<newsletter_id>",methods=["GET","POST"])
@@ -379,4 +377,4 @@ def remove_article():
     article_id = request.form.get('articleid')
     article_id_list.remove(article_id)
 
-    return render_template('create_newsletter.html',form=form,article_list=article_id_list)
+    return redirect(url_for("create_newsletter"))
