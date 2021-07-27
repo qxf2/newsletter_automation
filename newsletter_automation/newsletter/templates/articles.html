@@ -1,38 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-     <meta charset="utf-8">
-     <title>Newsletter articles"</title>
-</head>
-<body>
+{% include "base.html" %}
+{% include "layout.html" %}
+{% include "menu.html" %}
+{% block content %}
+
 <h2>Add <b>Articles </b> <span style="float: right">
-   <form action="./manage-articles">
-      <button type="submit">Manage Articles</button>
-   </form>
-   <div>
-      <button type="button" onclick="location.href = '/logout'">
-         Logout
-      </button>
-   </div>
-   </h2>
-<form action="" method = "post">
+
+</h2>
+<div class="logoutLblPos">
+   <button type="button" onclick="location.href = '/logout'">
+       Logout
+   </button>
+</div>
 
    <form action = "{{ request.path }}" method = "post">
-         {{ addarticlesform.url(id="url", class="form-control", autofocus="",placeholder="URL")}}
-         {{ addarticlesform.title(id="title", class="form-control", autofocus="",placeholder="Title")}}
-         {{ addarticlesform.description(id="description", class="form-control", autofocus="",placeholder="Description")}}
-         {{ addarticlesform.time(placeholder="Time",id="time", class="form-control", autofocus="") }}
-         {{ addarticlesform.category_id(placeholder="category",id="category_id", class="form-control", required="") }}
-         {{ addarticlesform.submit(class="btn btn-lg btn-primary btn-block")}}
-         <br></br>
-         <div>
-            <button type = "button" onclick =
-            "location.href = './home'">
-            Go back to Home
-        </button>
-         </div>
-
-        
+      <div class="col-md-12">
+      <table class="table table-hover table" >
+         <tr>
+            <td > URL:{{ addarticlesform.url(id="url", class="form-control", autofocus="",placeholder="URL")}}</td>
+         </tr>&nbsp;&nbsp;&nbsp;
+         <tr>
+            <td> Title:{{ addarticlesform.title(id="title", class="form-control", autofocus="",placeholder="Title")}}</td>
+         </tr>
+         <tr>
+            <td> Description:{{ addarticlesform.description(id="description", class="form-control", autofocus="",placeholder="Description")}}</td>
+         </tr>
+         <tr>
+            <td> Time:{{ addarticlesform.time(placeholder="Time",id="time", class="form-control", autofocus="") }}</td>
+         </tr>
+         <tr>
+            <td> Category:{{ addarticlesform.category_id(placeholder="category",id="category_id", class="form-control", required="") }}</td>
+         </tr>
+         <tr>
+            <td>{{ addarticlesform.submit(class="btn btn-lg btn-primary btn-block")}}</td>
+         </tr>
+      </table>
+      </div>
+      <br>
+      <div>
+         <button type = "button" class="btn btn-primary" onclick =
+         "location.href = './home'">
+         Go back to Home
+      </button>
+      </div>
+      <br><br>
+      <div>
+         <button type="button" onclick="location.href = '/logout'">
+            Logout
+         </button>
+      </div>
 </form>
-</body>
-</html>
+{% endblock content %}
