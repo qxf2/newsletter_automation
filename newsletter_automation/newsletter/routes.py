@@ -13,8 +13,8 @@ import datetime
 from sqlalchemy.orm import query
 from . forms import AddArticlesForm
 from . create_newsletter_form import ArticleForm
-from . edit_preview_newsletter_form import ArticleForm
 from . edit_article_form import EditArticlesForm
+from . edit_preview_newsletter_form import EditPreviewNewsletterForm
 import newsletter.sso_google_oauth as sso
 from helpers.authentication_required import Authentication_Required
 
@@ -188,19 +188,34 @@ def previewnewsletter(newsletter_id):
     only_one_row = set(only_sub_op_preview)
     return render_template('preview_newsletter.html',content=content, only_sub_op_preview=only_one_row)
 
-
-@app.route("/edit_preview_newsletter/<newsletter_id>",methods=["GET","POST"])
+@app.route("/edit_preview_newsletter/<newsletter_id>",methods=["GET", "POST"])
 @Authentication_Required.requires_auth
 def edit_preview_newsletter(newsletter_id):
-    "To populate the edit preview newsletter page"
-    #content = Select subject, opener, preview from add_newsletter; - to populate the textboxes
-    #Select columns for articles from articles;  to show on the table
-    
-    modified_sub_op_preview = AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,AddNewsletter.preview).filter(AddNewsletter.newsletter_id == newsletter_id).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id).all()
+    print("in editNWS method")
+    form = ArticleForm()
+    article_id = request.form.get('articleid')
+    article = Articles.query.filter_by(article_id=article_id).all()
+    for each_article in article:
+        print("in for")
+        form = EditPreviewNewsletterForm(title=each_article.title,
+                            url=each_article.url,
+                            description=each_article.description,
+                            time=each_article.time,
+                            category_id=each_article.category_id)
 
-    modified_one_row = set(modified_sub_op_preview)
-    return render_template('preview_newsletter.html',modified_sub_op_preview=modified_one_row)
+    if form.validate_on_submit():
+        print("in if ")
+        edited_title=form.title.data
+        edited_url=form.url.data
+        edited_description=form.description.data
+        edited_time=form.time.data
+        edited_category= int(form.category_id.data)
+        Articles.query.filter(Articles.article_id==article_id).update({"title":edited_title,"url":edited_url,"description":edited_description,"time":edited_time,"category_id":edited_category})
 
+        db.session.commit()
+        return redirect(url_for("preview_newsletter"))
+
+    return render_template('edit_preview_newsletter.html',form=form)
 
 @app.route("/create_campaign",methods=["GET","POST"])
 @Authentication_Required.requires_auth

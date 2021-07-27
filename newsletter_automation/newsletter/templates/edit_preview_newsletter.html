@@ -2,11 +2,44 @@
 {%include "menu.html" %}
 {% block content %}
 
+<div class="logoutLblPos">
+    <button type="button" onclick="location.href = '/logout'">
+        Logout
+    </button>
+</div>
 <div>
     <form method="POST", action="">
 
         {{ form.csrf_token }}
-        
+        <fieldset class="form-group">
+            <legend>Modify Articles to the Newsletter</legend>
+
+            <div class="form-group">
+                {{form.category_id.label(class="col-sm-1 col-form-label")}}
+                {{form.category_id(id="category_id")}}
+            </div>
+            <div class="form-group">
+                {{form.url.label(class="col-sm-1 col-form-label")}}
+                {{form.url(id="url")}}
+            </div>
+            <div class="form-group">
+                {{form.title.label(class="col-sm-1 col-form-label")}}
+                {{form.title(id="title")}}
+            </div>
+            <div class="form-group">
+                {{form.description.label(class="col-sm-1 col-form-label")}}
+                {{form.description(id="description")}}
+
+            </div>
+            <div class="form-group">
+                {{form.reading_time.label(class="col-sm-1 col-form-label")}}
+                {{form.reading_time(id="reading_time")}}
+            </div>
+            <div class="form-group">
+                {{form.add_more()}}
+            </div>
+
+        </fieldset>
             <div class="form-group">
                 {{form.subject.label(class="col-sm-1 col-form-label")}}
                 {{form.subject}}
@@ -25,7 +58,7 @@
 
             <div class="form-group" align ="justify">
 
-                {{form.edit_preview_newsletter(class="btn btn-secondary")}}
+                {{form.cancel(class="btn btn-secondary")}}
                 {{form.preview_newsletter(class="btn btn-primary")}}
 
             </div>

@@ -10,8 +10,8 @@ def choice_query():
     "Subquery for the QuerySelectField"
     return Article_category.query
 
-class ArticleForm(FlaskForm):
-    "Class for articles form"
+class EditPreviewNewsletterForm(FlaskForm):
+    "Class for edit newsletter form"
     
     
     category_id= QuerySelectField('Category',query_factory=choice_query, allow_blank=True,get_label='category_name')
@@ -26,4 +26,4 @@ class ArticleForm(FlaskForm):
     preview_text = TextAreaField('Preview Text',render_kw={'maxlength': 150})
     #schedule = SubmitField('Schedule')
     preview_newsletter = SubmitField('Preview Newsletter')
-    cancel = SubmitField('Cancel')
+   
