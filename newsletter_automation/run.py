@@ -5,7 +5,6 @@ Flask App for Newsletter automation
 from newsletter import app
 import logging
 import os
-from loguru import logger
 
 @app.before_first_request
 def before_first_request():
