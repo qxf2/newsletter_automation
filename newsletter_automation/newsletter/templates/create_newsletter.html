@@ -111,6 +111,27 @@
 
             });
         }
+        
+        state_url.onchange = function(){
+            url=state_url.value;
+            fetch('/title/'+ url).then(function(response){
+                response.json().then(function(data){
+                    state_title.value=data;
+                })
+            });
+
+            fetch('/description/'+ url).then(function(response){
+                response.json().then(function(data){
+                    state_description.value=data;
+                })
+            });
+
+            fetch('/readingtime/'+ url).then(function(response){
+                response.json().then(function(data){
+                    state_readingtime.value=data;
+                })
+            });
+        }
 
         let message = document.getElementById('message')
         console.log((message.value))
@@ -135,26 +156,7 @@
         {
             console.log(false)
         }
-        state_url.onchange = function(){
-            url=state_url.value;
-            fetch('/title/'+ url).then(function(response){
-                response.json().then(function(data){
-                    state_title.value=data;
-                })
-            });
-
-            fetch('/description/'+ url).then(function(response){
-                response.json().then(function(data){
-                    state_description.value=data;
-                })
-            });
-
-            fetch('/readingtime/'+ url).then(function(response){
-                response.json().then(function(data){
-                    state_readingtime.value=data;
-                })
-            });
-        }
+        
     </script>
     <script>
         function removeArticle(deleteaction){
