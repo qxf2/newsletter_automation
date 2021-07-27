@@ -32,7 +32,3 @@ REQ_URI = CLIENT.prepare_request_uri(
     redirect_uri=DATA['redirect_uri'],
     scope=DATA['scope'],
     prompt=DATA['prompt'])
-
-
-
-

@@ -147,9 +147,13 @@ def create_newsletter():
 
     if form.validate_on_submit():
         if form.add_more.data:
-            if form.category_id.data is None or article_id == "Select URL":
-                flash('Please check Category and URL are selected','danger')
+            if form.category_id.data is None:
+                flash('Please select Category','danger')
                 return redirect(url_for("create_newsletter"))
+
+            if article_id == "Select URL":
+                flash('please select URL','danger')                
+
 
             else:
                 if article_id not in article_id_list:
@@ -181,8 +185,9 @@ def create_newsletter():
 def previewnewsletter(newsletter_id):
     "To populate the preview newsletter page"
     content =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,AddNewsletter.preview,Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time).filter(AddNewsletter.newsletter_id == newsletter_id).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
-
-    return render_template('preview_newsletter.html',content=content)
+    only_sub_op_preview=AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,AddNewsletter.preview).filter(AddNewsletter.newsletter_id == newsletter_id).join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id).all()
+    only_one_row = set(only_sub_op_preview)
+    return render_template('preview_newsletter.html',content=content, only_sub_op_preview=only_one_row)
 
 
 @app.route("/create_campaign",methods=["GET","POST"])
@@ -221,6 +226,7 @@ def create_campaign():
             newsletter['automation_corner'].append({'title':each_element['title'], 'url':each_element['url'], 'description':each_element['description'],'reading_time':each_element['time']})
 
     add_campaign(newsletter,newsletter_id)
+    flash('Campaign created successfully and loaded with data. Check Mailchimp.','info')
     #newsletter_json.append(newsletter)
     jsonfile = 'newsletter.json'
     with open(jsonfile, "w") as flw:
