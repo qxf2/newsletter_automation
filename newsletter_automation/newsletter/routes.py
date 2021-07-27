@@ -116,7 +116,7 @@ def articles():
     except Exception as e:
         app.logger.error(e)
 
-    return render_template('articles.html',addarticlesform=addarticlesform, category=category)
+    return render_template('articles.html', addarticlesform=addarticlesform, category=category)
 
 
 def add_articles_to_newsletter(subject, opener, preview_text):
@@ -203,7 +203,7 @@ def previewnewsletter(newsletter_id):
     return render_template('preview_newsletter.html',content=content, only_sub_op_preview=only_one_row)
 
 
-@app.route("/create_campaign",methods=["GET","POST"])
+@app.route("/create_campaign", methods=["GET", "POST"])
 @Authentication_Required.requires_auth
 def create_campaign():
     """
@@ -239,7 +239,7 @@ def create_campaign():
             if each_element.category_name == 'automation corner':
                 newsletter['automation_corner'].append({'title':each_element['title'], 'url':each_element['url'], 'description':each_element['description'],'reading_time':each_element['time']})
 
-        add_campaign(newsletter,newsletter_id)
+        add_campaign(newsletter, newsletter_id)
         flash('Campaign created successfully and loaded with data. Check Mailchimp.','info')
         #newsletter_json.append(newsletter)
         jsonfile = 'newsletter.json'
