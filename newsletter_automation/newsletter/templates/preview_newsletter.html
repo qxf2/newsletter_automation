@@ -47,8 +47,10 @@
         <button type="submit" class="btn btn-primary" id="schedule">Schedule Campaign</button>
     </div>
         <script>
+
             $(document).ready(function(){
             $("#campaign").click(function(){
+
             $.ajax({
             type : 'POST',
             url : "{{url_for('create_campaign')}}",
@@ -60,6 +62,7 @@
                         console.log("created campaign and set content too")
                     }
             })
+            $("#campaign").attr("disabled",true);
             alert("Wait for sometime as API calls are being made, there might be delay.....");
             });
             });
