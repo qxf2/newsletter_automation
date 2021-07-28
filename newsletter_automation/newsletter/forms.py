@@ -5,6 +5,8 @@ from flask_wtf.recaptcha import validators
 from wtforms import TextField, TextAreaField, SubmitField
 from wtforms.fields.core import Label, StringField
 from wtforms.validators import DataRequired, Length,ValidationError
+from wtforms_components import TimeField
+from wtforms.validators import DataRequired, Length
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from . models import Article_category
 
