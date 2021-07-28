@@ -6,4 +6,6 @@ recursive-include  newsletter_automation/newsletter/templates *
 recursive-include  newsletter_automation/newsletter/static *
 recursive-include  newsletter_automation/newsletter/static/css *
 recursive-include  newsletter_automation/newsletter/static/img *
+include requirements.txt
+
 global-exclude *.py[cod]
