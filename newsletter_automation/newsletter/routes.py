@@ -101,9 +101,13 @@ def articles():
         category = AddArticlesForm(request.form)
         if request.method == 'POST':
             if addarticlesform.submit.data:
-                category1 = request.form.get('category_id')
-                if category1 == '1':
-                    pass
+                #category1 = request.form.get('category_id')
+                if request.form.get('category_id') == '1':
+                    if (addarticlesform.description.data) or (addarticlesform.time.data):
+                        flash("Description and Time not required for category type Comic")
+                        return render_template('articles.html',addarticlesform=addarticlesform, category=category)
+                    else:
+                        pass
                 else:
                     if not(addarticlesform.description.data):
                         flash("Please Provide Description")
