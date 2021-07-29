@@ -81,4 +81,13 @@ class Newsletter_campaign(db.Model):
         self.campaign_id = campaign_id
         self.newsletter_id = newsletter_id
 
+class Skype_articles(db.Model):
+    "Class for Article db model"
+    article_id = db.Column('article_id', db.Integer, primary_key = True)
+    url = db.Column(db.String(100))
+
+    def __init__(self, url):
+        "initializes url"
+        self.url = url
+
 db.create_all()

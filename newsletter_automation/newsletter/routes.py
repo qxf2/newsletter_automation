@@ -6,7 +6,7 @@ from operator import countOf
 from builtins import Exception
 from flask import Flask, request, flash, url_for, redirect, render_template, jsonify,session
 from sqlalchemy.orm.exc import MultipleResultsFound
-from . models import Articles, db, Article_category, AddNewsletter, NewsletterContent,Newsletter_campaign
+from . models import Articles, db, Article_category, AddNewsletter, NewsletterContent,Newsletter_campaign, Skype_articles
 from newsletter import app
 from  helpers import mailchimp_helper
 import datetime
@@ -111,7 +111,7 @@ def articles():
                     if not (addarticlesform.time.data):
                         flash("Please Provide Time")
                         return render_template('articles.html',addarticlesform=addarticlesform, category=category)
-            
+
             article = Articles(addarticlesform.url.data,addarticlesform.title.data,addarticlesform.description.data, addarticlesform.time.data, addarticlesform.category_id.data.category_id)
             db.session.add(article)
             try:
@@ -425,3 +425,19 @@ def remove_article():
     except Exception as e:
         app.logger.error(e)
     return redirect(url_for("create_newsletter"))
+
+@app.route('/api/add-url', methods=['POST'])
+def api_add_url():
+     input_json = request.get_json(force=True)
+     #dictToReturn = {'text':input_json['text']}
+     for each_url in input_json:
+        print(each_url)
+        article = Skype_articles(each_url)
+        db.session.add(article)
+        db.session.commit()
+
+
+     if input_json is not None:
+         return jsonify("Success")
+     else:
+         return jsonify("Failed")
