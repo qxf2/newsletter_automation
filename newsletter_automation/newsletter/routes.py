@@ -187,6 +187,16 @@ def previewnewsletter(newsletter_id):
     only_one_row = set(only_sub_op_preview)
     return render_template('preview_newsletter.html',content=content, only_sub_op_preview=only_one_row)
 
+@app.route('/show-campaign',methods=["GET","POST"])
+@Authentication_Required.requires_auth
+def show_campaign():
+    "To show campaign details in table"
+    campaign_data =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,
+    AddNewsletter.preview,Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time)\
+    .filter(AddNewsletter.newsletter_id == Newsletter_campaign.newsletter_id)\
+    .join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
+    return render_template('show_campaign.html',campaign_data=campaign_data)
+
 
 @app.route("/create_campaign",methods=["GET","POST"])
 @Authentication_Required.requires_auth
