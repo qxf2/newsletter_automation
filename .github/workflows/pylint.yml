@@ -1,8 +1,6 @@
 name: Pylint
 on:
-  push:
-    branches:
-      - main
+  [pull-request]
 jobs:
   build:
     runs-on: ubuntu-latest
