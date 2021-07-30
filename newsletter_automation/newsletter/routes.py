@@ -122,7 +122,7 @@ def articles():
 @app.route('/api/articles', methods=['GET', 'POST'])
 @Authentication_Required.requires_auth_api
 def api_article():
-    "This page adds articles to the database"
+    "This is the api to add article to database"
     addarticlesform = AddArticlesForm(request.form)
     category = AddArticlesForm(request.form)
     
