@@ -119,6 +119,27 @@ def articles():
 
     return render_template('articles.html',addarticlesform=addarticlesform, category=category)
 
+@app.route('/api/articles', methods=['GET', 'POST'])
+@Authentication_Required.requires_auth_api
+def api_article():
+    "This page adds articles to the database"
+    addarticlesform = AddArticlesForm(request.form)
+    category = AddArticlesForm(request.form)
+    
+    if request.method == 'POST':
+        article = Articles(addarticlesform.url.data,addarticlesform.title.data,addarticlesform.description.data, addarticlesform.time.data, addarticlesform.category_id.data.category_id)
+        db.session.add(article)
+        try:
+            if url == db.session.query(Articles).filter(Articles.url == addarticlesform.url.data).one_or_none():
+                msg = ""
+            else:
+                db.session.commit()
+                msg = "Record added Successfully"
+                response = jsonify(msg)
+
+        except MultipleResultsFound as e:
+            msg = e
+        return response
 
 def add_articles_to_newsletter(subject, opener, preview_text):
     "Adding articles to newsletter"
