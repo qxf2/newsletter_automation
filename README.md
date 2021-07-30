@@ -17,3 +17,9 @@ This project is to automate the process of creating the weekly Qxf2 newsletter. 
  ## Run the project locally
     export FLASK_APP=run.py
     flask run
+
+## Provided support for flask-migrate
+  To track migrations, migrations folder have been added now, Next time onwards following steps needs to be followed:
+  1. Update the `model.py` file to make the changes.
+  2. Run `flask db migrate`
+  3. Run `flask db upgrade`
