@@ -3,7 +3,7 @@ Decorator for authenticating all pages
 """
 
 from functools import wraps
-from flask import app, render_template, session, request, jsonify, abort
+from flask import render_template, session, request, jsonify
 import conf.apikey_conf as conf
 
 API = conf.API_KEY
