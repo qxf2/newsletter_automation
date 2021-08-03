@@ -92,8 +92,6 @@ def index():
     return render_template('home.html')
 
 
-# @app.route('/articles', methods=['GET', 'POST'])
-# @Authentication_Required.requires_auth
 def add_articles():
     "This page adds articles to the database"
     try:
@@ -117,7 +115,7 @@ def add_articles():
         app.logger.error(e)
 
     return render_template('articles.html',addarticlesform=addarticlesform, category=category)
-    
+
 @app.route('/articles', methods=['GET', 'POST'])
 @Authentication_Required.requires_auth
 def articles():
