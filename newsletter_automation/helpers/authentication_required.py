@@ -3,12 +3,11 @@ Decorator for authenticating all pages
 """
 
 from functools import wraps
-from flask import render_template, session
-from flask import Flask, request, jsonify
-import conf.userlist_conf as conf
+from flask import app, render_template, session, request, jsonify, abort
+import conf.apikey_conf as conf
 
-USER_LIST = conf.USER_LIST
-                
+API = conf.API_KEY
+
 class Authentication_Required:
     "Authentication for all classes"
     def requires_auth(func):
@@ -24,39 +23,21 @@ class Authentication_Required:
                 return render_template("unauthorized.html")
 
         return decorated
-
-    def requires_auth_api(app_func):
-        "verify given user authentication details"
-        @wraps(app_func)
+    
+    def requires_apikey(func):
+        """ Decorator function to require API Key """
+        @wraps(func)
         def decorated(*args, **kwargs):
-            "Execute app_func only if authentication is valid"
-            auth = request.authorization
-            auth_flag = True
-
-            if not auth:
-                auth_flag = False
-                return authenticate_error(auth_flag)
-            elif not check_auth(auth.username, auth.password):
-                return authenticate_error(auth_flag)
-            return app_func(*args, **kwargs)
-
+            """ Decorator function that does the checking """
+            if request.headers.get('x-api-key') and request.headers.get('x-api-key') == API:
+                return func(*args, **kwargs)
+            else:
+                return authenticate_error(func)
         return decorated
 
-def check_auth(username, password):
-    "check if the given is valid"
-    user = [user for user in USER_LIST if user['name']
-            == username and user['password'] == password]
-    if len(user) == 1:
-        return True
-    return False
-
-
 def authenticate_error(auth_flag):
-    "set auth message based on the authentication check result"
-    if auth_flag is True:
-        message = {'message': "Authenticate with proper credentials"}
-    else:
-        message = {'message': "Require Basic Authentication"}
+    "set authentication message "
+    message = {'message': "API key is not valid"}
     response = jsonify(message)
     response.status_code = 401
     response.headers['WWW-Authenticate'] = 'Basic realm="Example"'
