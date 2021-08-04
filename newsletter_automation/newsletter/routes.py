@@ -101,23 +101,8 @@ def articles():
         category = AddArticlesForm(request.form)
         if request.method == 'POST':
             if addarticlesform.submit.data:
-                #category1 = request.form.get('category_id')
-                if request.form.get('category_id') == '1':
-                    if (addarticlesform.description.data) or (addarticlesform.time.data):
-                        flash("Description and Time not required for category type Comic")
-                        return render_template('articles.html',addarticlesform=addarticlesform, category=category)
-                    else:
-                        pass
-                else:
-                    if not(addarticlesform.description.data):
-                        flash("Please Provide Description")
-                        return render_template('articles.html',addarticlesform=addarticlesform, category=category)
-                    if not (addarticlesform.time.data):
-                        flash("Please Provide Time")
-                        return render_template('articles.html',addarticlesform=addarticlesform, category=category)
-            
-            article = Articles(addarticlesform.url.data,addarticlesform.title.data,addarticlesform.description.data, addarticlesform.time.data, addarticlesform.category_id.data.category_id)
-            db.session.add(article)
+                article = Articles(addarticlesform.url.data,addarticlesform.title.data,addarticlesform.description.data, addarticlesform.time.data, addarticlesform.category_id.data.category_id)
+                db.session.add(article)
             try:
                 if url == db.session.query(Articles).filter(Articles.url == addarticlesform.url.data).one_or_none():
                     msg = ""
