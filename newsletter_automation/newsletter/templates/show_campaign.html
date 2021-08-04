@@ -1,0 +1,47 @@
+{% include "base.html" %}
+{% include "layout.html" %}
+{%include "menu.html" %}
+{% block content %}
+<div class="logoutLblPos">
+    <button type="button" onclick="location.href = '/logout'">
+        Logout
+    </button>
+</div>
+<div class="container">
+<div class="row">
+<div class="col-md-12">
+<form method="POST" , action="">
+<fieldset class="form-group">
+    <legend>Show Campaign Table</legend>
+    <div>
+    <table class="table table-hover table" >
+    <tr>
+        <th>Newsletter_id</th>
+        <th>Category_name</th>
+        <th>Article_url</th>
+        <th>Title</th></th>
+        <th>Description</th>
+        <th>Time</th>
+        <th>Subject</th>
+        <th>Opener</th>
+        <th>Preview</th>
+    </tr>
+        {% for row in campaign_data %}
+            <tr>
+                <td>{{row.newsletter_id}}</td>
+                <td>{{row.category_name}}</td>
+                <td><div style="width: 150px; word-wrap: break-word">{{row.url}}</div></td>
+                <td>{{row.title}}</td>
+                <td><div style="width: 150px; word-wrap: break-word">{{row.description}}</div></td>
+                <td>{{row.time}}</td>
+                <td><div style="width: 150px; word-wrap: break-word">{{row.subject}}</div></td>
+                <td><div style="width: 150px; word-wrap: break-word">{{row.opener}}</div></td>
+                <td><div style="width: 150px; word-wrap: break-word">{{row.preview}}</div></td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+</div>
+</div>
+</div>
+{% endblock content %}
