@@ -67,7 +67,8 @@ class Mailchimp_Helper:
     def set_campaign_content(self,newsletter_json,campaign_id):
         "sets the content text for the campaign"
         try:
-            with open('Editable_Newsletter_Template.html') as raw_data:
+            editable_newsletter = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'Editable_Newsletter_Template.html')
+            with open(editable_newsletter) as raw_data:
                 template = Template(raw_data.read())
             #print(newsletter_json)
             final_html =template.render(newsletter_json=newsletter_json)
