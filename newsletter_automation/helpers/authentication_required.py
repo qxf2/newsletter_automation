@@ -4,9 +4,7 @@ Decorator for authenticating all pages
 
 from functools import wraps
 from flask import render_template, session, request, jsonify
-import conf.apikey_conf as conf
-
-API = conf.API_KEY
+import conf.apikey_conf as APIKEY
 
 class Authentication_Required:
     "Authentication for all classes"
@@ -25,11 +23,11 @@ class Authentication_Required:
         return decorated
     
     def requires_apikey(func):
-        """ Decorator function to require API Key """
+        " Decorator function to require API Key "
         @wraps(func)
         def decorated(*args, **kwargs):
-            """ Decorator function that does the checking """
-            if request.headers.get('x-api-key') and request.headers.get('x-api-key') == API:
+            " Decorator function that does the checking "
+            if request.headers.get('x-api-key') and request.headers.get('X-API-KEY') == APIKEY.API_KEY:
                 return func(*args, **kwargs)
             else:
                 return authenticate_error(func)
