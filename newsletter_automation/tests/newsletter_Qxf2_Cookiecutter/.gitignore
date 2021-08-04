@@ -1,0 +1,13 @@
+#Add files you want to ignore
+.DS_Store
+*.pyc
+*.lnk
+*.log
+logs/
+screenshots/
+log/
+.cache/
+.pytest_cache/
+geckodriver.log
+debug.log
+__pycache__
