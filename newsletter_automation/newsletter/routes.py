@@ -93,7 +93,7 @@ def index():
 
 
 def add_articles():
-    "This page adds articles to the database"
+    "Adds articles to the database"
     try:
         addarticlesform = AddArticlesForm(request.form)
         category = AddArticlesForm(request.form)
@@ -122,7 +122,7 @@ def articles():
     """To add articles through pages"""
     return add_articles()
 
-@app.route('/api/articles', methods=['GET', 'POST'])
+@app.route('/api/articles', methods=['POST'])
 @Authentication_Required.requires_apikey
 def api_article():
     """To add articles through api endpoints"""
