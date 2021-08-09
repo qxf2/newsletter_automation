@@ -14,3 +14,4 @@
 
 # Locators for the home page(home_page.py)
 header_text = "xpath,//h1[text()='Qxf2 Newsletter App']"
+sign_in = "xpath, //a[contains(text(),'Sign in')]"

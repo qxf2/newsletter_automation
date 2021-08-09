@@ -13,6 +13,7 @@ class Home_Page(Base_Page):
 
     #locators
     header_text = locators.header_text
+    sign_in_link = locators.sign_in
 
     def start(self):
         "Use this method to go to specific URL -- if needed"
@@ -33,6 +34,14 @@ class Home_Page(Base_Page):
         return page_header
 
     @Wrapit._exceptionHandler
+    def get_sign_in_link(self):
+        "Get sign-in link on the page"
+        sign_in_link = self.get_text(self.sign_in_link).decode('utf-8') 
+        print("The sign in link is ", sign_in_link)
+
+        return sign_in_link  
+
+    @Wrapit._exceptionHandler
     def check_page_header(self):
         "Check header of the page"
         result_flag = False
@@ -42,6 +51,18 @@ class Home_Page(Base_Page):
         if actual_header == expected_header:
             result_flag = True
         return result_flag
+    
+    @Wrapit._exceptionHandler
+    def check_sign_in_link(self):
+        "Check Sign-in link present on the page"
+        result_flag = False
+        actual_link = self.get_sign_in_link()
+        expected_link = "Sign in"
+
+        if actual_link == expected_link:
+            result_flag = True
+        return result_flag
+
 
     
 

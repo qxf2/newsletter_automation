@@ -46,6 +46,14 @@ def test_check_current_url(base_url,browser,browser_version,os_version,os_name,r
                             negative="Header looks wrong.\nObtained the header %s\n"%test_obj.get_page_header())
         test_obj.write('Script duration: %d seconds\n'%(int(time.time()-start_time)))        
 
+        #Check sign-in link
+        result_flag = test_obj.check_sign_in_link()
+        test_obj.log_result(result_flag,
+                            positive="Sign in link is present\n",
+                            negative="Sign in link is not present.\nObtained the link %s\n"%test_obj.get_page_header())
+        test_obj.write('Script duration: %d seconds\n'%(int(time.time()-start_time)))  
+
+
         #5. Print out the results
         test_obj.write_test_summary()
 
