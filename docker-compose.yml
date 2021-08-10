@@ -1,0 +1,17 @@
+version: '3.3'
+
+services:
+        db:
+                image: mysql:latest
+                environment:
+                        MYSQL_ROOT_PASSWORD: root
+                ports:
+                        - 3306:3306
+
+        app:
+                network_mode: host
+                depends_on:
+                        - db
+                build:
+                        context: .
+                        dockerfile: Dockerfile
