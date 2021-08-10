@@ -91,7 +91,6 @@ def logout():
 def index():
     return render_template('home.html')
 
-
 def add_articles():
     "Adds articles to the database"
     try:
