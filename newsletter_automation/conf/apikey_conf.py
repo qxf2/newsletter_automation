@@ -1,4 +1,5 @@
 """
 API key credentials for authentication
 """
-API_KEY = 'newsletterAutomationLambda'
+import os
+API_KEY = os.environ.get('API_KEY')
