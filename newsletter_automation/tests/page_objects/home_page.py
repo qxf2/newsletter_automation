@@ -1,7 +1,7 @@
 """
 This class models the Qxf2.com header as a Page Object.
 The header consists of the Qxf2 logo, Qxf2 tag-line and the hamburger menu
-Since the hanburger menu is complex, we will model it as a separate object  
+Since the hanburger menu is complex, we will model it as a separate object
 """
 from .Base_Page import Base_Page
 import conf.locators_conf as locators
@@ -19,27 +19,23 @@ class Home_Page(Base_Page):
         "Use this method to go to specific URL -- if needed"
         url = ''
         self.open(url)
-    
+
     @Wrapit._exceptionHandler
     def get_URL(self):
         "Check current URL"
         return self.get_current_url()
-    
+
     @Wrapit._exceptionHandler
     def get_page_header(self):
         "Get header of the page"
-        page_header = self.get_text(self.header_text).decode('utf-8') 
-        print("The page header is ", page_header)
-
+        page_header = self.get_text(self.header_text).decode('utf-8')
         return page_header
 
     @Wrapit._exceptionHandler
     def get_sign_in_link(self):
         "Get sign-in link on the page"
-        sign_in_link = self.get_text(self.sign_in_link).decode('utf-8') 
-        print("The sign in link is ", sign_in_link)
-
-        return sign_in_link  
+        sign_in_link = self.get_text(self.sign_in_link).decode('utf-8')
+        return sign_in_link
 
     @Wrapit._exceptionHandler
     def check_page_header(self):
@@ -51,7 +47,7 @@ class Home_Page(Base_Page):
         if actual_header == expected_header:
             result_flag = True
         return result_flag
-    
+
     @Wrapit._exceptionHandler
     def check_sign_in_link(self):
         "Check Sign-in link present on the page"
@@ -64,6 +60,6 @@ class Home_Page(Base_Page):
         return result_flag
 
 
-    
 
-    
+
+
