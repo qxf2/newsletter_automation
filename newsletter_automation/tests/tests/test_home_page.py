@@ -26,7 +26,7 @@ def test_check_current_url(base_url,browser,browser_version,os_version,os_name,r
         
         #3. Get the test details from the conf file
         url = conf.url
-
+        print (url)
         #4. Verify current url
         current_url = test_obj.get_URL() 
         result_flag = False
@@ -50,7 +50,7 @@ def test_check_current_url(base_url,browser,browser_version,os_version,os_name,r
         result_flag = test_obj.check_sign_in_link()
         test_obj.log_result(result_flag,
                             positive="Sign in link is present\n",
-                            negative="Sign in link is not present.\nObtained the link %s\n"%test_obj.get_page_header())
+                            negative="Sign in link is not present.\nObtained the link %s\n"%test_obj.get_sign_in_link())
         test_obj.write('Script duration: %d seconds\n'%(int(time.time()-start_time)))  
 
 

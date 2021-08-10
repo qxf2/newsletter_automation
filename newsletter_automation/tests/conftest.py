@@ -206,7 +206,7 @@ def pytest_addoption(parser):
                       action="append",
                       help="The operating system: xp, 7",
                       default=[])
-    parser.addoption("-V","--ver",
+    parser.addoption("--ver",
                       dest="browser_version",
                       action="append",
                       help="The version of the browser: a whole number",
