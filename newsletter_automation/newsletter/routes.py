@@ -91,18 +91,14 @@ def logout():
 def index():
     return render_template('home.html')
 
-
-@app.route('/articles', methods=['GET', 'POST'])
-@Authentication_Required.requires_auth
-def articles():
-    "This page adds articles to the database"
+def add_articles():
+    "Adds articles to the database"
     try:
         addarticlesform = AddArticlesForm(request.form)
         category = AddArticlesForm(request.form)
         if request.method == 'POST':
-            if addarticlesform.submit.data:
-                article = Articles(addarticlesform.url.data,addarticlesform.title.data,addarticlesform.description.data, addarticlesform.time.data, addarticlesform.category_id.data.category_id)
-                db.session.add(article)
+            article = Articles(addarticlesform.url.data,addarticlesform.title.data,addarticlesform.description.data, addarticlesform.time.data, addarticlesform.category_id.data.category_id)
+            db.session.add(article)
             try:
                 if url == db.session.query(Articles).filter(Articles.url == addarticlesform.url.data).one_or_none():
                     msg = ""
@@ -119,6 +115,17 @@ def articles():
 
     return render_template('articles.html',addarticlesform=addarticlesform, category=category)
 
+@app.route('/articles', methods=['GET', 'POST'])
+@Authentication_Required.requires_auth
+def articles():
+    """To add articles through pages"""
+    return add_articles()
+
+@app.route('/api/articles', methods=['POST'])
+@Authentication_Required.requires_apikey
+def api_article():
+    """To add articles through api endpoints"""
+    return add_articles()
 
 def add_articles_to_newsletter(subject, opener, preview_text):
     "Adding articles to newsletter"

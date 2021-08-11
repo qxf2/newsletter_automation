@@ -23,3 +23,10 @@ This project is to automate the process of creating the weekly Qxf2 newsletter. 
   1. Update the `model.py` file to make the changes.
   2. Run `flask db migrate`
   3. Run `flask db upgrade`
+
+## Add articles through api endpoint
+  To add articles using POST method use the following:
+  1. Set your api key in environment variable as `'API_KEY': '<YOURAPIKEY>'`
+  2. Use the same api key for Request headers `'x-api-key': '<YOURAPIKEY>'`
+  3. API Endpoint: POST `<base_url>/api/articles`  
+  4. Example curl command ` curl -X POST http://localhost:5000/api/articles -H 'X-API-KEY: <YOUR_API_KEY>' -F 'url=http://exampleURL.com' -F 'category_id=2 `
