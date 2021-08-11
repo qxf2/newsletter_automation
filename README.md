@@ -16,7 +16,7 @@ The **Newsletter automation** project helps automate the Newsletter creation pro
 
 ## Add articles through api endpoint
   To add articles using POST method use the following:
-  1. Set your api key in `apikey_conf.py`
-  2. Use the same api key for Request headers `'x-api-key': 'YOURAPIKEY'`
+  1. Set your api key in environment variable as `'API_KEY': '<YOURAPIKEY>'`
+  2. Use the same api key for Request headers `'x-api-key': '<YOURAPIKEY>'`
   3. API Endpoint: POST `<base_url>/api/articles`  
   4. Example curl command ` curl -X POST http://localhost:5000/api/articles -H 'X-API-KEY: <YOUR_API_KEY>' -F 'url=http://exampleURL.com' -F 'category_id=2 `
