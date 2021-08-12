@@ -16,5 +16,4 @@ pytest-rerunfailures
 pillow
 tesults
 loguru
-cryptography
 pytest-docker
