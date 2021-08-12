@@ -1,3 +1,5 @@
+# setup MySQL service & run the Newsletter Flask app
+
 version: '3.3'
 
 services:
@@ -8,10 +10,12 @@ services:
                 ports:
                         - 3306:3306
 
-        app:
+        app:    
+                # setting network mode as host allows accessing the Flask app from the host at http://127.0.0.1:5000
                 network_mode: host
                 depends_on:
                         - db
                 build:
                         context: .
                         dockerfile: Dockerfile
+
