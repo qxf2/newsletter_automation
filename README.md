@@ -3,9 +3,7 @@ The **Newsletter automation** project helps automate the Newsletter creation pro
 
 ## Setup
   1. Clone the repository
-
   2. Run *docker-compose up*
-
   3. Access the Newsletter app in the browser on *http://127.0.0.1:5000*
 
 ## Provided support for flask-migrate
@@ -20,3 +18,11 @@ The **Newsletter automation** project helps automate the Newsletter creation pro
   2. Use the same api key for Request headers `'x-api-key': '<YOURAPIKEY>'`
   3. API Endpoint: POST `<base_url>/api/articles`  
   4. Example curl command ` curl -X POST http://localhost:5000/api/articles -H 'X-API-KEY: <YOUR_API_KEY>' -F 'url=http://exampleURL.com' -F 'category_id=2 `
+
+## How to run test:
+  The sanity tests are present in the ./newsletter_automation/tests directory, to run them:
+  1. Make sure you have run *pip install -r requirements.txt* from project root, to install the latest additions to the requirements file
+  2. Navigate to ./newsletter_automation/tests directory
+  3. Run *pytest -s -v*
+  4. Wait *~3* mins for *pytest* to bring the local *MySQL* instance and *Flask* app online using *docker-compose*
+  5. Watch the tests run
