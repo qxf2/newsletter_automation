@@ -1,2 +1,2 @@
 #Add conf details here
-url = "https://newsletter-generator.qxf2.com/"
+url = "http://127.0.0.1:5000"
