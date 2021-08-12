@@ -1,8 +1,31 @@
-import os,pytest
+"""
+pytest configuration
+"""
+import os
+import requests
+import time
+import pytest
+
 from conf import browser_os_name_conf
 from utils import post_test_reports_to_slack
 from utils.email_pytest_report import Email_Pytest_Report
 from utils import Tesults
+
+# docker-compose utility function
+def is_responsive(url):
+    "check if the url is available"
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            return True
+    except requests.exceptions.ConnectionError:
+        return False
+
+
+@pytest.fixture(scope="session")
+def docker_compose_file(pytestconfig):
+    "pytest fixture to set the docker-compose.yml file location"
+    return os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "docker-compose.yml")
 
 
 @pytest.fixture
@@ -12,9 +35,16 @@ def browser(request):
 
 
 @pytest.fixture
-def base_url(request):
+def base_url(request, docker_services):
     "pytest fixture for base url"
-    return request.config.getoption("-U")
+    local_url = "http://127.0.0.1:5000"
+    wait_time = int(request.config.getoption("--docker-compose-wait-time"))
+    docker_services.wait_until_responsive(timeout=wait_time,
+                                          pause=1,
+                                          check=lambda: is_responsive(local_url))
+    #return request.config.getoption("-U")
+    # hardcoding this fixture to return only http://127.0.0.1:5000 for now
+    return local_url
 
 
 @pytest.fixture
@@ -134,8 +164,7 @@ def app_name(request):
 @pytest.fixture
 def app_path(request):
     "pytest fixture for app path"
-    return request.config.getoption("-N")    
-
+    return request.config.getoption("-N")
 
 def pytest_terminal_summary(terminalreporter, exitstatus):
     "add additional section in terminal summary reporting."
@@ -183,8 +212,12 @@ def pytest_addoption(parser):
                       help="Browser. Valid options are firefox, ie and chrome")                      
     parser.addoption("-U","--app_url",
                       dest="url",
-                      default="https://newsletter-generator.qxf2.com/",
+                      default="http://127.0.0.1:5000",
                       help="The url of the application")
+    parser.addoption("--docker-compose-wait-time",
+                      dest="docker_compose_wait_time",
+                      default=300,
+                      help="Wait time for the docker containers to be up")
     parser.addoption("-A","--api_url",
                       dest="url",
                       default="http://35.167.62.251",
@@ -267,6 +300,4 @@ def pytest_addoption(parser):
     parser.addoption("-N","--app_path",
                       dest="app_path",
                       help="Enter app path")
-
-
 
