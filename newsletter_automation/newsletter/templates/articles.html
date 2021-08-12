@@ -30,8 +30,8 @@
          <tr>
             <td> Category:{{ addarticlesform.category_id(placeholder="category",id="category_id", class="form-control", required="") }}</td>
          </tr>
-         <tr>
-            <td>{{ addarticlesform.submit(class="btn btn-lg btn-primary btn-block")}}</td>
+         <tr align="center">
+            <td>{{ addarticlesform.submit(class="btn btn-lg btn-primary")}}</td>
          </tr>
       </table>
       </div>
@@ -43,10 +43,11 @@
       </button>
       </div>
       <br><br>
+      <!-- Removing The Duplicate logout button
       <div>
          <button type="button" onclick="location.href = '/logout'">
             Logout
          </button>
-      </div>
+      </div> -->
 </form>
 {% endblock content %}
