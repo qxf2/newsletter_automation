@@ -33,7 +33,7 @@ class NewsletterContent(db.Model):
 class Articles(db.Model):
     "Class for Article db model"
     article_id = db.Column('article_id', db.Integer, primary_key = True)
-    url = db.Column(db.String(100))
+    url = db.Column(db.String(512))
     title = db.Column(db.String(250))
     description = db.Column(db.String(500))
     time = db.Column(db.String(300))

@@ -1,17 +1,17 @@
 """
 A Flask app for Google SSO
 """
-
+import os
 from  oauthlib import oauth2
 import conf.sso_conf as conf
 
-
+BASE_URL = os.environ.get('REDIRECT_URI','http://localhost:5000')
 CLIENT_ID = conf.CLIENT_ID
 CLIENT_SECRET = conf.CLIENT_SECRET
 
 DATA = {
         'response_type':"code",
-        'redirect_uri':"https://newsletter-generator.qxf2.com/callback",
+        'redirect_uri':f"{BASE_URL}/callback",
         'scope': 'https://www.googleapis.com/auth/userinfo.email',
         'client_id':CLIENT_ID,
         'prompt':'consent'}

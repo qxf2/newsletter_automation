@@ -244,12 +244,12 @@ def create_campaign():
         'automation_corner':[]}
         newsletter_json = []
         for each_element in result:
-            newsletter['title']= each_element.subject +" " + datetime.date.today().strftime('%d-%B-%Y')
+            newsletter['title']= each_element.subject
             newsletter['in_this_issue'] = "In this issue "+ each_element.opener
             newsletter['preview']=each_element.preview
             if each_element.category_name == 'comic':
                 newsletter['comic']['comic_url']=each_element.url
-                newsletter['comic']['comic_text']= "This is a comic"
+                newsletter['comic']['comic_text']=each_element['title']
             if each_element.category_name == 'currentweek':
                 newsletter['this_week_articles'].append({'title':each_element['title'], 'url':each_element['url'], 'description':each_element['description'],'reading_time':each_element['time']})
             if each_element.category_name == 'pastweek':
