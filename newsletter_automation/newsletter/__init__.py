@@ -23,6 +23,6 @@ migrate.init_app(app, db)
 
 from newsletter import models
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from tests.unittests import db_tests_models
+from tests.db_tests import db_tests_models
 from newsletter import routes
 from newsletter import schedule_form_routes
