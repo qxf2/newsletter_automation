@@ -1,0 +1,34 @@
+{
+  "consumer": {
+    "name": "articlesLambda"
+  },
+  "provider": {
+    "name": "newsletterAutomation"
+  },
+  "interactions": [
+    {
+      "description": "a request to add article",
+      "providerState": "Found articles to add",
+      "request": {
+        "method": "post",
+        "path": "/api/articles",
+        "headers": {
+          "x-api-key": "newsletterAutomationLambda",
+          "Content-Type": "multipart/form-data"
+        },
+        "body": "{\"url\": \"https://uniquetesturl/c7c38710-2380-43cd-a909-bea4e21614ee\", \"category_id\": 2, \"title\": \"Test Title\", \"description\": \"Test Description\", \"time\": 5}"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "text/html; charset=utf-8"
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  }
+}
