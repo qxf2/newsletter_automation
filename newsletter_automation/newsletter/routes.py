@@ -109,10 +109,13 @@ def add_articles():
                 msg = e
             #db.session.commit()
             #msg = "Record added Successfully"
+            if request.path == '/api/articles':
+                return jsonify({'message':msg}),200
             return render_template('result.html', msg=msg)
     except Exception as e:
         app.logger.error(e)
-
+    if request.path == '/api/articles':
+        return jsonify({'error':'check if url in the payload is duplicate'}),400
     return render_template('articles.html',addarticlesform=addarticlesform, category=category)
 
 @app.route('/articles', methods=['GET', 'POST'])
