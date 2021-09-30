@@ -38,39 +38,40 @@ def add_articles(request):
     uri = 'http://{host_name}:{port}/api/articles'.format(
         host_name=PACT_MOCK_HOST, port=PACT_MOCK_PORT, pact_dir="./pacts", log_dir="./logs")
     # add articles call needs x-api-key value from request
-    headers = {'x-api-key': os.environ.get('API_KEY',''), 'Content-Type': 'multipart/form-data'}
+    headers = {'x-api-key': os.environ.get('API_KEY',''),'Content-Type':'application/json'}
 
-    return requests.post(uri, data=request, headers=headers)
+    return requests.post(uri, headers=headers, data=request)
 
 
 class addArticlesContract(unittest.TestCase):
 
     def test_add_articles(self):
         """ pact test to build the contract between lambda consumer and newsletter provider """
-        payload = {'url': 'https://uniquetesturl/{}'.format(str(uuid.uuid4())),
-                   'category_id': 2,
-                   'title': 'Test Title',
-                   'description': 'Test Description',
-                   'time': 5}
-        payload = json.dumps(payload)
-        expected = {"message": "Record added Successfully"}
+        payload = {"url": "https://uniquetesturl/{}".format(str(uuid.uuid4())),
+                   "category_id": "2",
+                   "title": "Test Title",
+                   "description": "Test Description",
+                   "time": "5"}
+
+        expected = {'msg': 'Record added Successfully'}
 
         # this test adds null x-api-key value to the contract json file
         # we need to update the api key value by following method for provider to execute the contract tests
         pact = pact_session()
         (pact.given('Found articles to add')
              .upon_receiving('a request to add article')
-             .with_request(method='post', path='/api/articles', body=payload, headers={'x-api-key': os.environ.get('API_KEY',''), 'Content-Type': 'multipart/form-data'})
+             .with_request(method='post', path='/api/articles', body=payload, headers={'x-api-key': os.environ.get('API_KEY',''),'Content-Type':'application/json'})
              .will_respond_with(status=200, headers={'Content-Type':'application/json'},body=expected))
 
         with pact:
+            payload = json.dumps(payload)
             result = add_articles(payload)
+
         self.assertEqual(result.status_code, 200)
 
 def updateAPIKey():
     """update os.get.env(api_key) value in the json contract file"""
-    contract_file = "{}-{}.json".format(consumer,provider)
-    contract_file = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),contract_file)
+    contract_file = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),"{}-{}.json".format(consumer,provider))
     #run this consumer tests from tests folder to get the contract file created under tests file
     if os.path.exists(contract_file):
         with open(contract_file,"r+") as contract_in:
