@@ -37,8 +37,8 @@ def add_articles(request):
     """Mocking the add articles api call"""
     uri = 'http://{host_name}:{port}/api/articles'.format(
         host_name=PACT_MOCK_HOST, port=PACT_MOCK_PORT, pact_dir="./pacts", log_dir="./logs")
-    # add articles call needs x-api-key value from request
-    headers = {'x-api-key': os.environ.get('API_KEY',''),'Content-Type':'application/json'}
+    # add articles call needs x-api-key value for making the request
+    headers = {'x-api-key': os.environ.get('API_KEY',''),'Content-Type':'application/x-www-form-urlencoded'}
 
     return requests.post(uri, headers=headers, data=request)
 
@@ -53,18 +53,17 @@ class addArticlesContract(unittest.TestCase):
                    "description": "Test Description",
                    "time": "5"}
 
-        expected = {'msg': 'Record added Successfully'}
+        expected = {'message': 'Record added Successfully'}
 
         # this test adds null x-api-key value to the contract json file
         # we need to update the api key value by following method for provider to execute the contract tests
         pact = pact_session()
         (pact.given('Found articles to add')
              .upon_receiving('a request to add article')
-             .with_request(method='post', path='/api/articles', body=payload, headers={'x-api-key': os.environ.get('API_KEY',''),'Content-Type':'application/json'})
-             .will_respond_with(status=200, headers={'Content-Type':'application/json'},body=expected))
+             .with_request(method='post', path='/api/articles', body=payload, headers={'x-api-key': os.environ.get('API_KEY',''),'Content-Type':'application/x-www-form-urlencoded'})
+             .will_respond_with(status=200, headers={'Content-Type': 'application/json'},body=expected))
 
         with pact:
-            payload = json.dumps(payload)
             result = add_articles(payload)
 
         self.assertEqual(result.status_code, 200)

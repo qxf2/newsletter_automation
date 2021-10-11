@@ -12,12 +12,15 @@ import pdb
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
-PACT_FILE = "./articleslambda-newsletterautomation.json"
+provider = 'newsletterAutomation'
+consumer = 'articlesLambda'
+PACT_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),"{}-{}.json".format(consumer,provider))
 PACT_MOCK_HOST = 'localhost'
 PACT_MOCK_PORT = 5000
 PACT_BASE_URL = "http://{}:{}".format(PACT_MOCK_HOST, PACT_MOCK_PORT)
+PACT_DIR = os.path.dirname(os.path.realpath(__file__))
 
-def test_add_articles():
+def verify_add_articles_pact():
     """provider verifies pact contracts"""
     verifier = Verifier(provider='newsletterAutomation',
                         provider_base_url=PACT_BASE_URL)
@@ -25,4 +28,4 @@ def test_add_articles():
     assert (output == 0)
 
 if __name__ == '__main__':
-    test_add_articles()
+    verify_add_articles_pact()

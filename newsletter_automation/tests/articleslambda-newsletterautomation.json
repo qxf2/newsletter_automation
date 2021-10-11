@@ -1,9 +1,9 @@
 {
   "consumer": {
-    "name": "articlesLambda"
+    "name": "articleslambda"
   },
   "provider": {
-    "name": "newsletterAutomation"
+    "name": "newsletterautomation"
   },
   "interactions": [
     {
@@ -14,14 +14,17 @@
         "path": "/api/articles",
         "headers": {
           "x-api-key": "newsletterAutomationLambda",
-          "Content-Type": "multipart/form-data"
+          "Content-Type": "application/x-www-form-urlencoded"
         },
-        "body": "{\"url\": \"https://uniquetesturl/c7c38710-2380-43cd-a909-bea4e21614ee\", \"category_id\": 2, \"title\": \"Test Title\", \"description\": \"Test Description\", \"time\": 5}"
+        "body": "url=https%3A%2F%2Funiquetesturl%2F2852ed8c-aef0-403c-8e62-b57070a63c39&category_id=2&title=Test+Title&description=Test+Description&time=5"
       },
       "response": {
         "status": 200,
         "headers": {
-          "Content-Type": "text/html; charset=utf-8"
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "message": "Record added Successfully"
         }
       }
     }
