@@ -8,10 +8,9 @@ import json
 import logging
 import atexit
 import unittest
-from pact import Consumer, Provider
-import pdb
+from pact import Consumer, Provider, Like
 import uuid
-#from  pactverify . matchers  import  Matcher , Like
+from pact.matchers import get_generated_values
 
 PACT_MOCK_HOST = 'localhost'
 PACT_MOCK_PORT = 1234
@@ -66,7 +65,7 @@ class addArticlesContract(unittest.TestCase):
         with pact:
             result = add_articles(payload)
 
-        self.assertEqual(result.status_code, 200)
+        self.assertEqual(result.json(),get_generated_values(expected))
 
 def updateAPIKey():
     """update os.get.env(api_key) value in the json contract file"""
