@@ -13,7 +13,7 @@
         "method": "post",
         "path": "/api/articles",
         "headers": {
-          "x-api-key": "newsletterAutomationLambda",
+          "x-api-key": "",
           "Content-Type": "application/x-www-form-urlencoded"
         },
         "body": "url=https%3A%2F%2Funiquetesturl%2F2852ed8c-aef0-403c-8e62-b57070a63c39&category_id=2&title=Test+Title&description=Test+Description&time=5"
