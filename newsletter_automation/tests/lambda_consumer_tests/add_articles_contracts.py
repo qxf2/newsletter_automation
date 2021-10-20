@@ -73,7 +73,6 @@ def updateAPIKey():
     #run this consumer tests from tests folder to get the contract file created under tests file
     if os.path.exists(contract_file):
         with open(contract_file,"r+") as contract_in:
-            pdb.set_trace()
             contract_data = json.load(contract_in)
             contract_data['interactions'][0]['request']['headers']['x-api-key'] = os.environ.get('API_KEY','')
             contract_in.close()
