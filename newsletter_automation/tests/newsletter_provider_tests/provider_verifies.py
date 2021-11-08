@@ -12,16 +12,7 @@ from argparse import ArgumentParser
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
-"""
-provider = 'newsletterAutomation'
-consumer = 'articlesLambda'
-PACT_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),"{}-{}.json".format(consumer,provider))
-PACT_MOCK_HOST = 'localhost'
-PACT_MOCK_PORT = 5000
-PACT_BASE_URL = "http://{}:{}".format(PACT_MOCK_HOST, PACT_MOCK_PORT)
-PACT_DIR = os.path.dirname(os.path.realpath(__file__))
-BROKER_URL = 'https://qxf2services.pactflow.io/'
-"""
+
 provider = 'newsletterautomation'
 consumer = 'articleslambda'
 broker_url = os.environ.get('BROKER_URL')
