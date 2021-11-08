@@ -89,5 +89,6 @@ if __name__ == "__main__":
     pact_contract.test_add_articles()
     updateAPIKey()
 
+
     # provider pact verification example command
     # pact-verifier --provider-base-url=http://localhost:5000 --pact-url=./articleslambda-newsletterautomation.json
