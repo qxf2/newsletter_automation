@@ -2,6 +2,29 @@
 {%include "base.html" %}
 {%include "menu.html" %}
 {% block content %}
+<head>
+
+
+<!--Stylesheets-->
+<link href="/static/css/style.css" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="http://getbootstrap.com/2.3.2/assets/css/bootstrap.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+
+ <!--JS files-->
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+ <script type="text/javascript" charset="utf8"
+     src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+
+</head>
+<body>
+    
+
+
+
 <div class="logoutLblPos">
     <button type="button" onclick="location.href = '/logout'">
         Logout
@@ -12,8 +35,8 @@
         <div class="col md-12">
             <form method="POST" , action="">
                 <legend>Manage Articles </legend>
-
-                    <table class="table table-hover table" >
+                <div class="row-fluid">
+                    <table id="table_id" class="table table-striped" >
                         <tr>
 
                             <th>Title</th>
@@ -42,6 +65,16 @@
                         </tr>
                         {% endfor %}
                     </table>
+                </div>
+                    <script>
+                        $(document).ready(function () {
+                            $('#table_id').DataTable({
+                                searching: true
+                
+                            });
+                        });
+                
+                    </script>
                     <br></br>
                     <div>
                         <button type = "button" onclick =
@@ -57,4 +90,5 @@
         </div>
     </div>
 </div>
+</body>
 {% endblock content %}
