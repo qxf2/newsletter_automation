@@ -66,15 +66,7 @@
                         {% endfor %}
                     </table>
                 </div>
-                    <script>
-                        $(document).ready(function () {
-                            $('#table_id').DataTable({
-                                searching: true
-                
-                            });
-                        });
-                
-                    </script>
+                    
                     <br></br>
                     <div>
                         <button type = "button" onclick =
@@ -92,3 +84,15 @@
 </div>
 </body>
 {% endblock content %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function () {
+        $('#table_id').DataTable({
+            searching: true
+
+        });
+    });
+
+</script>
+{% endblock scripts %}
