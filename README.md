@@ -12,7 +12,11 @@ This project is to automate the process of creating the weekly Qxf2 newsletter. 
     `pip install -r requirements.txt`
 
   4. Manually insert data into article_category using below query:
-     "insert into article_category (category_name) values ('comic'),('pastweek'),('currentweek'),('automation corner');"
+     INSERT IGNORE INTO `newsletter_automation`.`article_category`
+      (`category_id`,
+      `category_name`)
+      VALUES
+      (1,'comic'),(2,'pastweek'),(3,'currentweek'),(4,'automation corner'),(5,'uncategorized');
 
  ## Run the project locally
     export FLASK_APP=run.py
@@ -29,4 +33,4 @@ This project is to automate the process of creating the weekly Qxf2 newsletter. 
   1. Set your api key in environment variable as `'API_KEY': '<YOURAPIKEY>'`
   2. Use the same api key for Request headers `'x-api-key': '<YOURAPIKEY>'`
   3. API Endpoint: POST `<base_url>/api/articles`  
-  4. Example curl command ` curl -X POST http://localhost:5000/api/articles -H 'X-API-KEY: <YOUR_API_KEY>' -F 'url=http://exampleURL.com' -F 'category_id=2 `
+  4. Example curl command ` curl -X POST http://localhost:5000/api/articles -H 'X-API-KEY: <YOUR_API_KEY>' -F 'url=http://exampleURL.com' -F 'category_id=5'
