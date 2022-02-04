@@ -23,6 +23,7 @@
                             <th class="col-md-5">Description</th>
                             <th class="col-md-1" data-toggle="tooltip" data-placement="top" title="Comic = 1  Past week = 2  Current week = 3  Automation corner = 4 Uncategorized = 5">Category</th>
                             <th class="col-md-1">Action</th>
+                            <th>Article Editor</th>
                         </tr>
                     </thead>
 
@@ -36,6 +37,7 @@
                             <td style="word-break:break-all;">
                                 <a href="/edit/{{articles.article_id}}" class="btn btn-sm btn-primary">Edit</a>
                                 <a href="/delete/{{articles.article_id}}" class="btn btn-sm btn-danger"
+                            <td style="word-break:break-all;"> {{articles.article_editor}}</td>
                                     onclick="return confirm('Are You Sure To Delete ?')">Delete</a>
                             </td>
                         </tr>
