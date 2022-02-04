@@ -21,6 +21,7 @@
                             <th>Description</th>
                             <th>Reading Time</th>
                             <th>Newsletter Id</th>
+                            <th>Article Editor</th>
                         </tr>
                         {% for articles in article_data %}
                         <tr>
@@ -30,6 +31,7 @@
                             <td> {{articles.description}}</td>
                             <td> {{articles.time}}</td>
                             <td> {{articles.newsletter_id}}</td>
+                            <td> {{articles.article_editor}}</td>
 
                             <td>
                                 <a href="/edit/{{articles.article_id}}" class="btn btn-primary btn-xs"

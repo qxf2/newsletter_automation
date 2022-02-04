@@ -26,3 +26,4 @@ class AddArticlesForm(FlaskForm):
     time = TextField('Time')
     category_id = QuerySelectField(query_factory=choice_query, allow_blank=True,get_label='category_name')
     submit = SubmitField('Add Article')
+    article_editor = TextField('Article Editor')

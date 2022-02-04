@@ -39,14 +39,16 @@ class Articles(db.Model):
     time = db.Column(db.String(300))
     category_id = db.Column(db.Integer, db.ForeignKey('article_category.category_id'))
     newsletter_id = db.Column(db.Integer, db.ForeignKey('add_newsletter.newsletter_id'))
+    article_editor = db.Column(db.String(100))
 
-    def __init__(self, url, title, description, time,category_id):
-        "initializes url, title, description, time, category_id"
+    def __init__(self, url, title, description, time,category_id, article_editor):
+        "initializes url, title, description, time, category_id, article_editor"
         self.url = url
         self.title = title
         self.description = description
         self.time = time
         self.category_id = category_id
+        self.article_editor = article_editor
 
 
 class Article_category(db.Model):
