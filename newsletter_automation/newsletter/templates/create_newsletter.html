@@ -16,11 +16,11 @@
 
             <div class="form-group">
                 {{form.category_id.label(class="col-sm-1 col-form-label")}}
-                {{form.category_id(id="category_id")}}
+                {{form.category_id(id="category_id",style="width:50%")}}
             </div>
             <div class="form-group">
                 {{form.url.label(class="col-sm-1 col-form-label")}}
-                {{form.url(id="url")}}
+                {{form.url(id="url",style="width:50%")}}
                 {% for message in get_flashed_messages() %}
                         <textarea style="display:none;" id="message" type="hidden">{{message}}</textarea>     
                
@@ -28,35 +28,35 @@
             </div>
             <div class="form-group">
                 {{form.title.label(class="col-sm-1 col-form-label")}}
-                {{form.title(id="title")}}
+                {{form.title(id="title",style="width:50%")}}
             </div>
-            <div class="form-group">
+            <div class="form-group" >
                 {{form.description.label(class="col-sm-1 col-form-label")}}
-                {{form.description(id="description")}}
+                {{form.description(id="description",style="width:50%")}}
 
             </div>
             <div class="form-group">
                 {{form.reading_time.label(class="col-sm-1 col-form-label")}}
-                {{form.reading_time(id="reading_time")}}
+                {{form.reading_time(id="reading_time",style="width:50%")}}
             </div>
             <div class="form-group">
                 {{form.add_more()}}
             </div>
 
-        </fieldset>
-            <div class="form-group">
+        </fieldset >
+            <div class="form-group" >
                 {{form.subject.label(class="col-sm-1 col-form-label")}}
-                {{form.subject}}
+                {{form.subject(style="width:50%")}}
             </div>
 
             <div class="form-group">
                 {{form.opener.label(class="col-sm-1 col-form-label")}}
-                {{form.opener}}
+                {{form.opener(style="width:50%")}}
             </div>
 
             <div class="form-group">
                 {{form.preview_text.label(class="col-sm-1 col-form-label")}}
-                {{form.preview_text(id="preview_text")}}
+                {{form.preview_text(id="preview_text",style="width:50%")}}
                 <span id='remainingC'></span>
             </div>
 
