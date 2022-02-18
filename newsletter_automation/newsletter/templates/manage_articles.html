@@ -24,10 +24,9 @@
                         </tr>
                         {% for articles in article_data %}
                         <tr>
-
                             <td> {{articles.title}}</td>
-                            <td> {{articles.url}}</td>
-                            <td> {{articles.description}}</td>
+                            <td style="word-wrap: break-word;min-width: 200px;max-width: 300px;"> {{articles.url}}</td>
+                            <td style="word-wrap: break-word;min-width: 200px;max-width: 300px;"> {{articles.description}}</td>
                             <td> {{articles.time}}</td>
                             <td> {{articles.newsletter_id}}</td>
 
