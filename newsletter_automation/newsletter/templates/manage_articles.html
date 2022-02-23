@@ -2,19 +2,6 @@
 {%include "base.html" %}
 {%include "menu.html" %}
 {% block content %}
-<head>
-    <!-- jQuery -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
-
-    <!-- DataTables JS -->
-    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js">
-    </script>
-</head>
-
-<body>
 <div class="logoutLblPos">
     <button type="button" onclick="location.href = '/logout'">
         Logout
@@ -25,8 +12,8 @@
         <div class="col md-12">
             <form method="POST" , action="">
                 <legend>Manage Articles </legend>
-                <table id="tableID" class="table table-hover ">
-                    <thead>
+
+                    <table class="table table-hover table" >
                         <tr>
 
                             <th>Title</th>
@@ -35,9 +22,6 @@
                             <th>Reading Time</th>
                             <th>Newsletter Id</th>
                         </tr>
-                    </thead>
-                    
-                <tbody>
                         {% for articles in article_data %}
                         <tr>
                             <td> {{articles.title}}</td>
@@ -56,37 +40,20 @@
 
                         </tr>
                         {% endfor %}
-                </tbody> 
-                </table>
-                </div>
-                    
+                    </table>
                     <br></br>
                     <div>
                         <button type = "button" onclick =
                         "location.href = './home'">
                         Go back to Home
                     </button>
-                    </div>     
+                    </div>
+
+                   
             </form>
+
             </div>
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function() {
-    $('#tableID').DataTable( {
-                "columnDefs": [
-                    { "visible": false },
-                    {
-                        "targets": [1, 2, 3, 4, 5],
-                        "orderable": false,
-
-                    }]
-            });
-        });
-
-</script>
-</body>
 {% endblock content %}
-
-
