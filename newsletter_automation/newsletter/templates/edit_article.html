@@ -19,14 +19,14 @@
                     <th>URL</th>
                     <th>Title</th>
                     <th>Description</th>
-                    <th>Reading Time(in Minutes)</th>
+                    <th>Reading Time</th>
                     <th>Category</th>
                 </tr>
                 <tr>
                     <td> {{ form.url(id="url",placeholder="URL")}} </td>
                     <td> {{ form.title(id="title",placeholder="Title")}} </td>
                     <td> {{ form.description(id="description",placeholder="Description")}} </td>
-                    <td> {{ form.time(placeholder="Time",id="time", type="number", min="1", max="120") }} </td>
+                    <td> {{ form.time(placeholder="Time",id="time") }} </td>
                     <td> {{ form.category_id(placeholder="category",id="category_id") }} </td>
                     <td> {{ form.submit(class="btn btn-lg btn-primary btn-block")}} </td>
                     <td> <a href="/manage-articles" class="btn btn-success">Cancel</a> </td>
