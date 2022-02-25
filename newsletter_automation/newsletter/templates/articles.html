@@ -25,7 +25,7 @@
             <td> Description:{{ addarticlesform.description(id="description", class="form-control", autofocus="",placeholder="Description")}}</td>
          </tr>
          <tr>
-            <td> Time:{{ addarticlesform.time(placeholder="Time",id="time", class="form-control", autofocus="") }}</td>
+            <td> Time:{{ addarticlesform.time(placeholder="Time (in Minutes)",id="time", type="number", min="1", max="120", class="form-control", autofocus="") }}</td>
          </tr>
          <tr>
             <td> Category:{{ addarticlesform.category_id(placeholder="category",id="category_id", class="form-control", required="") }}</td>
