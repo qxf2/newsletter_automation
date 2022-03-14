@@ -130,9 +130,14 @@ dmypy.json
 
 #Virtualenv
 venv*
+.env*
+.env
 
 # credentials
 mailchimp_conf.py
 sso_conf.py
 sso_google_oauth.py
 apikey_conf.py
+
+#node modules
+node_modules

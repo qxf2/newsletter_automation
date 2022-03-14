@@ -1,0 +1,18 @@
+{
+    "chromeWebSecurity":false,
+    "defaultCommandTimeout": 8000,
+    "defaultCommandwaitTimeout": 2000,
+    "pageLoadTimeout": 30000,
+    
+    "env": {
+      "url": "https://newsletter-generator.qxf2.com/"
+    },
+    
+    "testFiles": "**/*.spec.js",
+  
+    "retries": {
+      
+      "runMode": 1
+    }
+    
+}
