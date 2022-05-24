@@ -25,7 +25,7 @@
         <div class="col md-12">
             <form method="POST" , action="">
                 <legend>Manage Articles </legend>
-                <table id="tableID" class="table table-hover ">
+                <table id="tableID" class="table table-hover">
                     <thead>
                         <tr>
                             <th class="col-md-2">Title</th>
@@ -41,7 +41,7 @@
                         <tr>
 
                             <td style ="word-break:break-all;"> {{articles.title}}</td>
-                            <td style ="word-break:break-all;"> {{articles.url}}</td>
+                            <td style ="word-break:break-all;"> <a href="{{articles.url}}">{{articles.url}}</a></td>
                             <td style ="word-break:break-all;"> {{articles.description}}</td>
                             <td style ="word-break:break-all;"> {{articles.newsletter_id}}</td>
 
