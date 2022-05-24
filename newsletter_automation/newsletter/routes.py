@@ -368,12 +368,25 @@ def title(article_id):
 @app.route('/manage-articles',methods=["GET","POST"])
 @Authentication_Required.requires_auth
 def manage_articles():
+    "This method filers out unpublished articles"
     try:
         add_articles_form = AddArticlesForm(request.form)
         article_data = Articles.query.order_by(Articles.article_id.desc()).all()
     except Exception as e:
         app.logger.error(e)
     return render_template('manage_articles.html', addarticlesform=add_articles_form,article_data=article_data)
+
+
+@app.route('/old-articles',methods=["GET"])
+@Authentication_Required.requires_auth
+def old_articles():
+    "This method filers out published articles"
+    try:
+        add_articles_form = AddArticlesForm(request.form)
+        article_data = Articles.query.filter(Articles.newsletter_id != None).all()
+    except Exception as e:
+        app.logger.error(e)
+    return render_template('old_articles.html', addarticlesform=add_articles_form,article_data=article_data)
 
 
 @app.route("/edit/<article_id>",methods=["GET","POST"])
