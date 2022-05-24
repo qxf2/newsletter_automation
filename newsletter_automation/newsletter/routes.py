@@ -11,6 +11,7 @@ from newsletter import app
 from  helpers import mailchimp_helper
 import datetime
 from sqlalchemy.orm import query
+from sqlalchemy import desc
 from . forms import AddArticlesForm
 from . create_newsletter_form import ArticleForm
 from . edit_article_form import EditArticlesForm
@@ -370,7 +371,7 @@ def manage_articles():
     "This method filers out unpublished articles"
     try:
         add_articles_form = AddArticlesForm(request.form)
-        article_data = Articles.query.filter(Articles.newsletter_id == None).all()
+        article_data = Articles.query.order_by(Articles.article_id.desc()).all()
     except Exception as e:
         app.logger.error(e)
     return render_template('manage_articles.html', addarticlesform=add_articles_form,article_data=article_data)
