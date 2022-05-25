@@ -371,7 +371,7 @@ def manage_articles():
     "This method filers out unpublished articles"
     try:
         add_articles_form = AddArticlesForm(request.form)
-        article_data = Articles.query.filter(Articles.newsletter_id == None).all()
+        article_data = Articles.query.filter(Articles.newsletter_id == None).order_by(Articles.article_id.desc()).all()
     except Exception as e:
         app.logger.error(e)
     return render_template('manage_articles.html', addarticlesform=add_articles_form,article_data=article_data)
