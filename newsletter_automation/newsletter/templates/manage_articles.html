@@ -74,12 +74,12 @@
 <script>
     $(document).ready(function() {
     $('#tableID').DataTable( {
+                "order": [],
                 "columnDefs": [
                     { "visible": false },
                     {
                         "targets": [1, 2, 3, 4],
                         "orderable": true,
-
                     }]
             });
         });
