@@ -25,29 +25,27 @@
         <div class="col md-12">
             <form method="POST" , action="">
                 <legend>Manage Articles </legend>
-                <table id="tableID" class="table table-hover ">
+                <table id="tableID" class="table table-hover">
                     <thead>
                         <tr>
-
-                            <th>Title</th>
-                            <th>URL</th>
-                            <th>Description</th>
-                            <th>Reading Time</th>
-                            <th>Newsletter Id</th>
+                            <th class="col-md-2">Title</th>
+                            <th class="col-md-3">URL</th>
+                            <th class="col-md-4">Description</th>
+                            <th class="col-md-1">Newsletter Id</th>
+                            <th class="col-md-1">Action</th>
                         </tr>
                     </thead>
-                    
+
                 <tbody>
                         {% for articles in article_data %}
                         <tr>
 
-                            <td> {{articles.title}}</td>
-                            <td> {{articles.url}}</td>
-                            <td> {{articles.description}}</td>
-                            <td> {{articles.time}}</td>
-                            <td> {{articles.newsletter_id}}</td>
+                            <td style ="word-break:break-all;"> {{articles.title}}</td>
+                            <td style ="word-break:break-all;"> <a href="{{articles.url}}">{{articles.url}}</a></td>
+                            <td style ="word-break:break-all;"> {{articles.description}}</td>
+                            <td style ="word-break:break-all;"> {{articles.newsletter_id}}</td>
 
-                            <td>
+                            <td style ="word-break:break-all;">
                                 <a href="/edit/{{articles.article_id}}" class="btn btn-primary btn-xs"
                                     >Edit</a>
                                 <a href="/delete/{{articles.article_id}}" class="btn btn-danger btn-xs"
@@ -57,17 +55,17 @@
 
                         </tr>
                         {% endfor %}
-                </tbody> 
+                </tbody>
                 </table>
                 </div>
-                    
+
                     <br></br>
                     <div>
                         <button type = "button" onclick =
                         "location.href = './home'">
                         Go back to Home
                     </button>
-                    </div>     
+                    </div>
             </form>
             </div>
         </div>
@@ -79,8 +77,8 @@
                 "columnDefs": [
                     { "visible": false },
                     {
-                        "targets": [1, 2, 3, 4, 5],
-                        "orderable": false,
+                        "targets": [1, 2, 3, 4],
+                        "orderable": true,
 
                     }]
             });
