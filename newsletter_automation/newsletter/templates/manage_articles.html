@@ -2,6 +2,19 @@
 {%include "base.html" %}
 {%include "menu.html" %}
 {% block content %}
+<head>
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js">
+    </script>
+</head>
+
+<body>
 <div class="logoutLblPos">
     <button type="button" onclick="location.href = '/logout'">
         Logout
@@ -12,9 +25,10 @@
         <div class="col md-12">
             <form method="POST" , action="">
                 <legend>Manage Articles </legend>
-
-                    <table class="table table-hover table" >
+                <table id="tableID" class="table table-hover">
+                    <thead>
                         <tr>
+<<<<<<< HEAD
 
                             <th>Title</th>
                             <th>URL</th>
@@ -22,18 +36,35 @@
                             <th>Reading Time</th>
                             <th>Newsletter Id</th>
                             <th>Article Editor</th>
+=======
+                            <th class="col-md-2">Title</th>
+                            <th class="col-md-3">URL</th>
+                            <th class="col-md-4">Description</th>
+                            <th class="col-md-1">Newsletter Id</th>
+                            <th class="col-md-1">Action</th>
+>>>>>>> 3be5da437d8aebf1c3dfdee100c7f521adc270b9
                         </tr>
+                    </thead>
+
+                <tbody>
                         {% for articles in article_data %}
                         <tr>
 
+<<<<<<< HEAD
                             <td> {{articles.title}}</td>
                             <td> {{articles.url}}</td>
                             <td> {{articles.description}}</td>
                             <td> {{articles.time}}</td>
                             <td> {{articles.newsletter_id}}</td>
                             <td> {{articles.article_editor}}</td>
+=======
+                            <td style ="word-break:break-all;"> {{articles.title}}</td>
+                            <td style ="word-break:break-all;"> <a href="{{articles.url}}">{{articles.url}}</a></td>
+                            <td style ="word-break:break-all;"> {{articles.description}}</td>
+                            <td style ="word-break:break-all;"> {{articles.newsletter_id}}</td>
+>>>>>>> 3be5da437d8aebf1c3dfdee100c7f521adc270b9
 
-                            <td>
+                            <td style ="word-break:break-all;">
                                 <a href="/edit/{{articles.article_id}}" class="btn btn-primary btn-xs"
                                     >Edit</a>
                                 <a href="/delete/{{articles.article_id}}" class="btn btn-danger btn-xs"
@@ -43,7 +74,10 @@
 
                         </tr>
                         {% endfor %}
-                    </table>
+                </tbody>
+                </table>
+                </div>
+
                     <br></br>
                     <div>
                         <button type = "button" onclick =
@@ -51,12 +85,26 @@
                         Go back to Home
                     </button>
                     </div>
-
-                   
             </form>
-
             </div>
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+    $('#tableID').DataTable( {
+                "order": [],
+                "columnDefs": [
+                    { "visible": false },
+                    {
+                        "targets": [1, 2, 3, 4],
+                        "orderable": true,
+                    }]
+            });
+        });
+
+</script>
+</body>
 {% endblock content %}
+
+
