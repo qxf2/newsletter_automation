@@ -1,14 +1,6 @@
 {%include "layout.html" %}
 {%include "base.html" %}
 {% block content %}
- <span style="float: right">
-    <button type="button" onclick="location.href = '/logout'">
-        Logout
-    </button>
-</span>
-
-<div class="jumbotron p-3">
-</div>
 
         <form action="" method = "POST">
             {{ form.csrf_token }}
