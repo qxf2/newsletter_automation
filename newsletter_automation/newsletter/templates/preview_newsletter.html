@@ -1,71 +1,70 @@
-{% include "layout.html" %}
+{% extends "base.html" %}
+
 {% block content %}
+<div class="container">
+    <form method="POST" , action="">
+        <fieldset class="form-group">
+            <legend>Preview Newsletter content</legend>
+            <div>
+                <table class="table table-hover table">
+                    <tr>
+                        <th>Subject</th>
+                        <th>Opener</th>
+                        <th>Preview</th>
+                    </tr>
+                    {% for row in only_sub_op_preview %}
+                    <tr>
+                        <td> {{row.subject}}</td>
+                        <td> {{row.opener}}</td>
+                        <td> {{row.preview}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                &nbsp;
+                &nbsp;
+                <table class="table table-hover table">
+                    <tr>
+                        <th>Category</th>
+                        <th>Title</th>
+                        <th>URL</th>
+                        <th>Description</th>
+                        <th>Reading Time</th>
+                    </tr>
+                    {% for row in content %}
+                    <tr>
+                        <td> {{row.category_name}}</td>
+                        <td> {{row.title}}</td>
+                        <td> {{row.url}}</td>
+                        <td> {{row.description}}</td>
+                        <td> {{row.time}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="form-group" align="justify">
+                <button type="submit" class="btn btn-primary" id="campaign">Create Campaign</button>
+            </div>
+            <script>
 
-<div class="col-md-12">
-<form method="POST" , action="">
-<fieldset class="form-group">
-    <legend>Preview Newsletter content</legend>
-    <div>
-    <table class="table table-hover table" >
-    <tr>
-        <th>Subject</th>
-        <th>Opener</th>
-        <th>Preview</th>
-    </tr>
-        {% for row in only_sub_op_preview %}
-            <tr>
-                <td> {{row.subject}}</td>
-                <td> {{row.opener}}</td>
-                <td> {{row.preview}}</td>
-                </tr>
-                {% endfor %}
-    </table>
-    &nbsp;
-    &nbsp;
-        <table class="table table-hover table" >
-                        <tr>
-                            <th>Category</th>
-                            <th>Title</th>
-                            <th>URL</th>
-                            <th>Description</th>
-                            <th>Reading Time</th>
-                        </tr>
-                        {% for row in content %}
-                        <tr>
-                            <td> {{row.category_name}}</td>
-                            <td> {{row.title}}</td>
-                            <td> {{row.url}}</td>
-                            <td> {{row.description}}</td>
-                            <td> {{row.time}}</td>
-                        </tr>
-                        {% endfor %}
-                    </table>
-    </div>
-    <div class="form-group" align ="justify">
-        <button type="submit" class="btn btn-primary" id="campaign">Create Campaign</button>
-    </div>
-        <script>
+                $(document).ready(function () {
+                    $("#campaign").click(function () {
 
-            $(document).ready(function(){
-            $("#campaign").click(function(){
+                        $.ajax({
+                            type: 'POST',
+                            url: "{{url_for('create_campaign')}}",
 
-            $.ajax({
-            type : 'POST',
-            url : "{{url_for('create_campaign')}}",
-
-            contentType: 'application/json;charset=UTF-8',
-            dataType : "json",
-            success: function () {
-                        alert("Data added successfully");
-                        console.log("created campaign and set content too")
-                    }
-            })
-            $("#campaign").attr("disabled",true);
-            alert("Wait for sometime as API calls are being made, there might be delay.....");
-            });
-            });
-        </script>
-
+                            contentType: 'application/json;charset=UTF-8',
+                            dataType: "json",
+                            success: function () {
+                                alert("Data added successfully");
+                                console.log("created campaign and set content too")
+                            }
+                        })
+                        $("#campaign").attr("disabled", true);
+                        alert("Wait for sometime as API calls are being made, there might be delay.....");
+                    });
+                });
+            </script>
 </div>
 &nbsp;
 {% endblock content %}
