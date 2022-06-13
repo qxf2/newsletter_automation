@@ -1,18 +1,11 @@
-{%include "menu.html" %}
+{% extends "base.html" %}
 
-<!doctype html>
-<html lang="en"></html>
-<head>
-    <meta charset="utf-8">
-    <title>Go back to articles page"</title>
-</head>
-<html>
-   <body>
-      Result of addition : {{ msg }}
-      <h2><a href = "./articles">Go back to articles page</a></h2>
-      <h2><a href="./manage-articles">Go to Manage articles page</a></h2>
-      <h2><a href="./create-newsletter">Go to Create newsletter page</a></h2>
-      <h2><a href = "./home">Go back to Home page</a></h2>
-      <br></br>
-   </body>
-</html>
+{% block content %}
+<div class="container">
+   Result of addition : {{ msg }}
+   <h2><a href="./articles">Go back to articles page</a></h2>
+   <h2><a href="./manage-articles">Go to Manage articles page</a></h2>
+   <h2><a href="./create-newsletter">Go to Create newsletter page</a></h2>
+   <h2><a href="./home">Go back to Home page</a></h2>
+</div>
+{% endblock content %}
