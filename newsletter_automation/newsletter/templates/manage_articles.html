@@ -1,20 +1,15 @@
-{%include "layout.html" %}
-{%include "base.html" %}
-{%include "menu.html" %}
+{% extends "base.html" %}
+
+{% block css_static %}
+<!-- jQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+{% endblock css_static %}
+
 {% block content %}
-<head>
-    <!-- jQuery -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
-
-    <!-- DataTables JS -->
-    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js">
-    </script>
-</head>
-
-<body>
 <div class="container">
     <div class="row">
         <div class="col md-12">
@@ -25,62 +20,45 @@
                         <tr>
                             <th class="col-md-2">Title</th>
                             <th class="col-md-3">URL</th>
-                            <th class="col-md-4">Description</th>
-                            <th class="col-md-1">Newsletter Id</th>
+                            <th class="col-md-5">Description</th>
                             <th class="col-md-1">Action</th>
                         </tr>
                     </thead>
 
-                <tbody>
+                    <tbody>
                         {% for articles in article_data %}
                         <tr>
-
-                            <td style ="word-break:break-all;"> {{articles.title}}</td>
-                            <td style ="word-break:break-all;"> <a href="{{articles.url}}">{{articles.url}}</a></td>
-                            <td style ="word-break:break-all;"> {{articles.description}}</td>
-                            <td style ="word-break:break-all;"> {{articles.newsletter_id}}</td>
-
-                            <td style ="word-break:break-all;">
-                                <a href="/edit/{{articles.article_id}}" class="btn btn-primary btn-xs"
-                                    >Edit</a>
-                                <a href="/delete/{{articles.article_id}}" class="btn btn-danger btn-xs"
+                            <td style="word-break:break-all;"> {{articles.title}}</td>
+                            <td style="word-break:break-all;"> <a href="{{articles.url}}">{{articles.url}}</a></td>
+                            <td style="word-break:break-all;"> {{articles.description}}</td>
+                            <td style="word-break:break-all;">
+                                <a href="/edit/{{articles.article_id}}" class="btn btn-sm btn-primary">Edit</a>
+                                <a href="/delete/{{articles.article_id}}" class="btn btn-sm btn-danger"
                                     onclick="return confirm('Are You Sure To Delete ?')">Delete</a>
-
                             </td>
-
                         </tr>
                         {% endfor %}
-                </tbody>
+                    </tbody>
                 </table>
-                </div>
-
-                    <br></br>
-                    <div>
-                        <button type = "button" onclick =
-                        "location.href = './home'">
-                        Go back to Home
-                    </button>
-                    </div>
-            </form>
-            </div>
         </div>
+        </form>
     </div>
 </div>
-<script>
-    $(document).ready(function() {
-    $('#tableID').DataTable( {
-                "order": [],
-                "columnDefs": [
-                    { "visible": false },
-                    {
-                        "targets": [1, 2, 3, 4],
-                        "orderable": true,
-                    }]
-            });
-        });
-
-</script>
-</body>
 {% endblock content %}
 
+{% block js_static %}
+<script>
+    $(document).ready(function () {
+        $('#tableID').DataTable({
+            "order": [],
+            "columnDefs": [
+                { "visible": false },
+                {
+                    "targets": [1, 2, 3, 4],
+                    "orderable": true,
+                }]
+        });
+    });
 
+</script>
+{% endblock js_static %}
