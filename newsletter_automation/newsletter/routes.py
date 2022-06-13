@@ -24,12 +24,6 @@ articles_added=[]
 article_id_list=[]
 
 
-@app.route("/")
-def home():
-    "Login page for an app"
-    return render_template('login.html', title="Login")
-
-
 @app.route("/login")
 def login():
     "Login redirect"
@@ -88,6 +82,7 @@ def logout():
 
 
 @app.route('/home')
+@app.route('/')
 @Authentication_Required.requires_auth
 def index():
     return render_template('home.html', title="Home")
