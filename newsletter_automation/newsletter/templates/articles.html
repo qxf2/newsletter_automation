@@ -1,13 +1,9 @@
-{% include "base.html" %}
-{% include "layout.html" %}
-{% include "menu.html" %}
+{% extends "base.html" %}
 {% block content %}
 
-<h2>Add <b>Articles </b> <span style="float: right">
-
-</h2>
-
+<div class="container">
    <form action = "{{ request.path }}" method = "post">
+      <legend>Manage Articles </legend>
       <div class="col-md-12">
       <table class="table table-hover table" >
          <tr>
@@ -38,11 +34,6 @@
       </button>
       </div>
       <br><br>
-      <!-- Removing The Duplicate logout button
-      <div>
-         <button type="button" onclick="location.href = '/logout'">
-            Logout
-         </button>
-      </div> -->
 </form>
+</div>
 {% endblock content %}
