@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 <html>
 <head>
     <style>
@@ -10,12 +11,13 @@
 <body>
     {% include "header.html" %}
     {% include "menu.html" %}
+=======
+{% extends "base.html" %}
+{% block content %}
+>>>>>>> Redoing templating. Working on getting /home working with a header. Next up is footer for /home.
     <div class="container">
         <div class="row">
             <h4>This application is used to create and generate the weekly Qxf2 newsletter</h4>
-            <!-- <br>
-                There are has two main entities: <a href="./articles">articles</a>, <a href="./newsletter">newsletter</a>
-            <br> -->
             <br>
                 <h4 style="color:blue;">Add articles</h4>
                 <ul><li>Navigate to <a href="./articles">articles</a></li>
@@ -30,8 +32,5 @@
 
         </div>
     </div>
+{% endblock %}
 
-
-</body>
-
-</html>
