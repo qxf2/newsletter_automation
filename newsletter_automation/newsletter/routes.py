@@ -27,7 +27,7 @@ article_id_list=[]
 @app.route("/")
 def home():
     "Login page for an app"
-    return render_template('login.html')
+    return render_template('login.html', title="Login")
 
 
 @app.route("/login")
@@ -90,7 +90,7 @@ def logout():
 @app.route('/home')
 @Authentication_Required.requires_auth
 def index():
-    return render_template('home.html')
+    return render_template('home.html', title="Home")
 
 def add_articles():
     "Adds articles to the database"
@@ -117,7 +117,7 @@ def add_articles():
         app.logger.error(e)
     if request.path == '/api/articles':
         return jsonify({'error':'check if url in the payload is duplicate'}),400
-    return render_template('articles.html',addarticlesform=addarticlesform, category=category)
+    return render_template('articles.html',addarticlesform=addarticlesform, category=category, title="Add Article")
 
 @app.route('/articles', methods=['GET', 'POST'])
 @Authentication_Required.requires_auth
@@ -200,7 +200,7 @@ def create_newsletter():
         app.logger.error(e)
 
     all_articles = [Articles.query.filter_by(article_id=article_id).one() for article_id in article_id_list]
-    return render_template('create_newsletter.html',form=form, all_articles=all_articles,article_list=article_id_list)
+    return render_template('create_newsletter.html',form=form, all_articles=all_articles,article_list=article_id_list, title="Create Newsletter")
 
 @app.route("/preview_newsletter/<newsletter_id>",methods=["GET","POST"])
 @Authentication_Required.requires_auth
@@ -212,7 +212,7 @@ def previewnewsletter(newsletter_id):
         only_one_row = set(only_sub_op_preview)
     except Exception as e:
         app.logger.error(e)
-    return render_template('preview_newsletter.html',content=content, only_sub_op_preview=only_one_row)
+    return render_template('preview_newsletter.html',content=content, only_sub_op_preview=only_one_row, title="Preview Newsletter")
 
 @app.route('/show-campaign',methods=["GET","POST"])
 @Authentication_Required.requires_auth
@@ -222,7 +222,7 @@ def show_campaign():
     AddNewsletter.preview,Article_category.category_name,Articles.title,Articles.url,Articles.description,Articles.time)\
     .filter(AddNewsletter.newsletter_id == Newsletter_campaign.newsletter_id)\
     .join(NewsletterContent, NewsletterContent.newsletter_id==AddNewsletter.newsletter_id).join(Articles, Articles.article_id==NewsletterContent.article_id).join(Article_category, Article_category.category_id == Articles.category_id)
-    return render_template('show_campaign.html',campaign_data=campaign_data)
+    return render_template('show_campaign.html',campaign_data=campaign_data, title="Show Campaign")
 
 
 @app.route("/create_campaign",methods=["GET","POST"])
@@ -374,7 +374,7 @@ def manage_articles():
         article_data = Articles.query.filter(Articles.newsletter_id == None).order_by(Articles.article_id.desc()).all()
     except Exception as e:
         app.logger.error(e)
-    return render_template('manage_articles.html', addarticlesform=add_articles_form,article_data=article_data)
+    return render_template('manage_articles.html', addarticlesform=add_articles_form,article_data=article_data, title='Manage Articles')
 
 
 @app.route('/old-articles',methods=["GET"])
@@ -386,7 +386,7 @@ def old_articles():
         article_data = Articles.query.filter(Articles.newsletter_id != None).all()
     except Exception as e:
         app.logger.error(e)
-    return render_template('old_articles.html', addarticlesform=add_articles_form,article_data=article_data)
+    return render_template('old_articles.html', addarticlesform=add_articles_form,article_data=article_data, title='Old/Published Articles')
 
 
 @app.route("/edit/<article_id>",methods=["GET","POST"])
@@ -415,7 +415,7 @@ def update_article(article_id):
     except Exception as e:
         app.logger.error(e)
 
-    return render_template('edit_article.html',form=form)
+    return render_template('edit_article.html',form=form, title='Edit Article')
 
 
 @app.route("/delete/<article_id>", methods=["GET","POST"])
