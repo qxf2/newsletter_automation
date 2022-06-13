@@ -88,3 +88,60 @@ li {
     top:5px;
     right:180px;
   }
+
+/*Logo*/
+img.logo{
+    max-height: 60px;
+    max-width: 60px;
+}
+
+/*Remove link underline*/
+a.nounderline{
+    text-decoration: none;
+}
+
+/*Add vertical space above divs*/
+.top-space-5 {
+    margin-top:5px;
+}
+
+.top-space {
+    margin-top:10px;
+}
+
+.top-space-15 {
+    margin-top:15px;
+}
+
+.top-space-20 {
+    margin-top:20px;
+}
+
+.top-space-25 {
+    margin-top:25px;
+}
+
+.top-space-30 {
+    margin-top:30px;
+}
+
+.top-space-40 {
+    margin-top:40px;
+}
+
+.top-space-50 {
+    margin-top:50px;
+}
+
+/*Vertically align images to the center*/
+.vertical-center {
+  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+/*Hamburger menu*/
+.hamburger-right {
+    float: right;
+}
