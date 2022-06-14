@@ -12,8 +12,8 @@ def choice_query():
 
 class ArticleForm(FlaskForm):
     "Class for articles form"
-    
-    
+
+
     category_id= QuerySelectField('Category',query_factory=choice_query, allow_blank=True,get_label='category_name')
     url = SelectField("Select a url", validate_choice=False)
     title = StringField('Title', render_kw ={'readonly':True})
@@ -26,4 +26,4 @@ class ArticleForm(FlaskForm):
     preview_text = TextAreaField('Preview Text',render_kw={'maxlength': 150})
     #schedule = SubmitField('Schedule')
     preview_newsletter = SubmitField('Preview Newsletter')
-    cancel = SubmitField('Cancel')
+    cancel = SubmitField('Clear Fields')
