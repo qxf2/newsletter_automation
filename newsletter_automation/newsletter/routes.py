@@ -92,7 +92,7 @@ def add_articles():
     try:
         addarticlesform = AddArticlesForm(request.form)
         category = AddArticlesForm(request.form)
-        if request.method == 'POST' and not addarticlesform.validate() and len(addarticlesform.errors.keys())==1:
+        if request.method == 'POST' and addarticlesform.validate():
             article = Articles(addarticlesform.url.data,addarticlesform.title.data,addarticlesform.description.data, addarticlesform.time.data, addarticlesform.category_id.data.category_id)
             db.session.add(article)
             try:

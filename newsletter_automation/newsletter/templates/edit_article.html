@@ -21,7 +21,7 @@
                     <td> {{ form.time(placeholder="Time",id="time") }} </td>
                     <td> {{ form.category_id(placeholder="category",id="category_id") }} </td>
                     <td> {{ form.submit(class="btn btn-primary btn-block")}} </td>
-                    <td> <a href="/manage-articles" class="btn btn-danger">Cancel</a> </td>
+                    <td><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"></td>
                 </tr>
             </table>
     </form>

@@ -56,6 +56,11 @@
                 </ul>
             {% endif %}
          </tr>
+         <tr>
+            <td>
+               <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            </td>
+         </tr>
          <tr align="center">
             <td>{{ addarticlesform.submit(class="btn btn-lg btn-primary")}}</td>
          </tr>

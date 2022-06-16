@@ -74,6 +74,9 @@
             {{form.preview_newsletter(class="btn btn-primary")}}
 
         </div>
+            <div>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            </div>
 
         <table id="tableId" class="table table-hover table">
             <tr>
