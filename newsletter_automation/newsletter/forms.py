@@ -1,6 +1,5 @@
 #Flask Form To add Data
 #from newsletter.routes import description
-from email import message
 from flask_wtf import FlaskForm
 from flask_wtf.recaptcha import validators
 from wtforms import TextField, TextAreaField, SubmitField
