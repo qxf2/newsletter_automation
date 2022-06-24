@@ -150,3 +150,11 @@ a.nounderline{
     font-family: "Abel", Arial, sans-serif;
     font-size: 12px;
 }
+
+.create-newsletter-label {
+    display: inline-block;
+    width: 150px;
+    text-align: left;
+    font-weight: bold;
+    font-size: small;
+  }

@@ -187,7 +187,7 @@ def create_newsletter():
                     flash('Please check have you selected the articles, filled the subject, opener or preview text','danger')
 
             if form.cancel.data:
-                flash('Clear all Fields!! Now select the articles', 'info')
+                flash('Cleared all fields!', 'info')
                 articles_added.clear()
                 article_id_list.clear()
                 return redirect(url_for("create_newsletter"))

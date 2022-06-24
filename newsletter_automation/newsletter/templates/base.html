@@ -22,9 +22,19 @@
 
 <body>
     {% include "header.html" %}
+    <div>
+        {%with messages = get_flashed_messages(with_categories="true") %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{category}}">
+                    {{message}}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 
     {% block content %} {% endblock %}
-
+    </div>
     {% block js_static %} {% endblock %}
 
     <div class="col-md-12">
