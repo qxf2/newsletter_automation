@@ -157,4 +157,5 @@ a.nounderline{
     text-align: left;
     font-weight: bold;
     font-size: small;
+    vertical-align: top;
   }
