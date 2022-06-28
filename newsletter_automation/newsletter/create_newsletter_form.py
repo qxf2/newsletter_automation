@@ -15,7 +15,7 @@ class ArticleForm(FlaskForm):
 
 
     category_id= QuerySelectField('Category',query_factory=choice_query, allow_blank=True,get_label='category_name')
-    url = SelectField("Select a url", validate_choice=False)
+    url = SelectField("URL", validate_choice=False)
     title = StringField('Title', render_kw ={'readonly':True})
     description = TextAreaField('Description',render_kw ={'readonly':True})
     reading_time = StringField('Reading Time', render_kw ={'readonly':True})

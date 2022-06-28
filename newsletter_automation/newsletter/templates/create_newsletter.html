@@ -1,217 +1,209 @@
-{%include "layout.html" %}
-{%include "base.html" %}
-{%include "menu.html" %}
+{% extends "base.html" %}
+
+{% block css_static %}
+<!-- Select2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+{% endblock css_static %}
+
 {% block content %}
 
-<head>
-    <!-- Select2 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-    <!-- jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- Select2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-</head>
-
-<div class="logoutLblPos">
-    <button type="button" onclick="location.href = '/logout'">
-        Logout
-    </button>
-</div>
-<div>
-    <form method="POST", action="">
+<div class="container">
+    <form method="POST" , action="">
 
         {{ form.csrf_token }}
         <fieldset class="form-group">
-            <legend>Add Articles to the Newsletter</legend>
+            <legend>Add articles to the newsletter</legend>
 
-            <div class="form-group">
-                {{form.category_id.label(class="col-sm-1 col-form-label")}}
+            <div class="form-group top-space-5">
+                {{form.category_id.label(class="col-sm-1 create-newsletter-label")}}
                 {{form.category_id(id="category_id",style="width:50%")}}
             </div>
-            <div class="form-group">
-                {{form.url.label(class="col-sm-1 col-form-label")}}
+            <div class="form-group top-space-5">
+                {{form.url.label(class="col-sm-1 create-newsletter-label")}}
                 {{form.url(id="url",style="width:50%")}}
                 {% for message in get_flashed_messages() %}
-                        <textarea style="display:none;" id="message" type="hidden">{{message}}</textarea>
+                <textarea style="display:none;" id="message" type="hidden">{{message}}</textarea>
 
                 {% endfor %}
 
             </div>
-            <div class="form-group">
-                {{form.title.label(class="col-sm-1 col-form-label")}}
+            <div class="form-group top-space-5">
+                {{form.title.label(class="col-sm-1 create-newsletter-label")}}
                 {{form.title(id="title",style="width:50%")}}
             </div>
-            <div class="form-group" >
-                {{form.description.label(class="col-sm-1 col-form-label")}}
+            <div class="form-group top-space-5">
+                {{form.description.label(class="col-sm-1 create-newsletter-label")}}
                 {{form.description(id="description",style="width:50%")}}
 
             </div>
-            <div class="form-group">
-                {{form.reading_time.label(class="col-sm-1 col-form-label")}}
+            <div class="form-group top-space-5">
+                {{form.reading_time.label(class="col-sm-1 create-newsletter-label")}}
                 {{form.reading_time(id="reading_time",style="width:50%")}}
             </div>
-            <div class="form-group">
+            <div class="form-group top-space">
                 {{form.add_more()}}
             </div>
+        </fieldset>
+        <div  class="top-space">
+            <hr>
+        </div>
+        <div class="form-group top-space-20">
+            {{form.subject.label(class="col-sm-1 create-newsletter-label")}}
+            {{form.subject(style="width:50%")}}
+        </div>
 
-        </fieldset >
-            <div class="form-group" >
-                {{form.subject.label(class="col-sm-1 col-form-label")}}
-                {{form.subject(style="width:50%")}}
-            </div>
+        <div class="form-group top-space-5">
+            {{form.opener.label(class="col-sm-1 create-newsletter-label")}}
+            {{form.opener(style="width:50%")}}
+        </div>
 
-            <div class="form-group">
-                {{form.opener.label(class="col-sm-1 col-form-label")}}
-                {{form.opener(style="width:50%")}}
-            </div>
+        <div class="form-group top-space-5">
+            {{form.preview_text.label(class="col-sm-1 create-newsletter-label")}}
+            {{form.preview_text(id="preview_text",style="width:50%")}}
+            <span id='remainingC'></span>
+        </div>
 
-            <div class="form-group">
-                {{form.preview_text.label(class="col-sm-1 col-form-label")}}
-                {{form.preview_text(id="preview_text",style="width:50%")}}
-                <span id='remainingC'></span>
-            </div>
+        <div class="form-group top-space-20" align="justify">
 
-            <div class="form-group" align ="justify">
+            {{form.cancel(class="btn btn-secondary")}}
+            {{form.preview_newsletter(class="btn btn-primary")}}
 
-                {{form.cancel(class="btn btn-secondary")}}
-                {{form.preview_newsletter(class="btn btn-primary")}}
+        </div>
 
-            </div>
+        <table id="tableId" class="table table-hover table">
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>URL</th>
+                <th>Description</th>
+            </tr>
+            {% for articles in all_articles %}
+            <tr id="articleRow">
+                <td> {{articles.article_id}}</td>
+                <td> {{articles.title}}</td>
+                <td> {{articles.url}}</td>
+                <td> {{articles.description}}</td>
+                <td>
+                    <input type="button" value="Remove" class="btn btn-danger" onclick="removeArticle(this)"
+                        data-article-id="{{articles.article_id}}" data-article-list="{{article_list}}">
+                </td>
 
-            <table id="tableId" class="table table-hover table" >
-                <tr >
-                    <th>ID</th>
-                    <th>Title</th>
-                    <th>URL</th>
-                    <th>Description</th>
-                </tr>
-                {% for articles in all_articles %}
-                <tr id="articleRow">
-                    <td> {{articles.article_id}}</td>
-                    <td> {{articles.title}}</td>
-                    <td> {{articles.url}}</td>
-                    <td> {{articles.description}}</td>
-                    <td>
-                    <input type="button" value="Remove" class="btn btn-danger" onclick="removeArticle(this)" data-article-id="{{articles.article_id}}" data-article-list="{{article_list}}" >
-                    </td>
-
-                </tr>
-                {% endfor %}
-            </table>
+            </tr>
+            {% endfor %}
+        </table>
 
     </form>
-
-    <script>
-        let state_category = document.getElementById('category_id');
-        let state_url = document.getElementById('url');
-        let state_description = document.getElementById('description');
-        let state_readingtime = document.getElementById('reading_time');
-        let state_title = document.getElementById('title');
-
-        state_category.onchange = function(){
-            category = state_category.value;
-            fetch('/url/'+ category).then(function(response){
-                response.json().then(function(data){
-                    let optionHTML='<option selected="" value="Select URL">Select URL</option>';
-                    for(let url of data.url){
-                        optionHTML += '<option value="' + url.article_id + '">' + url.url + '</option>';
-                    }
-                    state_url.innerHTML=optionHTML;
-
-                })
-
-            });
-        }
-
-        state_url.onchange = function(){
-            url=state_url.value;
-            fetch('/title/'+ url).then(function(response){
-                response.json().then(function(data){
-                    state_title.value=data;
-                })
-            });
-
-            fetch('/description/'+ url).then(function(response){
-                response.json().then(function(data){
-                    state_description.value=data;
-                })
-            });
-
-            fetch('/readingtime/'+ url).then(function(response){
-                response.json().then(function(data){
-                    state_readingtime.value=data;
-                })
-            });
-        }
-
-        let message = document.getElementById('message')
-        console.log((message.value))
-        if(message.value == "please select URL")
-        {
-            console.log(true)
-            category = state_category.value;
-            fetch('/url/'+ category).then(function(response){
-                response.json().then(function(data){
-                    let optionHTML='<option selected="" value="Select URL">Select URL</option>';
-                    for(let url of data.url){
-                        optionHTML += '<option value="' + url.article_id + '">' + url.url + '</option>';
-                    }
-                    state_url.innerHTML=optionHTML;
-
-                })
-
-            });
-
-        }
-        else
-        {
-            console.log(false)
-        }
-
-    </script>
-    <script>
-        function removeArticle(deleteaction){
-            articleId = deleteaction.getAttribute('data-article-id');
-            articleList = deleteaction.getAttribute('data-article-list');
-            $.ajax({
-                type:'POST',
-                url:'/removearticle',
-                data:{
-                articleid:articleId,
-                articlelist:articleList},
-                success:function(data){
-                    $(deleteaction).closest('tr').remove();
-                }
-            })
-
-            }
-    </script>
-    <script>
-        $(document).ready(function () {
-            var len = 0;
-            var maxchar = 150;
-
-            $('#preview_text').keyup(function () {
-                len = this.value.length
-                if (len > maxchar) {
-                    return false;
-                }
-                else if (len > 0) {
-                    $("#remainingC").html("Remaining characters: " + (maxchar - len));
-                }
-                else {
-                    $("#remainingC").html("Remaining characters: " + (maxchar));
-                }
-            })
-        });
-    </script>
-    <!-- Script -->
-        <script>
-            $(document).ready(function(){
-
-            // Initialize select2
-            $("#url").select2();
-            });
-        </script>
 </div>
 {% endblock content %}
+
+{% block js_static %}
+<script>
+    let state_category = document.getElementById('category_id');
+    let state_url = document.getElementById('url');
+    let state_description = document.getElementById('description');
+    let state_readingtime = document.getElementById('reading_time');
+    let state_title = document.getElementById('title');
+
+    state_category.onchange = function () {
+        category = state_category.value;
+        fetch('/url/' + category).then(function (response) {
+            response.json().then(function (data) {
+                let optionHTML = '<option selected="" value="Select URL">Select URL</option>';
+                for (let url of data.url) {
+                    optionHTML += '<option value="' + url.article_id + '">' + url.url + '</option>';
+                }
+                state_url.innerHTML = optionHTML;
+
+            })
+
+        });
+    }
+
+    state_url.onchange = function () {
+        url = state_url.value;
+        fetch('/title/' + url).then(function (response) {
+            response.json().then(function (data) {
+                state_title.value = data;
+            })
+        });
+
+        fetch('/description/' + url).then(function (response) {
+            response.json().then(function (data) {
+                state_description.value = data;
+            })
+        });
+
+        fetch('/readingtime/' + url).then(function (response) {
+            response.json().then(function (data) {
+                state_readingtime.value = data;
+            })
+        });
+    }
+
+    let message = document.getElementById('message')
+    if (message.value == "please select URL") {
+        category = state_category.value;
+        fetch('/url/' + category).then(function (response) {
+            response.json().then(function (data) {
+                let optionHTML = '<option selected="" value="Select URL">Select URL</option>';
+                for (let url of data.url) {
+                    optionHTML += '<option value="' + url.article_id + '">' + url.url + '</option>';
+                }
+                state_url.innerHTML = optionHTML;
+
+            })
+
+        });
+
+    }
+</script>
+<script>
+    function removeArticle(deleteaction) {
+        articleId = deleteaction.getAttribute('data-article-id');
+        articleList = deleteaction.getAttribute('data-article-list');
+        $.ajax({
+            type: 'POST',
+            url: '/removearticle',
+            data: {
+                articleid: articleId,
+                articlelist: articleList
+            },
+            success: function (data) {
+                $(deleteaction).closest('tr').remove();
+            }
+        })
+
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        var len = 0;
+        var maxchar = 150;
+
+        $('#preview_text').keyup(function () {
+            len = this.value.length
+            if (len > maxchar) {
+                return false;
+            }
+            else if (len > 0) {
+                $("#remainingC").html("Remaining characters: " + (maxchar - len));
+            }
+            else {
+                $("#remainingC").html("Remaining characters: " + (maxchar));
+            }
+        })
+    });
+</script>
+<script>
+    $(document).ready(function () {
+
+        // Initialize select2
+        $("#url").select2();
+    });
+</script>
+{% endblock js_static %}
