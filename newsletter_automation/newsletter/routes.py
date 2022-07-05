@@ -102,9 +102,7 @@ def add_articles():
                     db.session.commit()
                     msg = "Record added Successfully"
             except MultipleResultsFound as e:
-                msg = e
-            #db.session.commit()
-            #msg = "Record added Successfully"
+                msg = "URL already exists in database"
             if request.path == '/api/articles':
                 return jsonify({'message':msg}),200
             return render_template('result.html', msg=msg)
