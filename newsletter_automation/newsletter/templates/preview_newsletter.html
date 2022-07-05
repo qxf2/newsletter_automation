@@ -3,7 +3,7 @@
     <script src="https://code.jquery.com/jquery-1.8.3.min.js"></script>
 {% endblock css_static %}
 {% block content %}
-<div class="container">
+<meta name="csrf-token" content="{{ csrf_token() }}">
     <form method="POST" , action="">
         <fieldset class="form-group">
             <legend>Preview Newsletter content</legend>
@@ -50,6 +50,15 @@
 
                 $(document).ready(function () {
                     $("#campaign").click(function () {
+            var csrftoken = $('meta[name=csrf-token]').attr('content');
+
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    }
+                }
+            })
 
                         $.ajax({
                             type: 'POST',

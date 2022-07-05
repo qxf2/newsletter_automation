@@ -8,13 +8,14 @@
 <!-- Select2 JS -->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 {% endblock css_static %}
 
 {% block content %}
 
 <div class="container">
-    <form method="POST" , action="">
 
+    <form method="POST", action="">
         {{ form.csrf_token }}
         <fieldset class="form-group">
             <legend>Add articles to the newsletter</legend>
@@ -169,6 +170,15 @@
     function removeArticle(deleteaction) {
         articleId = deleteaction.getAttribute('data-article-id');
         articleList = deleteaction.getAttribute('data-article-list');
+            var csrftoken = $('meta[name=csrf-token]').attr('content');
+
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                                        }
+                        }
+            })
         $.ajax({
             type: 'POST',
             url: '/removearticle',
