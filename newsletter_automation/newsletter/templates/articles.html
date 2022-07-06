@@ -7,19 +7,59 @@
       <div class="col-md-12">
       <table class="table table-hover table" >
          <tr>
-            <td > URL:{{ addarticlesform.url(id="url", class="form-control", autofocus="",placeholder="URL")}}</td>
+            <td > URL:{{ addarticlesform.url(id="url", class="form-control", autofocus="",placeholder="URL") }}</td>
+            {% if addarticlesform.url.errors %}
+              <ul class=errors>
+               {% for error in addarticlesform.url.errors %}
+                  <li style="background:pink">{{ error }}</li>
+               {% endfor %}
+               </ul>
+            {% endif %}
          </tr>&nbsp;&nbsp;&nbsp;
          <tr>
             <td> Title:{{ addarticlesform.title(id="title", class="form-control", autofocus="",placeholder="Title")}}</td>
+            {% if addarticlesform.title.errors %}
+               <ul class=errors>
+                {% for error in addarticlesform.title.errors %}
+                     <li style="background:pink">{{ error }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
          </tr>
          <tr>
             <td> Description:{{ addarticlesform.description(id="description", class="form-control", autofocus="",placeholder="Description")}}</td>
+            {% if addarticlesform.description.errors %}
+               <ul class=errors>
+                {% for error in addarticlesform.description.errors %}
+                     <li style="background:pink">{{ error }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
          </tr>
          <tr>
             <td> Time:{{ addarticlesform.time(placeholder="Time (in Minutes)",id="time", type="number", min="1", max="120", class="form-control", autofocus="") }}</td>
+            {% if addarticlesform.time.errors %}
+               <ul class=errors>
+                {% for error in addarticlesform.time.errors %}
+                     <li style="background:pink">{{ error }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
          </tr>
          <tr>
             <td> Category:{{ addarticlesform.category_id(placeholder="category",id="category_id", class="form-control", required="") }}</td>
+            {% if addarticlesform.category_id.errors %}
+               <ul class=errors>
+                {% for error in addarticlesform.category_id.errors %}
+                     <li style="background:pink">{{ error }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+         </tr>
+         <tr>
+            <td>
+               <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            </td>
          </tr>
          <tr align="center">
             <td>{{ addarticlesform.submit(class="btn btn-lg btn-primary")}}</td>

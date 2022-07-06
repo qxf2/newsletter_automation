@@ -92,7 +92,7 @@ def add_articles():
     try:
         addarticlesform = AddArticlesForm(request.form)
         category = AddArticlesForm(request.form)
-        if request.method == 'POST':
+        if request.method == 'POST' and addarticlesform.validate():
             article = Articles(addarticlesform.url.data,addarticlesform.title.data,addarticlesform.description.data, addarticlesform.time.data, addarticlesform.category_id.data.category_id)
             db.session.add(article)
             try:
@@ -102,9 +102,7 @@ def add_articles():
                     db.session.commit()
                     msg = "Record added Successfully"
             except MultipleResultsFound as e:
-                msg = e
-            #db.session.commit()
-            #msg = "Record added Successfully"
+                msg = "URL already exists in database"
             if request.path == '/api/articles':
                 return jsonify({'message':msg}),200
             return render_template('result.html', msg=msg)

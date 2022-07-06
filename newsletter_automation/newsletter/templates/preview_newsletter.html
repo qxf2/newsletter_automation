@@ -4,6 +4,7 @@
 {% endblock css_static %}
 {% block content %}
 <div class="container">
+<meta name="csrf-token" content="{{ csrf_token() }}">
     <form method="POST" , action="">
         <fieldset class="form-group">
             <legend>Preview Newsletter content</legend>
@@ -46,10 +47,21 @@
             <div class="form-group" align="justify">
                 <button type="submit" class="btn btn-primary" id="campaign">Create Campaign</button>
             </div>
+    </fieldset>
+    </form>
             <script>
 
                 $(document).ready(function () {
                     $("#campaign").click(function () {
+            var csrftoken = $('meta[name=csrf-token]').attr('content');
+
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    }
+                }
+            })
 
                         $.ajax({
                             type: 'POST',
