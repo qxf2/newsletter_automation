@@ -19,6 +19,7 @@ import newsletter.sso_google_oauth as sso
 from helpers.authentication_required import Authentication_Required
 
 from newsletter import forms
+from newsletter import csrf
 
 articles_added=[]
 article_id_list=[]
@@ -92,7 +93,7 @@ def add_articles():
     try:
         addarticlesform = AddArticlesForm(request.form)
         category = AddArticlesForm(request.form)
-        if request.method == 'POST' and addarticlesform.validate():
+        if request.method == 'POST' and (addarticlesform.validate() or request.path == '/api/articles'):
             article = Articles(addarticlesform.url.data,addarticlesform.title.data,addarticlesform.description.data, addarticlesform.time.data, addarticlesform.category_id.data.category_id)
             db.session.add(article)
             try:
@@ -100,7 +101,7 @@ def add_articles():
                     msg = ""
                 else:
                     db.session.commit()
-                    msg = "Record added Successfully"
+                    msg = "Record added successfully"
             except MultipleResultsFound as e:
                 msg = "URL already exists in database"
             if request.path == '/api/articles':
@@ -120,6 +121,7 @@ def articles():
 
 @app.route('/api/articles', methods=['POST'])
 @Authentication_Required.requires_apikey
+@csrf.exempt
 def api_article():
     """To add articles through api endpoints"""
     return add_articles()
