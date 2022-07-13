@@ -34,22 +34,20 @@ This project is to automate the process of creating the weekly Qxf2 newsletter. 
 ## How to run Great Expectations test locally:
 Great Expectations is an open-source Python library to test data pipelines. It helps in validating and documenting data and thus maintaining data quality. 
 
-1. Clone the newsletter_automation GitHub repo.
-
-2. Create and activate a virtual environment(Python 3.7.4 version).
-
-3. Install great_expectations:
+1. Install great_expectations:
    `pip install great_expectations`
 
-4. Navigate to tests > data_validation > great_expectations directory:
+2. Navigate to tests > data_validation > great_expectations directory:
    `cd tests/data_validation/great_expectations`
 
-5. Run the checkpoint script.
-  Navigate to newsletter_automation directory and run:
-  `python tests/data_validation/great_expectations/utils/run_newsletter_automation.py`
-  This will trigger the Checkpoint and run the Expectation Suite against the CSV file data.
+3. Run the checkpoint script.
+   Navigate to newsletter_automation directory and run:
+  
+   `python tests/data_validation/great_expectations/utils/run_newsletter_automation.py`
+  
+   This will trigger the Checkpoint and run the Expectation Suite against the CSV file data.
 
-6. Results are stored in great_expectations/uncommitted/data_docs/local_site folder.
+4. Results are stored in `great_expectations/uncommitted/data_docs/local_site` folder.
   Navigate to the above directory using File Explorer.
   Open index.html, go to Validations tab and select your recent run.
   It will show details of what expectations have run, how many have passed/failed, failure details etc.
