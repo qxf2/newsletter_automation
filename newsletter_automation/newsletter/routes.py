@@ -244,7 +244,7 @@ def create_campaign():
         newsletter_json = []
         for each_element in result:
             newsletter['title']= each_element.subject
-            newsletter['in_this_issue'] = "In this issue "+ each_element.opener
+            newsletter['in_this_issue'] = "In this issue: "+ each_element.opener
             newsletter['preview']=each_element.preview
             if each_element.category_name == 'comic':
                 newsletter['comic']['comic_url']=each_element.url
