@@ -1,7 +1,23 @@
 {
   "data_asset_type": null,
   "expectation_suite_name": "articles",
-  "expectations": [],
+  "expectations": [
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "description",
+        "min_value": 15
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "description"
+      },
+      "meta": {}
+    }
+  ],
   "ge_cloud_id": null,
   "meta": {
     "citations": [
@@ -12,10 +28,10 @@
           "datasource_name": "newsletter_automation_datasource",
           "limit": 1000
         },
-        "citation_date": "2022-07-14T09:13:09.802558Z",
+        "citation_date": "2022-07-18T07:57:13.053323Z",
         "comment": "Created suite added via CLI"
       }
     ],
-    "great_expectations_version": "0.15.12"
+    "great_expectations_version": "0.15.14"
   }
 }
