@@ -21,8 +21,8 @@
                             <th class="col-md-2">Title</th>
                             <th class="col-md-3">URL</th>
                             <th class="col-md-4">Description</th>
-                            <th class="col-md-1" data-toggle="tooltip" data-placement="top" title="Comic = 1  Past week = 2  Current week = 3  Automation corner = 4 Uncategorized = 5">Category</th>
                             <th class="col-md-1">Article Editor</th>
+                            <th class="col-md-1" data-toggle="tooltip" data-placement="top" title="Comic = 1  Past week = 2  Current week = 3  Automation corner = 4 Uncategorized = 5">Category</th>
                             <th class="col-md-1">Action</th>
                         </tr>
                     </thead>
@@ -33,13 +33,11 @@
                             <td style="word-break:break-all;"> {{articles.title}}</td>
                             <td style="word-break:break-all;"> <a href="{{articles.url}}">{{articles.url}}</a></td>
                             <td style="word-break:break-all;"> {{articles.description}}</td>
-                            <td style="word-break:break-all;"> {{articles.category_id}}</td>
                             <td style ="word-break:break-all;"> {{articles.article_editor}}</td>
+                            <td style="word-break:break-all; text-align: center;"> {{articles.category_id}}</td>
                             <td style="word-break:break-all;">
                                 <a href="/edit/{{articles.article_id}}" class="btn btn-sm btn-primary">Edit</a>
-                                <a href="/delete/{{articles.article_id}}" class="btn btn-sm btn-danger"
-                            <td style="word-break:break-all;"> {{articles.article_editor}}</td>
-                                    onclick="return confirm('Are You Sure To Delete ?')">Delete</a>
+                                <a href="/delete/{{articles.article_id}}" class="btn btn-sm btn-danger"onclick="return confirm('Are You Sure To Delete ?')">Delete</a>
                             </td>
                         </tr>
                         {% endfor %}
