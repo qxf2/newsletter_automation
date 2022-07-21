@@ -37,17 +37,20 @@ Great Expectations is an open-source Python library to test data pipelines. It h
 1. Install great_expectations:
    `pip install great_expectations`
 
-2. Navigate to tests > data_validation > great_expectations directory:
-   `cd tests/data_validation/great_expectations`
+2. Set the environment variables prefixed with `DB_`, mentioned in great_expectations.yml
 
-3. Run the checkpoint script.
+3. Navigate to tests > data_validation > great_expectations directory:
+   `cd tests/data_validation/great_expectations`
+   
+4. Run the checkpoint script.
    Navigate to newsletter_automation directory and run:
   
    `python tests/data_validation/great_expectations/utils/run_newsletter_automation.py`
   
-   This will trigger the Checkpoint and run the Expectation Suite against the CSV file data.
+   This will trigger the Checkpoint and run the Expectation Suite against the MySQL table data as configured in the datasource.
+   
 
-4. Results are stored in `great_expectations/uncommitted/data_docs/local_site` folder.
+5. Results are stored in `great_expectations/uncommitted/data_docs/local_site` folder.
   Navigate to the above directory using File Explorer.
   Open index.html, go to Validations tab and select your recent run.
   It will show details of what expectations have run, how many have passed/failed, failure details etc.
