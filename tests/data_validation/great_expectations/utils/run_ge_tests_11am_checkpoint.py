@@ -26,7 +26,7 @@ data_context: DataContext = DataContext(
 )
 
 result: CheckpointResult = data_context.run_checkpoint(
-    checkpoint_name="newsletter_automation",
+    checkpoint_name="ge_tests_11am_checkpoint",
     batch_request=None,
     run_name=None,
 )
