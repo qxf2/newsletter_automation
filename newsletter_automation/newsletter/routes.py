@@ -93,8 +93,10 @@ def add_articles():
     try:
         addarticlesform = AddArticlesForm(request.form)
         category = AddArticlesForm(request.form)
+        articleditor = AddArticlesForm(request.form)
         if request.method == 'POST' and (addarticlesform.validate() or request.path == '/api/articles'):
-            article = Articles(addarticlesform.url.data,addarticlesform.title.data,addarticlesform.description.data, addarticlesform.time.data, addarticlesform.category_id.data.category_id)
+            article = Articles(addarticlesform.url.data,addarticlesform.title.data,addarticlesform.description.data, 
+                            addarticlesform.time.data, addarticlesform.category_id.data.category_id, articleditor.article_editor.data)
             db.session.add(article)
             try:
                 if url == db.session.query(Articles).filter(Articles.url == addarticlesform.url.data).one_or_none():
