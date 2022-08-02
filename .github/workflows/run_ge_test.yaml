@@ -29,3 +29,22 @@ jobs:
       - name: Run Checkpoint
         run: |
           python tests/data_validation/great_expectations/utils/run_ge_tests_11am_checkpoint.py
+        env:
+          NETLIFY_URL: ${{secrets.NETLIFY_URL}}  
+
+      - name: Deploy DataDocs to Netlify
+        uses: nwtgck/actions-netlify@v1.2
+        with:
+          publish-dir: "tests/data_validation/great_expectations/uncommitted/data_docs/local_site"
+          production-deploy: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      - name: Send Skype notification after run
+        env:
+          SKYPE_API_KEY: ${{ secrets.SKYPE_API_KEY }}
+          SKYPE_CHANNEL: ${{ secrets.SKYPE_CHANNEL_TEST }}
+          SKYPE_URL: ${{ secrets.SKYPE_URL }}
+        run: |
+          python tests/data_validation/great_expectations/utils/send_skype_message.py    
