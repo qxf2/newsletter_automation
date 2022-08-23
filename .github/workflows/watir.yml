@@ -17,5 +17,4 @@ jobs:
           ruby-version: '3.1'
       - name: Run test
         run: |
-          cd newsletter_automation/tests/
-          ruby newsletter_automation_pom.rb
+          bundle exec ruby newsletter_automation_pom.rb
