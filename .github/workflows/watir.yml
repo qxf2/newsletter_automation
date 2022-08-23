@@ -17,4 +17,4 @@ jobs:
           ruby-version: '3.1'
           bundler-cache: true
       - name: Run test
-        run: ruby -e 'p `ls`.split("\n")'
+        run: ruby ./.github/workflows/newsletter_automation_pom.rb
