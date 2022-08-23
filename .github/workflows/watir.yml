@@ -2,7 +2,7 @@ name: Ruby
 
 on:
   push:
-    branches: [ main ]
+    branches: [ ajitava_watir_continous_integration ]
 
 jobs:
   test:
