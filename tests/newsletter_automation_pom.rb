@@ -1,6 +1,6 @@
 require 'watir'
 require 'rspec'
-require 'dotenv'
+#require 'dotenv'
 
 user = ENV['USER_NAME']
 pass = ENV['PASS_WORD']
