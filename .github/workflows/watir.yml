@@ -20,3 +20,4 @@ jobs:
         working-directory: tests/
         run: |
           ls -la
+          ruby newsletter_automation_pom.rb
