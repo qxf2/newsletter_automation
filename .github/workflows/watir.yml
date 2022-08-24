@@ -18,7 +18,7 @@ jobs:
           bundler-cache: true
       - name: Install watir
         run: gem install watir
-      - nameL Install Rspec
+      - name: Install Rspec
         run: gem install rspec
       - name: Run test
         working-directory: tests/
