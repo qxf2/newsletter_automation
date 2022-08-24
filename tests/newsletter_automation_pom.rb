@@ -1,6 +1,7 @@
 require 'watir'
 require 'rspec'
 #require 'dotenv'
+require 'selenium-webdriver'
 
 user = ENV['USER_NAME']
 pass = ENV['PASS_WORD']
