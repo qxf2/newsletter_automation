@@ -18,4 +18,4 @@ jobs:
           bundler-cache: true
       - name: Run test
         run: |
-          ls -la
+          ls
