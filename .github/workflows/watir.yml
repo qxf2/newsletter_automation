@@ -18,4 +18,4 @@ jobs:
           bundler-cache: true
       - name: Run test
         working-directory: newsletter_automation/tests
-        run: ruby newsletter_automation_pom.rb
+        run: ls
