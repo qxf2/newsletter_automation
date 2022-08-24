@@ -20,7 +20,6 @@ jobs:
         run: gem install watir
       - name: Install Rspec
         run: gem install rspec
-      - name: Run test
       - name: Install dependencies
         run: |
           set -ex
@@ -28,6 +27,7 @@ jobs:
           sudo apt install ./google-chrome-stable_current_amd64.deb
       - uses: nanasess/setup-chromedriver@v1
       - run: chromedriver --url-base=/wd/hub &
+      - name: Run test
         working-directory: tests/
         run: |
           ls -la
