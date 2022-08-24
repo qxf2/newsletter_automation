@@ -27,7 +27,7 @@ jobs:
           wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           sudo apt install ./google-chrome-stable_current_amd64.deb
       - uses: nanasess/setup-chromedriver@v1
-      - run: chromedriver --url-base=/wd/hub &amp;
+      - run: chromedriver --url-base=/wd/hub &
         working-directory: tests/
         run: |
           ls -la
