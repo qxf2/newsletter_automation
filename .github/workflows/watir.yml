@@ -20,6 +20,8 @@ jobs:
         run: gem install watir
       - name: Install Rspec
         run: gem install rspec
+      -name: Install selenium
+        run: gem install selenium-webdriver 
       - name: Install dependencies
         run: |
           set -ex
