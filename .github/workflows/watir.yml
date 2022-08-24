@@ -21,6 +21,13 @@ jobs:
       - name: Install Rspec
         run: gem install rspec
       - name: Run test
+      - name: Install dependencies
+        run: |
+          set -ex
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt install ./google-chrome-stable_current_amd64.deb
+      - uses: nanasess/setup-chromedriver@v1
+      - run: chromedriver --url-base=/wd/hub &amp;
         working-directory: tests/
         run: |
           ls -la
