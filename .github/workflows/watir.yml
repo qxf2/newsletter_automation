@@ -40,6 +40,5 @@ jobs:
           && geckodriver --version
       - name: Run test
         working-directory: tests/
-        run: python run_server.py & 
-             sleep 5
-             ruby newsletter_automation_pom.rb
+        run: python run_server.py
+             && ruby newsletter_automation_pom.rb
