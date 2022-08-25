@@ -8,6 +8,7 @@ jobs:
   test:
 
     runs-on: ubuntu-latest
+    python-version: [3.8.12]
 
     steps:
       - uses: actions/checkout@v2
@@ -16,6 +17,11 @@ jobs:
         with:
           ruby-version: '3.1'
           bundler-cache: true
+      - uses: actions/checkout@v1
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+        python-version: ${{ matrix.python-version }}
       - name: Install watir
         run: gem install watir
       - name: Install Rspec
@@ -35,4 +41,6 @@ jobs:
           && geckodriver --version
       - name: Run test
         working-directory: tests/
-        run: ruby newsletter_automation_pom.rb
+        run: python run_server.py & 
+             sleep 5
+             ruby newsletter_automation_pom.rb
