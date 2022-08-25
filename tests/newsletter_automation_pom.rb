@@ -116,7 +116,8 @@ class Newsletter < BrowserContainer
 attempts = 0
 
 begin
-wat = Watir::Browser.new :firefox, headless: true
+browser_opt = {page_load_timeout: 180, script_timeout: 180}
+wat = Watir::Browser.new :firefox, headless: true, options: browser_opt
 rescue Net::ReadTimeout => e
     if attempts == 0
       attempts += 1
