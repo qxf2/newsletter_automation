@@ -5,8 +5,6 @@ require 'selenium-webdriver'
 
 require 'headless'
 
-headless = Headless.new
-headless.start
 
 user = ENV['USER_NAME']
 pass = ENV['PASS_WORD']
@@ -115,6 +113,8 @@ class Newsletter < BrowserContainer
     
   end 
 
+headless = Headless.new
+headless.start
 
 site = Newsletter.new(Watir::Browser.new(:firefox))
 client = Selenium::WebDriver::Remote::Http::Default.new
