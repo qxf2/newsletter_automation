@@ -114,7 +114,7 @@ class Newsletter < BrowserContainer
   end 
 
 wat = Watir::Browser.new :firefox, headless: true
-site = Newsletter.new(wat))
+site = Newsletter.new(wat)
 client = Selenium::WebDriver::Remote::Http::Default.new
 client.read_timeout = 120
 site.open
