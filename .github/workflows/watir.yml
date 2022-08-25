@@ -47,4 +47,5 @@ jobs:
         working-directory: tests/
         run: |
           python run_server.py
+          && sleep 5
           && ruby newsletter_automation_pom.rb
