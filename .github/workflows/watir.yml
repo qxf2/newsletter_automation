@@ -22,6 +22,8 @@ jobs:
         run: gem install rspec
       - name: Install selenium
         run: gem install selenium-webdriver 
+      - name: Install headless
+        run: gem install headless
       - name: Install geckodriver
         run: |
           cd /tmp
