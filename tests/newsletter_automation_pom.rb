@@ -112,7 +112,9 @@ class Newsletter < BrowserContainer
 
 
 site = Newsletter.new(Watir::Browser.new(:firefox))
+sleep 100
 site.open
+sleep 100
 site.login_as(user, pass)
 site.humberger_hover
 site.click_add_article
