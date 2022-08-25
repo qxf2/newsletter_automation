@@ -3,6 +3,11 @@ require 'rspec'
 #require 'dotenv'
 require 'selenium-webdriver'
 
+require 'headless'
+
+headless = Headless.new
+headless.start
+
 user = ENV['USER_NAME']
 pass = ENV['PASS_WORD']
 
