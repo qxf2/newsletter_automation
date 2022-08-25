@@ -8,7 +8,6 @@ jobs:
   test:
 
     runs-on: ubuntu-latest
-    python-version: [3.9.0]
 
     steps:
       - uses: actions/checkout@v2
@@ -18,10 +17,10 @@ jobs:
           ruby-version: '3.1'
           bundler-cache: true
       - uses: actions/checkout@v1
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python
         uses: actions/setup-python@v1
         with:
-        python-version: ${{ matrix.python-version }}
+        python-version: '3.9.0'
       - name: Install watir
         run: gem install watir
       - name: Install Rspec
