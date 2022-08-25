@@ -8,6 +8,9 @@ jobs:
   test:
 
     runs-on: ubuntu-latest
+    strategy:
+    fail-fast: false
+    max-parallel: 5
 
     steps:
       - uses: actions/checkout@v2
