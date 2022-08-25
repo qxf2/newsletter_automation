@@ -113,6 +113,8 @@ class Newsletter < BrowserContainer
     
   end 
 
+attempts = 0
+
 begin
 wat = Watir::Browser.new :firefox, headless: true
 rescue Net::ReadTimeout => e
