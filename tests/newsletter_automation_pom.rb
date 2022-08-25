@@ -110,10 +110,12 @@ class Newsletter < BrowserContainer
     
   end 
 
+
+site = Newsletter.new(Watir::Browser.new(:firefox))
 client = Selenium::WebDriver::Remote::Http::Default.new
 client.read_timeout = 120
-site = Newsletter.new(Watir::Browser.new(:firefox))
 site.open
+client.read_timeout = 120
 site.login_as(user, pass)
 site.humberger_hover
 site.click_add_article
