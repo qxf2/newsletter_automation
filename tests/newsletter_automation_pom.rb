@@ -111,7 +111,7 @@ class Newsletter < BrowserContainer
   end 
 
 
-site = Newsletter.new(Watir::Browser.new(:chrome))
+site = Newsletter.new(Watir::Browser.new(:firefox))
 site.open
 site.login_as(user, pass)
 site.humberger_hover
