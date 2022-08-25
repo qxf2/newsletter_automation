@@ -8,7 +8,7 @@ jobs:
   test:
 
     runs-on: ubuntu-latest
-    python-version: [3.8.12]
+    python-version: [3.9.0]
 
     steps:
       - uses: actions/checkout@v2
