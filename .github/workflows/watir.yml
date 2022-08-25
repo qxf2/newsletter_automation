@@ -22,7 +22,15 @@ jobs:
         run: gem install rspec
       - name: Install selenium
         run: gem install selenium-webdriver 
-      - uses: browser-actions/setup-geckodriver@latest
+      - name: Install geckodriver
+        run: |
+          cd /tmp
+          wget https://github.com/mozilla/geckodriver/releases/download/v0.11.1/geckodriver-v0.11.1-linux64.tar.gz \
+          && tar -xvzf geckodriver-v0.11.1-linux64.tar.gz \
+          && rm geckodriver-v0.11.1-linux64.tar.gz \
+          && sudo mv geckodriver /usr/bin \
+          && sudo chmod +x /usr/bin/geckodriver \
+          && geckodriver --version
       - name: Run test
         working-directory: tests/
         run: ruby newsletter_automation_pom.rb
