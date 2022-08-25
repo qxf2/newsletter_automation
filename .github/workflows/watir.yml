@@ -35,4 +35,4 @@ jobs:
           && geckodriver --version
       - name: Run test
         working-directory: tests/
-        run: ruby newsletter_automation_pom.rb
+        run: ruby newsletter_automation_pom.rb --browser headless-firefox
