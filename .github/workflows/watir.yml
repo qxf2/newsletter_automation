@@ -23,7 +23,6 @@ jobs:
       - name: Install selenium
         run: gem install selenium-webdriver 
       - uses: browser-actions/setup-geckodriver@latest
-        run: geckodriver --version
       - name: Run test
         working-directory: tests/
         run: ruby newsletter_automation_pom.rb
