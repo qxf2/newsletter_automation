@@ -47,6 +47,4 @@ jobs:
         uses: GabrielBB/xvfb-action@v1
         with:
           run: |
-            python run_server.py &
-            sleep 5
             ruby tests/newsletter_automation_pom.rb
