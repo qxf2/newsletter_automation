@@ -45,9 +45,8 @@ jobs:
           && geckodriver --version
       - name: Run test
         uses: GabrielBB/xvfb-action@v1
-        working-directory: tests/
         with:
           run: |
             python run_server.py &
             sleep 5
-            ruby newsletter_automation_pom.rb
+            ruby tests/newsletter_automation_pom.rb
