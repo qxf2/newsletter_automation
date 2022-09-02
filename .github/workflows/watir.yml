@@ -12,7 +12,7 @@ jobs:
       max-parallel: 5
       matrix:
         python-version: [3.9.13]
-        ruby-version: [3.1.0]  
+        ruby-version: [3.1.0]
 
     steps:
       - uses: actions/checkout@v2
@@ -31,7 +31,7 @@ jobs:
       - name: Install Rspec
         run: gem install rspec
       - name: Install selenium
-        run: gem install selenium-webdriver 
+        run: gem install selenium-webdriver
       - name: Install headless
         run: gem install headless
       - name: Instaall geckodriver
@@ -45,7 +45,9 @@ jobs:
           && geckodriver --version
       - name: Run test
         working-directory: tests/
-        run: |
-          python run_server.py &
-          sleep 5
-          ruby newsletter_automation_pom.rb
+        uses: GabrielBB/xvfb-action@v1
+        with:
+          run: |
+            python run_server.py &
+            sleep 5
+            ruby newsletter_automation_pom.rb
