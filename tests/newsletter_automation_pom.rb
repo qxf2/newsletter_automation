@@ -16,9 +16,13 @@ class BrowserContainer
 end
 
 class Newsletter < BrowserContainer
-    URL = "https://newsletter-generator.qxf2.com/"
+    
+    def set_base_url(url)
+        @url = url
+    end
+
     def open
-        @browser.goto URL
+        @browser.goto @url
         try_btn = @browser.link(:text =>"Try again")
         try_btn.click
     end
@@ -113,6 +117,13 @@ class Newsletter < BrowserContainer
     
   end 
 
+if !ARGV[0]
+  url = "https://staging-newsletter-generator.qxf2.com"
+else
+  url = ARGV[0]
+end
+puts url
+
 attempts = 0
 
 begin
@@ -128,6 +139,7 @@ rescue Net::ReadTimeout => e
   end
 
 site = Newsletter.new(wat)
+site.set_base_url(url)
 client = Selenium::WebDriver::Remote::Http::Default.new
 client.read_timeout = 120
 site.open
