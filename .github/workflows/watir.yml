@@ -44,8 +44,8 @@ jobs:
           && sudo chmod +x /usr/bin/geckodriver \
           && geckodriver --version
       - name: Run test
-        working-directory: tests/
         uses: GabrielBB/xvfb-action@v1
+        working-directory: tests/
         with:
           run: |
             python run_server.py &
