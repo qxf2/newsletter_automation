@@ -37,7 +37,7 @@ jobs:
       - name: Install geckodriver
         run: |
           npm install geckodriver
-          && geckodriver --version
+          geckodriver --version
       - name: Run test
         uses: GabrielBB/xvfb-action@v1
         with:
