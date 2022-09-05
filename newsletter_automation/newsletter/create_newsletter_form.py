@@ -20,7 +20,7 @@ class ArticleForm(FlaskForm):
     description = TextAreaField('Description',render_kw ={'readonly':True})
     reading_time = StringField('Reading Time', render_kw ={'readonly':True})
     add_more = SubmitField('Add More Articles')
-    subject = StringField('Subject',render_kw={'placeholder': 'The Informed Tester\'s Newsletter: dd-mmm-yyyy'})
+    subject = StringField('Subject',render_kw={'placeholder': 'Just the date in dd-mmm-yyyy'})
     added_articles = my_field = TextAreaField('Added Articles:', render_kw={'readonly': True})
     opener = TextAreaField('Opener',render_kw={'placeholder': 'Do NOT include the string "In this issue: "'})
     preview_text = TextAreaField('Preview Text',render_kw={'maxlength': 150})

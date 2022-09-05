@@ -95,7 +95,7 @@ def add_articles():
         category = AddArticlesForm(request.form)
         articleditor = AddArticlesForm(request.form)
         if request.method == 'POST' and (addarticlesform.validate() or request.path == '/api/articles'):
-            article = Articles(addarticlesform.url.data,addarticlesform.title.data,addarticlesform.description.data, 
+            article = Articles(addarticlesform.url.data,addarticlesform.title.data,addarticlesform.description.data,
                             addarticlesform.time.data, addarticlesform.category_id.data.category_id, articleditor.article_editor.data)
             db.session.add(article)
             try:
@@ -159,7 +159,7 @@ def create_newsletter():
         category = form.category_id.data
         article_id = form.url.data
         title = form.title.data
-        subject = form.subject.data
+        subject = "The Informed Tester's Newsletter: " + form.subject.data
         opener= form.opener.data
         preview_text = form.preview_text.data
         if form.validate_on_submit():
