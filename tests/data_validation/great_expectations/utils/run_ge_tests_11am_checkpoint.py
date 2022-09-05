@@ -17,7 +17,6 @@ Usage:
 - If your pipeline runner supports python snippets, then you can paste this into your pipeline.
 """
 import sys
-
 from great_expectations.checkpoint.types.checkpoint_result import CheckpointResult
 from great_expectations.data_context import DataContext
 
@@ -25,15 +24,19 @@ data_context: DataContext = DataContext(
     context_root_dir="tests/data_validation/great_expectations"
 )
 
-result: CheckpointResult = data_context.run_checkpoint(
-    checkpoint_name="ge_tests_11am_checkpoint",
-    batch_request=None,
-    run_name=None,
-)
+checkpoint_name : str = "ge_tests_11am_checkpoint"
+batch_request : str = None
+run_name : str = None
 
-if not result["success"]:
-    print("Validation failed!")
-    sys.exit(1)
+if __name__ == "__main__":
+    result: CheckpointResult = data_context.run_checkpoint(checkpoint_name=checkpoint_name,
+                                                           batch_request=batch_request,
+                                                           run_name=run_name)
 
-print("Validation succeeded!")
-sys.exit(0)
+
+    if not result["success"]:
+        print("Validation failed!")
+        sys.exit(1)
+
+    print("Validation succeeded!")
+    sys.exit(0)
