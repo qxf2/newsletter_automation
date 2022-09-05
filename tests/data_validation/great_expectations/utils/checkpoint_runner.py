@@ -26,7 +26,6 @@ def run_checkpoint(data_context: DataContext,
     if not result['success']:
         print('Validation Failed!')
 
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--checkpoint",
