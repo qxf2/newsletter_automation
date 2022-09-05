@@ -150,7 +150,7 @@
     }
 
     let message = document.getElementById('message')
-    if (message.value == "please select URL") {
+    if (message != null && message.value == "please select URL") {
         category = state_category.value;
         fetch('/url/' + category).then(function (response) {
             response.json().then(function (data) {
@@ -184,7 +184,7 @@
             url: '/removearticle',
             data: {
                 articleid: articleId,
-                articlelist: articleList
+                artxiclelist: articleList
             },
             success: function (data) {
                 $(deleteaction).closest('tr').remove();
