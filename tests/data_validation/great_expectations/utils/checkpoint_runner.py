@@ -29,7 +29,7 @@ if __name__ == "__main__":
                       dest="checkpoint_name",
                       default=None,
                       type="string")
-    parser.print_help(f"Pass one of {[checkpoint.name where checkpoint in Checkpoints]} with the --checkpoint param")
+    parser.print_help(f"Pass one of {[checkpoint.name for checkpoint in Checkpoints]} with the --checkpoint param")
     (options, args) = parser.parse_args()
     checkpoint_name = options.checkpoint_name
 
