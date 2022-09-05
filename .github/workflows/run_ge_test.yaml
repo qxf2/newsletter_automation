@@ -5,6 +5,7 @@ on:
   # schedule:
   #   # Daily at 11:00 IST
   #   #- cron: "30 5 * * *"
+  # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
   push:
     branches:
       - master
