@@ -5,10 +5,12 @@ from enum import Enum
 from great_expectations.checkpoint.types.checkpoint_result import CheckpointResult
 from great_expectations.data_context import DataContext
 
+import run_ge_tests_11am_checkpoint
+
 
 class Checkpoints(Enum):
     checkpoint10am = []
-    checkpoint11am = ['run_ge_tests_11am_checkpoint']
+    checkpoint11am = [run_ge_tests_11am_checkpoint]
     checkpoint3pm = []
 
 
