@@ -21,16 +21,16 @@ from great_expectations.checkpoint.types.checkpoint_result import CheckpointResu
 from great_expectations.data_context import DataContext
 import pytest
 
-data_context: DataContext = DataContext(
-    context_root_dir="tests/data_validation/great_expectations"
-)
-
-checkpoint_name : str = "ge_tests_11am_checkpoint"
-batch_request : str = None
-run_name : str = None
-
 @pytest.mark.checkpoint11am
 def test_run_checkpoint():
+    data_context: DataContext = DataContext(
+        context_root_dir="tests/data_validation/great_expectations"
+    )
+
+    checkpoint_name : str = "ge_tests_11am_checkpoint"
+    batch_request : str = None
+    run_name : str = None
+
     result: CheckpointResult = data_context.run_checkpoint(checkpoint_name=checkpoint_name,
                                                            batch_request=batch_request,
                                                            run_name=run_name)
