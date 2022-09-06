@@ -11,6 +11,13 @@ on:
       - master
     paths:
       - 'tests/data_validation/great_expectations/**'  
+    env:
+      DB_HOST : ${{ secrets.HOST }}
+      DB_PORT : ${{ secrets.DB_PORT }}
+      DB_USERNAME : ${{ secrets.NEWSLETTER_DB_USER }}
+      DB_PASSWORD: ${{ secrets.NEWSLETTER_DB_USER_PASSWORD }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+
 
 jobs:
   great_expectations_validation:
