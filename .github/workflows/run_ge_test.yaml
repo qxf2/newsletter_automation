@@ -1,0 +1,58 @@
+name: run-github-stats-checkpoint
+
+on:
+  workflow_dispatch:
+  # schedule:
+  #   # Daily at 11:00 IST
+  #   #- cron: "30 5 * * *"
+  # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
+  push:
+    branches:
+      - create_github_workflow_pytest
+    paths:
+      - 'tests/data_validation/great_expectations/**'  
+    env:
+      DB_HOST : ${{ secrets.HOST }}
+      DB_PORT : ${{ secrets.DB_PORT }}
+      DB_USERNAME : ${{ secrets.NEWSLETTER_DB_USER }}
+      DB_PASSWORD: ${{ secrets.NEWSLETTER_DB_USER_PASSWORD }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+
+
+jobs:
+  great_expectations_validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install python
+        uses: actions/setup-python@v3
+
+      - name: Copy Repository contents
+        uses: actions/checkout@main
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install great_expectations
+
+      - name: Run Checkpoint
+        run: |
+          pytest tests/data_validation/great_expectations/utils/ -s -v -m checkpoint11am
+        env:
+          NETLIFY_URL: ${{secrets.NETLIFY_URL}}  
+
+      - name: Deploy DataDocs to Netlify
+        uses: nwtgck/actions-netlify@v1.2
+        with:
+          publish-dir: "tests/data_validation/great_expectations/uncommitted/data_docs/local_site"
+          production-deploy: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      - name: Send Skype notification after run
+        env:
+          SKYPE_API_KEY: ${{ secrets.SKYPE_API_KEY }}
+          SKYPE_CHANNEL: ${{ secrets.SKYPE_CHANNEL_TEST }}
+          SKYPE_URL: ${{ secrets.SKYPE_URL }}
+        run: |
+          python tests/data_validation/great_expectations/utils/send_skype_message.py    

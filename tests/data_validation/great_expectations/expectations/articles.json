@@ -1,7 +1,23 @@
 {
   "data_asset_type": null,
   "expectation_suite_name": "articles",
-  "expectations": [],
+  "expectations": [
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "description",
+        "min_value": 15
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "description"
+      },
+      "meta": {}
+    }
+  ],
   "ge_cloud_id": null,
   "meta": {
     "citations": [
