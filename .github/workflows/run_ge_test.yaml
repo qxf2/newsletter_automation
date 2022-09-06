@@ -36,7 +36,7 @@ jobs:
 
       - name: Run Checkpoint
         run: |
-          python tests/data_validation/great_expectations/utils/run_ge_tests_11am_checkpoint.py
+          pytest tests/data_validation/great_expectations/utils/ -s -v -m checkpoint11am
         env:
           NETLIFY_URL: ${{secrets.NETLIFY_URL}}  
 
