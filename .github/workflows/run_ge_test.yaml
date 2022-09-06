@@ -34,12 +34,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install great_expectations
           pip install pytest
-          pip install pymysql
+          pip install SQLAlchemy
 
       - name: Run Checkpoint
         run: |
-          python -c 'import pymysql, os;conn=pymysql.connect(host=os.getenv("DB_HOST"),user=os.getenv("DB_USERNAME"),password=os.getenv("DB_PASSWORD"));print(conn)'
-          python -c 'import os;print(os.getenv("DB_PORT"));print(os.getenv("DB_NAME"));'
           pytest tests/data_validation/great_expectations/utils/ -s -v -m checkpoint11am
         env:
           NETLIFY_URL: ${{secrets.NETLIFY_URL}}  
