@@ -38,7 +38,7 @@ jobs:
 
       - name: Run Checkpoint
         run: |
-          python -c 'import pymysql, os;conn=pymysql.connect(host=os.getenv("DB_HOST"),user=os.getenv("DB_USERNAME"),password=os.getenv("DB_PASSWORD")'
+          python -c 'import pymysql, os;conn=pymysql.connect(host=os.getenv("DB_HOST"),user=os.getenv("DB_USERNAME"),password=os.getenv("DB_PASSWORD"))'
           pytest tests/data_validation/great_expectations/utils/ -s -v -m checkpoint11am
         env:
           NETLIFY_URL: ${{secrets.NETLIFY_URL}}  
