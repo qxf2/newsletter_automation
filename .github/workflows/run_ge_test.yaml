@@ -17,7 +17,12 @@ env:
   DB_USERNAME: ${{ secrets.NEWSLETTER_DB_USER }}
   DB_PASSWORD: ${{ secrets.NEWSLETTER_DB_USER_PASSWORD }}
   DB_NAME: ${{ secrets.DB_NAME }}
-
+  NETLIFY_URL: ${{secrets.NETLIFY_URL}}  
+  NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+  NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+  SKYPE_API_KEY: ${{ secrets.SKYPE_API_KEY }}
+  SKYPE_CHANNEL: ${{ secrets.SKYPE_CHANNEL_TEST }}
+  SKYPE_URL: ${{ secrets.SKYPE_URL }}
 
 jobs:
   great_expectations_validation:
@@ -40,22 +45,15 @@ jobs:
       - name: Run Checkpoint
         run: |
           pytest tests/data_validation/great_expectations/utils/ -s -v -m checkpoint11am
-        env:
-          NETLIFY_URL: ${{secrets.NETLIFY_URL}}  
 
       - name: Deploy DataDocs to Netlify
+        if: always()
         uses: nwtgck/actions-netlify@v1.2
         with:
           publish-dir: "tests/data_validation/great_expectations/uncommitted/data_docs/local_site"
           production-deploy: true
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
       - name: Send Skype notification after run
-        env:
-          SKYPE_API_KEY: ${{ secrets.SKYPE_API_KEY }}
-          SKYPE_CHANNEL: ${{ secrets.SKYPE_CHANNEL_TEST }}
-          SKYPE_URL: ${{ secrets.SKYPE_URL }}
+        if: always()
         run: |
           python tests/data_validation/great_expectations/utils/send_skype_message.py    
