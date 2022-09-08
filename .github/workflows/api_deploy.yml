@@ -37,7 +37,7 @@ jobs:
       - name: Run test
         run: |
             cd newsletter_automation/
-            FLASK_APP=run.py
+            set FLASK_APP=run.py
             echo $FLASK_APP
             flask run &
             sleep 5
