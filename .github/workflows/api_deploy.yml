@@ -26,6 +26,8 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: pip install -r requirements.txt
       - name: Install uri
         run: gem install uri
       - name: Install net/http
