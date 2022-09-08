@@ -37,4 +37,5 @@ jobs:
             cd newsletter_automation/
             flask run &
             sleep 5
-            ruby tests/test_ruby_api_key_dynamic.rb
+            cd tests/
+            ruby test_ruby_api_key_dynamic.rb
