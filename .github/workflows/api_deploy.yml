@@ -26,6 +26,12 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
+      - uses: actions/checkout@v3
+      - name: Install mysql
+        uses: shogo82148/actions-setup-mysql@v1
+        with:
+          mysql-version: '8.0'
+      - run: mysql -uroot -h127.0.0.1 -e 'SELECT version()'
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Install uri
