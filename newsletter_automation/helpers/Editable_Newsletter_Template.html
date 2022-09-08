@@ -916,11 +916,11 @@
 																%}
 																<a href="{{article.url}}"
 																	target="_blank">{{article.title}}</a>&nbsp;{{article.description}}<br>
-																<br>
 																<span
 																	style="font-family:helvetica neue,helvetica,arial,verdana,sans-serif"><strong>Reading
 																		time:</strong>
 																	{{article.reading_time}}&nbsp;minutes</span><br>
+																	<br>
 																{% endfor %}
 															</td>
 														</tr>
@@ -997,10 +997,10 @@
 																{% for article in newsletter_json['past_articles'] %}
 																<a href="{{article.url}}"
 																	target="_blank"><strong>{{article.title}}</strong></a><strong>&nbsp;</strong>{{article.description}}<br>
-																<br>
 																<span
 																	style="font-family:helvetica neue,helvetica,arial,verdana,sans-serif"><strong>Reading
 																		time:</strong>&nbsp;{{article.reading_time}}&nbsp;minutes<br>
+																		<br>
 																	{% endfor %}
 																	<strong>
 															</td>
@@ -1078,8 +1078,8 @@
 																%}
 																<a href="{{article.url}}"
 																	target="_blank"><strong>{{article.title}}</a>&nbsp;</strong>{{article.description}}<br>
-																<br>
 																<strong>Doing&nbsp;time:</strong>&nbsp;{{article.reading_time}}&nbsp;minutes
+																<br>
 																<br>
 																{% endfor %}
 															</td>
