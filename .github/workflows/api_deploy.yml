@@ -33,8 +33,6 @@ jobs:
       - name: Install flask
         run: gem install flask
       - name: Run test
-        uses: GabrielBB/xvfb-action@v1
-        with:
           run: |
             cd newsletter_automation/newsletter_automation/
             flask run &
