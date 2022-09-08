@@ -33,7 +33,7 @@ jobs:
       - name: Install flask
         run: gem install flask
       - name: Run test
-          run: |
+        run: |
             cd newsletter_automation/newsletter_automation/
             flask run &
             sleep 5
