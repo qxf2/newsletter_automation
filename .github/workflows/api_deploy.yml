@@ -32,7 +32,7 @@ jobs:
         with:
           mysql-version: '8.0'
           mysql user: 'root'
-          mysql password: 'Thisismysql@2022'
+          mysql password: 'password'
           run: sudo /etc/init.d/mysql start
       - name: Install dependencies
         run: pip install -r requirements.txt
