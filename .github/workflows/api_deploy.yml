@@ -37,7 +37,7 @@ jobs:
       - name: Run test
         run: |
             cd newsletter_automation/
-            flask run &
+            flask run.py &
             sleep 5
             cd ../tests/
             ruby test_ruby_api_key_dynamic.rb
