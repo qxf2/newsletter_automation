@@ -8,7 +8,7 @@ on:
   # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
   push:
     branches:
-      - create_github_workflow_pytest
+      - master
     paths:
       - 'tests/data_validation/great_expectations/**'  
 env:
