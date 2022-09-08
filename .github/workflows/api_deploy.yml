@@ -34,7 +34,7 @@ jobs:
         run: gem install flask
       - name: Run test
         run: |
-            cd newsletter_automation/newsletter_automation/
+            cd newsletter_automation/
             flask run &
             sleep 5
             ruby tests/test_ruby_api_key_dynamic.rb
