@@ -1,0 +1,37 @@
+name: Ruby
+
+on:
+  push:
+    branches: [ ajitava_watir_continous_integration ]
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 5
+      matrix:
+        python-version: [3.9.13]
+        ruby-version: [3.1.0]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true
+      - uses: actions/checkout@v1
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install uri
+        run: gem install uri
+      - name: Install net/http
+        run: gem install net-http
+      - name: Run test
+        uses: GabrielBB/xvfb-action@v1
+        with:
+          run: |
+            ruby tests/test_ruby_api_key_dynamic.rb
