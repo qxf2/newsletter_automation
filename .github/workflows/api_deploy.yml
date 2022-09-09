@@ -32,7 +32,7 @@ jobs:
         with:
           mysql-version: '8.0'
           mysql user: 'root'
-          mysql password: 'password'
+          mysql password: 'Thisismysql@2022'
           run: |
               sudo mysqld --tc-heuristic-recover=ROLLBACK &
               sudo sudo service mysqld restart
