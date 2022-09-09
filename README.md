@@ -54,4 +54,3 @@ Great Expectations is an open-source Python library to test data pipelines. It h
   Navigate to the above directory using File Explorer.
   Open index.html, go to Validations tab and select your recent run.
   It will show details of what expectations have run, how many have passed/failed, failure details etc.
-
