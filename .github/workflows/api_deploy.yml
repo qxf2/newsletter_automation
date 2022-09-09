@@ -31,8 +31,8 @@ jobs:
         uses: mirromutth/mysql-action@v1.1
         with:
           mysql-version: '8.0'
-          mysql user: 'root'
-          mysql password: 'Thisismysql@2022'
+          mysql user: 'dummy_user'
+          mysql password: 'dummy_pwd'
           run: |
               sudo mysqld --tc-heuristic-recover=ROLLBACK &
               sudo sudo service mysqld restart
