@@ -21,13 +21,13 @@ from great_expectations.checkpoint.types.checkpoint_result import CheckpointResu
 from great_expectations.data_context import DataContext
 import pytest
 
-@pytest.mark.checkpoint11am
+@pytest.mark.checkpoint10am
 def test_run_checkpoint():
     data_context: DataContext = DataContext(
         context_root_dir="tests/data_validation/great_expectations"
     )
 
-    checkpoint_name : str = "ge_tests_11am_checkpoint"
+    checkpoint_name : str = "ge_tests_10am_checkpoint"
     batch_request : str = None
     run_name : str = None
 
