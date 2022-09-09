@@ -2,13 +2,13 @@ name: run-github-stats-checkpoint
 
 on:
   workflow_dispatch:
-  # schedule:
+  schedule:
   #   # Daily at 10:00 IST
-  #   #- cron: "30 4 * * 3"
+    - cron: "30 4 * * 3"
   # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
   push:
     branches:
-      - master
+      - create_github_workflow_pytest
     paths:
       - 'tests/data_validation/great_expectations/**'
 env:
@@ -44,7 +44,7 @@ jobs:
 
       - name: Run Checkpoint
         run: |
-          pytest tests/data_validation/great_expectations/utils/ -s -v -m checkpoint11am
+          pytest tests/data_validation/great_expectations/utils/ -s -v -m checkpoint10am
 
       - name: Deploy DataDocs to Netlify
         if: always()
