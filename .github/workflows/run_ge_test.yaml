@@ -3,21 +3,21 @@ name: run-github-stats-checkpoint
 on:
   workflow_dispatch:
   # schedule:
-  #   # Daily at 11:00 IST
-  #   #- cron: "30 5 * * *"
+  #   # Daily at 10:00 IST
+  #   #- cron: "30 4 * * 3"
   # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
   push:
     branches:
       - master
     paths:
-      - 'tests/data_validation/great_expectations/**'  
+      - 'tests/data_validation/great_expectations/**'
 env:
   DB_HOST: ${{ secrets.HOST }}
   DB_PORT: ${{ secrets.DB_PORT }}
   DB_USERNAME: ${{ secrets.NEWSLETTER_DB_USER }}
   DB_PASSWORD: ${{ secrets.NEWSLETTER_DB_USER_PASSWORD }}
   DB_NAME: ${{ secrets.DB_NAME }}
-  NETLIFY_URL: ${{secrets.NETLIFY_URL}}  
+  NETLIFY_URL: ${{secrets.NETLIFY_URL}}
   NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
   NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
   SKYPE_API_KEY: ${{ secrets.SKYPE_API_KEY }}
@@ -56,4 +56,4 @@ jobs:
       - name: Send Skype notification after run
         if: always()
         run: |
-          python tests/data_validation/great_expectations/utils/send_skype_message.py    
+          python tests/data_validation/great_expectations/utils/send_skype_message.py
