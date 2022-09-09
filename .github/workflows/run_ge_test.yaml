@@ -53,7 +53,7 @@ jobs:
           publish-dir: "tests/data_validation/great_expectations/uncommitted/data_docs/local_site"
           production-deploy: true
 
-      - name: Send Skype notification after run
-        if: always()
-        run: |
-          python tests/data_validation/great_expectations/utils/send_skype_message.py
+      #- name: Send Skype notification after run
+      #  if: always()
+      #  run: |
+      #    python tests/data_validation/great_expectations/utils/send_skype_message.py
