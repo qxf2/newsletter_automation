@@ -33,7 +33,9 @@ jobs:
           mysql-version: '8.0'
           mysql user: 'root'
           mysql password: 'password'
-          run: sudo /etc/init.d/mysql start
+          run: |
+              sudo mysqld --tc-heuristic-recover=ROLLBACK &
+              sudo sudo service mysqld restart
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Install uri
