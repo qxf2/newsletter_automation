@@ -21,35 +21,11 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true
-      - uses: actions/checkout@v1
-      - name: Set up Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: ${{ matrix.python-version }}
-      - uses: actions/checkout@v3
-      - name: Install mysql
-        uses: mirromutth/mysql-action@v1.1
-        with:
-          mysql-version: '8.0'
-          mysql user: 'dummy_user'
-          mysql password: 'dummy_pwd'
-          run: |
-              sudo mysqld --tc-heuristic-recover=ROLLBACK &
-              sudo sudo service mysqld restart
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-      - name: Install uri
-        run: gem install uri
-      - name: Install net/http
-        run: gem install net-http
-      - name: Install flask
-        run: gem install flask
-      - name: Install python dotenv
-        run: pip install python-dotenv
+      - name: Install gems
+        run: |
+            gem install uri
+            gem install net-http
       - name: Run test
         run: |
-            cd newsletter_automation/
-            flask run &
-            sleep 5
-            cd ../tests/
-            ruby test_ruby_api_key_dynamic.rb
+            cd tests/
+            ruby test_ruby_api_key_dynamic.rb https://staging-newsletter-generator.qxf2.com/api/articles
