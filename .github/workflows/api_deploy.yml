@@ -6,7 +6,7 @@ on:
 
 jobs:
   test:
-
+    environment: CI testing
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 5
@@ -25,10 +25,11 @@ jobs:
         run: |
             gem install uri
             gem install net-http
-      - shell: bash
+      - name: Tests
         env:
             API_KEY: ${{ secrets.API_KEY }}
         run: |
             cd tests/
             export API_KEY="$API_KEY"
+            echo $API_KEY
             ruby test_ruby_api_key_dynamic.rb https://staging-newsletter-generator.qxf2.com/api/articles
