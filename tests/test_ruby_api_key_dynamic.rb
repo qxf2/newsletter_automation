@@ -6,7 +6,7 @@ require 'test/unit/assertions'
 include Test::Unit::Assertions
 
 apikey = ENV['API_KEY']
-puts apikey
+puts "API key that I see it #{apikey}"
 
 class Newsletter
 
