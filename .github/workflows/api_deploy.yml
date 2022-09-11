@@ -26,6 +26,9 @@ jobs:
             gem install uri
             gem install net-http
       - name: Run test
+        with:
+            API_KEY: ${{ secrets.API_KEY }}
         run: |
             cd tests/
+            export API_KEY="$API_KEY"
             ruby test_ruby_api_key_dynamic.rb https://staging-newsletter-generator.qxf2.com/api/articles
