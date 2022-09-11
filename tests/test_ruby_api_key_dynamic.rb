@@ -57,3 +57,4 @@ message = JSON.parse(res.body)
 assert_equal message['message'], "Record added successfully", "FAIL: API insert returned message #{message['message']}"
 assert_equal res.code, "200", "FAIL: API insert returned #{res.code} instead of 200"
 puts "API insert test PASSED"
+puts "Inserted URL: #{url}"
