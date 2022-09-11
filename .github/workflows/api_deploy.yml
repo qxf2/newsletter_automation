@@ -26,6 +26,7 @@ jobs:
             gem install uri
             gem install net-http
       - name: Run test
+        shell: bash
         with:
             API_KEY: ${{ secrets.API_KEY }}
         run: |
