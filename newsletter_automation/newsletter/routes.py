@@ -95,7 +95,7 @@ def add_articles():
         category = AddArticlesForm(request.form)
         articleditor = AddArticlesForm(request.form)
         if request.method == 'POST' and (addarticlesform.validate() or request.path == '/api/articles'):
-            article = Articles(addarticlesform.url.data,addarticlesform.title.data,addarticlesform.description.data, 
+            article = Articles(addarticlesform.url.data,addarticlesform.title.data,addarticlesform.description.data,
                             addarticlesform.time.data, addarticlesform.category_id.data.category_id, articleditor.article_editor.data)
             db.session.add(article)
             try:
@@ -159,7 +159,7 @@ def create_newsletter():
         category = form.category_id.data
         article_id = form.url.data
         title = form.title.data
-        subject = form.subject.data
+        subject = "The Informed Tester's Newsletter: " + form.subject.data
         opener= form.opener.data
         preview_text = form.preview_text.data
         if form.validate_on_submit():
@@ -169,17 +169,18 @@ def create_newsletter():
                     return redirect(url_for("create_newsletter"))
 
                 if article_id == "Select URL":
-                    flash('please select URL','danger')
-
+                    flash('Please select a URL','danger')
 
                 else:
-                    if article_id not in article_id_list:
+                    if article_id not in article_id_list and article_id is not None:
                         article_id_list.append(article_id)
                         articles_added.append(title)
                         return redirect(url_for("create_newsletter"))
                     else:
-                        flash('Already selected !! Please select another article ', 'danger')
-                        return redirect(url_for("create_newsletter"))
+                        if article_id:
+                            flash('Already selected !! Please select another article ', 'danger')
+                        else:
+                            return redirect(url_for("create_newsletter"))
 
             if form.preview_newsletter.data:
                 if subject and opener and preview_text and article_id_list:

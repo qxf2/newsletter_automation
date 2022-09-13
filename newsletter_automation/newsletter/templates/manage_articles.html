@@ -15,14 +15,24 @@
         <div class="col md-12">
             <form method="POST" , action="">
                 <legend>Manage Articles </legend>
-                <table id="tableID" class="table table-hover">
+                <table id="articlesTable" class="table table-hover">
                     <thead>
                         <tr>
                             <th class="col-md-2">Title</th>
                             <th class="col-md-3">URL</th>
                             <th class="col-md-4">Description</th>
                             <th class="col-md-1">Article Editor</th>
-                            <th class="col-md-1" data-toggle="tooltip" data-placement="top" title="Comic = 1  Past week = 2  Current week = 3  Automation corner = 4 Uncategorized = 5">Category</th>
+                            <th class="col-md-1">
+                                <select id="categoryFilter" size="1">
+                                    <option value="">Category (all)</option>
+                                    <option value="1">Comic (1)</option>
+                                    <option value="2">Past week (2)</option>
+                                    <option value="3">Current week (3)</option>
+                                    <option value="4">Automation corner (4)</option>
+                                    <option value="5">Uncategorized (5)</option>
+
+                                </select>
+                            </th>
                             <th class="col-md-1">Action</th>
                         </tr>
                     </thead>
@@ -53,15 +63,24 @@
 <script>
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
-        $('#tableID').DataTable({
+        $('#articlesTable').DataTable({
             "order": [],
             "columnDefs": [
                 { "visible": false },
                 {
                     "targets": [1, 2, 3],
                     "orderable": true,
-                }]
+                },
+                { "orderable": false, "targets": [4] }]
         });
+        $('#categoryFilter').change(function(){
+            var category = $(this).val();
+            var table = $('#articlesTable').DataTable();
+            table
+                .columns([4])
+                .search(category)
+                .draw();
+            });
     });
 
 </script>
