@@ -2,14 +2,7 @@
   "data_asset_type": null,
   "expectation_suite_name": "verify_current_week_article",
   "expectations": [
-    {
-      "expectation_type": "expect_column_values_to_be_null",
-      "kwargs": {
-        "column": "newsletter_id",
-        "mostly": 0.1
-      },
-      "meta": {}
-    },
+ 
     {
       "expectation_type": "expect_column_value_lengths_to_be_between",
       "kwargs": {
