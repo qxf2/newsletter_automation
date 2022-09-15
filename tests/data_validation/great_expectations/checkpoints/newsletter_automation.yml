@@ -48,15 +48,6 @@ validations:
       data_connector_query:
         index: -1
     expectation_suite_name: newsletter_campaign
-  - batch_request:
-      datasource_name: newsletter_automation_datasource
-      data_connector_name: default_runtime_data_connector_name
-      data_asset_name: newsletter_automation.articles
-      runtime_parameters:
-        query: SELECT * from newsletter_automation.articles WHERE newsletter_id is null
-      batch_identifiers:
-        default_identifier_name: test_identifier
-    expectation_suite_name: verify_current_week_article
 
 profilers: []
 ge_cloud_id:
