@@ -1,16 +1,15 @@
-name: run-github-stats-checkpoint
+name: run-ge-tests
 
 on:
   workflow_dispatch:
   schedule:
-  #   # Daily at 10:00 IST
+  # Every Wednesday at 10am IST
     - cron: "30 4 * * 3"
-  # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
-  push:
-    branches:
-      - master
-    paths:
-      - 'tests/data_validation/great_expectations/**'
+  # Every Friday at 4pm IST
+    - cron: "30 10 * * 5"
+  # Every Wednesday at 4pm IST
+    - cron: "30 10 * * 3"
+
 env:
   DB_HOST: ${{ secrets.HOST }}
   DB_PORT: ${{ secrets.DB_PORT }}
@@ -42,9 +41,18 @@ jobs:
           pip install pymysql
           pip install SQLAlchemy
 
-      - name: Run Checkpoint
+      - name: Run checkpointWednesday10am
+        if: github.event.schedule == "30 4 * * 3"
         run: |
-          pytest tests/data_validation/great_expectations/utils/ -s -v -m checkpoint10am
+          pytest tests/data_validation/great_expectations/utils/ -s -v -m checkpointWednesday10am
+      - name: Run checkpointFriday04pm
+        if: github.event.schedule == "30 10 * * 5"
+        run: |
+          pytest tests/data_validation/great_expectations/utils/ -s -v -m checkpointFriday04pm
+      - name: Run checkpointWednesday04pm
+        if: github.event.schedule == "30 10 * * 3"
+        run: |
+          pytest tests/data_validation/great_expectations/utils/ -s -v -m checkpointWednesday04pm
 
       - name: Deploy DataDocs to Netlify
         if: always()
