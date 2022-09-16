@@ -12,7 +12,7 @@ Checkpoints can be run directly without this script using the `great_expectation
 is provided for those who wish to run Checkpoints in python.
 
 Usage:
-- Run this file: `python great_expectations/uncommitted/run_comic_title_validations.py`.
+- Run this file: `python great_expectations/utils/test_run_comic_title_validations.py`
 - This can be run manually or via a scheduler such, as cron.
 - If your pipeline runner supports python snippets, then you can paste this into your pipeline.
 """
@@ -22,9 +22,9 @@ from great_expectations.checkpoint.types.checkpoint_result import CheckpointResu
 from great_expectations.data_context import DataContext
 import pytest
 
-@pytest.mark.checkpoint10am
+@pytest.mark.CheckpointWednesday10am
 def test_comic_title_validations():
-    data_context = DataContext(context_root_dir="/Users/shivahari/Projects/newsletter_automation/tests/data_validation/great_expectations")
+    data_context = DataContext(context_root_dir="tests/data_validation/great_expectations")
 
     checkpoint_name : str ="comic_title_validations"
     batch_request : str = None
