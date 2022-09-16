@@ -41,18 +41,18 @@ jobs:
           pip install pymysql
           pip install SQLAlchemy
 
-      - name: Run checkpointWednesday10am
-        if: github.event.schedule == "30 4 * * 3"
+      - name: Run CheckpointWednesday10am
+        if: ${{ github.event.schedule == '30 4 * * 3' }}
         run: |
-          pytest tests/data_validation/great_expectations/utils/ -s -v -m checkpointWednesday10am
-      - name: Run checkpointFriday04pm
-        if: github.event.schedule == "30 10 * * 5"
+          pytest tests/data_validation/great_expectations/utils/ -s -v -m CheckpointWednesday10am
+      - name: Run CheckpointFriday04pm
+        if: ${{ github.event.schedule == '30 10 * * 5' }}
         run: |
-          pytest tests/data_validation/great_expectations/utils/ -s -v -m checkpointFriday04pm
-      - name: Run checkpointWednesday04pm
-        if: github.event.schedule == "30 10 * * 3"
+          pytest tests/data_validation/great_expectations/utils/ -s -v -m CheckpointFriday04pm
+      - name: Run CheckpointWednesday04pm
+        if: ${{ github.event.schedule == '30 10 * * 3' }}
         run: |
-          pytest tests/data_validation/great_expectations/utils/ -s -v -m checkpointWednesday04pm
+          pytest tests/data_validation/great_expectations/utils/ -s -v -m CheckpointWednesday04pm
 
       - name: Deploy DataDocs to Netlify
         if: always()
