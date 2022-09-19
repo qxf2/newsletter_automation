@@ -12,28 +12,27 @@ Checkpoints can be run directly without this script using the `great_expectation
 is provided for those who wish to run Checkpoints in python.
 
 Usage:
-- Run this file: `python great_expectations/uncommitted/run_newsletter_automation.py`.
+- Run this file: `python great_expectations/utils/test_run_comic_title_validations.py`
 - This can be run manually or via a scheduler such, as cron.
 - If your pipeline runner supports python snippets, then you can paste this into your pipeline.
 """
 import sys
+
 from great_expectations.checkpoint.types.checkpoint_result import CheckpointResult
 from great_expectations.data_context import DataContext
 import pytest
 
-@pytest.mark.checkpoint10am
-def test_run_checkpoint():
-    data_context: DataContext = DataContext(
-        context_root_dir="tests/data_validation/great_expectations"
-    )
+@pytest.mark.CheckpointWednesday10am
+def test_comic_title_validations():
+    data_context = DataContext(context_root_dir="tests/data_validation/great_expectations")
 
-    checkpoint_name : str = "ge_tests_10am_checkpoint"
+    checkpoint_name : str ="comic_title_validations"
     batch_request : str = None
     run_name : str = None
 
-    result: CheckpointResult = data_context.run_checkpoint(checkpoint_name=checkpoint_name,
-                                                           batch_request=batch_request,
-                                                           run_name=run_name)
+    result : CheckpointResult = data_context.run_checkpoint(checkpoint_name=checkpoint_name,
+                                                            batch_request=batch_request,
+                                                            run_name=run_name)
 
 
     if not result["success"]:
@@ -43,3 +42,4 @@ def test_run_checkpoint():
         print("Validation succeeded!")
 
     assert result["success"]
+
