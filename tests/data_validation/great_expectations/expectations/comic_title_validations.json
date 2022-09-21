@@ -9,7 +9,7 @@
         "condition_parser": "great_expectations__experimental__",
         "min_value": 2,
         "mostly": 0.1,
-        "row_condition": "col(\"category_id\")==1 and col(\"newsletter_id\")==Null"
+        "row_condition": "col(\"category_id\")==1"
       },
       "meta": {}
     }
