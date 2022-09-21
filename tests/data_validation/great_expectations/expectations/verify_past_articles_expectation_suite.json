@@ -49,7 +49,7 @@
         "batch_request": {
           "data_asset_name": "newsletter_automation.articles",
           "data_connector_name": "default_inferred_data_connector_name",
-          "datasource_name": "my_mysql_datasource",
+          "datasource_name": "newsletter_automation_datasource",
           "limit": 1000
         },
         "citation_date": "2022-09-21T04:23:03.283243Z",
