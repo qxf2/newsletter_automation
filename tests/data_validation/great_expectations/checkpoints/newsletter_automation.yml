@@ -49,17 +49,6 @@ validations:
         index: -1
     expectation_suite_name: newsletter_campaign
 
-  - batch_request:
-      datasource_name: newsletter_automation_datasource
-      data_connector_name: default_runtime_data_connector_name
-      data_asset_name: newsletter_automation.articles
-      runtime_parameters:
-        query: select count(*) as count,category_id from newsletter_automation.articles where title !="" and description !="" and newsletter_id is null group by category_id
-      batch_identifiers:
-        default_identifier_name: validation_stage
-    expectation_suite_name: all_article_counts
-
-
 profilers: []
 ge_cloud_id:
 expectation_suite_ge_cloud_id:
