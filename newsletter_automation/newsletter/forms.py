@@ -26,3 +26,4 @@ class AddArticlesForm(FlaskForm):
     time = TextField('Time', validators=[Regexp('^[1-9]\d*$', message='Time should be an integer greater than 0'), DataRequired(message="Time field cannot be blank")])
     category_id = QuerySelectField(query_factory=choice_query, allow_blank=True,get_label='category_name', validators=[DataRequired(message="Category cannot be blank")])
     submit = SubmitField('Add Article')
+    article_editor = TextField('Article Editor')
