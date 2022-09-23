@@ -22,7 +22,7 @@ runtime_configuration: {}
 validations:
   - batch_request:
       datasource_name: newsletter_automation_datasource
-      data_connector_name: default_inferred_data_connector_name
+      data_connector_name: default_runtime_data_connector_name
       data_asset_name: newsletter_automation.articles
       runtime_parameters:
         query: select * from newsletter_automation.articles where newsletter_id is null and description != "" and title != "" and category_id=2
