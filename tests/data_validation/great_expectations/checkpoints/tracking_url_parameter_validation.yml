@@ -1,4 +1,4 @@
-name: newsletter_automation
+name: tracking_url_parameter_validation
 config_version: 1.0
 template_name:
 module_name: great_expectations.checkpoint
@@ -21,38 +21,14 @@ evaluation_parameters: {}
 runtime_configuration: {}
 validations:
   - batch_request:
-      datasource_name: newsletter_automation_datasource
-      data_connector_name: default_inferred_data_connector_name
-      data_asset_name: newsletter_automation.add_newsletter
-      data_connector_query:
-        index: -1
-    expectation_suite_name: add_newsletter
-  - batch_request:
-      datasource_name: newsletter_automation_datasource
-      data_connector_name: default_inferred_data_connector_name
+      datasource_name: newsletter_automation_datasource_new
+      data_connector_name: default_runtime_data_connector_name
       data_asset_name: newsletter_automation.articles
       runtime_parameters:
         query: SELECT * from newsletter_automation.articles WHERE title !="" and description !="" and time !="" and newsletter_id = ""
       batch_identifiers:
         default_identifier_name: validation_stage
     expectation_suite_name: newsletter_test_url_param_expectation_suite
-      data_connector_query:
-        index: -1
-    expectation_suite_name: articles
-  - batch_request:
-      datasource_name: newsletter_automation_datasource
-      data_connector_name: default_inferred_data_connector_name
-      data_asset_name: newsletter_automation.article_category
-      data_connector_query:
-        index: -1
-    expectation_suite_name: article_category
-  - batch_request:
-      datasource_name: newsletter_automation_datasource
-      data_connector_name: default_inferred_data_connector_name
-      data_asset_name: newsletter_automation.newsletter_campaign
-      data_connector_query:
-        index: -1
-    expectation_suite_name: newsletter_no_common_url_param_articles_expectation_suite
 
 profilers: []
 ge_cloud_id:
