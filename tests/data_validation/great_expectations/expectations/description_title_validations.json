@@ -1,0 +1,18 @@
+{
+  "data_asset_type": null,
+  "expectation_suite_name": "description_title_validations",
+  "expectations": [
+    {
+      "expectation_type": "expect_column_value_lengths_to_be_between",
+      "kwargs": {
+        "column": "description",
+        "min_value": 15
+      },
+      "meta": {}
+    }
+  ],
+  "ge_cloud_id": null,
+  "meta": {
+    "great_expectations_version": "0.15.25"
+  }
+}
