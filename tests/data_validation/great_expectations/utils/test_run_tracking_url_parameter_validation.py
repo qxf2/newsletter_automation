@@ -26,7 +26,7 @@ import pytest
 def test_tracking_url_param_validation():
     data_context = DataContext(context_root_dir="tests/data_validation/great_expectations")
 
-    checkpoint_name : str = "tracking_url_param_validation"
+    checkpoint_name : str = "tracking_url_parameter_validation"
     batch_request : str = None
     run_name : str = None
 
