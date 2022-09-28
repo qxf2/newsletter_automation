@@ -20,7 +20,7 @@ env:
   NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
   NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
   SKYPE_API_KEY: ${{ secrets.SKYPE_API_KEY }}
-  SKYPE_CHANNEL: ${{ secrets.SKYPE_CHANNEL_TEST }}
+  SKYPE_CHANNEL: ${{ secrets.SKYPE_CHANNEL }}
   SKYPE_URL: ${{ secrets.SKYPE_URL }}
 
 jobs:
