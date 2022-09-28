@@ -22,6 +22,7 @@ def upgrade():
     op.alter_column('articles', 'url',
                existing_type=mysql.VARCHAR(length=512),
                nullable=True)
+    op.execute("insert into article_category (category_name) values ('comic'),('pastweek'),('currentweek'),('automation corner')")
     # ### end Alembic commands ###
 
 
