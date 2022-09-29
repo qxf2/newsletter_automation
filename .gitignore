@@ -131,8 +131,17 @@ dmypy.json
 #Virtualenv
 venv*
 
+#MacOS
+*.DS_Store
+
 # credentials
 mailchimp_conf.py
 sso_conf.py
 sso_google_oauth.py
 apikey_conf.py
+
+# Newsletter artifacts
+newsletter.json
+newsletter_automation/logs
+*.orig
+newsletter_generator.env
