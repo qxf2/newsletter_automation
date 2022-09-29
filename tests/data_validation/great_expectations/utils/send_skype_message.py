@@ -27,10 +27,14 @@ def post_message_on_skype():
             json=payload,
             headers=headers,
         )
+
         if response.status_code == 200:
             print(f"Successfully sent the Skype message - {skype_message}")
         else:
             print("Failed to send Skype message!")
+        response.raise_for_status()
+    except requests.exceptions.HTTPError as error:
+        print (error.response.text)
     except Exception as err:
         raise Exception(f"Unable to post message to Skype channel, due to {err}")
 
