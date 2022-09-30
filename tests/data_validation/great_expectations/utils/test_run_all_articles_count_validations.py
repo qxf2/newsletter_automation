@@ -17,7 +17,7 @@ from great_expectations.checkpoint.types.checkpoint_result import CheckpointResu
 from great_expectations.data_context import DataContext
 import pytest
 
-@pytest.mark.CheckpointWednesday10am
+@pytest.mark.CheckpointFriday04pm
 def test_run_all_articles_count_validations():
     data_context = DataContext(context_root_dir="tests/data_validation/great_expectations")
 
