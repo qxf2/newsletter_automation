@@ -28,7 +28,7 @@ validations:
         query: SELECT * from newsletter_automation.articles WHERE title !="" and description !="" and time !="" and newsletter_id = ""
       batch_identifiers:
         default_identifier_name: validation_stage
-    expectation_suite_name: newsletter_test_url_param_expectation_suite
+    expectation_suite_name: tracking_url_parameter_validation
 
 profilers: []
 ge_cloud_id:
