@@ -6,37 +6,36 @@ import os
 import sys
 import requests
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from conf import skype_conf as config
+from conf import netlify_conf
+from conf import skype_conf
 
-with open("result.txt") as f:
-    skype_message = f.read()
-
-
-def post_message_on_skype(message):
+def post_message_on_skype():
     """
     Posts a message on the set Skype channel
-    :param message: text
     """
-
     try:
+        skype_message = f"""<b>Newsletter Automation - data validations outcome: </b> {netlify_conf.NETLIFY_URL}"""
+
         headers = {"Content-Type": "application/json"}
         payload = {
-            "msg": message,
-            "channel": config.SKYPE_CHANNEL,
-            "API_KEY": config.SKYPE_API_KEY,
+            "msg": skype_message,
+            "channel": skype_conf.SKYPE_CHANNEL,
+            "API_KEY": skype_conf.SKYPE_API_KEY,
         }
-
         response = requests.post(
-            url=config.SKYPE_URL,
+            url=skype_conf.SKYPE_URL,
             json=payload,
             headers=headers,
         )
+
         if response.status_code == 200:
-            print(f"Successfully sent the Skype message - {message}")
+            print(f"Successfully sent the Skype message - {skype_message}")
         else:
-            print("Failed to send Skype message", level="error")
+            print("Failed to send Skype message!")
+        response.raise_for_status()
+    except requests.exceptions.HTTPError as error:
+        print (error.response.text)
     except Exception as err:
         raise Exception(f"Unable to post message to Skype channel, due to {err}")
 
-
-post_message_on_skype(skype_message)
+post_message_on_skype()
