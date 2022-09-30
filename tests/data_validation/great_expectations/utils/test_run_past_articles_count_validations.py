@@ -36,4 +36,4 @@ def test_run_past_articles_count_validations():
     else:
         print("Validation succeeded!")
 
-    assert result["success","Looks like 2 past articles are not ready with description and title"]
+    assert result["success"],"Looks like 2 past articles are not ready with description and title"
