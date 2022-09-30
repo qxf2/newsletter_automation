@@ -1,0 +1,61 @@
+{
+  "data_asset_type": null,
+  "expectation_suite_name": "verify_past_articles_expectation_suite",
+  "expectations": [
+    {
+      "expectation_type": "expect_table_row_count_to_be_between",
+      "kwargs": {
+        "min_value": 2
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_null",
+      "kwargs": {
+        "column": "newsletter_id",
+        "condition_parser": "great_expectations__experimental__",
+        "mostly": 0.2,
+        "row_condition": "col(\"category_id\")==2"
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_value_lengths_to_be_between",
+      "kwargs": {
+        "column": "description",
+        "condition_parser": "great_expectations__experimental__",
+        "min_value": 10,
+        "mostly": 0.2,
+        "row_condition": "col(\"category_id\")==2"
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_value_lengths_to_be_between",
+      "kwargs": {
+        "column": "title",
+        "condition_parser": "great_expectations__experimental__",
+        "min_value": 2,
+        "mostly": 0.2,
+        "row_condition": "col(\"category_id\")==2"
+      },
+      "meta": {}
+    }
+  ],
+  "ge_cloud_id": null,
+  "meta": {
+    "citations": [
+      {
+        "batch_request": {
+          "data_asset_name": "newsletter_automation.articles",
+          "data_connector_name": "default_runtime_data_connector_name",
+          "datasource_name": "newsletter_automation_datasource",
+          "limit": 1000
+        },
+        "citation_date": "2022-09-21T04:23:03.283243Z",
+        "comment": "Created suite added via CLI"
+      }
+    ],
+    "great_expectations_version": "0.15.22"
+  }
+}

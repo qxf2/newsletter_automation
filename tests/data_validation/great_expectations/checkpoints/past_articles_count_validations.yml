@@ -1,10 +1,10 @@
-name: comic_title_validations
+name: past_articles_count_validations
 config_version: 1.0
 template_name:
 module_name: great_expectations.checkpoint
 class_name: Checkpoint
-run_name_template: '%Y%m%d-%H%M%S-newsletter-automation'
-expectation_suite_name:
+run_name_template: '%Y%m%d-%H%M%S-my-run-name-template'
+expectation_suite_name: verify_past_articles_expectation_suite
 batch_request: {}
 action_list:
   - name: store_validation_result
@@ -25,10 +25,11 @@ validations:
       data_connector_name: default_runtime_data_connector_name
       data_asset_name: newsletter_automation.articles
       runtime_parameters:
-        query: SELECT * from newsletter_automation.articles WHERE newsletter_id is null
+        query: select * from newsletter_automation.articles where newsletter_id is null and description != "" and title != "" and category_id=2
       batch_identifiers:
-        default_identifier_name: comic_title_validator
-    expectation_suite_name: comic_title_validations
+        default_identifier_name: default_identifier
+    expectation_suite_name: verify_past_articles_expectation_suite
+
 profilers: []
 ge_cloud_id:
 expectation_suite_ge_cloud_id:

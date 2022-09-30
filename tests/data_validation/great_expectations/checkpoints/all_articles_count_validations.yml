@@ -1,4 +1,4 @@
-name: comic_title_validations
+name: all_articles_count_validations
 config_version: 1.0
 template_name:
 module_name: great_expectations.checkpoint
@@ -25,10 +25,12 @@ validations:
       data_connector_name: default_runtime_data_connector_name
       data_asset_name: newsletter_automation.articles
       runtime_parameters:
-        query: SELECT * from newsletter_automation.articles WHERE newsletter_id is null
+        query: select count(*) as count,category_id from newsletter_automation.articles where title !="" and description !="" and newsletter_id is null group by category_id
       batch_identifiers:
-        default_identifier_name: comic_title_validator
-    expectation_suite_name: comic_title_validations
+        default_identifier_name: validation_stage
+    expectation_suite_name: all_articles_count_validations
+
+
 profilers: []
 ge_cloud_id:
 expectation_suite_ge_cloud_id:
