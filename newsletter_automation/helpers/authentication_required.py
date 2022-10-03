@@ -13,7 +13,7 @@ class Authentication_Required:
         @wraps(func)
         def decorated(*args, **kwargs):
             "Execute func only if authentication is valid"
-            if os.environ.get("TURN_OFF_NEWSLETTER_SSO", "true").lower()=='true':
+            if os.environ.get("TURN_OFF_NEWSLETTER_SSO", "false").lower()=='true':
                 return func(*args, **kwargs)
             try:
                 current_user = session['logged_user']
