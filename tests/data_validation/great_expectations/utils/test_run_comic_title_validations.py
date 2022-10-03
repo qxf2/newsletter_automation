@@ -41,5 +41,4 @@ def test_comic_title_validations():
     else:
         print("Validation succeeded!")
 
-    assert result["success"]
-
+    assert result["success"], "No comic is ready with a title!"
