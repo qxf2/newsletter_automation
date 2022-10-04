@@ -11,7 +11,9 @@ This project is to automate the process of creating the weekly Qxf2 newsletter. 
   3. Install the dependencies </br>
     `python -m pip install -r requirements.txt`
 
-  4. Setup the following environment variables in your environment<br>
+  4. Install MySQL and setup a database called `newsletter_automation`
+
+  5. Setup the following environment variables in your environment<br>
     `export FLASK_APP=run.py`<br>
     `export CLIENT_ID="Your Google Client ID"`<br>
     `export CLIENT_SECRET="Your Google Secret"`<br>
@@ -23,12 +25,12 @@ This project is to automate the process of creating the weekly Qxf2 newsletter. 
     `export API_KEY="API KEY OF YOUR CHOICE"`<br>
     *NOTE:* For Qxf2 employees, please ask a colleague to share the right vault with you for these values.
 
-  5. Run <br>
+  6. Run <br>
     `cd newsletter_automation`<br>
     `flask db stamp head`<br>
     `flask db migrate`<br>
 
-  6. Manually insert data into article_category using below query: <br>
+  7. Manually insert data into article_category using below query: <br>
      `insert into article_category (category_name) values ('comic'),('pastweek'),('currentweek'),('automation corner'),('uncategorized');`<br>
 
 At this point, you are ready to run the app locally.
