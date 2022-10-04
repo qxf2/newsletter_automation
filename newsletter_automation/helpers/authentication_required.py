@@ -1,7 +1,7 @@
 """
 Decorator for authenticating all pages
 """
-
+import os
 from functools import wraps
 from flask import render_template, session, request, jsonify
 import conf.apikey_conf as APIKEY
@@ -13,6 +13,8 @@ class Authentication_Required:
         @wraps(func)
         def decorated(*args, **kwargs):
             "Execute func only if authentication is valid"
+            if os.environ.get("TURN_OFF_NEWSLETTER_SSO", "false").lower()=='true':
+                return func(*args, **kwargs)
             try:
                 current_user = session['logged_user']
                 if current_user:
@@ -21,7 +23,7 @@ class Authentication_Required:
                 return render_template("unauthorized.html")
 
         return decorated
-    
+
     def requires_apikey(func):
         " Decorator function to require API Key "
         @wraps(func)

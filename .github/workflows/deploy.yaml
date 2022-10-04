@@ -1,22 +1,41 @@
 name: automate-newsletter-project-deploy
 on:
   push:
-    branches:
-      - main
+    branches: [main,'*-sprint-*']
 jobs:
-  build:
+  deply-staging:
+    name: Deploy to staging
+    environment:
+      name: Staging
     runs-on: ubuntu-latest
+    if: contains(github.event.ref, '-sprint-')
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run Deploy script
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        port: 22
+        script: |
+          cd /home/ubuntu/
+          ./deploy.sh
+
+  deploy-production:
+    runs-on: ubuntu-latest
+    if: github.event.ref == 'refs/heads/main'
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.8
       uses: actions/setup-python@v1
       with:
         python-version: 3.8
-    
+
     - name: Create a python dist
       run:
         python ./setup.py sdist
-        
+
     - name: Copy required scripts
       run: |
         echo "${{ secrets.KEY }}" > secret.pem
