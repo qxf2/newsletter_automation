@@ -56,16 +56,37 @@
         <div class="form-group top-space-20">
             {{form.subject.label(class="col-sm-1 create-newsletter-label")}}
             {{form.subject(style="width:50%")}}
+            {% if form.subject.errors %}
+            <ul class=errors>
+             {% for error in form.subject.errors %}
+                  <li style="background:pink">{{ error }}</li>
+             {% endfor %}
+             </ul>
+            {% endif %}
         </div>
 
         <div class="form-group top-space-5">
             {{form.opener.label(class="col-sm-1 create-newsletter-label")}}
             {{form.opener(style="width:50%")}}
+            {% if form.opener.errors %}
+            <ul class=errors>
+             {% for error in form.opener.errors %}
+                  <li style="background:pink">{{ error }}</li>
+             {% endfor %}
+             </ul>
+            {% endif %}
         </div>
 
         <div class="form-group top-space-5">
             {{form.preview_text.label(class="col-sm-1 create-newsletter-label")}}
             {{form.preview_text(id="preview_text",style="width:50%")}}
+            {% if form.preview_text.errors %}
+            <ul class=errors>
+             {% for error in form.preview_text.errors %}
+                  <li style="background:pink">{{ error }}</li>
+             {% endfor %}
+             </ul>
+            {% endif %}
             <span id='remainingC'></span>
         </div>
 
