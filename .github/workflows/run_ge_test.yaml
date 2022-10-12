@@ -48,7 +48,7 @@ jobs:
       - name: Run CheckpointFriday04pm
         if: ${{ github.event.schedule == '30 10 * * 5' }}
         run: |
-          pytest tests/data_validation/great_expectations/utils/ -s -v -m CheckpointWednesday10am
+          pytest tests/data_validation/great_expectations/utils/ -s -v -m CheckpointFriday04pm
       - name: Run CheckpointWednesday04pm
         if: ${{ github.event.schedule == '30 10 * * 3' }}
         run: |
