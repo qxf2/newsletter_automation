@@ -11,3 +11,4 @@ pytz
 wtforms==2.3.3
 great_expectations
 pytest
+tld==0.12.6
