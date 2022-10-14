@@ -1,4 +1,13 @@
 {% extends "base.html" %}
+{% block css_static %}
+<!-- jQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+{% endblock css_static %}
+
 {% block content %}
 
 <div class="container">
@@ -6,32 +15,50 @@
         <div class="col md-12">
             <form method="GET" , action="">
                 <legend>Old/Published Articles </legend>
-
-                    <table class="table table-hover table" >
+                <table id="oldArticlesTable" class="table table-hover">
+                    <thead>
                         <tr>
-
-                            <th>Title</th>
-                            <th>URL</th>
-                            <th>Description</th>
-                            <th>Reading Time</th>
-                            <th>Newsletter Id</th>
+                            <th class="col-md-4">Title</th>
+                            <th class="col-md-6">Description</th>
+                            <th class="col-md-2">Newsletter Id</th>
                         </tr>
+                    </thead>
+
+                    <tbody>
                         {% for articles in article_data %}
                         <tr>
-
-                            <td> {{articles.title}}</td>
-                            <td> {{articles.url}}</td>
-                            <td> {{articles.description}}</td>
-                            <td> {{articles.time}}</td>
-                            <td> {{articles.newsletter_id}}</td>
+                            <td style="word-break:break-all;"> <a href="{{articles.url}}">{{articles.title}}</a></td>
+                            <td style="word-break:break-all;"> {{articles.description}}</td>
+                            <td style="word-break:break-all;"><center><a
+                                    href="./preview_newsletter/{{articles.newsletter_id}}">{{articles.newsletter_id}}</a></center>
+                            </td>
                         </tr>
                         {% endfor %}
-                    </table>
-                    <br>
+                    </tbody>
+                </table>
             </form>
-
-            </div>
         </div>
     </div>
 </div>
 {% endblock content %}
+
+{% block js_static %}
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+        $('#oldArticlesTable').DataTable({
+            "order": [],
+            "columnDefs": [
+                { "visible": false },
+                {
+                    "targets": [0,1,2],
+                    "orderable": true,
+                }],
+            "sPaginationType": "full_numbers",
+            "iDisplayLength": 100,
+            "stateSave": true,
+        });
+    });
+
+</script>
+{% endblock js_static %}
