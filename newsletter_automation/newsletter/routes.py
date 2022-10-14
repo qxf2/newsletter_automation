@@ -162,27 +162,28 @@ def create_newsletter():
         subject = "The Informed Tester's Newsletter: " + form.subject.data
         opener= form.opener.data
         preview_text = form.preview_text.data
-        if form.validate_on_submit():
-            if form.add_more.data:
-                if form.category_id.data is None:
-                    flash('Please select Category','danger')
+
+        if form.add_more.data:
+            if form.category_id.data is None:
+                flash('Please select Category','danger')
+                return redirect(url_for("create_newsletter"))
+
+            if article_id == "Select URL":
+                flash('Please select a URL','danger')
+
+            else:
+                if article_id not in article_id_list and article_id is not None:
+                    article_id_list.append(article_id)
+                    articles_added.append(title)
                     return redirect(url_for("create_newsletter"))
-
-                if article_id == "Select URL":
-                    flash('Please select a URL','danger')
-
                 else:
-                    if article_id not in article_id_list and article_id is not None:
-                        article_id_list.append(article_id)
-                        articles_added.append(title)
-                        return redirect(url_for("create_newsletter"))
+                    if article_id:
+                        flash('Already selected !! Please select another article ', 'danger')
                     else:
-                        if article_id:
-                            flash('Already selected !! Please select another article ', 'danger')
-                        else:
-                            return redirect(url_for("create_newsletter"))
+                        return redirect(url_for("create_newsletter"))
 
-            if form.preview_newsletter.data:
+        if form.preview_newsletter.data:
+            if form.validate_on_submit():
                 if subject and opener and preview_text and article_id_list:
                     article_list, newsletter_id = add_articles_to_newsletter(subject, opener, preview_text)
                     return redirect(url_for("previewnewsletter",newsletter_id=newsletter_id))
