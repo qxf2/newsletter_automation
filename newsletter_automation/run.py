@@ -25,4 +25,5 @@ def before_first_request():
     app.logger.setLevel(log_level)
 
 if __name__ == '__main__':
+    print("running")
     app.run(debug=True)
