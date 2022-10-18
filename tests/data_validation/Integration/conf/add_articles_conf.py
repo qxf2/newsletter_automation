@@ -1,6 +1,6 @@
 import time
 
-email  = "Enter the username"
+email = "Enter the username"
 password = "Enter the password"
 current_timestamp =str(int(time.time()))
 article1 = {'URL':'https://www.python.org/downloads/'+current_timestamp,'TITLE':'postman api tool','DESCRIPTION':'tool which is used to get,post,put and delete request','RUNTIME':'10','CATEGORY':'pastweek'}
