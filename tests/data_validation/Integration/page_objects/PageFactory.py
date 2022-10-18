@@ -11,7 +11,8 @@ Pages implemented so far:
 
 from page_objects.zero_page import Zero_Page
 from page_objects.add_articles_page import Addarticles_Page
-from page_objects.manage_articles_main_page import Managearticles_Mainpage
+from page_objects.manage_articles_page import Managearticles_Page
+from page_objects.edit_articles_page import Editarticles_Page
 import conf.base_url_conf
 
 
@@ -25,8 +26,10 @@ class PageFactory():
             test_obj = Zero_Page(base_url=base_url)
         elif page_name == "addarticles page":
             test_obj =  Addarticles_Page(base_url=base_url)  
-        elif page_name == "managearticles main page":
-            test_obj = Managearticles_Mainpage(base_url=base_url)  
+        elif page_name == "managearticles page":
+            test_obj = Managearticles_Page(base_url=base_url)  
+        elif page_name == "editarticles page":
+            test_obj = Editarticles_Page(base_url=base_url)      
         return test_obj
 
     get_page_object = staticmethod(get_page_object)

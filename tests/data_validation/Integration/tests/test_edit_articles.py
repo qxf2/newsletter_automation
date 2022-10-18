@@ -1,18 +1,16 @@
 """
 This is an example automated test to help you learn Qxf2's framework
 Our automated test will do the following:
-    #Open Qxf2 newsletter generator application
-    #Fill the details of add articles section.
+    #Open Qxf2 interview scheduler application
+    #Fill the details of jobs section.
 
 """
 import os,sys,time
-from turtle import title
-from typing_extensions import runtime
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from page_objects.PageFactory import PageFactory
 from utils.Option_Parser import Option_Parser
 import conf.mail_conf as conf
-import conf.add_articles_conf as conf
+import conf.edit_articles_conf as conf
 import pytest
 
 @pytest.mark.GUI
@@ -23,18 +21,25 @@ def test_newsletter_page(test_obj):
         #Initalize flags for tests summary
         expected_pass = 0
         actual_pass = -1
-        # Create a test object for add articles 
-        test_obj = PageFactory.get_page_object("addarticles page")
+        # Create a test object for moisturizer button
+        test_obj = PageFactory.get_page_object("editarticles page")
         #Set start_time with current time
         start_time = int(time.time())
-        # test_obj.turn_on_highlight()
+        test_obj.turn_on_highlight()
         
         #Get the test details from the conf file
         email = conf.email
         password=conf.password
+        url=conf.url
+        title = conf.title
+        description = conf.description
+        run=conf.runtime
+        category=conf.category
+        search=conf.search
         
         #get the try again button
         try_button= test_obj.click_try_again()
+        time.sleep(3)
         
         #get the sign button 
         sign_button=test_obj.click_sign_in()
@@ -46,7 +51,6 @@ def test_newsletter_page(test_obj):
                             positive="Email was successfully set to: %s\n"%email,
                             negative="Failed to set Email: %s \nOn url: %s\n"%(email,test_obj.get_current_url()))
         test_obj.write('Script duration: %d seconds\n'%(int(time.time()-start_time)))
-        time.sleep(3)
         
         #click the next button
         nxt_button=test_obj.click_nxt_button()
@@ -61,42 +65,62 @@ def test_newsletter_page(test_obj):
         
         # click the next button
         nxt_button=test_obj.click_nxt_button()
-        time.sleep(3)
+        
         # click the hamburger button
         hamburger_button=test_obj.click_hamburger_button()
         
-        # click the add_articles button
-        add_button=test_obj.click_addarticle()
-       
-        #3.Get the test details from the conf file and fill the forms
-        article_list = conf.article_list
-        article_number = 1		#Initalize form counter  
+        # click the manage_articles button
+        managearticle_button=test_obj.click_managearticle_button()
         
-        # Collect form data
-        for article in article_list:
-            url = article['URL']
-            title = article['TITLE']
-            description = article['DESCRIPTION']
-            runtime = article['RUNTIME']
-            category=article['CATEGORY']
-            submit_button=test_obj.click_submit()
-            add_another_article=test_obj.click_addanother_article()
-           
-            msg ="\nReady to fill article number %d"%article_number
-            test_obj.write(msg)
-           
-            #  Visit main page again
-            test_obj = PageFactory.get_page_object("addarticles page")
-            article_number = article_number + 1
+        # set the search_text button
+        search_text = test_obj.set_search_button(search)
+        test_obj.log_result(search_text,
+                            positive="passed\n" ,
+                            negative="Failed\n")
+        test_obj.write('Script duration: %d seconds\n'%(int(time.time()-start_time)))    
 
-            #Set and submit the article in one go
-            result_flag = test_obj.submit_article(url,title,description,runtime,category)
-            test_obj.log_result(result_flag,
-                                positive="Successfully submitted the article number %d\n"%article_number,
-                                negative="Failed to submit the article number %d \nOn url: %s"%(article_number,test_obj.get_current_url()),
-                                level="critical")
-            test_obj.write('Script duration: %d seconds\n'%(int(time.time()-start_time)))
- 
+        # click the edit_articles button
+        editarticles_button=test_obj.click_edit_button()
+
+        # set the url_text button
+        url_text = test_obj.set_url_button(url)
+        test_obj.log_result(url_text,
+                            positive="passed\n" ,
+                            negative="Failed\n")
+        test_obj.write('Script duration: %d seconds\n'%(int(time.time()-start_time)))     
+        
+        # set the title_text button
+        title_text = test_obj.set_title_button(title)
+        test_obj.log_result(title_text,
+                            positive="passed\n" ,
+                            negative="Failed\n")
+        test_obj.write('Script duration: %d seconds\n'%(int(time.time()-start_time))) 
+         
+        # set the description_text button
+        description_text = test_obj.set_description_button(description)
+        test_obj.log_result(description_text,
+                            positive="passed\n" ,
+                            negative="Failed\n")
+        test_obj.write('Script duration: %d seconds\n'%(int(time.time()-start_time)))
+         
+        # set the time button
+        time_text = test_obj.set_time_button(run)
+        test_obj.log_result(time_text,
+                            positive="passed\n" ,
+                            negative="Failed\n")
+        test_obj.write('Script duration: %d seconds\n'%(int(time.time()-start_time)))
+
+        # set the category button  
+        category_text = test_obj.set_category_button(category)
+        test_obj.log_result(category_text,
+                            positive="passed\n" ,
+                            negative="Failed\n")
+        test_obj.write('Script duration: %d seconds\n'%(int(time.time()-start_time))) 
+
+        # click save button  
+        save_button=test_obj.click_save_button()
+       
+        # Print out the result
         test_obj.write_test_summary()
         expected_pass = test_obj.result_counter
         actual_pass = test_obj.pass_counter
@@ -140,4 +164,4 @@ if __name__=='__main__':
         test_obj.teardown()
     else:
         print('ERROR: Received incorrect comand line input arguments')
-        print(option_obj.print_usage())
+        #print(option_obj.print_usage())
