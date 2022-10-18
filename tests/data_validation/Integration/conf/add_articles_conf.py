@@ -1,5 +1,4 @@
 import time
-
 email = "Enter the username"
 password = "Enter the password"
 current_timestamp =str(int(time.time()))
