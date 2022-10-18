@@ -36,4 +36,4 @@ def test_run_all_articles_count_validations():
     else:
         print("Validation succeeded!")
 
-    assert result["success"]
+    assert result["success"], "Many edited articles are yet to make it to our Newsletter edition!"

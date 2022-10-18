@@ -43,4 +43,4 @@ def test_run_checkpoint():
     print("Validation succeeded!")
     sys.exit(0)
 
-    assert result["Success"]
+    assert result["Success"], "Lazy one liners in the description of the articles!"
