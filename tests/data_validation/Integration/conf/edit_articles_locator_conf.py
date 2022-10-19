@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # get the manage articles locator
 manage_article="xpath,//a[normalize-space()='Manage Articles']"
 # get the search locator
@@ -17,26 +16,3 @@ edit_time="xpath,//input[@id='time']"
 edit_category="xpath,//select[@id='category_id']"
 # get the edit_save locator
 edit_save="xpath,//input[@id='submit']"
-# get the edit_cancel locator
-=======
-# get the manage articles locator
-manage_article="xpath,//a[normalize-space()='Manage Articles']"
-# get the search locator
-search="xpath,//input[@type='search']"
-# get the edit locator
-edit="xpath,//a[@class='btn btn-sm btn-primary']"
-# get the edit_url locator
-edit_url="xpath,//input[@id='url']"
-# get the edit_title locator
-edit_title="xpath,//input[@id='title']"
-# get the edit_description locator
-edit_description="xpath,//textarea[@id='description']"
-# get the edit_time locator
-edit_time="xpath,//input[@id='time']"
-# get the edit_category locator
-edit_category="xpath,//select[@id='category_id']"
-# get the edit_save locator
-edit_save="xpath,//input[@id='submit']"
-# get the edit_cancel locator
->>>>>>> 4e5cbd7825e7629c1aff3910a8313c0b3082fd0b
-edit_cancel="xpath,//a[text()='Cancel']"
