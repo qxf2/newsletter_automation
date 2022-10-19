@@ -1,6 +1,11 @@
 import time
+<<<<<<< HEAD
 email  = "aruul.bhagkya@qxf2.com"
 password = "AganSarwin@2021"
+=======
+email = "Enter the username"
+password = "Enter the password"
+>>>>>>> 4e5cbd7825e7629c1aff3910a8313c0b3082fd0b
 current_timestamp =str(int(time.time()))
 article1 = {'URL':'https://www.python.org/downloads/'+current_timestamp,'TITLE':'postman api tool','DESCRIPTION':'tool which is used to get,post,put and delete request','RUNTIME':'10','CATEGORY':'pastweek'}
 article2 = {'URL':'https://www.techbeamers.com/handle-alert-popup-selenium-python/'+current_timestamp,'TITLE':'handle-alert-popup-selenium','DESCRIPTION':'handle-alert-popup-selenium','RUNTIME':'15','CATEGORY':'currentweek'}

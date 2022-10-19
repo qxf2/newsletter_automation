@@ -1,5 +1,5 @@
 """
 Conf file for test_example_form
 """
-email  = "aruul.bhagkya@qxf2.com"
-password = "AganSarwin@2021"
+email = "Enter the usename"
+password = "Enter the password"
