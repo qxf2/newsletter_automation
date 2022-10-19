@@ -8,5 +8,3 @@ setting_mail="xpath,//input[@class='whsOnd zHQkBf']"
 password="xpath,//input[@class='whsOnd zHQkBf']"
 # get nxt button locator
 nxt_button="xpath,//span[text()='Next']"
-
-
