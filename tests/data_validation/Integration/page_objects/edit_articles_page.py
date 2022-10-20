@@ -19,8 +19,15 @@ class Editarticles_Page(Base_Page,Mail_Object, Hamburger_Object,Search_Object,Ta
 
     @Wrapit._exceptionHandler
     @Wrapit._screenshot
-    def delete_article(self,search):
+    def edit_article(self,search,url,title,description,runtime,category):
         "Submit the article"
         result_flag = self.click_hamburger_button()
         result_flag = self.click_managearticle_button()
         result_flag = self.set_search(search)  
+        result_flag = self.click_edit_button()
+        result_flag = self.set_url(url)
+        result_flag = self.set_title(title)
+        result_flag = self.set_description(description)
+        result_flag = self.set_time(runtime)
+        result_flag = self.set_category(category)
+        result_flag = self.click_save_button()
