@@ -103,3 +103,4 @@ class Editarticles_Object:
     def click_save_button(self):
      submit_button=self.click_element(self.edit_save)
      return submit_button
+

@@ -113,6 +113,3 @@ class Addarticles_Object:
         result_flag = self.click_addanother_article()
 
         return result_flag
-
- 
-                        

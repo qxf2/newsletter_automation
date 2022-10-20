@@ -1,5 +1,5 @@
 """
-This class models the interviewscheduler_mainpage page.
+This class models the newsletter_page.
 
 """
 from .Base_Page import Base_Page

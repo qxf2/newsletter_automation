@@ -16,4 +16,3 @@ edit_time="xpath,//input[@id='time']"
 edit_category="xpath,//select[@id='category_id']"
 # get the edit_save locator
 edit_save="xpath,//input[@id='submit']"
-# get the edit_cancel locator
