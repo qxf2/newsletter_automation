@@ -41,6 +41,8 @@ class Base_API:
 
     def post(self, url,params=None, data=None,json=None,headers={}):
         "Post request"
+        print('this is api key',headers)
+        print('this is article details',json)
         error = {}
         json_response = None
         try:
