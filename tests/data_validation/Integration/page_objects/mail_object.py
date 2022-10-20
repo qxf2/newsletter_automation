@@ -1,5 +1,6 @@
 import conf.mail_locators_conf as locators
 from utils.Wrapit import Wrapit
+import time
 class Mail_Object:
     "Page Object for the interview scheduler main page"
     # get the try_again locator
@@ -55,4 +56,15 @@ class Mail_Object:
             negative='Failed to set the password in the form',
             level='debug')
 
-    
+    @Wrapit._exceptionHandler
+    @Wrapit._screenshot
+    def login_page(self,email,password):
+        "Submit the article"
+        result_flag = self.click_try_again()
+        result_flag = self.click_sign_in()
+        result_flag = self.set_email(email) 
+        result_flag = self.click_nxt_button() 
+        result_flag = self.set_password(password)
+        result_flag = self.click_nxt_button() 
+         
+ 
