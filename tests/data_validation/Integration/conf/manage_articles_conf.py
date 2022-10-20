@@ -1,3 +1,3 @@
-email  = "aruul.bhagkya@qxf2.com"
-password = "AganSarwin@2021"
+email  = "Enter the username"
+password = "Enter the password"
 search="postman"
