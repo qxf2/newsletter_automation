@@ -1,13 +1,15 @@
 import time
 
+# current timestamp
 current_timestamp =str(int(time.time()))
 
+# article details
 article_url = 'https://www.tutorialspoint.com/software_testing_dictionary/accessibility_test.htm'
 article_title = 'Test Title'
 article_description = 'Test Description'
 article_editors = ['Arun','Raji','Avinash','Rahul','Akkul']
 
-# Conf for api example
+# url
 api_url = "http://127.0.0.1:5000"
 
 # add article
