@@ -2,11 +2,7 @@ from re import search
 import conf.edit_articles_locator_conf as locators
 from utils.Wrapit import Wrapit
 
-class Editarticles_Object:
-    # get the manage articles locator
-    manage_article=locators.manage_article
-    # get the search locator
-    search =locators.search
+class Table_Object:
     # get the edit locator
     edit =locators.edit
     # get the edit_url locator
@@ -23,23 +19,6 @@ class Editarticles_Object:
     edit_save=locators.edit_save
     
    
-    #  click manage article button
-    @Wrapit._exceptionHandler
-    @Wrapit._screenshot
-    def click_managearticle_button(self):
-     manage_button=self.click_element(self.manage_article)
-     return manage_button
-
-    #  set search box
-    @Wrapit._exceptionHandler
-    @Wrapit._screenshot
-    def set_search_button(self,search):
-        result_flag = self.set_text(self.search,search)
-        self.conditional_write(result_flag,
-            positive='Set the url to: %s'%search,
-            negative='Failed to set the url in the form',
-            level='debug')
-
     # click edit button
     @Wrapit._exceptionHandler
     @Wrapit._screenshot
@@ -50,7 +29,7 @@ class Editarticles_Object:
     # set url box
     @Wrapit._exceptionHandler
     @Wrapit._screenshot
-    def set_url_button(self,url):
+    def set_url(self,url):
         result_flag = self.set_text(self.edit_url,url)
         self.conditional_write(result_flag,
             positive='Set the url to: %s'%url,
@@ -60,7 +39,7 @@ class Editarticles_Object:
     # set title box
     @Wrapit._exceptionHandler
     @Wrapit._screenshot
-    def set_title_button(self,title):
+    def set_title(self,title):
         result_flag = self.set_text(self.edit_title,title)
         self.conditional_write(result_flag,
             positive='Set the title to: %s'%title,
@@ -70,7 +49,7 @@ class Editarticles_Object:
     # set description box
     @Wrapit._exceptionHandler
     @Wrapit._screenshot
-    def set_description_button(self,description):
+    def set_description(self,description):
         result_flag = self.set_text(self.edit_description,description)
         self.conditional_write(result_flag,
             positive='Set the description to: %s'%description,
@@ -80,7 +59,7 @@ class Editarticles_Object:
     # set time
     @Wrapit._exceptionHandler
     @Wrapit._screenshot
-    def set_time_button(self,runtime):
+    def set_time(self,runtime):
         result_flag = self.set_text(self.edit_time,runtime)
         self.conditional_write(result_flag,
             positive='Set the time to: %s'%runtime,
@@ -90,7 +69,7 @@ class Editarticles_Object:
      # set category box
     @Wrapit._exceptionHandler
     @Wrapit._screenshot 
-    def set_category_button(self,category):
+    def set_category(self,category):
         result_flag = self.select_dropdown_option(self.edit_category,category)
         self.conditional_write(result_flag,
             positive='Set the category to: %s'%category,
@@ -103,4 +82,3 @@ class Editarticles_Object:
     def click_save_button(self):
      submit_button=self.click_element(self.edit_save)
      return submit_button
-
