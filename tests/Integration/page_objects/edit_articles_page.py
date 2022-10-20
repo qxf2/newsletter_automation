@@ -30,8 +30,5 @@ class Editarticles_Page(Base_Page,Mail_Object, Hamburger_Object,Search_Object,Ta
         result_flag = self.set_description(description)
         result_flag = self.set_time(runtime)
         result_flag = self.set_category(category)
-<<<<<<< HEAD
         result_flag = self.click_save_button()
-=======
-        result_flag = self.click_save_button()
->>>>>>> b83569d4142f858c1f3c3c47ff971f1735601372
+
