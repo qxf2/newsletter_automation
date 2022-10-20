@@ -17,7 +17,6 @@ from _pytest import config
 import os
 
 
-
 class API_Player(Results):
     "The class that maintains the test context/state"
 
