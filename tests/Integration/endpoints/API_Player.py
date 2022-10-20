@@ -33,7 +33,6 @@ class API_Player(Results):
         self.url=url
         return self.url
 
-
     def set_header_details(self, auth_details=None):
         "make header details"
         if auth_details != '' and auth_details is not None:
@@ -43,16 +42,14 @@ class API_Player(Results):
 
         return headers
 
-
     def add_article(self, article_details, headers=None):
         "adds a new article"
-        data = conf.article_details
-        json_response = self.api_obj.add_article(data=data,
+        json_response = self.api_obj.add_article(data=article_details,
                 headers=headers)
-        print(f"JSON response:{json_response['response']}")
-        result_flag = True if json_response['response']['successful'] == True else False
+        print("JSON response:{json_response['response']}")
+        
 
-        return result_flag
+    
 
 
     
