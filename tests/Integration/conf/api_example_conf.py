@@ -7,6 +7,6 @@ api_url = "http://127.0.0.1:5000"
 article_details = {'url':'https://www.tutorialspoint.com/software_testing_dictionary/accessibility_testing.htm','category_id':'3','article_editor':'Raji'}
 
 # authentication details
-headers = {'x_api_key':'newsletterAutomationLambda'}
+headers = {'x_api_key':'set your apikey'}
 
 
