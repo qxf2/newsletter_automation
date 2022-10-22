@@ -11,7 +11,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from page_objects.PageFactory import PageFactory
 from utils.Option_Parser import Option_Parser
 import conf.mail_conf as conf
-import conf.edit_articles_conf as conf
+import conf.manage_articles_conf as conf
 import pytest
 
 @pytest.mark.GUI
@@ -40,12 +40,11 @@ def test_newsletter_page(test_obj):
         
         #Set the login
         login= test_obj.login_page(email,password)
-        edit_article=test_obj.edit_article(search,url,title,description,runtime,category)
+        hamburger=test_obj.click_hamburger_button()
+        search_article=test_obj.search_article(search)
+        edit_article=test_obj.edit_articles(url,title,description,runtime,category)
 
-        time.sleep(3)
-        test_obj.accept_alert()
-        
-       # Print out the result
+        # Print out the result
         test_obj.write_test_summary()
         expected_pass = test_obj.result_counter
         actual_pass = test_obj.pass_counter
