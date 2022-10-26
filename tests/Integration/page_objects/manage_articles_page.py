@@ -16,6 +16,3 @@ class Managearticles_Page(Base_Page,Mail_Object, Hamburger_Object, Search_Object
         "Use this method to go to specific URL -- if needed"
         url = 'manage-articles'
         self.open(url)
-
-   
-        

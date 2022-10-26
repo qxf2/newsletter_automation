@@ -36,7 +36,7 @@ class Base_API:
             print("Python says:%s" % str(e))
             json_response = None
 
-        return {'response': response.status_code,'text':response.text,'json_response':json_response, 'error': error}
+        return {'response': response.status_code,'text':response.text,'json_response':json_response,'error': error}
 
 
     def post(self, url,params=None, data=None,json=None,headers={}):
@@ -44,7 +44,8 @@ class Base_API:
         error = {}
         json_response = None
         try:
-            response = self.request_obj.post(url,params=params,json=json,headers=headers)
+            response = self.request_obj.post(url,params=params,json=json,headers=headers,data=data)
+            print("this is a status code",response.status_code)
             try:
                 json_response = response.json()
             except:
@@ -65,7 +66,7 @@ class Base_API:
             print("Python says:%s" % str(e))
             json_response = None
 
-        return {'response': response.status_code,'text':response.text,'json_response':json_response, 'error': error}
+        return {'response': response.status_code,'text':response.text,'json_response':json_response,'error': error}
 
 
     def delete(self, url,headers={}):

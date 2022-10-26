@@ -4,11 +4,9 @@ Use the API_Player to talk to this class
 """
 import requests
 from .Base_API import Base_API
-from .Cars_API_Endpoints import Cars_API_Endpoints
-from .Registration_API_Endpoints import Registration_API_Endpoints
-from .User_API_Endpoints import User_API_Endpoints
+from .Article_API_Endpoints import Article_API_Endpoints 
 
-class API_Interface(Base_API,Cars_API_Endpoints,Registration_API_Endpoints,User_API_Endpoints):
+class API_Interface(Base_API,Article_API_Endpoints):
 	"A composed interface for the API objects"
 
 	def __init__(self, url, session_flag=False):

@@ -23,13 +23,4 @@ class Search_Object:
         self.conditional_write(result_flag,
             positive='successfully Set the search: %s'%search,
             negative='Failed to set the search in the application',
-            level='debug')
-
-    @Wrapit._exceptionHandler
-    @Wrapit._screenshot
-    def search_article(self,search):
-        "Submit the article"
-        result_flag = self.click_managearticle_button()
-        result_flag = self.set_search(search)          
-
-   
+            level='debug')    

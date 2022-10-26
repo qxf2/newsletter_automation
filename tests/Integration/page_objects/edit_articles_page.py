@@ -15,7 +15,4 @@ class Editarticles_Page(Base_Page,Mail_Object, Hamburger_Object, Search_Object,T
     def start(self):
         "Use this method to go to specific URL -- if needed"
         url = 'manage-articles'
-        self.open(url)
-
-   
-        
+        self.open(url)     

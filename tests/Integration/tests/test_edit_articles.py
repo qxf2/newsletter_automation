@@ -40,8 +40,13 @@ def test_newsletter_page(test_obj):
         
         #Set the login
         login= test_obj.login_page(email,password)
+         #click the hamburger menu
         hamburger=test_obj.click_hamburger_button()
-        search_article=test_obj.search_article(search)
+        # click manage article button
+        manage_article_button=test_obj.click_managearticle_button()
+        # set the search string
+        search_article=test_obj.set_search(search)
+        #edi the articles
         edit_article=test_obj.edit_articles(url,title,description,runtime,category)
 
         # Print out the result

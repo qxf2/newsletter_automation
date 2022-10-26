@@ -43,6 +43,7 @@ def test_newsletter_page(test_obj):
         search_article=test_obj.set_search(search)
         #click the delete button
         delete_button=test_obj.click_delete_button()
+
         time.sleep(3)
         test_obj.accept_alert()
 
