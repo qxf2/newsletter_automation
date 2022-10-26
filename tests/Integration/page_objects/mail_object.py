@@ -62,7 +62,7 @@ class Mail_Object:
         "Submit the article"
         result_flag = self.click_try_again()
         result_flag = self.click_sign_in()
-        result_flag = self.set_email(email) 
+        result_flag = self.set_email(email)
         result_flag = self.click_nxt_button() 
         result_flag = self.set_password(password)
         result_flag = self.click_nxt_button() 

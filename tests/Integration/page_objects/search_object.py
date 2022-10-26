@@ -8,7 +8,6 @@ class Search_Object:
     # get the search locator
     search =locators.search
     
-    
     # click manage article button
     @Wrapit._exceptionHandler
     @Wrapit._screenshot
@@ -25,5 +24,12 @@ class Search_Object:
             positive='successfully Set the search: %s'%search,
             negative='Failed to set the search in the application',
             level='debug')
+
+    @Wrapit._exceptionHandler
+    @Wrapit._screenshot
+    def search_article(self,search):
+        "Submit the article"
+        result_flag = self.click_managearticle_button()
+        result_flag = self.set_search(search)          
 
    

@@ -1,8 +1,0 @@
-email  = "Enter the username"
-password = "enter the password"
-url="https://www.python.org/downloads/release/python-381/"
-title="testing selenium"
-description="python-selenium-change-url"
-runtime="15"
-category="currentweek"
-search="postman"

@@ -26,7 +26,7 @@ def test_newsletter_page(test_obj):
         test_obj = PageFactory.get_page_object("managearticles page")
         #Set start_time with current time
         start_time = int(time.time())
-        # test_obj.turn_on_highlight()
+        test_obj.turn_on_highlight()
         
         #Get the test details from the conf file
         email = conf.email
@@ -35,11 +35,18 @@ def test_newsletter_page(test_obj):
         
         #Set the login
         login= test_obj.login_page(email,password)
-        delete_articles=test_obj.delete_article(search)
+        #click the hamburger menu
+        hamburger=test_obj.click_hamburger_button()
+        # click manage article button
+        manage_article_button=test_obj.click_managearticle_button()
+        # set the search string
+        search_article=test_obj.set_search(search)
+        #click the delete button
+        delete_button=test_obj.click_delete_button()
         time.sleep(3)
         test_obj.accept_alert()
-        
-       # Print out the result
+
+        # Print out the result
         test_obj.write_test_summary()
         expected_pass = test_obj.result_counter
         actual_pass = test_obj.pass_counter
