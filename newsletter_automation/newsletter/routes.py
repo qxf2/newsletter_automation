@@ -306,7 +306,7 @@ def url(category_id):
         url_array = []
         for each_element in url:
             url_obj ={}
-            if each_element.newsletter_id == None:
+            if each_element.newsletter_id == None and each_element.title is not None:
                 url_obj['article_id']= each_element.article_id
                 url_obj['url']= each_element.url
                 url_array.append(url_obj)
