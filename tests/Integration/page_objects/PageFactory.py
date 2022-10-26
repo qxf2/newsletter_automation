@@ -3,9 +3,9 @@ PageFactory uses the factory design pattern.
 get_page_object() returns the appropriate page object.
 Add elif clauses as and when you implement new pages.
 Pages implemented so far:
-1. weathershopper main page
-2. moisturizer main page
-3. sunscreen  main page
+1. addarticles page
+2. editarticles page
+3. deletearticles page
 """
  
 
