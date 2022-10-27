@@ -16,7 +16,7 @@ import conf.add_articles_conf as conf
 import pytest
 
 @pytest.mark.GUI
-def test_newsletter_page(test_obj):
+def test_add_article_page(test_obj):
 
     "Run the test"
     try:
@@ -24,49 +24,21 @@ def test_newsletter_page(test_obj):
         expected_pass = 0
         actual_pass = -1
         # Create a test object for add articles 
-        test_obj = PageFactory.get_page_object("addarticles page")
+        test_obj = PageFactory.get_page_object("add article page")
         #Set start_time with current time
         start_time = int(time.time())
         # test_obj.turn_on_highlight()
         
         #Get the test details from the conf file
         email = conf.email
-        password=conf.password
+        password = conf.password
         
-        #get the try again button
-        try_button= test_obj.click_try_again()
-        
-        #get the sign button 
-        sign_button=test_obj.click_sign_in()
-        time.sleep(3)
-        
-        #set the email
-        email_text = test_obj.set_email(email)
-        test_obj.log_result(email_text,
-                            positive="Email was successfully set to: %s\n"%email,
-                            negative="Failed to set Email: %s \nOn url: %s\n"%(email,test_obj.get_current_url()))
-        test_obj.write('Script duration: %d seconds\n'%(int(time.time()-start_time)))
-        time.sleep(3)
-        
-        #click the next button
-        nxt_button=test_obj.click_nxt_button()
-        time.sleep(3)
-
-        #set the password
-        password_text = test_obj.set_password(password)
-        test_obj.log_result(password_text,
-                            positive="passed\n" ,
-                            negative="Failed\n")
-        test_obj.write('Script duration: %d seconds\n'%(int(time.time()-start_time)))
-        
-        # click the next button
-        nxt_button=test_obj.click_nxt_button()
-        time.sleep(3)
+        #Set the login
+        login = test_obj.login_page(email,password)
         # click the hamburger button
-        hamburger_button=test_obj.click_hamburger_button()
-        
+        hamburger_button = test_obj.click_hamburger_button()
         # click the add_articles button
-        add_button=test_obj.click_addarticle()
+        add_button = test_obj.click_addarticle()
        
         #3.Get the test details from the conf file and fill the forms
         article_list = conf.article_list
@@ -133,7 +105,7 @@ if __name__=='__main__':
         if options.tesults_flag.lower()=='y':
             test_obj.register_tesults()
 
-        test_newsletter_page(test_obj)
+        test_add_article_page(test_obj)
 
      #teardowm
         test_obj.wait(3)

@@ -2,7 +2,7 @@ import conf.add_articles_locators_conf as locators
 import time
 from utils.Wrapit import Wrapit
 
-class Addarticles_Object:
+class Form_Object:
     # get home button locator
     home=locators.home
     # get the add articles locator
