@@ -1,6 +1,6 @@
 import time
-email = "Enter the password"
-password = "Enter the username"
+email = "Enter the username"
+password = "Enter the password"
 current_timestamp =str(int(time.time()))
 article1 = {'URL':'https://www.qxf2.com/pastweek/'+current_timestamp,'TITLE':'postman api tool','DESCRIPTION':'tool which is used to get,post,put and delete request','RUNTIME':'10','CATEGORY':'pastweek'}
 article2 = {'URL':'https://www.qxf2.com/currentweek/'+current_timestamp,'TITLE':'handle-alert-popup-selenium','DESCRIPTION':'handle-alert-popup-selenium','RUNTIME':'15','CATEGORY':'currentweek'}
