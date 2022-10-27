@@ -1,6 +1,7 @@
 """
 Decorator for authenticating all pages
 """
+import json
 import os
 from functools import wraps
 from flask import render_template, session, request, jsonify
@@ -17,8 +18,11 @@ class Authentication_Required:
                 return func(*args, **kwargs)
             try:
                 current_user = session['logged_user']
-                if current_user:
+                access_list = json.loads(os.environ.get('ACCESS_LIST', '[]'))
+                if access_list != [] and current_user in access_list:
                     return func(*args, **kwargs)
+                else:
+                    return render_template("unauthorized.html")
             except Exception as e:
                 return render_template("unauthorized.html")
 
