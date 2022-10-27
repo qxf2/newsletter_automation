@@ -16,7 +16,7 @@ import conf.add_articles_conf as conf
 import pytest
 
 @pytest.mark.GUI
-def test_add_article_page(test_obj):
+def test_add_article(test_obj):
 
     "Run the test"
     try:
@@ -24,7 +24,7 @@ def test_add_article_page(test_obj):
         expected_pass = 0
         actual_pass = -1
         # Create a test object for add articles 
-        test_obj = PageFactory.get_page_object("add article page")
+        test_obj = PageFactory.get_page_object("add articles page")
         #Set start_time with current time
         start_time = int(time.time())
         # test_obj.turn_on_highlight()
@@ -50,15 +50,15 @@ def test_add_article_page(test_obj):
             title = article['TITLE']
             description = article['DESCRIPTION']
             runtime = article['RUNTIME']
-            category=article['CATEGORY']
-            submit_button=test_obj.click_submit()
-            add_another_article=test_obj.click_addanother_article()
+            category = article['CATEGORY']
+            submit_button = test_obj.click_submit()
+            add_another_article = test_obj.click_addanother_article()
            
             msg ="\nReady to fill article number %d"%article_number
             test_obj.write(msg)
            
             #  Visit main page again
-            test_obj = PageFactory.get_page_object("addarticles page")
+            test_obj = PageFactory.get_page_object("add articles page")
             article_number = article_number + 1
 
             #Set and submit the article in one go
@@ -105,7 +105,7 @@ if __name__=='__main__':
         if options.tesults_flag.lower()=='y':
             test_obj.register_tesults()
 
-        test_add_article_page(test_obj)
+        test_add_article(test_obj)
 
      #teardowm
         test_obj.wait(3)

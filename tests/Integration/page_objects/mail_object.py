@@ -52,7 +52,7 @@ class Mail_Object:
     def set_password(self,password):
         result_flag = self.set_text(self.password,password)
         self.conditional_write(result_flag,
-            positive='Set the password to: %s'%password,
+            positive='The password was set successfully',
             negative='Failed to set the password in the form',
             level='debug')
 

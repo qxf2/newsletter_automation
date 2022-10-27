@@ -1,6 +1,6 @@
 email  = "Enter the username"
 password = "Enter the password"
-url="https://www.python.org/downloads/release/python-381/"
+url="https://www.qxf2.com/currentweek/"
 title="python selenium selenium"
 description="python-selenium-change-url"
 runtime="15"

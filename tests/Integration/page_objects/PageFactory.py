@@ -24,11 +24,11 @@ class PageFactory():
         page_name = page_name.lower()
         if page_name in ["zero","zero page","agent zero"]:
             test_obj = Zero_Page(base_url=base_url)
-        elif page_name == "add article page":
+        elif page_name == "add articles page":
             test_obj =  Addarticles_Page(base_url=base_url)  
-        elif page_name == "managearticles page":
+        elif page_name == "manage articles page":
             test_obj = Managearticles_Page(base_url=base_url)  
-        elif page_name == "editarticles page":
+        elif page_name == "edit articles page":
             test_obj = Editarticles_Page(base_url=base_url)      
         return test_obj
 

@@ -15,7 +15,7 @@ import conf.manage_articles_conf as conf
 import pytest
 
 @pytest.mark.GUI
-def test_newsletter_page(test_obj):
+def test_manage_articles(test_obj):
 
     "Run the test"
     try:
@@ -23,7 +23,7 @@ def test_newsletter_page(test_obj):
         expected_pass = 0
         actual_pass = -1
         # Create a test object for moisturizer button
-        test_obj = PageFactory.get_page_object("managearticles page")
+        test_obj = PageFactory.get_page_object("manage articles page")
         #Set start_time with current time
         start_time = int(time.time())
         test_obj.turn_on_highlight()
@@ -34,15 +34,15 @@ def test_newsletter_page(test_obj):
         search=conf.search
         
         #Set the login
-        login= test_obj.login_page(email,password)
+        login = test_obj.login_page(email,password)
         #click the hamburger menu
-        hamburger=test_obj.click_hamburger_button()
+        hamburger = test_obj.click_hamburger_button()
         # click manage article button
-        manage_article_button=test_obj.click_managearticle_button()
+        manage_article_button = test_obj.click_managearticle_button()
         # set the search string
-        search_article=test_obj.set_search(search)
+        search_article = test_obj.set_search(search)
         #click the delete button
-        delete_button=test_obj.click_delete_button()
+        delete_button = test_obj.click_delete_button()
 
         time.sleep(3)
         test_obj.accept_alert()
@@ -84,7 +84,7 @@ if __name__=='__main__':
         if options.tesults_flag.lower()=='y':
             test_obj.register_tesults()
 
-        test_newsletter_page(test_obj)
+        test_manage_articles(test_obj)
 
      #teardowm
         test_obj.wait(3)
