@@ -25,8 +25,7 @@ validations:
       data_connector_name: default_runtime_data_connector_name
       data_asset_name: newsletter_automation.articles
       runtime_parameters:
-        query: SELECT * from newsletter_automation.articles WHERE newsletter_id is
-          null and category_id != 1 and description <> ''
+        query: SELECT * from newsletter_automation.articles WHERE newsletter_id is null and category_id != 1 and description != ''
       batch_identifiers:
         default_identifier_name: test_identifier
     expectation_suite_name: description_title_validations
