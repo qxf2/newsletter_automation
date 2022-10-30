@@ -5,8 +5,13 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <!-- DataTables JS -->
 <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
 <!-- DataTables CSS -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
+
 {% endblock css_static %}
 
 {% block content %}
@@ -15,7 +20,7 @@
         <div class="col md-12">
             <form method="POST" , action="">
                 <legend>Manage Articles </legend>
-                <table id="articlesTable" class="table table-hover">
+                <table id="articlesTable" class="table">
                     <thead>
                         <tr>
                             <th class="col-md-2">Title</th>
@@ -63,7 +68,8 @@
 <script>
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
-        $('#articlesTable').DataTable({
+        var articlesTable = $('#articlesTable').DataTable({
+            "dom": 'Blfrtip',
             "order": [],
             "columnDefs": [
                 { "visible": false },
@@ -75,6 +81,15 @@
             "sPaginationType": "full_numbers",
             "iDisplayLength" : 100,
             "stateSave": true,
+            "select": true,
+            "buttons": [
+                {   "text": "Delete selected",
+                    "action": function(){
+                        var selectedData = articlesTable.rows( {selected: true} );
+                        console.log(selectedData.data());
+                    }
+                }
+            ]
         });
         $('#categoryFilter').change(function(){
             var category = $(this).val();
