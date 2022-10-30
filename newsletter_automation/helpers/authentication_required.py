@@ -19,7 +19,8 @@ class Authentication_Required:
             try:
                 current_user = session['logged_user']
                 access_list = json.loads(os.environ.get('ACCESS_LIST', '[]'))
-                if access_list != [] and current_user in access_list:
+                print(access_list)
+                if access_list == [] or current_user in access_list:
                     return func(*args, **kwargs)
                 else:
                     return render_template("unauthorized.html")
