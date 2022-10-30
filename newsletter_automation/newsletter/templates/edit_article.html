@@ -15,10 +15,19 @@
                     <th>Category</th>
                 </tr>
                 <tr>
+                    {% if form.time.errors %}
+                           <ul class=errors>
+                            {% for error in form.time.errors %}
+                                 <li style="background:pink">{{ error }}</li>
+                            {% endfor %}
+                            </ul>
+                    {% endif %}
+                </tr>
+                <tr>
                     <td> {{ form.url(id="url",placeholder="URL")}} </td>
                     <td> {{ form.title(id="title",placeholder="Title")}} </td>
                     <td> {{ form.description(id="description",placeholder="Description")}} </td>
-                    <td> {{ form.time(placeholder="Time",id="time") }} </td>
+                    <td>{{ form.time(placeholder="Time (in Minutes)",id="time", type="number", min="1", max="120", class="form-control", autofocus="") }}</td>
                     <td> {{ form.category_id(placeholder="category",id="category_id") }} </td>
                     <td> {{ form.submit(class="btn btn-primary btn-block")}} </td>
                     <td> <a href="/manage-articles" class="btn btn-danger">Cancel</a> </td>

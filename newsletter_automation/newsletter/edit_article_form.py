@@ -1,7 +1,7 @@
 """Flask Form To edit articles"""
 from flask_wtf import FlaskForm
 from wtforms import TextField, TextAreaField, SubmitField,SelectField
-from wtforms.validators import DataRequired, Length
+from wtforms.validators import DataRequired, Length, Regexp
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from . models import Article_category
 
@@ -22,6 +22,6 @@ class EditArticlesForm(FlaskForm):
     url= TextField('url', validators= [DataRequired()])
     title = TextField('title', validators= [DataRequired()])
     description = TextAreaField('description', validators= [ DataRequired(), Length(min=4)])
-    time = TextField('time',validators=[ DataRequired()])
+    time = TextField('Time', validators=[Regexp('^[1-9]\d*$', message='Time should be an integer greater than 0'), DataRequired(message="Time field cannot be blank")])
     category_id= SelectField(choices=fetch_categories())
     submit = SubmitField('Save')
