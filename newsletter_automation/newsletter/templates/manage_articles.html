@@ -23,9 +23,10 @@
                 <table id="articlesTable" class="table">
                     <thead>
                         <tr>
+                            <th class="col-md-0">ID</th>
                             <th class="col-md-2">Title</th>
                             <th class="col-md-3">URL</th>
-                            <th class="col-md-4">Description</th>
+                            <th class="col-md-3">Description</th>
                             <th class="col-md-1">Article Editor</th>
                             <th class="col-md-1">
                                 <select id="categoryFilter" size="1">
@@ -45,6 +46,7 @@
                     <tbody>
                         {% for articles in article_data %}
                         <tr>
+                            <td style="word-break:break-all;"> {{articles.article_id}}</td>
                             <td style="word-break:break-all;"> {{articles.title}}</td>
                             <td style="word-break:break-all;"> <a href="{{articles.url}}">{{articles.url}}</a></td>
                             <td style="word-break:break-all;"> {{articles.description}}</td>
@@ -69,24 +71,32 @@
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
         var articlesTable = $('#articlesTable').DataTable({
-            "dom": 'Blfrtip',
+            "dom": 'lfrtBip',
             "order": [],
             "columnDefs": [
-                { "visible": false },
                 {
-                    "targets": [1, 2, 3],
+                    "visible": false,
+                    "targets": [0]
+                },
+                {
+                    "targets": [1, 2, 3, 4],
                     "orderable": true,
                 },
-                { "orderable": false, "targets": [4, 5] }],
+                { "orderable": false, "targets": [5, 6] }],
             "sPaginationType": "full_numbers",
             "iDisplayLength" : 100,
             "stateSave": true,
             "select": true,
             "buttons": [
                 {   "text": "Delete selected",
+                    "attr":{"id":"MultiDelete"},
                     "action": function(){
                         var selectedData = articlesTable.rows( {selected: true} );
-                        console.log(selectedData.data());
+                        article_ids = [];
+                        for (var i=0; i < selectedData.data().length; i++){
+                            article_ids.push(selectedData.data()[i][0]);
+                        }
+                        console.log(article_ids);
                     }
                 }
             ]
@@ -95,7 +105,7 @@
             var category = $(this).val();
             var table = $('#articlesTable').DataTable();
             table
-                .columns([4])
+                .columns([5])
                 .search(category)
                 .draw();
             });
