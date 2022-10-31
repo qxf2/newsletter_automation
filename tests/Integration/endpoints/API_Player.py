@@ -63,10 +63,7 @@ class API_Player(Results):
         return json_response
         
 
-    
-
-
-    
+  
 
 
     
