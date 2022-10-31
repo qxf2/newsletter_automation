@@ -52,7 +52,7 @@ class Mail_Object:
     def set_password(self,password):
         result_flag = self.set_text(self.password,password)
         self.conditional_write(result_flag,
-            positive='Set the password to: %s'%password,
+            positive='The password was set successfully',
             negative='Failed to set the password in the form',
             level='debug')
 
@@ -62,7 +62,7 @@ class Mail_Object:
         "Submit the article"
         result_flag = self.click_try_again()
         result_flag = self.click_sign_in()
-        result_flag = self.set_email(email) 
+        result_flag = self.set_email(email)
         result_flag = self.click_nxt_button() 
         result_flag = self.set_password(password)
         result_flag = self.click_nxt_button() 

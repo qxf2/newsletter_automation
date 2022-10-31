@@ -79,10 +79,10 @@ class Base_Page(Borg,unittest.TestCase):
         self.gif_file_name = None
         self.rp_logger = None
 
-
+    # accept the alert 
     def accept_alert(self):
         return self.driver.switch_to.alert.accept() 
-
+    # cancel the alert
     def dismiss_alert(self):
         return self.driver.switch_to.alert.dismiss()    
 

@@ -17,12 +17,10 @@ class Managearticles_Page(Base_Page,Mail_Object, Hamburger_Object, Search_Object
         url = 'manage-articles'
         self.open(url)
 
+    # click manage article button
     @Wrapit._exceptionHandler
     @Wrapit._screenshot
-    def delete_article(self,search):
-        "Submit the article"
-        result_flag = self.click_hamburger_button()
-        result_flag = self.click_managearticle_button()
-        result_flag = self.set_search(search)  
-        result_flag = self.click_delete_button()
-        
+    def click_managearticle_button(self):
+     manage_button=self.click_element(self.manage_article)
+     return manage_button
+     

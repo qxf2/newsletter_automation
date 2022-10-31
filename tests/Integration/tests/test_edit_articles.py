@@ -11,11 +11,11 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from page_objects.PageFactory import PageFactory
 from utils.Option_Parser import Option_Parser
 import conf.mail_conf as conf
-import conf.edit_articles_conf as conf
+import conf.manage_articles_conf as conf
 import pytest
 
 @pytest.mark.GUI
-def test_newsletter_page(test_obj):
+def test_edit_articles(test_obj):
 
     "Run the test"
     try:
@@ -23,29 +23,33 @@ def test_newsletter_page(test_obj):
         expected_pass = 0
         actual_pass = -1
         # Create a test object for moisturizer button
-        test_obj = PageFactory.get_page_object("editarticles page")
+        test_obj = PageFactory.get_page_object("edit articles page")
         #Set start_time with current time
         start_time = int(time.time())
         # test_obj.turn_on_highlight()
         
         #Get the test details from the conf file
         email = conf.email
-        password=conf.password
-        url=conf.url
+        password = conf.password
+        url = conf.url
         title = conf.title
         description = conf.description
-        runtime=conf.runtime
-        category=conf.category
-        search=conf.search
+        runtime = conf.runtime
+        category = conf.category
+        search = conf.search
         
         #Set the login
-        login= test_obj.login_page(email,password)
-        edit_article=test_obj.edit_article(search,url,title,description,runtime,category)
+        login = test_obj.login_page(email,password)
+         #click the hamburger menu
+        hamburger = test_obj.click_hamburger_button()
+        # click manage article button
+        manage_article_button = test_obj.click_managearticle_button()
+        # set the search string
+        search_article = test_obj.set_search(search)
+        #edi the articles
+        edit_article = test_obj.edit_articles(url,title,description,runtime,category)
 
-        time.sleep(3)
-        test_obj.accept_alert()
-        
-       # Print out the result
+        # Print out the result
         test_obj.write_test_summary()
         expected_pass = test_obj.result_counter
         actual_pass = test_obj.pass_counter
@@ -82,7 +86,7 @@ if __name__=='__main__':
         if options.tesults_flag.lower()=='y':
             test_obj.register_tesults()
 
-        test_newsletter_page(test_obj)
+        test_edit_articles(test_obj)
 
      #teardowm
         test_obj.wait(3)

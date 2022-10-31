@@ -3,9 +3,9 @@ PageFactory uses the factory design pattern.
 get_page_object() returns the appropriate page object.
 Add elif clauses as and when you implement new pages.
 Pages implemented so far:
-1. weathershopper main page
-2. moisturizer main page
-3. sunscreen  main page
+1. addarticles page
+2. editarticles page
+3. deletearticles page
 """
  
 
@@ -24,11 +24,11 @@ class PageFactory():
         page_name = page_name.lower()
         if page_name in ["zero","zero page","agent zero"]:
             test_obj = Zero_Page(base_url=base_url)
-        elif page_name == "addarticles page":
+        elif page_name == "add articles page":
             test_obj =  Addarticles_Page(base_url=base_url)  
-        elif page_name == "managearticles page":
+        elif page_name == "manage articles page":
             test_obj = Managearticles_Page(base_url=base_url)  
-        elif page_name == "editarticles page":
+        elif page_name == "edit articles page":
             test_obj = Editarticles_Page(base_url=base_url)      
         return test_obj
 
