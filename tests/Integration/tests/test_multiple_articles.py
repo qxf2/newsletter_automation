@@ -23,7 +23,6 @@ def test_api_example(test_api_obj):
 
         # set authentication details
         headers = conf.headers
-
         editor_list = conf.article_editors
 
         # add articles
