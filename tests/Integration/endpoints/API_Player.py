@@ -23,15 +23,15 @@ class API_Player(Results):
 
     def __init__(self, url, log_file_path=None, session_flag=False):
         "Constructor"
-
         super(API_Player, self).__init__(
             level=logging.DEBUG, log_file_path=log_file_path)
         self.api_obj = API_Interface(url=url, session_flag=session_flag)
 
-    def set_url(self,url):
 
+    def set_url(self,url):
         self.url=url
         return self.url
+
 
     def set_header_details(self, auth_details=None):
         "make header details"
@@ -39,14 +39,35 @@ class API_Player(Results):
             headers = {'Authorization': "Basic %s"%(auth_details)}
         else:
             headers = {'content-type': 'application/json'}
-
         return headers
 
+
+    def edit_article(self, article_details, headers=None):
+        "adds a new article"
+        json_response = self.api_obj.edit_article(data=article_details,
+                headers=headers)
+        return json_response
+    
+
+    def delete_article(self, article_details, headers=None):
+        "adds a new article"
+        json_response = self.api_obj.delete_article(data=article_details,
+                headers=headers)
+        return json_response
+
+    
     def add_article(self, article_details, headers=None):
         "adds a new article"
         json_response = self.api_obj.add_article(data=article_details,
                 headers=headers)
-        print("JSON response:{json_response['response']}")
+        return json_response
+        
+    
+    def post_article(self, article_details, headers=None):
+        "adds a new article"
+        json_response = self.api_obj.post_article(data=article_details,
+                headers=headers)
+        return json_response
         
 
     

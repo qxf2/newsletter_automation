@@ -9,12 +9,12 @@ from urllib.error import URLError
 class Base_API:
     "Main base class for Requests based scripts"
 
-    def get(self, url, headers={}):
+    def get(self, url,data=None, headers={}):
         "Get request"
         json_response = None
         error = {}
         try:
-            response = self.request_obj.get(url=url,headers=headers)
+            response = self.request_obj.get(url=url,headers=headers,data=data)
             try:
                 json_response = response.json()
             except:
@@ -45,7 +45,7 @@ class Base_API:
         json_response = None
         try:
             response = self.request_obj.post(url,params=params,json=json,headers=headers,data=data)
-            print("this is a status code",response.status_code)
+            print("status code",response.status_code)
             try:
                 json_response = response.json()
             except:
@@ -69,12 +69,12 @@ class Base_API:
         return {'response': response.status_code,'text':response.text,'json_response':json_response,'error': error}
 
 
-    def delete(self, url,headers={}):
+    def delete(self, url,data=None,headers={}):
         "Delete request"
         response = False
         error = {}
         try:
-            response = self.request_obj.delete(url,headers = headers)
+            response = self.request_obj.delete(url,headers = headers,data=data)
             try:
                 json_response = response.json()
             except:
@@ -99,17 +99,16 @@ class Base_API:
         return {'response': response.status_code,'text':response.text,'json_response':json_response, 'error': error}
 
 
-    def put(self,url,json=None, headers={}):
+    def put(self,url,json=None,data=None, headers={}):
         "Put request"
         error = {}
         response = False
         try:
-            response = self.request_obj.put(url,json=json,headers=headers)
+            response = self.request_obj.put(url,json=json,headers=headers,data=data)
             try:
                 json_response = response.json()
             except:
                 json_response = None
-
 
         except (HTTPError,URLError) as e:
             error = e

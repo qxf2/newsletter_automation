@@ -12,6 +12,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from endpoints.API_Player import API_Player
 from conf import api_example_conf as conf
 from conftest import interactivemode_flag
+from bs4 import BeautifulSoup
+
 
 @pytest.mark.API
 def test_api_example(test_api_obj):
@@ -24,12 +26,23 @@ def test_api_example(test_api_obj):
         headers = conf.headers
         article_details = conf.article_details
 
-        # add article
-        result_flag = test_api_obj.add_article(article_details=article_details,
+        # add article      
+        article_response = test_api_obj.edit_article(article_details=article_details,
                                             headers=headers)
+        test_api_obj.log_result(article_response,
+                                positive='Successfully edited article with details %s' % article_details,
+                                negative='Could not edit article with details %s' % article_details)
+        
+        # Parsing csrf token
+        soup = BeautifulSoup(article_response['response'], 'html.parser')
+        csrf = (soup.body.find('input',attrs={'name':'csrf_token'})['value'])
+        article_detail = {'url':conf.article_url,'title':conf.article_title,'description':conf.article_description,'category_id':conf.article_id,'csrf_token':csrf,'submit':'Save','time':conf.reading_time}
+        test_api_obj.post_article(article_details=article_detail,headers=headers)
+        
+        result_flag = True
         test_api_obj.log_result(result_flag,
-                                positive='Successfully added new article with details %s' % article_details,
-                                negative='Could not add new article with details %s' % article_details)
+                                positive='Successfully added new article with details %s' % article_detail,
+                                negative='Could not add new article with details %s' % article_detail)
         
         # write out test summary
         expected_pass = test_api_obj.total

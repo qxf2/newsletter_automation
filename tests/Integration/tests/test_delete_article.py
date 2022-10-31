@@ -23,13 +23,13 @@ def test_api_example(test_api_obj):
         # set authentication details
         headers = conf.headers
         article_details = conf.article_details
-
+        
         # add article
-        result_flag = test_api_obj.add_article(article_details=article_details,
+        result_flag = test_api_obj.delete_article(article_details=article_details,
                                             headers=headers)
         test_api_obj.log_result(result_flag,
-                                positive='Successfully added new article with details %s' % article_details,
-                                negative='Could not add new article with details %s' % article_details)
+                                positive='Successfully deleted article with details %s' % article_details,
+                                negative='Could not delete new article with details %s' % article_details)
         
         # write out test summary
         expected_pass = test_api_obj.total
@@ -39,7 +39,7 @@ def test_api_example(test_api_obj):
     except Exception as e:
         print(e)
         if conf.api_url == 'http://127.0.0.1:5000':
-            test_api_obj.write("Successfully added new article with details")
+            test_api_obj.write("Successfully deleted the article with details")
             
         else:
             test_api_obj.write("Exception when trying to run test:%s" % __file__)
