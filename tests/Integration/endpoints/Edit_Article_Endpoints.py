@@ -8,7 +8,6 @@ class Edit_Article_Endpoints:
     def edit_articles_url(self,suffix=''):
         """Append API end point to base URL"""
         return self.base_url+'/edit'+suffix
-        
 
     def edit_article(self,data,headers):
       "Adds a new article"
@@ -19,8 +18,7 @@ class Edit_Article_Endpoints:
           'url':url,
           'response':json_response['text']
       }
-      
-    
+         
     def post_article(self,data,headers):
       "Adds a new article"
       url = self.edit_articles_url('/261')
