@@ -95,8 +95,20 @@
                         article_ids = [];
                         for (var i=0; i < selectedData.data().length; i++){
                             article_ids.push(selectedData.data()[i][0]);
+                        };
+                        var confirmation = confirm("Are you sure you want to delete " + article_ids.length + " articles?");
+                        if (confirmation){
+                            console.log(article_ids);
+                            for (i=0; i < article_ids.length; i++){
+                                var delete_result = $.ajax({
+                                    type: "GET",
+                                    url: "/delete/" + article_ids[i],
+                                });
+                            };
+                            $(document).ajaxStop(function(){
+                                     window.location.reload();
+                            });
                         }
-                        console.log(article_ids);
                     }
                 }
             ]
