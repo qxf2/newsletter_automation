@@ -213,11 +213,11 @@ def create_newsletter():
                 else:
                     flash('Please check have you selected the articles, filled the subject, opener or preview text','danger')
 
-            if form.cancel.data:
-                flash('Cleared all fields!', 'info')
-                articles_added.clear()
-                article_id_list.clear()
-                return redirect(url_for("create_newsletter"))
+        if form.cancel.data:
+            flash('Cleared all fields!', 'info')
+            articles_added.clear()
+            article_id_list.clear()
+            return redirect(url_for("create_newsletter"))
     except Exception as e:
         app.logger.error(e)
 
