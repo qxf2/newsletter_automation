@@ -121,6 +121,29 @@ def articles():
     """To add articles through pages"""
     return add_articles()
 
+
+@app.route("/api/articles/all", methods=['GET'])
+@Authentication_Required.requires_apikey
+@csrf.exempt
+def get_all_articles():
+    """Return all the articles in the database"""
+    articles = Articles.query.all()
+    all_articles = []
+    for article in articles:
+        current_article = {'article_id': article.article_id,
+                            'url': article.url,
+                            'title': article.title,
+                            'description': article.description,
+                            'time': article.time,
+                            'category_id': article.category_id,
+                            'newsletter_id': article.newsletter_id,
+                            'article_editor': article.article_editor
+                            }
+        all_articles.append(current_article)
+
+    return jsonify(all_articles)
+
+
 @app.route('/api/articles', methods=['POST'])
 @Authentication_Required.requires_apikey
 @csrf.exempt
@@ -190,11 +213,11 @@ def create_newsletter():
                 else:
                     flash('Please check have you selected the articles, filled the subject, opener or preview text','danger')
 
-            if form.cancel.data:
-                flash('Cleared all fields!', 'info')
-                articles_added.clear()
-                article_id_list.clear()
-                return redirect(url_for("create_newsletter"))
+        if form.cancel.data:
+            flash('Cleared all fields!', 'info')
+            articles_added.clear()
+            article_id_list.clear()
+            return redirect(url_for("create_newsletter"))
     except Exception as e:
         app.logger.error(e)
 
@@ -306,9 +329,9 @@ def url(category_id):
         url_array = []
         for each_element in url:
             url_obj ={}
-            if each_element.newsletter_id == None:
+            if each_element.newsletter_id == None and each_element.title is not None and each_element.title.strip() != "":
                 url_obj['article_id']= each_element.article_id
-                url_obj['url']= each_element.url
+                url_obj['url']= each_element.title
                 url_array.append(url_obj)
     except Exception as e:
         app.logger.error(e)
