@@ -30,11 +30,14 @@ class Mailchimp_Helper:
     def set_mailchimp_config(self):
         "set mailchimp connection config"
         self.client = MailchimpMarketing.Client()
+        mailchimp_base_url = os.environ.get('MAILCHIMP_VIRTUALIZATION', None)
+        if mailchimp_base_url:
+            self.client.api_client.host = mailchimp_base_url
         self.client.set_config({
             "api_key": API_KEY,
             "server": SERVER_PREFIX
         })
-        
+
 
     def ping_mailchimp(self):
         "check mailchimp connection health"
