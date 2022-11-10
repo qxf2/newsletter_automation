@@ -7,6 +7,7 @@ from .Base_API import Base_API
 from .Article_API_Endpoints import Article_API_Endpoints 
 from .Delete_Article_Endpoints import Delete_Article_Endpoints
 from .Edit_Article_Endpoints import Edit_Article_Endpoints
+from conf import base_url_conf as conf
 
 class API_Interface(Base_API,Article_API_Endpoints,Delete_Article_Endpoints,Edit_Article_Endpoints):
 	"A composed interface for the API objects"

@@ -55,7 +55,7 @@ class API_Player(Results):
         json_response = self.api_obj.add_article(data=article_details,
                 headers=headers)
         return json_response
-           
+        
     def post_article(self, article_details, headers=None):
         "adds a new article"
         json_response = self.api_obj.post_article(data=article_details,
@@ -63,7 +63,10 @@ class API_Player(Results):
         return json_response
         
 
-  
+    
+
+
+    
 
 
     

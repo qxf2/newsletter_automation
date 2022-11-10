@@ -8,6 +8,7 @@ class Article_API_Endpoints:
     def articles_url(self,suffix=''):
         """Append API end point to base URL"""
         return self.base_url+'/api'+suffix
+        
 
     def add_article(self,data,headers):
       "Adds a new article"

@@ -38,7 +38,7 @@ def test_api_example(test_api_obj):
 
     except Exception as e:
         print(e)
-        if conf.api_url == 'http://127.0.0.1:5000':
+        if conf.base_url == 'http://127.0.0.1:5000/':
             test_api_obj.write("Successfully added new article with details")
             
         else:

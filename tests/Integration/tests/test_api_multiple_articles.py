@@ -12,6 +12,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from endpoints.API_Player import API_Player
 from conf import api_example_conf as conf
 from conftest import interactivemode_flag
+import time
 
 @pytest.mark.API
 def test_api_example(test_api_obj):
@@ -22,14 +23,21 @@ def test_api_example(test_api_obj):
 
         # set authentication details
         headers = conf.headers
-        article_details = conf.article_details
+        editor_list = conf.article_editors
+
+        # add articles
+        for counter,editor in enumerate(editor_list):
+            current_timestamp =str(int(time.time())+counter)
+            counter += 1
+            StrCounter = str(counter)
+            article_detail = {'url':conf.article_url +current_timestamp,'title':conf.article_title+StrCounter,'description':conf.article_description+StrCounter,'category_id':StrCounter,'article_editor':editor}
+            test_api_obj.add_article(article_details=article_detail,headers=headers)
         
-        # add article
-        result_flag = test_api_obj.delete_article(article_details=article_details,
-                                            headers=headers)
+        result_flag = True
+        print("after result flag",result_flag)
         test_api_obj.log_result(result_flag,
-                                positive='Successfully deleted article with details %s' % article_details,
-                                negative='Could not delete new article with details %s' % article_details)
+                                positive='Successfully added new article with details %s' % article_detail,
+                                negative='Could not add new article with details %s' % article_detail)
         
         # write out test summary
         expected_pass = test_api_obj.total
@@ -37,9 +45,10 @@ def test_api_example(test_api_obj):
         test_api_obj.write_test_summary()
 
     except Exception as e:
-        print(e)
-        if conf.api_url == 'http://127.0.0.1:5000':
-            test_api_obj.write("Successfully deleted the article with details")
+        print("this is error",e)
+
+        if conf.base_url == 'http://127.0.0.1:5000/':
+            test_api_obj.write("Successfully added new articles")
             
         else:
             test_api_obj.write("Exception when trying to run test:%s" % __file__)
