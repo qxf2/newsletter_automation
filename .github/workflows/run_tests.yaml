@@ -25,5 +25,5 @@ jobs:
           pip install -r requirements.txt
       - name: Run Test
         run: |
-          cd tests/integration
+          cd newsletter_automation/tests/integration
           python -m pytest -U https://staging-newsletter-generator.qxf2.com/ --browser Chrome
