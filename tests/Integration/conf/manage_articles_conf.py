@@ -1,5 +1,8 @@
-email  = "Enter the username"
-password = "Enter the password"
+import os
+
+email = os.environ.get('mail_id')
+password = os.environ.get('password')
+
 url="https://www.qxf2.com/currentweek/"
 title="python selenium selenium"
 description="python-selenium-change-url"

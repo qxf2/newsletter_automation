@@ -1,8 +1,8 @@
 """
-This is an example automated test to help you learn Qxf2's framework
+This is an example automated test to newsletter generator application
 Our automated test will do the following:
-    #Open Qxf2 interview scheduler application
-    #Fill the details of jobs section.
+    #Open Qxf2 newsletter generator application
+    #Fill the details of delete articles section.
 
 """
 from http.client import OK
@@ -10,7 +10,6 @@ import os,sys,time
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from page_objects.PageFactory import PageFactory
 from utils.Option_Parser import Option_Parser
-import conf.mail_conf as conf
 import conf.manage_articles_conf as conf
 import pytest
 
@@ -34,13 +33,13 @@ def test_manage_articles(test_obj):
         search=conf.search
         
         #Set the login
-        login = test_obj.login_page(email,password)
+        login = test_obj.login(email,password)
         #click the hamburger menu
         hamburger = test_obj.click_hamburger_button()
         # click manage article button
         manage_article_button = test_obj.click_managearticle_button()
         # set the search string
-        search_article = test_obj.set_search(search)
+        search_article = test_obj.search_word(search)
         #click the delete button
         delete_button = test_obj.click_delete_button()
 

@@ -1,9 +1,8 @@
 """
-This is an example automated test to help you learn Qxf2's framework
+This is an example automated test to newsletter generator application
 Our automated test will do the following:
     #Open Qxf2 newsletter generator application
     #Fill the details of add articles section.
-
 """
 import os,sys,time
 from turtle import title
@@ -11,7 +10,6 @@ from typing_extensions import runtime
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from page_objects.PageFactory import PageFactory
 from utils.Option_Parser import Option_Parser
-import conf.mail_conf as conf
 import conf.add_articles_conf as conf
 import pytest
 
@@ -27,24 +25,24 @@ def test_add_article(test_obj):
         test_obj = PageFactory.get_page_object("add articles page")
         #Set start_time with current time
         start_time = int(time.time())
-        # test_obj.turn_on_highlight()
+        test_obj.turn_on_highlight()
         
         #Get the test details from the conf file
         email = conf.email
         password = conf.password
         
         #Set the login
-        login = test_obj.login_page(email,password)
-        # click the hamburger button
+        login = test_obj.login(email,password)
+        #click the hamburger button
         hamburger_button = test_obj.click_hamburger_button()
-        # click the add_articles button
-        add_button = test_obj.click_addarticle()
-       
-        #3.Get the test details from the conf file and fill the forms
+        #click the add_articles button
+        add_button = test_obj.click_add_article()
+        #Get the test details from the conf file and fill the forms
         article_list = conf.article_list
-        article_number = 1		#Initalize form counter  
+        #Initalize form counter
+        article_number = 1		  
         
-        # Collect form data
+        #Collect form data
         for article in article_list:
             url = article['URL']
             title = article['TITLE']
@@ -57,7 +55,7 @@ def test_add_article(test_obj):
             msg ="\nReady to fill article number %d"%article_number
             test_obj.write(msg)
            
-            #  Visit main page again
+            #Visit main page again
             test_obj = PageFactory.get_page_object("add articles page")
             article_number = article_number + 1
 

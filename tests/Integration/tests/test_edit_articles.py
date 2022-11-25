@@ -1,8 +1,8 @@
 """
-This is an example automated test to help you learn Qxf2's framework
+This is an example automated test to newsletter generator application
 Our automated test will do the following:
-    #Open Qxf2 interview scheduler application
-    #Fill the details of jobs section.
+    #Open Qxf2 newsletter generator application
+    #Fill the details of edit articles section.
 
 """
 import os,sys,time
@@ -10,7 +10,6 @@ from typing_extensions import runtime
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from page_objects.PageFactory import PageFactory
 from utils.Option_Parser import Option_Parser
-import conf.mail_conf as conf
 import conf.manage_articles_conf as conf
 import pytest
 
@@ -22,11 +21,11 @@ def test_edit_articles(test_obj):
         #Initalize flags for tests summary
         expected_pass = 0
         actual_pass = -1
-        # Create a test object for moisturizer button
+        #Create a test object for moisturizer button
         test_obj = PageFactory.get_page_object("edit articles page")
         #Set start_time with current time
         start_time = int(time.time())
-        # test_obj.turn_on_highlight()
+        test_obj.turn_on_highlight()
         
         #Get the test details from the conf file
         email = conf.email
@@ -39,17 +38,17 @@ def test_edit_articles(test_obj):
         search = conf.search
         
         #Set the login
-        login = test_obj.login_page(email,password)
-         #click the hamburger menu
+        login = test_obj.login(email,password)
+        #click the hamburger menu
         hamburger = test_obj.click_hamburger_button()
-        # click manage article button
+        #click manage article button
         manage_article_button = test_obj.click_managearticle_button()
-        # set the search string
-        search_article = test_obj.set_search(search)
+        #set the search string
+        search_article = test_obj.search_word(search)
         #edi the articles
         edit_article = test_obj.edit_articles(url,title,description,runtime,category)
 
-        # Print out the result
+        #Print out the result
         test_obj.write_test_summary()
         expected_pass = test_obj.result_counter
         actual_pass = test_obj.pass_counter
@@ -88,7 +87,7 @@ if __name__=='__main__':
 
         test_edit_articles(test_obj)
 
-     #teardowm
+    #teardowm
         test_obj.wait(3)
         test_obj.teardown()
     else:

@@ -3,15 +3,15 @@ import conf.manage_articles_locator_conf as locators
 from utils.Wrapit import Wrapit
 
 class Search_Object:
-    # get the manage articles locator
+    #get the manage articles locator
     manage_article=locators.manage_article
-    # get the search locator
+    #get the search locator
     search =locators.search
     
-    # set search box
+    #set search box
     @Wrapit._exceptionHandler
     @Wrapit._screenshot
-    def set_search(self,search):
+    def search_word(self,search):
         result_flag = self.set_text(self.search,search)
         self.conditional_write(result_flag,
             positive='successfully Set the search: %s'%search,
