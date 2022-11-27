@@ -28,8 +28,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install msedge-selenium-tools
-          pip install loguru
-          pip install pytest_reportportal==5.0.8
       - uses: nanasess/setup-chromedriver@v1
       - run: chromedriver --url-base=/wd/hub &
       - name: Run Test
