@@ -26,4 +26,4 @@ jobs:
       - name: Run Test
         run: |
           cd tests/integration/tests
-          python -m pytest -k test_edit_articles --browser Chrome
+          python -m pytest -k http://localhost:5000/ --browser Chrome
