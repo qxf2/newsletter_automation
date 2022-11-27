@@ -34,6 +34,5 @@ jobs:
       - run: chromedriver --url-base=/wd/hub &
       - name: Run Test
         run: |
-          cd tests/integration
           pip install -r requirements.txt
           python -m pytest -U https://staging-newsletter-generator.qxf2.com/ --browser headless-chrome
