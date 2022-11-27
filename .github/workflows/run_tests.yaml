@@ -26,5 +26,5 @@ jobs:
           pip install -r ./tests/integration/requirements.txt
       - name: Run Test
         run: |
-          cd tests/integration/tests
-          python -m pytest -k http://localhost:5000/ --browser Chrome
+          cd tests/integration
+          python -m pytest -k test_edit_articles --browser Chrome
