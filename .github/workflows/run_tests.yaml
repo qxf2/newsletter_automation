@@ -34,5 +34,5 @@ jobs:
     - name: Run local server
       run: |
         cd tests/integration
-        pip install -r tests/Requirements.txt
+        pip install -r requirements.txt
         python -m pytest -U https://staging-newsletter-generator.qxf2.com/ --browser headless-chrome
