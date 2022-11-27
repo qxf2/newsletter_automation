@@ -21,9 +21,16 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: |
+          set -ex
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt install ./google-chrome-stable_current_amd64.deb        
           python -m pip install --upgrade pip
-          pip install -r ./tests/integration/requirements.txt
-      - name: Run Test
-        run: |
-          cd tests/integration/tests
-          python -m pytest -k https://staging-newsletter-generator.qxf2.com/ --browser Chrome
+          pip install -r requirements.txt
+          pip install msedge-selenium-tools
+    - uses: nanasess/setup-chromedriver@v1
+    - run: chromedriver --url-base=/wd/hub &        
+    - name: Run local server
+      run: |
+        cd tests/integration
+        pip install -r tests/Requirements.txt
+        python -m pytest -U https://staging-newsletter-generator.qxf2.com/ --browser headless-chrome
