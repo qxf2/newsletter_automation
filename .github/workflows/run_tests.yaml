@@ -33,6 +33,6 @@ jobs:
     - run: chromedriver --url-base=/wd/hub &        
     - name: Run local server
       run: |
-        cd tests/integration/tests
+        cd tests/integration
         pip install -r tests/Requirements.txt
         python -m pytest -U https://staging-newsletter-generator.qxf2.com/ --browser headless-chrome
