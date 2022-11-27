@@ -26,4 +26,6 @@ jobs:
       - name: Run Test
         run: |
           cd tests/integration/tests
-          python -m pytest -U https://staging-newsletter-generator.qxf2.com/ --browser Chrome
+          python -m pytest -k test_add_articles.py --browser Chrome
+          python -m pytest -k test_edit_articles.py --browser Chrome
+          python -m pytest -k test_manage_articles.py --browser Chrome
