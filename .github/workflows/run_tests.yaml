@@ -3,7 +3,6 @@ name: run-tests
 on:
   push:
     branches: [ui_testing]
-
 jobs:
   build:
     runs-on: ubuntu-20.04
