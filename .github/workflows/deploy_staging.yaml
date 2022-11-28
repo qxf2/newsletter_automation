@@ -22,7 +22,6 @@ jobs:
           cd /home/ubuntu/
           ./deploy.sh
 
-    runs-on: ubuntu-20.04
     strategy:
       matrix:
         python-version: [3.10.8]
