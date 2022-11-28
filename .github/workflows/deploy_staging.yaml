@@ -1,11 +1,27 @@
-name: run-tests
-
+name: automate-newsletter-project-deploy
 on:
   push:
-    branches: []
-
+    branches: [main,'*-sprint-*',ui_testing]
 jobs:
-  build:
+  deply-staging:
+    name: Deploy to staging
+    environment:
+      name: Staging
+    runs-on: ubuntu-latest
+    if: contains(github.event.ref, '-sprint-')
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run Deploy script
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        port: 22
+        script: |
+          cd /home/ubuntu/
+          ./deploy.sh
+
     runs-on: ubuntu-20.04
     strategy:
       matrix:
