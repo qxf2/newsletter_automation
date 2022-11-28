@@ -18,14 +18,19 @@ action_list:
       class_name: UpdateDataDocsAction
       site_names: []
 evaluation_parameters: {}
-runtime_configuration: {}
+runtime_configuration: {
+        result_format: {
+            result_format: SUMMARY,
+            include_unexpected_rows: True
+        }
+    }
 validations:
   - batch_request:
       datasource_name: newsletter_automation_datasource
       data_connector_name: default_runtime_data_connector_name
       data_asset_name: newsletter_automation.articles
       runtime_parameters:
-        query: select count(*) as count,category_id from newsletter_automation.articles where title !="" and description !="" and newsletter_id is null group by category_id
+        query: select count(*) as count,category_id from newsletter_automation.articles where title !="" and description !="" and newsletter_id is null and category_id !=5 group by category_id
       batch_identifiers:
         default_identifier_name: validation_stage
     expectation_suite_name: all_articles_count_validations
