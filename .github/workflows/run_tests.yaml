@@ -2,7 +2,7 @@ name: run-tests
 
 on:
   push:
-    branches: []
+    branches: [ui_testing]
 
 jobs:
   build:
