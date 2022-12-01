@@ -21,7 +21,11 @@ jobs:
         script: |
           cd /home/ubuntu/
           ./deploy.sh
-
+on:
+  workflow_complete:
+workflow: Test
+    types: [success]
+jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
