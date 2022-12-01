@@ -1,18 +1,35 @@
-name: run-tests
-
+name: automate-newsletter-project-deploy
 on:
   push:
-    branches: [main]
+    branches: ['*-sprint-*']
 jobs:
+  deply-staging:
+    name: Deploy to staging
+    environment:
+      name: Staging
+    runs-on: ubuntu-latest
+    if: contains(github.event.ref, '-sprint-')
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run Deploy script
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        port: 22
+        script: |
+          cd /home/ubuntu/
+          ./deploy.sh
+
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: [3.10.8]
     env:
-      MAIL_ID: ${{ secrets.MAIL.ID }}
-      PASSWORD: ${{ secrets.PASSWORD }}
-
+      MAIL_ID: ${{ secrets.GMAIL_USERNAME }}
+      PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
     steps:
       - uses: actions/checkout@v1
       - name: Set up python ${{ matrix.python-version }}
