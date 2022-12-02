@@ -17,7 +17,7 @@ from great_expectations.checkpoint.types.checkpoint_result import CheckpointResu
 from great_expectations.data_context import DataContext
 import pytest
 
-@pytest.mark.CheckpointFriday04pm
+@pytest.mark.CheckpointWednesday10am
 def test_run_all_articles_count_validations():
     data_context = DataContext(context_root_dir="tests/data_validation/great_expectations")
 
@@ -26,14 +26,12 @@ def test_run_all_articles_count_validations():
     run_name : str = None
 
     result : CheckpointResult = data_context.run_checkpoint(checkpoint_name=checkpoint_name,
-                                                            batch_request=batch_request,
-                                                            run_name=run_name)
-
+    batch_request=batch_request,
+    run_name=run_name)
 
     if not result["success"]:
         print("Validation failed!")
-        print(result)
     else:
         print("Validation succeeded!")
 
-    assert result["success"], "Many edited articles are yet to make it to our Newsletter edition!"
+    assert result["success"], f"We either have no article ready or too many articles ready!"
