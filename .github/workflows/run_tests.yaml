@@ -1,7 +1,7 @@
 name: automate-newsletter-staging-deploy
 on:
   push:
-    branches: ['*-sprint-*']
+    branches: []
 jobs:
   deploy-staging:
     name: Deploy to staging
