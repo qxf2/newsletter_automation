@@ -1,4 +1,4 @@
-name: automate-newsletter-project-deploy
+name: automate-newsletter-staging-deploy
 on:
   push:
     branches: ['*-sprint-*']
@@ -20,8 +20,8 @@ jobs:
         port: 22
         script: |
           cd /home/ubuntu/
-          ./
-  notify: 
+          ./deploy.sh
+  run-tests: 
     needs: deploy-staging
     runs-on: ubuntu-latest
     strategy:
