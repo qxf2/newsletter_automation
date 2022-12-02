@@ -87,7 +87,6 @@ if __name__=='__main__':
         test_edit_articles(test_obj)
 
     #teardowm
-        test_obj.wait(3)
         test_obj.teardown()
     else:
         print('ERROR: Received incorrect comand line input arguments')

@@ -105,7 +105,6 @@ if __name__=='__main__':
         test_add_article(test_obj)
 
      #teardowm
-        test_obj.wait(3)
         test_obj.teardown()
     else:
         print('ERROR: Received incorrect comand line input arguments')
