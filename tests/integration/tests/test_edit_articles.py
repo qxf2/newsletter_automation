@@ -25,7 +25,6 @@ def test_edit_articles(test_obj):
         test_obj = PageFactory.get_page_object("edit articles page")
         #Set start_time with current time
         start_time = int(time.time())
-        test_obj.turn_on_highlight()
         
         #Get the test details from the conf file
         email = conf.email
