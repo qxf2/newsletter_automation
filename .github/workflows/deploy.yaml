@@ -3,7 +3,7 @@ on:
   push:
     branches: [main,'*-sprint-*']
 jobs:
-  deply-staging:
+  deploy-staging:
     name: Deploy to staging
     environment:
       name: Staging
