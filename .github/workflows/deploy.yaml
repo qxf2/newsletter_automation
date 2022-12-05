@@ -50,7 +50,7 @@ jobs:
         run: |
           cd tests/integration
           pip install -r requirements.txt
-          python -m pytest -n 3 --browser headless-chrome
+          python -m pytest -n 3 -v --browser headless-chrome
 
   deploy-production:
     runs-on: ubuntu-latest
