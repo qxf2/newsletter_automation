@@ -25,6 +25,7 @@ def test_add_article(test_obj):
         test_obj = PageFactory.get_page_object("add articles page")
         #Set start_time with current time
         start_time = int(time.time())
+        test_obj.turn_on_highlight(N)
         
         #Get the test details from the conf file
         email = conf.email

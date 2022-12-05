@@ -1,7 +1,7 @@
-name: automate-newsletter-project-deploy
+name: automate-newsletter-staging-deploy
 on:
   push:
-    branches: [main,'*-sprint-*']
+    branches: []
 jobs:
   deploy-staging:
     name: Deploy to staging
@@ -21,7 +21,6 @@ jobs:
         script: |
           cd /home/ubuntu/
           ./deploy.sh
-
   run-tests: 
     needs: deploy-staging
     runs-on: ubuntu-latest
@@ -44,44 +43,11 @@ jobs:
           sudo apt install ./google-chrome-stable_current_amd64.deb        
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          pip install msedge-selenium-tools
       - uses: nanasess/setup-chromedriver@v1
       - run: chromedriver --url-base=/wd/hub &
-      - name: Run Tests
+      - name: Run Test
         run: |
           cd tests/integration
           pip install -r requirements.txt
-          python -m pytest -n 3 --browser headless-chrome
-
-  deploy-production:
-    runs-on: ubuntu-latest
-    if: github.event.ref == 'refs/heads/main'
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.8
-
-    - name: Create a python dist
-      run:
-        python ./setup.py sdist
-
-    - name: Copy required scripts
-      run: |
-        echo "${{ secrets.KEY }}" > secret.pem
-        chmod 400 secret.pem
-        scp -o StrictHostKeyChecking=no -i secret.pem dist/*.tar.gz ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/ubuntu
-
-    - name: Run Deploy script
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.KEY }}
-        port: 22
-        script: |
-          sudo systemctl stop newsletter_automation_app
-          source /home/ubuntu/venv/newsletter_app/bin/activate
-          cd /home/ubuntu/
-          python -m pip install *.tar.gz
-          sudo systemctl start newsletter_automation_app
+          python -m pytest --browser headless-chrome
