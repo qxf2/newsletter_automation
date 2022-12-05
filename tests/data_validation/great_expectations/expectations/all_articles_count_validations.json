@@ -3,13 +3,11 @@
   "expectation_suite_name": "all_articles_count_validations",
   "expectations": [
     {
-      "expectation_type": "expect_column_values_to_be_between",
+      "expectation_type": "expect_table_row_count_to_be_between",
       "kwargs": {
-        "column": "count",
         "max_value": 10,
-        "min_value": 0
-      },
-      "meta": {}
+        "min_value": 1
+      }
     }
   ],
   "ge_cloud_id": null,

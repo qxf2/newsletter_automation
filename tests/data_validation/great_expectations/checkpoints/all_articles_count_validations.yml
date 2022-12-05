@@ -3,7 +3,7 @@ config_version: 1.0
 template_name:
 module_name: great_expectations.checkpoint
 class_name: Checkpoint
-run_name_template: 'newsletter automation-all articles count validation'
+run_name_template: 'Ready count'
 expectation_suite_name:
 batch_request: {}
 action_list:
@@ -18,16 +18,48 @@ action_list:
       class_name: UpdateDataDocsAction
       site_names: []
 evaluation_parameters: {}
-runtime_configuration: {}
+runtime_configuration: {
+        result_format: {
+            result_format: SUMMARY,
+            include_unexpected_rows: True
+        }
+    }
 validations:
   - batch_request:
       datasource_name: newsletter_automation_datasource
       data_connector_name: default_runtime_data_connector_name
-      data_asset_name: newsletter_automation.articles
+      data_asset_name: Comics
       runtime_parameters:
-        query: select count(*) as count,category_id from newsletter_automation.articles where title !="" and description !="" and newsletter_id is null group by category_id
+        query: select * from newsletter_automation.articles where title !="" and description !="" and newsletter_id is null and category_id = 1
       batch_identifiers:
-        default_identifier_name: validation_stage
+        default_identifier_name: ready_comics
+    expectation_suite_name: all_articles_count_validations
+  - batch_request:
+      datasource_name: newsletter_automation_datasource
+      data_connector_name: default_runtime_data_connector_name
+      data_asset_name: Past articles
+      runtime_parameters:
+        query: select * from newsletter_automation.articles where title !="" and description !="" and newsletter_id is null and category_id = 2
+      batch_identifiers:
+        default_identifier_name: ready_past_articles
+    expectation_suite_name: all_articles_count_validations
+  - batch_request:
+      datasource_name: newsletter_automation_datasource
+      data_connector_name: default_runtime_data_connector_name
+      data_asset_name: Current week
+      runtime_parameters:
+        query: select * from newsletter_automation.articles where title !="" and description !="" and newsletter_id is null and category_id = 3
+      batch_identifiers:
+        default_identifier_name: ready_current_week_articles
+    expectation_suite_name: all_articles_count_validations
+  - batch_request:
+      datasource_name: newsletter_automation_datasource
+      data_connector_name: default_runtime_data_connector_name
+      data_asset_name: Automation corner
+      runtime_parameters:
+        query: select * from newsletter_automation.articles where title !="" and description !="" and newsletter_id is null and category_id = 4
+      batch_identifiers:
+        default_identifier_name: ready_automation_corner_articles
     expectation_suite_name: all_articles_count_validations
 
 
