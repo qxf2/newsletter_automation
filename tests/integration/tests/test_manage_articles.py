@@ -25,7 +25,6 @@ def test_manage_articles(test_obj):
         test_obj = PageFactory.get_page_object("manage articles page")
         #Set start_time with current time
         start_time = int(time.time())
-        test_obj.turn_on_highlight()
         
         #Get the test details from the conf file
         email = conf.email
@@ -42,8 +41,6 @@ def test_manage_articles(test_obj):
         search_article = test_obj.search_word(search)
         #click the delete button
         delete_button = test_obj.click_delete_button()
-
-        time.sleep(3)
         test_obj.accept_alert()
 
         # Print out the result
@@ -86,7 +83,6 @@ if __name__=='__main__':
         test_manage_articles(test_obj)
 
      #teardowm
-        test_obj.wait(3)
         test_obj.teardown()
     else:
         print('ERROR: Received incorrect comand line input arguments')
