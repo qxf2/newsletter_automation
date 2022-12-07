@@ -4,7 +4,7 @@ FROM python
 LABEL maintainer = "Qxf2 Services"
 
 #Clone cars-api repository for Docker Image creation
-RUN git clone git@github.com:qxf2/newsletter_automation.git
+RUN git clone https://github.com/qxf2/newsletter_automation.git
 
 #Set working directory
 WORKDIR /newsletter_automation
@@ -13,12 +13,12 @@ WORKDIR /newsletter_automation
 RUN python -m pip install -r requirements.txt
 RUN export TURN_OFF_NEWSLETTER_SSO=true
 RUN cd newsletter_automation
-RUN flask db stamp head
-RUN flask db migrate
+RUN python -m flask db stamp head
+RUN python -m flask db migrate
 
 #Make port 5000 available to the container
 EXPOSE 5000
 
 #Execute command
 ENTRYPOINT [ "python" ]
-CMD [ "flask run" ]
+CMD [ "python flask run" ]
