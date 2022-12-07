@@ -19,5 +19,4 @@ RUN cd newsletter_automation
 EXPOSE 5000
 
 #Execute command
-ENTRYPOINT [ "python -m" ]
-CMD [ "flask run" ]
+RUN python -m flask run
