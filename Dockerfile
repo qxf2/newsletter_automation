@@ -20,4 +20,4 @@ EXPOSE 5000
 
 #Execute command
 ENTRYPOINT [ "python" ]
-CMD [ "FLASK_APP" ]
+CMD [ "run.py" ]
