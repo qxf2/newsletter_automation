@@ -458,9 +458,10 @@ def delete_article(article_id):
 
     return redirect(url_for("manage_articles"))
 
-@app.route("/delete/<article_id>", methods=["DELETE"])
+@app.route("/api/article/<article_id>", methods=["DELETE"])
 @Authentication_Required.requires_apikey
-def delete_article(article_id):
+@csrf.exempt
+def delete_article_api(article_id):
     "Deletes an article"
     msg = {'Message': f'Success. Deleted article with id {article_id}', 'Error': None}
     try:
