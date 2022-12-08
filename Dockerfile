@@ -10,7 +10,7 @@ RUN git clone https://github.com/qxf2/newsletter_automation.git
 WORKDIR /newsletter_automation
 
 #Install packages listed in requirements.txt file
-RUN python -m pip install -r requirements.txt
+RUN pip install -r requirements.txt
 RUN export FLASK_APP=run.py
 RUN export MYSQL_USERNAME="Your MYSQL username"
 RUN export MYSQL_PASSWORD="Your MYSQL password"
@@ -24,4 +24,4 @@ EXPOSE 5000
 
 #Execute command
 ENTRYPOINT [ "python" ]
-CMD [ "-m flask run" ]
+CMD [ "run.py" ]
