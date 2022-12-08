@@ -18,4 +18,5 @@ RUN cd newsletter_automation
 EXPOSE 5000
 
 #Execute command
-CMD python ./run.py
+ENTRYPOINT [ "python" ]
+CMD [ "run.py" ]
