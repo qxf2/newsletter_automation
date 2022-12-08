@@ -24,4 +24,4 @@ EXPOSE 5000
 
 #Execute command
 ENTRYPOINT [ "python" ]
-CMD [ "flask run" ]
+CMD [ "-m flask run" ]
