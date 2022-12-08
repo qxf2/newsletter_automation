@@ -4,7 +4,7 @@ FROM python
 LABEL maintainer = "Qxf2 Services"
 
 #Clone cars-api repository for Docker Image creation
-RUN git clone git@github.com:qxf2/newsletter_automation.git
+RUN git clone https://github.com/qxf2/newsletter_automation.git
 
 #Set working directory
 WORKDIR /newsletter_automation
