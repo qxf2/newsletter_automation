@@ -16,8 +16,8 @@ RUN export MYSQL_USERNAME="Your MYSQL username"
 RUN export MYSQL_PASSWORD="Your MYSQL password"
 RUN export TURN_OFF_NEWSLETTER_SSO=true
 RUN cd newsletter_automation
-RUN python -m flask db stamp head
-RUN python -m flask db migrate
+# RUN python -m flask db stamp head
+# RUN python -m flask db migrate
 
 #Make port 5000 available to the container
 EXPOSE 5000
