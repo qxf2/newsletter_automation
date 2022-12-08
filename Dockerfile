@@ -13,7 +13,7 @@ WORKDIR /newsletter_automation
 RUN python -m pip install -r requirements.txt
 RUN export FLASK_APP=run.py
 RUN export TURN_OFF_NEWSLETTER_SSO=true
-RUN cd newsletter_automation
+RUN cd newsletter_automation/newsletter_automation
 
 #Make port 5000 available to the container
 EXPOSE 5000
