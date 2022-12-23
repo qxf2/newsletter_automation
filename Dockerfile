@@ -1,16 +1,8 @@
 #Dockerfile to build an image/container to host Newsletter Generator Application
 
 #Pull python Image
-FROM python
+FROM newsletter_automation/reloaded:latest
 LABEL maintainer = "Qxf2 Services"
-
-#Clone cars-api repository for Docker Image creation
-RUN git clone https://github.com/qxf2/newsletter_automation.git
-
-WORKDIR /newsletter_automation
-
-#Install packages listed in requirements.txt file
-RUN python -m pip install -r requirements.txt
 
 #Mounting a code as volume into the container
 ADD . /newsletter_automation
@@ -20,4 +12,4 @@ EXPOSE 5000
 
 #Execute command
 ENTRYPOINT [ "/bin/bash" ]
-CMD [ "run.py" ]
+CMD [ "newsletter_setup.sh" ]
