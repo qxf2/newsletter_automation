@@ -25,18 +25,15 @@ jobs:
   run-tests: 
     needs: deploy-staging
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.10.8]
     env:
       MAIL_ID: ${{ secrets.GMAIL_USERNAME }}
       PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
     steps:
       - uses: actions/checkout@v1
-      - name: Set up python ${{ matrix.python-version }}
+      - name: Set up python 3.8
         uses: actions/setup-python@v1
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: 3.8
       - name: Install dependencies
         run: |
           set -ex
