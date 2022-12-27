@@ -1,51 +1,16 @@
 # Newsletter automation
 This project is to automate the process of creating the weekly Qxf2 newsletter. We take the URLs posted on the Skype channel as input and create a MailChimp campaign.
 
-## Setup
+## Run the project locally using Docker
   1. Clone the repository
 
-  2. Setup and activate a virtual environment: </br>
-    `virtualenv env` <br />
-    `source env\Scripts\activate` <br />
-
-  3. Install the dependencies </br>
-    `python -m pip install -r requirements.txt`
-
-  4. Install MySQL and setup a database called `newsletter_automation`
-
-  5. Setup the following environment variables in your environment<br>
-    `export FLASK_APP=run.py`<br>
-    `export CLIENT_ID="Your Google Client ID"`<br>
-    `export CLIENT_SECRET="Your Google Secret"`<br>
-    `export SERVER_PREFIX="Your Server Prefix"`<br>
-    `export SUBSCRIBER_LIST_ID="Your Mailchimp subscriber list"`<br>
-    `export MAILCHIMP_API_KEY="Your Mailchimp API key"`<br>
-    `export MYSQL_USERNAME="Your MYSQL username"`<br>
-    `export MYSQL_PASSWORD="Your MYSQL password"`<br>
-    `export API_KEY="API KEY OF YOUR CHOICE"`<br>
-    *NOTE:* For Qxf2 employees, please ask a colleague to share the right vault with you for these values.
-
-  6. Run <br>
-    `cd newsletter_automation`<br>
-    `flask db stamp head`<br>
-    `flask db migrate`<br>
-
-  7. Manually insert data into article_category using below query: <br>
-     `insert into article_category (category_name) values ('comic'),('pastweek'),('currentweek'),('automation corner'),('uncategorized');`<br>
+  2. Run <br>
+    `docker build --tag $TAG .`<br>
+    `docker run -it -p 5000:5000 $TAG`<br>
 
 At this point, you are ready to run the app locally.
 
- ## Run the project locally
-Once you are setup, from the next time onwards, all you need to do is<br>
-    `flask run`
-
-This assumes you have set the right environment variables in step 4 of the setup. To test that your setup works, please visit http://localhost:5000 and login. Then, try to add a single article via the form in the /articles page.
-
-## Provided support for flask-migrate
-  To track migrations, migrations folder have been added now, Next time onwards following steps needs to be followed:
-  1. Update the `model.py` file to make the changes.
-  2. Run `flask db migrate`
-  3. Run `flask db upgrade`
+  3. To test that your setup works, please visit http://localhost:5000 and login. Then, try to add a single article via the form in the /articles page.  
 
 ## Add articles through api endpoint
   To add articles using POST method use the following:
