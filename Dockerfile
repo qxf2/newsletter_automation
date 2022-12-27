@@ -1,7 +1,7 @@
 #Dockerfile to build an image/container to host Newsletter Generator Application
 
 #Pull an Image
-FROM newsletter_automation/reloaded:latest
+FROM qxf2rohand/newsletter_automation:latest
 LABEL maintainer = "Qxf2 Services"
 
 #Mounting a code as volume into the container
