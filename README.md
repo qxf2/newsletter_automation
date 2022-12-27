@@ -1,7 +1,7 @@
 # Newsletter automation
 This project is to automate the process of creating the weekly Qxf2 newsletter. We take the URLs posted on the Skype channel as input and create a MailChimp campaign.
 
-## Setup and run the project locally using Docker
+## Run the project locally using Docker
   1. Clone the repository
 
   2. Run <br>
