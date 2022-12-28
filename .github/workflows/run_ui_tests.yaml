@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Run tests using docker
+      uses: actions/checkout@v2
       run: |
           cd ..
           docker build --tag ubuntu-test:latest .
