@@ -7,6 +7,7 @@ jobs:
   build: 
     runs-on: ubuntu-latest
     steps:
+    - name: checkout to code
       uses: actions/checkout@v2
     - name: Run tests using docker
       run: |
