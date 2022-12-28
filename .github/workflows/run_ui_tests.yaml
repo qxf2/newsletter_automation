@@ -9,7 +9,7 @@ jobs:
     steps:
     - name: checkout to code
       uses: actions/checkout@v2
-    - name: Run tests using docker
+    - name: build docker image and run container
       run: |
           cd ..
           docker build --tag ubuntu-test:latest .
