@@ -10,9 +10,9 @@ jobs:
       uses: actions/checkout@v2
     - name: Run tests using docker
       run: |
-        cd ..
-        docker build --tag ubuntu-test:latest .
-        docker run -it -p 5000:5000 ubuntu-test:latest
+          cd ..
+          docker build --tag ubuntu-test:latest .
+          docker run -it -p 5000:5000 ubuntu-test:latest
     - uses: actions/checkout@v2
     - name: Set up Python 3.8
       uses: actions/setup-python@v1
