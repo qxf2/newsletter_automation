@@ -39,5 +39,5 @@ jobs:
         run: |
           cd tests/integration
           pip install -r requirements.txt
-          python -m pytest -n 3 -U http://localhost:5000/ --browser headless-chrome
-    
+          python -m pytest -n 3 --browser headless-chrome
+          
