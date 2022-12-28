@@ -11,8 +11,8 @@ jobs:
       uses: actions/checkout@v2
     - name: build docker image and run container
       run: |
-          cd ..
-          docker build . --file Dockerfile --tag ubuntu-test:latest
+          cd ../..
+          docker build --t ubuntu-test:latest .
           docker run -it -p 5000:5000 ubuntu-test:latest
     - uses: actions/checkout@v2
     - name: Set up Python 3.8
