@@ -9,8 +9,8 @@ jobs:
     steps:
     - name: Run tests using docker
       run: |
-        docker build --tag $TAG .
-        docker run -it -p 5000:5000 $TAG
+        docker build --tag docker_image .
+        docker run -it -p 5000:5000 docker_image
     - uses: actions/checkout@v2
     - name: Set up Python 3.8
       uses: actions/setup-python@v1
