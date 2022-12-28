@@ -27,8 +27,8 @@ jobs:
     - uses: nanasess/setup-chromedriver@v1
     - run: chromedriver --url-base=/wd/hub &
     - name: Run Tests
-        run: |
-          cd tests/integration
-          pip install -r requirements.txt
-          python -m pytest -n 3 --browser headless-chrome
+      run: |
+        cd tests/integration
+        pip install -r requirements.txt
+        python -m pytest -n 3 --browser headless-chrome
     
