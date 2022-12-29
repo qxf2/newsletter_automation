@@ -37,7 +37,7 @@ jobs:
       - name: Run Tests
         run: |
           ls -al
-          git pull origin
+          git pull origin master:master
           git checkout ${{ steps.branch_name.outputs.branch }}
           curl http://localhost:5000
           cd tests/integration
