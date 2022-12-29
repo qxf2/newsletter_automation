@@ -50,4 +50,4 @@ jobs:
           curl http://localhost:5000
           cd tests/integration
           pip install -r requirements.txt
-          python -m pytest -n 3 --browser headless-chrome
+          python -m pytest -n 3 --browser headless-chrome -U http://localhost:5000
