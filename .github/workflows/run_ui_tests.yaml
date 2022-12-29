@@ -39,4 +39,4 @@ jobs:
           git checkout ${{ steps.branch_name.outputs.branch }}
           cd tests/integration
           pip install -r requirements.txt
-          python -m pytest -n 3 --browser headless-chrome
+          python -m pytest -n 3 -k "not manage"  --browser headless-chrome
