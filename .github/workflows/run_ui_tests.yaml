@@ -1,47 +1,46 @@
 name: Run Tests
-on: 
+on:
   push:
     branches:
       - '**'
 jobs:
-  build: 
+  build:
     runs-on: ubuntu-latest
     container: ubuntu
     services:
       newsletter_automation:
         image: qxf2rohand/newsletter_automation
         ports:
-          - 5000:5000 
+          - 5000:5000
     steps:
       - run: apt-get update; apt-get install curl -y
-      - run: curl http://newsletter_automation:5000 > curl_result_docker
+      - run: curl http://newsletter_automation:5000/manage-articles > curl_result_docker
       - run: cat curl_result_docker
 
-  run-tests: 
-    needs: build
-    runs-on: ubuntu-latest
-    env:
-      MAIL_ID: ${{ secrets.GMAIL_USERNAME }}
-      PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
-    steps:
-      - uses: actions/checkout@v1
-      - name: Set up python 3.8
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.8
-      - name: Install dependencies
-        run: |
-          set -ex
-          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo apt install ./google-chrome-stable_current_amd64.deb        
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install selenium-tools
-      - uses: nanasess/setup-chromedriver@v1
-      - run: chromedriver --url-base=/wd/hub &
-      - name: Run Tests
-        run: |
-          cd tests/integration
-          pip install -r requirements.txt
-          python -m pytest -n 3 --browser headless-chrome
-          
+  # run-tests:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     MAIL_ID: ${{ secrets.GMAIL_USERNAME }}
+  #     PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
+  #   steps:
+  #     - uses: actions/checkout@v1
+  #     - name: Set up python 3.8
+  #       uses: actions/setup-python@v1
+  #       with:
+  #         python-version: 3.8
+  #     - name: Install dependencies
+  #       run: |
+  #         set -ex
+  #         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+  #         sudo apt install ./google-chrome-stable_current_amd64.deb
+  #         python -m pip install --upgrade pip
+  #         pip install -r requirements.txt
+  #         pip install selenium-tools
+  #     - uses: nanasess/setup-chromedriver@v1
+  #     - run: chromedriver --url-base=/wd/hub &
+  #     - name: Run Tests
+  #       run: |
+  #         cd tests/integration
+  #         pip install -r requirements.txt
+  #         python -m pytest -n 3 --browser headless-chrome
