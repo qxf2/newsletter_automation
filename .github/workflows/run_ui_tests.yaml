@@ -4,44 +4,51 @@ on:
     branches:
       - '**'
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    container: ubuntu
-    services:
-      newsletter_automation:
-        image: qxf2rohand/newsletter_automation
-        ports:
-          - 5000:5000
-    steps:
-      - run: apt-get update; apt-get install curl -y
-      - run: sleep 60
-      - run: curl http://newsletter_automation:5000/manage-articles > curl_result_docker
-      - run: cat curl_result_docker
-
-  # run-tests:
-  #   needs: build
+  # build:
   #   runs-on: ubuntu-latest
-  #   env:
-  #     MAIL_ID: ${{ secrets.GMAIL_USERNAME }}
-  #     PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
+  #   container: ubuntu
+  #   services:
+  #     newsletter_automation:
+  #       image: qxf2rohand/newsletter_automation
+  #       ports:
+  #         - 5000:5000
   #   steps:
-  #     - uses: actions/checkout@v1
-  #     - name: Set up python 3.8
-  #       uses: actions/setup-python@v1
-  #       with:
-  #         python-version: 3.8
-  #     - name: Install dependencies
-  #       run: |
-  #         set -ex
-  #         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-  #         sudo apt install ./google-chrome-stable_current_amd64.deb
-  #         python -m pip install --upgrade pip
-  #         pip install -r requirements.txt
-  #         pip install selenium-tools
-  #     - uses: nanasess/setup-chromedriver@v1
-  #     - run: chromedriver --url-base=/wd/hub &
-  #     - name: Run Tests
-  #       run: |
-  #         cd tests/integration
-  #         pip install -r requirements.txt
-  #         python -m pytest -n 3 --browser headless-chrome
+  #     - run: apt-get update; apt-get install curl -y
+  #     - run: sleep 60
+  #     - run: curl http://newsletter_automation:5000/manage-articles > curl_result_docker
+  #     - run: cat curl_result_docker
+
+  run-tests:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      MAIL_ID: ${{ secrets.GMAIL_USERNAME }}
+      PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Install dependencies
+        run: |
+          set -ex
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt install ./google-chrome-stable_current_amd64.deb
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install selenium-tools
+      - uses: nanasess/setup-chromedriver@v1
+      - run: chromedriver --url-base=/wd/hub &
+      - name: Run app locally
+        run: |
+          docker build --tag ci-test-instance .
+          docker run -d -p 5000:5000 ci-test-instance
+          sleep 60
+          curl http://localhost:5000
+      - name: Run Tests
+        run: |
+          curl http://localhost:5000
+          cd tests/integration
+          pip install -r requirements.txt
+          python -m pytest -n 3 --browser headless-chrome
