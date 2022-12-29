@@ -4,20 +4,6 @@ on:
     branches:
       - '**'
 jobs:
-  # build:
-  #   runs-on: ubuntu-latest
-  #   container: ubuntu
-  #   services:
-  #     newsletter_automation:
-  #       image: qxf2rohand/newsletter_automation
-  #       ports:
-  #         - 5000:5000
-  #   steps:
-  #     - run: apt-get update; apt-get install curl -y
-  #     - run: sleep 60
-  #     - run: curl http://newsletter_automation:5000/manage-articles > curl_result_docker
-  #     - run: cat curl_result_docker
-
   run-tests:
     runs-on: ubuntu-latest
     env:
@@ -29,6 +15,9 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: 3.8
+      - name: Set branch name
+        id: branch_name
+        run: echo ::set-output name=branch::${GITHUB_REF#refs/*/}
       - name: Install dependencies
         run: |
           set -ex
@@ -47,7 +36,9 @@ jobs:
           curl http://localhost:5000
       - name: Run Tests
         run: |
+          git pull
+          git checkout ${{ steps.branch_name.outputs.branch }}
           curl http://localhost:5000
           cd tests/integration
           pip install -r requirements.txt
-          python -m pytest -n 3 --browser headless-chrome --app_url http://localhost:5000
+          python -m pytest -n 3 -k "not manage" --browser headless-chrome --app_url http://localhost:5000
