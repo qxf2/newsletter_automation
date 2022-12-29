@@ -14,7 +14,7 @@ jobs:
           - 5000:5000
     steps:
       - run: apt-get update; apt-get install curl -y
-      - run: sleep 5
+      - run: sleep 60
       - run: curl http://newsletter_automation:5000/manage-articles > curl_result_docker
       - run: cat curl_result_docker
 
