@@ -13,13 +13,13 @@ jobs:
           uses: actions/checkout@v2
         - name: build docker image and run container
           run: |
-          docker build --tag ubuntu-test:latest .
-          docker run -d -p 5000:5000 ubuntu-test:latest 
+            docker build --tag ubuntu-test:latest .
+            docker run -d -p 5000:5000 ubuntu-test:latest 
     steps:
       - run: apt-get update; apt-get install curl -y
       - run: curl newsletter_automation:5000 > curl_result_docker
       - run: cat curl_result_docker
-      
+
   run-tests: 
     needs: build
     runs-on: ubuntu-latest
