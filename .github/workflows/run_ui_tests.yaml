@@ -9,8 +9,9 @@ jobs:
     container: ubuntu
     services:
       newsletter_automation:
-          docker build --tag ubuntu-test:latest .
-          docker run -d -p 5000:5000 ubuntu-test:latest 
+        image: qxf2rohand/newsletter_automation
+        ports:
+          - 5000:5000 
     steps:
       - run: apt-get update; apt-get install curl -y
       - run: curl newsletter_automation:5000 > curl_result_docker
