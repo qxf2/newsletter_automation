@@ -36,6 +36,7 @@ jobs:
           curl http://localhost:5000
       - name: Run Tests
         run: |
+          cd newsletter_automation
           git pull
           git checkout ${{ steps.branch_name.outputs.branch }}
           curl http://localhost:5000
