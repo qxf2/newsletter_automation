@@ -12,8 +12,7 @@ jobs:
     - name: build docker image and run container
       run: |
           docker build --tag ubuntu-test:latest .
-          docker run -d -p 5000:5000 ubuntu-test:latest
-
+          docker run -d -p 5000:5000 ubuntu-test:latest --network host
           docker ps -a
           curl http://127.0.0.1:5000/
   run-tests: 
