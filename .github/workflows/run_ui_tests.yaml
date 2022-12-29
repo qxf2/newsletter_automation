@@ -6,8 +6,8 @@ on:
 jobs:
   build: 
     runs-on: ubuntu-latest
-    container: ubuntu-latest
-    steps:
+    container: ubuntu
+    services:
     - name: checkout code
       uses: actions/checkout@v2
     - name: build docker image and run container
