@@ -19,7 +19,6 @@ jobs:
   #     - run: cat curl_result_docker
 
   run-tests:
-    needs: build
     runs-on: ubuntu-latest
     env:
       MAIL_ID: ${{ secrets.GMAIL_USERNAME }}
