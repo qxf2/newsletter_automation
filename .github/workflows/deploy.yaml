@@ -33,8 +33,7 @@ jobs:
           git checkout ${{ steps.branch_name.outputs.branch }}
           docker build --tag ci-test-instance .
           docker run -d -p 5000:5000 ci-test-instance
-          sleep 30
-          curl http://localhost:5000/manage-articles
+          sleep 15
       - name: Run Tests
         run: |
           cd tests/integration
