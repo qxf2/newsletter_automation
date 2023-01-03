@@ -3,7 +3,6 @@ This is an example automated test to newsletter generator application
 Our automated test will do the following:
     #Open Qxf2 newsletter generator application
     #Fill the details of delete articles section.
-
 """
 from http.client import OK
 import os,sys,time
@@ -21,7 +20,7 @@ def test_manage_articles(test_obj):
         #Initalize flags for tests summary
         expected_pass = 0
         actual_pass = -1
-        # Create a test object for moisturizer button
+        # Create a test object for delete an article
         test_obj = PageFactory.get_page_object("manage articles page")
         #Set start_time with current time
         start_time = int(time.time())
@@ -35,15 +34,15 @@ def test_manage_articles(test_obj):
         login = test_obj.login(email,password)
         #click the hamburger menu
         hamburger = test_obj.click_hamburger_button()
-        # click manage article button
+        #click manage article button
         manage_article_button = test_obj.click_managearticle_button()
-        # set the search string
+        #set the search string
         search_article = test_obj.search_word(search)
         #click the delete button
         delete_button = test_obj.click_delete_button()
         test_obj.accept_alert()
 
-        # Print out the result
+        #Print out the result
         test_obj.write_test_summary()
         expected_pass = test_obj.result_counter
         actual_pass = test_obj.pass_counter

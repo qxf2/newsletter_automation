@@ -3,7 +3,6 @@ This is an example automated test to newsletter generator application
 Our automated test will do the following:
     #Open Qxf2 newsletter generator application
     #Fill the details of edit articles section.
-
 """
 import os,sys,time
 from typing_extensions import runtime
@@ -21,7 +20,7 @@ def test_edit_articles(test_obj):
         #Initalize flags for tests summary
         expected_pass = 0
         actual_pass = -1
-        #Create a test object for moisturizer button
+        #Create a test object for edit an article
         test_obj = PageFactory.get_page_object("edit articles page")
         #Set start_time with current time
         start_time = int(time.time())
@@ -44,7 +43,7 @@ def test_edit_articles(test_obj):
         manage_article_button = test_obj.click_managearticle_button()
         #set the search string
         search_article = test_obj.search_word(search)
-        #edi the articles
+        #edit the articles
         edit_article = test_obj.edit_articles(url,title,description,runtime,category)
 
         #Print out the result
