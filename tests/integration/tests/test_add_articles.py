@@ -21,7 +21,7 @@ def test_add_article(test_obj):
         #Initalize flags for tests summary
         expected_pass = 0
         actual_pass = -1
-        # Create a test object for add articles 
+        #Create a test object for add articles 
         test_obj = PageFactory.get_page_object("add articles page")
         #Set start_time with current time
         start_time = int(time.time())
