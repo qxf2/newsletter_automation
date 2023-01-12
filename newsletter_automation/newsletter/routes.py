@@ -458,6 +458,29 @@ def delete_article(article_id):
 
     return redirect(url_for("manage_articles"))
 
+@app.route("/api/article/<article_id>", methods=["DELETE"])
+@Authentication_Required.requires_apikey
+@csrf.exempt
+def delete_article_api(article_id):
+    "Deletes an article"
+    msg = {'Message': f'Success. Deleted article with id {article_id}', 'Error': None}
+    try:
+        articles_delete = Articles.query.filter_by(article_id=article_id).value(Articles.newsletter_id)
+
+        if articles_delete is not None:
+            msg['Message'] = f'Fail. Could not delete the article with id: {article_id}'
+            msg['Error'] = 'Article already present in a newsletter'
+        else:
+            delete_article = Articles.query.get(article_id)
+            db.session.delete(delete_article)
+            db.session.commit()
+    except Exception as e:
+        app.logger.error(e)
+        msg['Message'] = f'Fail. Could not delete the article with id {article_id}'
+        msg['Error'] = f'Python exception says: {e}'
+
+    return jsonify(msg)
+
 
 @app.route("/removearticle",methods=["GET","POST"])
 @Authentication_Required.requires_auth
