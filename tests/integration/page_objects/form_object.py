@@ -126,24 +126,28 @@ class Form_Object:
 
         return result_flag
 
+    #set create newsletter subject
     @Wrapit._exceptionHandler
     @Wrapit._screenshot
     def add_create_newsletter_subject(self,subject):
         result_add_subject = self.set_text(self.CREATE_NEWSLETTER_SUBJECT,subject)
         return result_add_subject        
 
+    #set create newsletter opener
     @Wrapit._exceptionHandler
     @Wrapit._screenshot
     def add_create_newsletter_opener(self,opener):    
         result_add_opener = self.set_text(self.CREATE_NEWSLETTER_OPENER,opener)
         return result_add_opener
     
+    #set create newsletter preview
     @Wrapit._exceptionHandler
     @Wrapit._screenshot
     def add_create_newsletter_preview(self,preview):     
         result_add_preview = self.set_text(self.CREATE_NEWSLETTER_PREVIEW_TEXT,preview)
         return result_add_preview 
 
+    #click preview newsletter
     @Wrapit._exceptionHandler
     @Wrapit._screenshot
     def click_preview_newsletter(self):
@@ -153,15 +157,5 @@ class Form_Object:
         else:
             self.write("The preview newsletter is not clicked")
         return result_preview_newsletter
-
-    @Wrapit._exceptionHandler
-    @Wrapit._screenshot
-    def create_campaign(self):
-        self.scroll_down(self.CREATE_NEWSLETTER_CREATE_CAMPAIGN)
-        result_create_campaign = self.click_element(self.CREATE_NEWSLETTER_CREATE_CAMPAIGN)
-        if result_create_campaign is True:
-            self.write("The create campaign is clicked")
-        else:
-            self.write("create campaign is not clicked")            
-        return result_create_campaign         
+        
 
