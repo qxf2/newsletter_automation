@@ -1,4 +1,5 @@
 """
 Conf file for base_url
 """
-base_url = "https://staging-newsletter-generator.qxf2.com/"
+base_url = "http://127.0.0.1:5000"
+

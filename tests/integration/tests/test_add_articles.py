@@ -31,7 +31,7 @@ def test_add_article(test_obj):
         password = conf.password
         
         #Set the login
-        login = test_obj.login(email,password)
+        #login = test_obj.login(email,password)
         #click the hamburger button
         hamburger_button = test_obj.click_hamburger_button()
         #click the add_articles button

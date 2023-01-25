@@ -1,4 +1,5 @@
 import conf.add_articles_locators_conf as locators
+import conf.create_newsletter_locator_conf as loc
 import time
 from utils.Wrapit import Wrapit
 
@@ -21,6 +22,16 @@ class Form_Object:
     submit =locators.submit
     #get the add_another_article locator 
     add_another_articles=locators.add_another_articles
+    #get the create_newsletter subject locator
+    CREATE_NEWSLETTER_SUBJECT = loc.SUBJECT
+    #get the create_newsletter opener locator
+    CREATE_NEWSLETTER_OPENER = loc.OPENER
+    #get the create_newsletter preview locator
+    CREATE_NEWSLETTER_PREVIEW_TEXT = loc.PREVIEW_TEXT
+    #get the create_newsletter preview newsletter button locator
+    CREATE_NEWSLETTER_PREVIEW_NEWSLETTER = loc.PREVIEW_NEWSLETTER
+    #get the create campaign locator
+    CREATE_NEWSLETTER_CREATE_CAMPAIGN = loc.CREATE_CAMPAIGN
     
     #click home
     @Wrapit._exceptionHandler
@@ -114,3 +125,43 @@ class Form_Object:
         result_flag = self.click_addanother_article()
 
         return result_flag
+
+    @Wrapit._exceptionHandler
+    @Wrapit._screenshot
+    def add_create_newsletter_subject(self,subject):
+        result_add_subject = self.set_text(self.CREATE_NEWSLETTER_SUBJECT,subject)
+        return result_add_subject        
+
+    @Wrapit._exceptionHandler
+    @Wrapit._screenshot
+    def add_create_newsletter_opener(self,opener):    
+        result_add_opener = self.set_text(self.CREATE_NEWSLETTER_OPENER,opener)
+        return result_add_opener
+    
+    @Wrapit._exceptionHandler
+    @Wrapit._screenshot
+    def add_create_newsletter_preview(self,preview):     
+        result_add_preview = self.set_text(self.CREATE_NEWSLETTER_PREVIEW_TEXT,preview)
+        return result_add_preview 
+
+    @Wrapit._exceptionHandler
+    @Wrapit._screenshot
+    def click_preview_newsletter(self):
+        result_preview_newsletter = self.click_element(self.CREATE_NEWSLETTER_PREVIEW_NEWSLETTER)
+        if result_preview_newsletter is True:
+            self.write("The preview newsletter is clicked")
+        else:
+            self.write("The preview newsletter is not clicked")
+        return result_preview_newsletter
+
+    @Wrapit._exceptionHandler
+    @Wrapit._screenshot
+    def create_campaign(self):
+        self.scroll_down(self.CREATE_NEWSLETTER_CREATE_CAMPAIGN)
+        result_create_campaign = self.click_element(self.CREATE_NEWSLETTER_CREATE_CAMPAIGN)
+        if result_create_campaign is True:
+            self.write("The create campaign is clicked")
+        else:
+            self.write("create campaign is not clicked")            
+        return result_create_campaign         
+
