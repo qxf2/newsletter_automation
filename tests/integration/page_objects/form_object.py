@@ -22,16 +22,6 @@ class Form_Object:
     submit =locators.submit
     #get the add_another_article locator 
     add_another_articles=locators.add_another_articles
-    #get the create_newsletter subject locator
-    CREATE_NEWSLETTER_SUBJECT = loc.SUBJECT
-    #get the create_newsletter opener locator
-    CREATE_NEWSLETTER_OPENER = loc.OPENER
-    #get the create_newsletter preview locator
-    CREATE_NEWSLETTER_PREVIEW_TEXT = loc.PREVIEW_TEXT
-    #get the create_newsletter preview newsletter button locator
-    CREATE_NEWSLETTER_PREVIEW_NEWSLETTER = loc.PREVIEW_NEWSLETTER
-    #get the create campaign locator
-    CREATE_NEWSLETTER_CREATE_CAMPAIGN = loc.CREATE_CAMPAIGN
     
     #click home
     @Wrapit._exceptionHandler
@@ -125,37 +115,5 @@ class Form_Object:
         result_flag = self.click_addanother_article()
 
         return result_flag
-
-    #set create newsletter subject
-    @Wrapit._exceptionHandler
-    @Wrapit._screenshot
-    def add_create_newsletter_subject(self,subject):
-        result_add_subject = self.set_text(self.CREATE_NEWSLETTER_SUBJECT,subject)
-        return result_add_subject        
-
-    #set create newsletter opener
-    @Wrapit._exceptionHandler
-    @Wrapit._screenshot
-    def add_create_newsletter_opener(self,opener):    
-        result_add_opener = self.set_text(self.CREATE_NEWSLETTER_OPENER,opener)
-        return result_add_opener
-    
-    #set create newsletter preview
-    @Wrapit._exceptionHandler
-    @Wrapit._screenshot
-    def add_create_newsletter_preview(self,preview):     
-        result_add_preview = self.set_text(self.CREATE_NEWSLETTER_PREVIEW_TEXT,preview)
-        return result_add_preview 
-
-    #click preview newsletter
-    @Wrapit._exceptionHandler
-    @Wrapit._screenshot
-    def click_preview_newsletter(self):
-        result_preview_newsletter = self.click_element(self.CREATE_NEWSLETTER_PREVIEW_NEWSLETTER)
-        if result_preview_newsletter is True:
-            self.write("The preview newsletter is clicked")
-        else:
-            self.write("The preview newsletter is not clicked")
-        return result_preview_newsletter
         
 
