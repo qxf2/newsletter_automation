@@ -69,61 +69,22 @@ def test_create_campaign(test_obj):
             category = add_article['CATEGORY']
 
             #Create a test object for create newsletter
-            test_obj = PageFactory.get_page_object("create newsletter page", base_url=test_obj.base_url)     
+            test_obj = PageFactory.get_page_object("create newsletter page", base_url=test_obj.base_url) 
 
-            #Click the category dropdown
-            result_click_category = test_obj.click_category(category)
-            test_obj.log_result(result_click_category,
-            positive="The category is clicked successfully",
-            negative="The category is not clicked successfully")
+            #select and add articles for all the categories
+            result_flag = test_obj.add_articles(title,category)
+            test_obj.log_result(result_flag,
+                                positive="Successfully added the articles",
+                                negative="Failed to add the articles",
+                                level="critical")
+            test_obj.write('Script duration: %d seconds\n'%(int(time.time()-start_time))) 
 
-            #Click the url dropdown
-            result_click_url = test_obj.click_url()
-            test_obj.log_result(result_click_url,
-            positive="The url is clicked successfully",
-            negative="The url is not clicked successfully")
-
-            #Select the url from dropdown
-            result_select_url = test_obj.select_url(title)
-            test_obj.log_result(result_select_url,
-            positive="The url is selected successfully",
-            negative="The url is not selected successfully")    
-
-            #Click add more article button
-            result_click_add_more_article = test_obj.click_add_more_article()  
-            test_obj.log_result(result_click_add_more_article,
-            positive="The add more article button is clicked",
-            negative="The add more article button is not clicked")        
-
-        #Scroll down to end of create newsletter page
-        result_scroll_down = test_obj.scroll_down_create_newsletter()
-        test_obj.log_result(result_scroll_down,
-        positive="The page is scrolled down",
-        negative="The page is not scrolled. Please check the method")          
-
-        #Set create newsletter subject
-        result_newsletter_details_subject = test_obj.add_create_newsletter_subject(subject)
-        test_obj.log_result(result_newsletter_details_subject,
-        positive="The create newsletter subject is filled",
-        negative="The create newsletter subject is not filled") 
-
-        #Set create newsletter opener
-        result_newsletter_details_opener = test_obj.add_create_newsletter_opener(opener)
-        test_obj.log_result(result_newsletter_details_opener,
-        positive="The create newsletter opener is filled",
-        negative="The create newsletter opener is not filled")   
-
-        #Set create newsletter preview
-        result_newsletter_details_preview = test_obj.add_create_newsletter_preview(preview)
-        test_obj.log_result(result_newsletter_details_preview,
-        positive="The create newsletter preview is filled",
-        negative="The create newsletter preview is not filled")              
-
-        #click preview newsletter
-        click_preview_newsletter = test_obj.click_preview_newsletter()
-        test_obj.log_result(click_preview_newsletter,
-        positive="The preview newsletter is clicked",
-        negative="The preview newsletter is not clicked")   
+        #set the subject,opener and preview details and click preview newsletter
+        result_flag = test_obj.add_newsletter_details(subject,opener,preview)
+        test_obj.log_result(result_flag,
+                            positive="Successfully added the articles details and clicked on preview newsletter",
+                            negative="Failed to add the articles details and click on preview newsletter",                                level="critical")
+        test_obj.write('Script duration: %d seconds\n'%(int(time.time()-start_time)))              
 
         #Create a test object for preview newsletter
         test_obj = PageFactory.get_page_object("preview newsletter page", base_url=test_obj.base_url)                        
@@ -131,8 +92,12 @@ def test_create_campaign(test_obj):
         #create the campaign
         result_create_campaign = test_obj.create_campaign()      
         test_obj.log_result(result_create_campaign,
-        positive="Campaign is succesfully created",
-        negative="Campaign is not created")              
+                            positive="Campaign is succesfully created",
+                            negative="Campaign is not created")     
+
+        test_obj.write_test_summary()
+        expected_pass = test_obj.result_counter
+        actual_pass = test_obj.pass_counter         
 
     except Exception as e:
         print("Exception when trying to run test: %s"%__file__)

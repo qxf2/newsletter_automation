@@ -111,6 +111,29 @@ class Form_Object_Create_Newsletter:
                                 level='debug')        
         return result_preview_newsletter
 
+    #add articles in create newsletter
+    @Wrapit._exceptionHandler
+    @Wrapit._screenshot
+    def add_articles(self,title,category):
+        "Add articles in Create newsletter"
+        result_flag = self.click_category(category)
+        result_flag = self.click_url()
+        result_flag = self.select_url(title)
+        result_flag = self.click_add_more_article()
+
+        return result_flag
+
+    #add newsletter details and click preview newsletter button
+    def add_newsletter_details(self,subject,opener,preview):
+        "Add newsletter details and click preview newsletter"
+        result_flag = self.scroll_down_create_newsletter()
+        result_flag = self.add_create_newsletter_subject(subject)
+        result_flag = self.add_create_newsletter_opener(opener)
+        result_flag = self.add_create_newsletter_preview(preview)
+        result_flag = self.click_preview_newsletter()
+
+        return result_flag        
+
 
         
 
