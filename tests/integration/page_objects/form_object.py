@@ -1,4 +1,5 @@
 import conf.add_articles_locators_conf as locators
+import conf.create_newsletter_locator_conf as loc
 import time
 from utils.Wrapit import Wrapit
 
@@ -114,3 +115,5 @@ class Form_Object:
         result_flag = self.click_addanother_article()
 
         return result_flag
+        
+
