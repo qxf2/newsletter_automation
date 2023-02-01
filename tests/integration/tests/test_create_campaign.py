@@ -83,7 +83,8 @@ def test_create_campaign(test_obj):
         result_flag = test_obj.add_newsletter_details(subject,opener,preview)
         test_obj.log_result(result_flag,
                             positive="Successfully added the articles details and clicked on preview newsletter",
-                            negative="Failed to add the articles details and click on preview newsletter",                                level="critical")
+                            negative="Failed to add the articles details and click on preview newsletter",
+                            level="critical")
         test_obj.write('Script duration: %d seconds\n'%(int(time.time()-start_time)))              
 
         #Create a test object for preview newsletter
