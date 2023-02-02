@@ -36,9 +36,6 @@ class Borg:
 
         return result_flag
 
-# Get the Base URL from the conf file
-base_url = conf.base_url_conf
-
 class Base_Page(Borg,unittest.TestCase):
     "Page class that all page models can inherit from"
 
@@ -844,3 +841,4 @@ class Base_Page(Borg,unittest.TestCase):
 
 
     _get_locator = staticmethod(_get_locator)
+    

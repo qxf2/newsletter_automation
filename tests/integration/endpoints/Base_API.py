@@ -45,7 +45,6 @@ class Base_API:
         json_response = None
         try:
             response = self.request_obj.post(url,params=params,json=json,headers=headers,data=data)
-            print("status code",response.status_code)
             try:
                 json_response = response.json()
             except:

@@ -9,7 +9,7 @@ from .API_Interface import API_Interface
 from utils.results import Results
 import urllib.parse
 import logging
-from conf import api_example_conf as conf
+from conf import api_tests_conf as conf
 from utils import interactive_mode
 import pytest
 from _pytest import python
