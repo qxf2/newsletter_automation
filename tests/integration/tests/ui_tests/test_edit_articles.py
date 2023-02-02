@@ -2,7 +2,7 @@
 This is an example automated test to newsletter generator application
 Our automated test will do the following:
     #Open Qxf2 newsletter generator application
-    #Fill the details of edit articles section.
+    #Edit an article
 """
 import os,sys,time
 from turtle import title
