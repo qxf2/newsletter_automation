@@ -15,7 +15,7 @@ import conf.base_url_conf as base_url_conf
 import pytest
 
 @pytest.mark.GUI
-def test_manage_articles(test_obj):
+def test_delete_articles(test_obj):
 
     "Run the test"
     try:
@@ -81,7 +81,7 @@ if __name__=='__main__':
         if options.tesults_flag.lower()=='y':
             test_obj.register_tesults()
 
-        test_manage_articles(test_obj)
+        test_delete_articles(test_obj)
 
      #Teardowm
         test_obj.teardown()
