@@ -2,49 +2,47 @@
 This is an example automated test to newsletter generator application
 Our automated test will do the following:
     #Open Qxf2 newsletter generator application
-    #Fill the details of edit articles section.
+    #Delete an article
 """
+from http.client import OK
 import os,sys,time
-from typing_extensions import runtime
+from turtle import title
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from page_objects.PageFactory import PageFactory
 from utils.Option_Parser import Option_Parser
 import conf.manage_articles_conf as conf
+import conf.base_url_conf as base_url_conf
 import pytest
 
 @pytest.mark.GUI
-def test_edit_articles(test_obj):
+def test_delete_articles(test_obj):
 
     "Run the test"
     try:
         #Initalize flags for tests summary
         expected_pass = 0
         actual_pass = -1
-        #Create a test object for edit an article
-        test_obj = PageFactory.get_page_object("edit articles page")
+        #Create a test object for delete an article
+        test_obj = PageFactory.get_page_object("manage articles page",base_url=test_obj.base_url)
         #Set start_time with current time
         start_time = int(time.time())
         
         #Get the test details from the conf file
         email = conf.email
-        password = conf.password
-        url = conf.url
-        title = conf.title
-        description = conf.description
-        runtime = conf.runtime
-        category = conf.category
-        search = conf.search
+        password=conf.password
+        search=conf.search
         
         #Set the login
         login = test_obj.login(email,password)
-        #click the hamburger menu
+        #Click the hamburger menu
         hamburger = test_obj.click_hamburger_button()
-        #click manage article button
+        #Click manage article button
         manage_article_button = test_obj.click_managearticle_button()
-        #set the search string
+        #Set the search string
         search_article = test_obj.search_word(search)
-        #edit the articles
-        edit_article = test_obj.edit_articles(url,title,description,runtime,category)
+        #Click the delete button
+        delete_button = test_obj.click_delete_button()
+        test_obj.accept_alert()
 
         #Print out the result
         test_obj.write_test_summary()
@@ -83,9 +81,9 @@ if __name__=='__main__':
         if options.tesults_flag.lower()=='y':
             test_obj.register_tesults()
 
-        test_edit_articles(test_obj)
+        test_delete_articles(test_obj)
 
-    #teardowm
+     #Teardowm
         test_obj.teardown()
     else:
         print('ERROR: Received incorrect comand line input arguments')

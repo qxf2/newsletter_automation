@@ -1,28 +1,32 @@
 """
 API endpoints for article
 """
-from bs4 import BeautifulSoup
+import requests
 
 class Delete_Article_Endpoints:
     "Class for article endpoints"
 
     def delete_articles_url(self,suffix=''):
         """Append API end point to base URL"""
-        return self.base_url+'/manage-articles'+suffix
-        
+        return self.base_url+'/api/articles/all'+suffix
+    
+    def delete_article_url(self,suffix=''):
+        """Append API end point to base URL"""
+        return self.base_url+''+suffix
+    
     def delete_article(self,data,headers):
-      "Adds a new article"
+      "delete an article"
       url = self.delete_articles_url('')
-      json_response = self.get(url,data=data,headers=headers)
-      get_article = BeautifulSoup(json_response['text'], 'html.parser')
-      first_article = (get_article.body.find_all('a',href=True,string='Delete',limit=1))
-      for link in first_article:
-        suffix = (link['href'])
-      article_endpoint = self.base_url+suffix
-      json_response = self.get(article_endpoint,data=data,headers=headers)
+      json_responses = self.get(url,data=data,headers=headers)
+      all_articles = json_responses.get("json_response")
+      for last_article in reversed(all_articles):
+        all_articles_id = (last_article.get('article_id',None))
+        endpoint = str(all_articles_id)
+        break
+      url = self.delete_article_url('/api/article/')+endpoint
+      json_response = self.delete(url,data=data,headers=headers)
       return {
-          'article_endpoint':article_endpoint,
-          'response':json_response['text']
+          'url':url,
+          'response':json_response['json_response']
       }
-
    

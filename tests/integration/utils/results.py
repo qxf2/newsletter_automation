@@ -72,9 +72,9 @@ class Results(object):
     def write_test_summary(self):
         """ Print out a useful, human readable summary """
         self.write('\n************************\n--------RESULT--------\nTotal number of checks=%d' % self.total)
-        self.write('Total number of checks passed=%d\n----------------------\n************************\n\n' % self.passed)
         self.write('Total number of mini-checks=%d' % self.written)
         self.write('Total number of mini-checks passed=%d' % self.written_passed)
+        self.write('Total number of checks passed=%d\n----------------------\n************************\n\n' % self.passed)
         failure_message_list = self.get_failure_message_list()
         if len(failure_message_list) > 0:
             self.write('\n--------FAILURE SUMMARY--------\n')

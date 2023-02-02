@@ -13,7 +13,6 @@ class Article_API_Endpoints:
       "Adds a new article"
       url = self.articles_url('/articles')
       json_response = self.post(url,data=data,headers=headers)
-      print("json response is", json_response)
       return {
           'url':url,
           'response':json_response['json_response']

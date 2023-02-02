@@ -2,7 +2,7 @@
 This is an example automated test to newsletter generator application
 Our automated test will do the following:
     #Open Qxf2 newsletter generator application
-    #Fill the details of add articles section.
+    #Edit an article
 """
 import os,sys,time
 from turtle import title
@@ -10,60 +10,56 @@ from typing_extensions import runtime
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from page_objects.PageFactory import PageFactory
 from utils.Option_Parser import Option_Parser
-import conf.add_articles_conf as conf
+import conf.edit_articles_conf as conf
+import conf.base_url_conf as base_url_conf
 import pytest
 
 @pytest.mark.GUI
-def test_add_article(test_obj):
+def test_edit_articles(test_obj):
 
     "Run the test"
     try:
         #Initalize flags for tests summary
         expected_pass = 0
         actual_pass = -1
-        #Create a test object for add articles 
-        test_obj = PageFactory.get_page_object("add articles page")
+        #Create a test object for edit an article
+        test_obj = PageFactory.get_page_object("edit articles page",base_url=test_obj.base_url)
         #Set start_time with current time
         start_time = int(time.time())
         
         #Get the test details from the conf file
         email = conf.email
         password = conf.password
+        url = conf.url
+        title = conf.title
+        description = conf.description
+        runtime = conf.runtime
+        category = conf.category
+        search = conf.search
+        base_url = base_url_conf.base_url
         
-        #click the hamburger button
-        hamburger_button = test_obj.click_hamburger_button()
-        #click the add_articles button
-        add_button = test_obj.click_add_article()
-        #Get the test details from the conf file and fill the forms
-        article_list = conf.article_list
-        #Initalize form counter
-        article_number = 1		  
+        #Get the test details from the conf file
+        email = conf.email
+        password = conf.password
+        url = conf.url
+        title = conf.title
+        description = conf.description
+        runtime = conf.runtime
+        category = conf.category
+        search = conf.search
         
-        #Collect form data
-        for article in article_list:
-            url = article['URL']
-            title = article['TITLE']
-            description = article['DESCRIPTION']
-            runtime = article['RUNTIME']
-            category = article['CATEGORY']
-            submit_button = test_obj.click_submit()
-            add_another_article = test_obj.click_addanother_article()
-           
-            msg ="\nReady to fill article number %d"%article_number
-            test_obj.write(msg)
-           
-            #Visit main page again
-            test_obj = PageFactory.get_page_object("add articles page")
-            article_number = article_number + 1
+        #Set the login
+        login = test_obj.login(email,password)
+        #Click the hamburger menu
+        hamburger = test_obj.click_hamburger_button()
+        #Click manage article button
+        manage_article_button = test_obj.click_managearticle_button()
+        #Set the search string
+        search_article = test_obj.search_word(search)
+        #Edit the articles
+        edit_article = test_obj.edit_articles(url,title,description,runtime,category)
 
-            #Set and submit the article in one go
-            result_flag = test_obj.submit_article(url,title,description,runtime,category)
-            test_obj.log_result(result_flag,
-                                positive="Successfully submitted the article number %d\n"%article_number,
-                                negative="Failed to submit the article number %d \nOn url: %s"%(article_number,test_obj.get_current_url()),
-                                level="critical")
-            test_obj.write('Script duration: %d seconds\n'%(int(time.time()-start_time)))
- 
+        #Print out the result
         test_obj.write_test_summary()
         expected_pass = test_obj.result_counter
         actual_pass = test_obj.pass_counter
@@ -100,9 +96,9 @@ if __name__=='__main__':
         if options.tesults_flag.lower()=='y':
             test_obj.register_tesults()
 
-        test_add_article(test_obj)
+        test_edit_articles(test_obj)
 
-     #teardowm
+    #Teardowm
         test_obj.teardown()
     else:
         print('ERROR: Received incorrect comand line input arguments')
