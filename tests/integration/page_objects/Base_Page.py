@@ -379,7 +379,7 @@ class Base_Page(Borg,unittest.TestCase):
         "Get the window handles"
         return self.driver.window_handles
 
-    ddef switch_frame(self,name=None,index=None,wait_time=2):
+    def switch_frame(self,name=None,index=None,wait_time=2):
         "Make the driver switch to the frame"
         result_flag = False
         self.wait(wait_time)
