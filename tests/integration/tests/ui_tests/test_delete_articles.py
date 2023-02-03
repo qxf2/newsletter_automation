@@ -20,6 +20,7 @@ def test_delete_articles(test_obj):
     "Run the test"
     try:
         #Initalize flags for tests summary
+        time.sleep(2)
         expected_pass = 0
         actual_pass = -1
         #Create a test object for delete an article
