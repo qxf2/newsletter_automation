@@ -20,7 +20,6 @@ def test_add_article(test_obj):
     "Run the test"
     try:
         #Initalize flags for tests summary
-        time.sleep(1)
         expected_pass = 0
         actual_pass = -1
         #Create a test object for add articles 
