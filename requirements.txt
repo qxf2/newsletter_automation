@@ -2,6 +2,7 @@ Flask
 Flask-WTF
 wtforms-components
 flask-sqlalchemy==2.5.1
+SQLAlchemy==1.4
 flask-migrate
 mailchimp-marketing==3.0.44
 pylint
