@@ -22,4 +22,3 @@ def make_gif(screenshot_dir_path,name = "test_recap",suffix=".gif",duration=2):
         imageio.mimwrite(gif_name, images, duration=duration)
 
     return gif_name
-    
