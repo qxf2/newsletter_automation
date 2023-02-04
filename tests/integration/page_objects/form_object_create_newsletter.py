@@ -133,7 +133,3 @@ class Form_Object_Create_Newsletter:
         result_flag = self.click_preview_newsletter()
 
         return result_flag        
-
-
-        
-

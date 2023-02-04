@@ -11,7 +11,6 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from page_objects.PageFactory import PageFactory
 from utils.Option_Parser import Option_Parser
 import conf.add_articles_conf as conf
-import conf.base_url_conf as base_url_conf
 import pytest
 
 @pytest.mark.GUI
@@ -31,9 +30,9 @@ def test_add_article(test_obj):
         email = conf.email
         password = conf.password
         
-        #Click the hamburger button
+        #click the hamburger button
         hamburger_button = test_obj.click_hamburger_button()
-        #Click the add_articles button
+        #click the add_articles button
         add_button = test_obj.click_add_article()
         #Get the test details from the conf file and fill the forms
         article_list = conf.article_list
@@ -103,8 +102,9 @@ if __name__=='__main__':
 
         test_add_article(test_obj)
 
-     #Teardowm
+     #teardowm
         test_obj.teardown()
     else:
         print('ERROR: Received incorrect comand line input arguments')
         print(option_obj.print_usage())
+        

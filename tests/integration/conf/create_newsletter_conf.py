@@ -12,4 +12,3 @@ article_list_create_newsletter = []
 for category in categories:
     article_list_create_newsletter.append({'URL':f'https://www.qxf2.com/{category}/'+current_timestamp, 'TITLE':f'A {category} article', 'DESCRIPTION':f'{category} advanced-python/python-mutable-and-immutable', 'RUNTIME':'10', 'CATEGORY':category})
        
-
