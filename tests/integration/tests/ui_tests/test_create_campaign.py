@@ -99,7 +99,7 @@ def test_create_campaign(test_obj):
                                 level="critical")
             test_obj.write('Script duration: %d seconds\n'%(int(time.time()-start_time))) 
 
-        #set the subject,opener and preview details and click preview newsletter
+        #Set the subject,opener and preview details and click preview newsletter
         result_flag = test_obj.add_newsletter_details(subject,opener,preview)
         test_obj.log_result(result_flag,
                             positive="Successfully added the articles details and clicked on preview newsletter",
