@@ -24,19 +24,11 @@ def test_edit_articles(test_obj):
         actual_pass = -1
         #Create a test object for edit an article
         test_obj = PageFactory.get_page_object("edit articles page",base_url=test_obj.base_url)
+        #Get page title
+        page_title = test_obj.get_page_title()
         #Set start_time with current time
         start_time = int(time.time())
         
-        #Get the test details from the conf file
-        email = conf.email
-        password = conf.password
-        url = conf.url
-        title = conf.title
-        description = conf.description
-        runtime = conf.runtime
-        category = conf.category
-        search = conf.search
-        base_url = base_url_conf.base_url
         
         #Get the test details from the conf file
         email = conf.email
@@ -47,18 +39,24 @@ def test_edit_articles(test_obj):
         runtime = conf.runtime
         category = conf.category
         search = conf.search
-        
-        #Set the login
-        login = test_obj.login(email,password)
-        #Click the hamburger menu
-        hamburger = test_obj.click_hamburger_button()
-        #Click manage article button
-        manage_article_button = test_obj.click_managearticle_button()
-        #Set the search string
-        search_article = test_obj.search_word(search)
-        #Edit the articles
-        edit_article = test_obj.edit_articles(url,title,description,runtime,category)
 
+        def edit_article():
+            #Click the hamburger menu
+            hamburger = test_obj.click_hamburger_button()
+            #Click manage article button
+            manage_article_button = test_obj.click_managearticle_button()
+            #Set the search string
+            search_article = test_obj.search_word(search)
+            #Click the edit button
+            edit_article = test_obj.edit_articles(url,title,description,runtime,category)
+
+        if page_title == "Unauthorized":
+            #Set the login
+            login = test_obj.login(email,password)
+            edit_article()
+        else:
+            edit_article()
+        
         #Print out the result
         test_obj.write_test_summary()
         expected_pass = test_obj.result_counter

@@ -24,6 +24,8 @@ def test_delete_articles(test_obj):
         actual_pass = -1
         #Create a test object for delete an article
         test_obj = PageFactory.get_page_object("manage articles page",base_url=test_obj.base_url)
+        #Get page title
+        page_title = test_obj.get_page_title()
         #Set start_time with current time
         start_time = int(time.time())
         
@@ -32,17 +34,23 @@ def test_delete_articles(test_obj):
         password=conf.password
         search=conf.search
         
-        #Set the login
-        login = test_obj.login(email,password)
-        #Click the hamburger menu
-        hamburger = test_obj.click_hamburger_button()
-        #Click manage article button
-        manage_article_button = test_obj.click_managearticle_button()
-        #Set the search string
-        search_article = test_obj.search_word(search)
-        #Click the delete button
-        delete_button = test_obj.click_delete_button()
-        test_obj.accept_alert()
+        def delete_article():
+            #Click the hamburger menu
+            hamburger = test_obj.click_hamburger_button()
+            #Click manage article button
+            manage_article_button = test_obj.click_managearticle_button()
+            #Set the search string
+            search_article = test_obj.search_word(search)
+            #Click the delete button
+            delete_button = test_obj.click_delete_button()
+            test_obj.accept_alert()
+
+        if page_title == "Unauthorized":
+            #Set the login
+            login = test_obj.login(email,password)
+            delete_article()
+        else:
+            delete_article()
 
         #Print out the result
         test_obj.write_test_summary()
