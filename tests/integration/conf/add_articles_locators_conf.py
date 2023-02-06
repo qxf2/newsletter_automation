@@ -1,7 +1,7 @@
 # get the search locator
 home="xpath,//a[text()='Home']"
 # get the add articles locator
-add_articles="xpath,//a[@href='/articles']"
+add_articles="xpath,//a[normalize-space()='Add Article']"
 # get the url  locator
 url="xpath,//input[@id='url']"
 # get the title locator
