@@ -26,7 +26,27 @@ def test_create_campaign(test_obj):
         test_obj = PageFactory.get_page_object("add articles page", base_url=test_obj.base_url)
         #Set start_time with current time
         start_time = int(time.time())
-        add_button = test_obj.click_add_article()
+        #Get page title
+        page_title = test_obj.get_page_title()
+
+        #Get the test details from the conf file
+        email = conf_add.email
+        password = conf_add.password
+
+        def adding_articles():
+            #Click the hamburger menu
+            hamburger = test_obj.click_hamburger_button()
+            #Click manage article button
+            add_button = test_obj.click_add_article()
+
+        #Skipping login if sso is turned off 
+        if page_title == "Unauthorized":
+            #Set the login
+            login = test_obj.login(email,password)
+            adding_articles()
+        else:
+            adding_articles() 
+        
         #Get the test details from the conf file and fill the forms
         article_list_create_newsletter = conf.article_list_create_newsletter
         article_list_create_newsletter_number = 1

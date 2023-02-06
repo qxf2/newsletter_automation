@@ -38,7 +38,9 @@ def test_add_article(test_obj):
             #Click manage article button
             manage_article_button = test_obj.click_add_article()
 
+        #Skipping login if sso is turned off 
         if page_title == "Unauthorized":
+            #Set the login
             login = test_obj.login(email,password)
             adding_article()
         else:

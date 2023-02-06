@@ -29,7 +29,6 @@ def test_edit_articles(test_obj):
         #Set start_time with current time
         start_time = int(time.time())
         
-        
         #Get the test details from the conf file
         email = conf.email
         password = conf.password
