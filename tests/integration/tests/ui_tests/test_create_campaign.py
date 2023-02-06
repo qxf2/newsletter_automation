@@ -91,7 +91,7 @@ def test_create_campaign(test_obj):
             #Create a test object for create newsletter
             test_obj = PageFactory.get_page_object("create newsletter page", base_url=test_obj.base_url) 
 
-            #select and add articles for all the categories
+            #Select and add articles for all the categories
             result_flag = test_obj.add_articles(title,category)
             test_obj.log_result(result_flag,
                                 positive="Successfully added the articles",
