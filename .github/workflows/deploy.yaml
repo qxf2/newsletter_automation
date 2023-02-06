@@ -44,7 +44,7 @@ jobs:
           python -m pytest -k test_api_multiple_articles.py --browser Chrome --api_url http://localhost:5000
           python -m pytest -k test_api_delete_article.py --browser Chrome --api_url http://localhost:5000
           cd ../ui_tests
-          python -m pytest -n 4 --browser headless-chrome --app_url http://localhost:5000
+          python -m pytest -n 3 --browser headless-chrome --app_url http://localhost:5000
 
   deploy-staging:
     name: Deploy to staging
@@ -97,8 +97,7 @@ jobs:
           python -m pytest -k test_api_multiple_articles.py --browser Chrome --api_url https://staging-newsletter-generator.qxf2.com
           python -m pytest -k test_api_delete_article.py --browser Chrome --api_url https://staging-newsletter-generator.qxf2.com
           cd ../ui_tests
-          python -m pytest -k test_create_campaign.py --browser headless-chrome --app_url https://staging-newsletter-generator.qxf2.com
-          python -m pytest -k test_add_articles.py --browser headless-chrome --app_url https://staging-newsletter-generator.qxf2.com
+          python -m pytest -n 3 --browser headless-chrome --app_url https://staging-newsletter-generator.qxf2.com
           
   deploy-production:
     needs: ci-tests
