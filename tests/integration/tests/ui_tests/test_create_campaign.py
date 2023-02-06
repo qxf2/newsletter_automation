@@ -26,27 +26,7 @@ def test_create_campaign(test_obj):
         test_obj = PageFactory.get_page_object("add articles page", base_url=test_obj.base_url)
         #Set start_time with current time
         start_time = int(time.time())
-        #Get page title
-        page_title = test_obj.get_page_title()
-
-        #Get the test details from the conf file
-        email = conf_add.email
-        password = conf_add.password
-
-        def adding_articles():
-            #Click the hamburger menu
-            hamburger = test_obj.click_hamburger_button()
-            #Click manage article button
-            add_button = test_obj.click_add_article()
-
-        #Skipping login if sso is turned off 
-        if page_title == "Unauthorized":
-            #Set the login
-            login = test_obj.login(email,password)
-            adding_articles()
-        else:
-            adding_articles() 
-        
+        add_button = test_obj.click_add_article()
         #Get the test details from the conf file and fill the forms
         article_list_create_newsletter = conf.article_list_create_newsletter
         article_list_create_newsletter_number = 1
@@ -91,7 +71,7 @@ def test_create_campaign(test_obj):
             #Create a test object for create newsletter
             test_obj = PageFactory.get_page_object("create newsletter page", base_url=test_obj.base_url) 
 
-            #Select and add articles for all the categories
+            #select and add articles for all the categories
             result_flag = test_obj.add_articles(title,category)
             test_obj.log_result(result_flag,
                                 positive="Successfully added the articles",
@@ -99,7 +79,7 @@ def test_create_campaign(test_obj):
                                 level="critical")
             test_obj.write('Script duration: %d seconds\n'%(int(time.time()-start_time))) 
 
-        #Set the subject,opener and preview details and click preview newsletter
+        #set the subject,opener and preview details and click preview newsletter
         result_flag = test_obj.add_newsletter_details(subject,opener,preview)
         test_obj.log_result(result_flag,
                             positive="Successfully added the articles details and clicked on preview newsletter",
