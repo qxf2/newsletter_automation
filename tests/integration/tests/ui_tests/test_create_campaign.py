@@ -24,9 +24,14 @@ def test_create_campaign(test_obj):
         actual_pass = -1
         #Create a test object for edit an article
         test_obj = PageFactory.get_page_object("add articles page", base_url=test_obj.base_url)
+        #Get the test details from the conf file
+        email = conf_add.email
+        password = conf_add.password
+        login = test_obj.login(email,password)
         #Set start_time with current time
         start_time = int(time.time())
         add_button = test_obj.click_add_article()
+
         #Get the test details from the conf file and fill the forms
         article_list_create_newsletter = conf.article_list_create_newsletter
         article_list_create_newsletter_number = 1
