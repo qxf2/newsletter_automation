@@ -4,6 +4,7 @@ Our automated test will do the following:
     #Open Qxf2 newsletter generator application
     #Edit an article
 """
+
 import os,sys,time
 from turtle import title
 from typing_extensions import runtime
