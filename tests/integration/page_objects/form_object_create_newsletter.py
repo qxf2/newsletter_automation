@@ -22,7 +22,6 @@ class Form_Object_Create_Newsletter:
     #get the url locator
     CREATE_NEWSLETTER_SELECT_URL = locators.SELECT_URL
 
-
     #click the category dropdown
     @Wrapit._exceptionHandler
     @Wrapit._screenshot
