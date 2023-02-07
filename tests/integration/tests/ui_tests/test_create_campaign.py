@@ -55,11 +55,11 @@ def test_create_campaign(test_obj):
         
         #Collect form data
         for article in article_list_create_newsletter:
-            url = article['URL']
-            title = article['TITLE']
-            description = article['DESCRIPTION']
-            runtime = article['RUNTIME']
-            category = article['CATEGORY']
+            url = article['url']
+            title = article['title']
+            description = article['description']
+            runtime = article['runtime']
+            category = article['category']
             submit_button = test_obj.click_submit()
             add_another_article = test_obj.click_addanother_article()
            
@@ -85,8 +85,8 @@ def test_create_campaign(test_obj):
 
         #Collect form data
         for add_article in article_list_create_newsletter:
-            title = add_article['TITLE']
-            category = add_article['CATEGORY']
+            title = add_article['title']
+            category = add_article['category']
 
             #Create a test object for create newsletter
             test_obj = PageFactory.get_page_object("create newsletter page", base_url=test_obj.base_url) 
