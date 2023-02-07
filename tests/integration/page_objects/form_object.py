@@ -1,5 +1,4 @@
 import conf.add_articles_locators_conf as locators
-import conf.create_newsletter_locator_conf as loc
 import time
 from utils.Wrapit import Wrapit
 
