@@ -112,6 +112,5 @@ class Form_Object:
         result_flag = self.set_category(category)
         result_flag = self.click_submit()
         result_flag = self.click_addanother_article()
-
         return result_flag
         
