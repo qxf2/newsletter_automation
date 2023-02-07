@@ -23,7 +23,7 @@ def test_create_campaign(test_obj):
         expected_pass = 0
         actual_pass = -1
         #Create a test object for edit an article
-        test_obj = PageFactory.get_page_object("add articles page", base_url=test_obj.base_url)
+        test_obj = PageFactory.get_page_object("create campaign page", base_url=test_obj.base_url)
         #Get page title
         page_title = test_obj.get_page_title()
         #Set start_time with current time
