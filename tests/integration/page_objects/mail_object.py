@@ -57,4 +57,4 @@ class Mail_Object:
         result_flag = self.click_nxt_button() 
         result_flag = self.set_password(password)
         result_flag = self.click_nxt_button() 
-         
+        return result_flag
