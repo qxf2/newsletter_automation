@@ -110,7 +110,7 @@ class Form_Object:
     def click_addanother_article(self):
         "Click the add another article button"
         result_flag = self.click_element(self.add_another_articles)
-        self.condition_write(result_flag,
+        self.conditional_write(result_flag,
                             positive='Clicked on the add another article link',
                             negative='Could not click on add another article link',
                             level='debug')
