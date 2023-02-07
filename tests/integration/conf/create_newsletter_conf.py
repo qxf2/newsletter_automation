@@ -12,5 +12,5 @@ preview = "From the simplest to the most complex application, automation is pres
 categories = ['pastweek','currentweek','automation corner','comic']
 article_list_create_newsletter = []
 for category in categories:
-    article_list_create_newsletter.append({'url':f'https://www.qxf2.com/{category}/'+current_timestamp, 'title':f'A {category} article', 'description':f'{category} advanced-python/python-mutable-and-immutable', 'runtime':'10', 'category':category})
+    article_list_create_newsletter.append({'url':f'https://www.qxf2.com/{category}/'+current_timestamp, 'title':f'A {category} article'+current_timestamp, 'description':f'{category} advanced-python/python-mutable-and-immutable', 'runtime':'10', 'category':category})
        

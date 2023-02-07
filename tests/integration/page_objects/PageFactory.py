@@ -9,8 +9,8 @@ Pages implemented so far:
 """
  
 from page_objects.zero_page import Zero_Page
+from page_objects.Login_page import Login_Page
 from page_objects.add_articles_page import Addarticles_Page
-from page_objects.create_campaign_page import Create_Campaign
 from page_objects.manage_articles_page import Managearticles_Page
 from page_objects.edit_articles_page import Editarticles_Page
 from page_objects.create_newsletter_page import Createnewsletter_Page
@@ -26,10 +26,10 @@ class PageFactory():
         page_name = page_name.lower()
         if page_name in ["zero","zero page","agent zero"]:
             test_obj = Zero_Page(base_url=base_url)
+        elif page_name in ["login","sso"]:
+            test_obj = Login_Page(base_url=base_url)
         elif page_name == "add articles page":
             test_obj =  Addarticles_Page(base_url=base_url)  
-        elif page_name == "create campaign page":
-            test_obj =  Create_Campaign(base_url=base_url) 
         elif page_name == "manage articles page":
             test_obj = Managearticles_Page(base_url=base_url)  
         elif page_name == "edit articles page":

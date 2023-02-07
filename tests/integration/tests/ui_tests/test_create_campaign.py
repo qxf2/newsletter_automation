@@ -21,37 +21,24 @@ def test_create_campaign(test_obj):
         #Initalize flags for tests summary
         expected_pass = 0
         actual_pass = -1
-        #Create a test object for edit an article
-        test_obj = PageFactory.get_page_object("create campaign page", base_url=test_obj.base_url)
-        #Get page title
-        page_title = test_obj.get_page_title()
-        #Set start_time with current time
         start_time = int(time.time())
 
         #Get the test details from the conf file
         email = conf.email
         password = conf.password
+
+        test_obj = PageFactory.get_page_object("Login", base_url=test_obj.base_url)
+        result_flag = test_obj.login(email, password)
+        test_obj.log_result(result_flag, 
+                            positive = "Logged into the app", 
+                            negative = "Could not log in to the app")
         
-        def adding_articles():
-            #Click the hamburger menu
-            hamburger = test_obj.click_hamburger_button()
-            #Click manage article button
-            manage_article_button = test_obj.click_add_article()
-
-        #Skipping login if sso is turned off 
-        if page_title == "Unauthorized":
-            #Set the login
-            login = test_obj.login(email,password)
-            adding_articles()
-        else:
-            adding_articles()  
-
         #Get the test details from the conf file and fill the forms
         article_list_create_newsletter = conf.article_list_create_newsletter
         article_list_create_newsletter_number = 1
         #Initalize form counter
         article_number = 1		  
-        
+        test_obj = PageFactory.get_page_object("add articles page", base_url=test_obj.base_url)
         #Collect form data
         for article in article_list_create_newsletter:
             url = article['url']
@@ -59,15 +46,9 @@ def test_create_campaign(test_obj):
             description = article['description']
             runtime = article['runtime']
             category = article['category']
-            submit_button = test_obj.click_submit()
-            add_another_article = test_obj.click_addanother_article()
-           
+
             msg ="\nReady to fill article number %d"%article_number
-            test_obj.write(msg)
-           
-            #Visit main page again
-            test_obj = PageFactory.get_page_object("create campaign page", base_url=test_obj.base_url)
-            article_list_create_newsletter_number = article_list_create_newsletter_number + 1
+            test_obj.write(msg)            
 
             #Set and submit the article in one go
             result_flag = test_obj.submit_article(url,title,description,runtime,category)
@@ -76,20 +57,21 @@ def test_create_campaign(test_obj):
                                 negative="Failed to submit the article number %d \nOn url: %s"%(article_number,test_obj.get_current_url()),
                                 level="critical")
             test_obj.write('Script duration: %d seconds\n'%(int(time.time()-start_time)))
-
+            test_obj.click_addanother_article()
+            article_number += 1
+        
         #Get the test details from the conf file
         subject = conf.subject
         opener = conf.opener
         preview = conf.preview
 
+        #Create a test object for create newsletter
+        test_obj = PageFactory.get_page_object("create newsletter page", base_url=test_obj.base_url) 
         #Collect form data
         for add_article in article_list_create_newsletter:
             title = add_article['title']
             category = add_article['category']
-
-            #Create a test object for create newsletter
-            test_obj = PageFactory.get_page_object("create newsletter page", base_url=test_obj.base_url) 
-
+            
             #Select and add articles for all the categories
             result_flag = test_obj.add_articles(title,category)
             test_obj.log_result(result_flag,
@@ -114,7 +96,7 @@ def test_create_campaign(test_obj):
         test_obj.log_result(result_create_campaign,
                             positive="Campaign is succesfully created",
                             negative="Campaign is not created")     
-
+        
         test_obj.write_test_summary()
         expected_pass = test_obj.result_counter
         actual_pass = test_obj.pass_counter         
