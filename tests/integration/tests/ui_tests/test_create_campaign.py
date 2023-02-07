@@ -27,7 +27,6 @@ def test_create_campaign(test_obj):
         page_title = test_obj.get_page_title()
         #Set start_time with current time
         start_time = int(time.time())
-        add_button = test_obj.click_add_article()
 
         #Get the test details from the conf file
         email = conf.email
