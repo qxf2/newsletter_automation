@@ -1,5 +1,4 @@
 #locators for Create Newsletter Page
-
 SELECT_CATEGORY = "xpath,//*[@id='category_id']/descendant::option[text()='%s']"
 CATEGORY_URL = "xpath,//span[@role='combobox']"
 ADD_MORE_ARTICLE = "xpath,//input[@id='add_more']"

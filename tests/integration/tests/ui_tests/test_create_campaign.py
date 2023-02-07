@@ -9,7 +9,6 @@ from typing_extensions import runtime
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from page_objects.PageFactory import PageFactory
 from utils.Option_Parser import Option_Parser
-import conf.add_articles_conf as conf_add
 import conf.create_newsletter_conf as conf
 import pytest
 from page_objects.form_object_create_newsletter import Form_Object_Create_Newsletter
@@ -31,8 +30,8 @@ def test_create_campaign(test_obj):
         add_button = test_obj.click_add_article()
 
         #Get the test details from the conf file
-        email = conf_add.email
-        password = conf_add.password
+        email = conf.email
+        password = conf.password
         
         def adding_articles():
             #Click the hamburger menu
