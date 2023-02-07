@@ -12,13 +12,15 @@ from page_objects.PageFactory import PageFactory
 from utils.Option_Parser import Option_Parser
 import conf.add_articles_conf as conf
 import pytest
+from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
 
 @pytest.mark.GUI
 def test_add_article(test_obj):
 
     "Run the test"
     try:
-        self.wait(5)
+        time.sleep(5)
         #Initalize flags for tests summary
         expected_pass = 0
         actual_pass = -1
