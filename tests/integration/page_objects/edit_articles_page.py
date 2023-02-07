@@ -1,6 +1,5 @@
 """
 This class models the newsletter main page.
-
 """
 from .Base_Page import Base_Page
 from .mail_object import Mail_Object
