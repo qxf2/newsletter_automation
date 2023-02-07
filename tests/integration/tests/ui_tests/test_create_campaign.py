@@ -67,7 +67,7 @@ def test_create_campaign(test_obj):
             test_obj.write(msg)
            
             #Visit main page again
-            test_obj = PageFactory.get_page_object("add articles page", base_url=test_obj.base_url)
+            test_obj = PageFactory.get_page_object("create campaign page", base_url=test_obj.base_url)
             article_list_create_newsletter_number = article_list_create_newsletter_number + 1
 
             #Set and submit the article in one go
