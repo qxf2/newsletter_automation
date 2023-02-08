@@ -41,8 +41,7 @@ jobs:
           cd tests/integration
           pip install -r requirements.txt
           cd tests/api_tests
-          python -m pytest -k test_api_multiple_articles.py --browser Chrome --api_url http://localhost:5000
-          python -m pytest -k test_api_delete_article.py --browser Chrome --api_url http://localhost:5000
+          python -m pytest -k test_api -n 2 --browser Chrome --api_url http://localhost:5000
           cd ../ui_tests
           python -m pytest -n 4 --browser headless-chrome --app_url http://localhost:5000
 
@@ -94,8 +93,7 @@ jobs:
           cd tests/integration
           pip install -r requirements.txt
           cd tests/api_tests
-          python -m pytest -k test_api_multiple_articles.py --browser Chrome --api_url https://staging-newsletter-generator.qxf2.com
-          python -m pytest -k test_api_delete_article.py --browser Chrome --api_url https://staging-newsletter-generator.qxf2.com
+          python -m pytest -k test_api -n 2 --browser Chrome --api_url https://staging-newsletter-generator.qxf2.com
           cd ../ui_tests
           python -m pytest -n 4 --browser headless-chrome --app_url https://staging-newsletter-generator.qxf2.com
           
