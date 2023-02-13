@@ -22,7 +22,6 @@ class Form_Object_Create_Newsletter:
     #get the url locator
     CREATE_NEWSLETTER_SELECT_URL = locators.SELECT_URL
 
-
     #click the category dropdown
     @Wrapit._exceptionHandler
     @Wrapit._screenshot
@@ -117,9 +116,9 @@ class Form_Object_Create_Newsletter:
     def add_articles(self,title,category):
         "Add articles in Create newsletter"
         result_flag = self.click_category(category)
-        result_flag = self.click_url()
-        result_flag = self.select_url(title)
-        result_flag = self.click_add_more_article()
+        result_flag &= self.click_url()
+        result_flag &= self.select_url(title)
+        result_flag &= self.click_add_more_article()
 
         return result_flag
 
@@ -127,13 +126,9 @@ class Form_Object_Create_Newsletter:
     def add_newsletter_details(self,subject,opener,preview):
         "Add newsletter details and click preview newsletter"
         result_flag = self.scroll_down_create_newsletter()
-        result_flag = self.add_create_newsletter_subject(subject)
-        result_flag = self.add_create_newsletter_opener(opener)
-        result_flag = self.add_create_newsletter_preview(preview)
-        result_flag = self.click_preview_newsletter()
+        result_flag &= self.add_create_newsletter_subject(subject)
+        result_flag &= self.add_create_newsletter_opener(opener)
+        result_flag &= self.add_create_newsletter_preview(preview)
+        result_flag &= self.click_preview_newsletter()
 
         return result_flag        
-
-
-        
-

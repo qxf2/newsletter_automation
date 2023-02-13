@@ -11,8 +11,9 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from page_objects.PageFactory import PageFactory
 from utils.Option_Parser import Option_Parser
 import conf.add_articles_conf as conf
-import conf.base_url_conf as base_url_conf
 import pytest
+from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
 
 @pytest.mark.GUI
 def test_add_article(test_obj):
@@ -20,10 +21,13 @@ def test_add_article(test_obj):
     "Run the test"
     try:
         #Initalize flags for tests summary
+        time.sleep(5)
         expected_pass = 0
         actual_pass = -1
         #Create a test object for add articles 
         test_obj = PageFactory.get_page_object("add articles page",base_url=test_obj.base_url)
+        #Get page title
+        page_title = test_obj.get_page_title()
         #Set start_time with current time
         start_time = int(time.time())
         
@@ -31,14 +35,23 @@ def test_add_article(test_obj):
         email = conf.email
         password = conf.password
         
-        #Click the hamburger button
-        hamburger_button = test_obj.click_hamburger_button()
-        #Click the add_articles button
-        add_button = test_obj.click_add_article()
-        #Get the test details from the conf file and fill the forms
+        def adding_article():
+            #Click the hamburger menu
+            hamburger = test_obj.click_hamburger_button()
+            #Click manage article button
+            manage_article_button = test_obj.click_add_article()
+
+        #Skipping login if sso is turned off 
+        if page_title == "Unauthorized":
+            #Set the login
+            login = test_obj.login(email,password)
+            adding_article()
+        else:
+            adding_article()  
+        
+        #Adding articles
         article_list = conf.article_list
-        #Initalize form counter
-        article_number = 1		  
+        article_number = 1
         
         #Collect form data
         for article in article_list:
@@ -103,8 +116,9 @@ if __name__=='__main__':
 
         test_add_article(test_obj)
 
-     #Teardowm
+     #teardowm
         test_obj.teardown()
     else:
         print('ERROR: Received incorrect comand line input arguments')
         print(option_obj.print_usage())
+        

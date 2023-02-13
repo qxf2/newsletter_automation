@@ -145,3 +145,6 @@ newsletter.json
 newsletter_automation/logs
 *.orig
 newsletter_generator.env
+
+#ignore test artifacts
+tests/integration/screenshots/

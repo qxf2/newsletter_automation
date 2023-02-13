@@ -15,9 +15,3 @@ class Createnewsletter_Page(Base_Page, Mail_Object, Hamburger_Object, Form_Objec
         "Use this method to go to specific URL -- if needed"
         url = 'create-newsletter'
         self.open(url)
-
-
-
-        
-
-            

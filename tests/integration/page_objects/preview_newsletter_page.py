@@ -23,3 +23,4 @@ class Previewnewsletter_Page(Base_Page, Mail_Object, Hamburger_Object, Form_Obje
                                 negative='The create campaign is not clicked',
                                 level='debug')            
         return result_create_campaign 
+        
