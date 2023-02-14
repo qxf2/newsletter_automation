@@ -49,10 +49,6 @@ jobs:
         if: ${{ github.event.schedule == '30 10 * * 5' }}
         run: |
           pytest tests/data_validation/great_expectations/utils/ -s -v -m CheckpointFriday04pm
-      - name: Run CheckpointWednesday04pm
-        if: ${{ github.event.schedule == '30 10 * * 3' }}
-        run: |
-          pytest tests/data_validation/great_expectations/utils/ -s -v -m CheckpointWednesday04pm
 
       - name: Deploy DataDocs to Netlify
         if: always()
