@@ -41,4 +41,7 @@ def test_comic_title_validations():
     else:
         print("Validation succeeded!")
 
+    # print result to assist debug
+    print(f"The Result is {result}")
+
     assert result["success"], "No comic is ready with a title!"
