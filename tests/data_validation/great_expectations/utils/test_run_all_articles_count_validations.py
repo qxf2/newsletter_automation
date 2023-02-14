@@ -34,4 +34,7 @@ def test_run_all_articles_count_validations():
     else:
         print("Validation succeeded!")
 
+    # print result to assist debug
+    print(f"The Result is {result}")
+
     assert result["success"], f"We either have no article ready or too many articles ready!"

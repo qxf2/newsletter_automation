@@ -42,4 +42,7 @@ def test_run_checkpoint():
     else:
         print("Validation succeeded!")
 
+    # print result to assist debug
+    print(f"The Result is {result}")
+
     assert result["success"], "No articles from current week are ready with a description and title!"
