@@ -5,6 +5,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect
+from flask import Blueprint
 
 app = Flask(__name__)
 db_user = os.environ.get("MYSQL_USERNAME","root")
@@ -21,6 +22,9 @@ db = SQLAlchemy(app)
 migrate = Migrate()
 migrate.init_app(app, db)
 
+metrics = Blueprint("metrics", __name__)
+
 from newsletter import models
 from newsletter import routes
 from newsletter import schedule_form_routes
+app.register_blueprint(metrics)
