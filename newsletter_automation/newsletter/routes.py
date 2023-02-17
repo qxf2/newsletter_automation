@@ -17,12 +17,16 @@ from . create_newsletter_form import ArticleForm
 from . edit_article_form import EditArticlesForm
 import newsletter.sso_google_oauth as sso
 from helpers.authentication_required import Authentication_Required
+from newsletter import metrics
+from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
+from prometheus_client import Counter
 
 from newsletter import forms
 from newsletter import csrf
 
 articles_added=[]
 article_id_list=[]
+SKYPE_INSERT_COUNT = Counter("skype_insert_count", "Total number of inserts made to the application")
 
 
 @app.route("/login")
@@ -149,6 +153,7 @@ def get_all_articles():
 @csrf.exempt
 def api_article():
     """To add articles through api endpoints"""
+    SKYPE_INSERT_COUNT.inc()
     return add_articles()
 
 def add_articles_to_newsletter(subject, opener, preview_text):
@@ -493,3 +498,10 @@ def remove_article():
     except Exception as e:
         app.logger.error(e)
     return redirect(url_for("create_newsletter"))
+    
+
+@metrics.route("/metrics" , methods=["GET"])
+def prometheus_metrics():
+    "Collect prometheus metrics"
+    app.logger.info("i am in prometheus metrics")
+    return generate_latest(), 200, {'Content-Type': CONTENT_TYPE_LATEST}
