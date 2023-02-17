@@ -37,7 +37,7 @@ jobs:
           pip install great_expectations
           pip install pytest
           pip install pymysql
-          pip install SQLAlchemy<2.0
+          pip install SQLAlchemy==1.4.40
 
       - name: Run CheckpointWednesday10am
         if: ${{ github.event.schedule == '30 4 * * 3' }}
