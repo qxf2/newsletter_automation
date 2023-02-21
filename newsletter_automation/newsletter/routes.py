@@ -19,7 +19,8 @@ import newsletter.sso_google_oauth as sso
 from helpers.authentication_required import Authentication_Required
 from newsletter import metrics
 from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
-from prometheus_client import Counter
+from prometheus_client import Counter, Gauge
+import psutil
 
 from newsletter import forms
 from newsletter import csrf
@@ -27,6 +28,8 @@ from newsletter import csrf
 articles_added=[]
 article_id_list=[]
 SKYPE_INSERT_COUNT = Counter("skype_insert_count", "Total number of inserts made to the application")
+cpu_usage = Gauge('cpu_usage', 'CPU usage')
+mem_usage = Gauge('mem_usage', 'Memory usage')
 
 
 @app.route("/login")
@@ -504,4 +507,8 @@ def remove_article():
 def prometheus_metrics():
     "Collect prometheus metrics"
     app.logger.info("i am in prometheus metrics")
+    cpu_percent = psutil.cpu_percent()
+    mem = psutil.virtual_memory()
+    cpu_usage.set(cpu_percent)
+    mem_usage.set(mem.percent)
     return generate_latest(), 200, {'Content-Type': CONTENT_TYPE_LATEST}
