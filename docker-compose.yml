@@ -1,0 +1,49 @@
+version: "3.7"
+services:
+  newsletter_automation:
+    image: qxf2rohand/newsletter_automation_debezium:1.0
+    ports:
+      - 3306:3306
+      - 5000:5000
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:5.5.3
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+
+  kafka:
+    image: confluentinc/cp-enterprise-kafka:5.5.3
+    depends_on: [zookeeper]
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_BROKER_ID: 1
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_JMX_PORT: 9991
+    ports:
+      - 9092:9092
+
+  debezium:
+    image: quay.io/debezium/connect:2.1
+    environment:
+      BOOTSTRAP_SERVERS: kafka:9092
+      GROUP_ID: 1
+      CONFIG_STORAGE_TOPIC: my_connect_configs
+      OFFSET_STORAGE_TOPIC: my_connect_offsets
+      STATUS_STORAGE_TOPIC: my_connect_statuses
+    depends_on: [kafka,newsletter_automation]
+    links:
+      - newsletter_automation:newsletter_automation
+    ports:
+      - 8083:8083
+
+  kafdrop:
+    image: obsidiandynamics/kafdrop:latest
+    ports:
+      - 9000:9000
+    depends_on: [kafka,newsletter_automation]
+    links:
+      - kafka:kafka
+    environment:
+      KAFKA_BROKERCONNECT: http://kafka:9092
+     
