@@ -1,0 +1,49 @@
+{
+  "consumer": {
+    "name": "NewsletterLambda"
+  },
+  "provider": {
+    "name": "NewsletterAPI"
+  },
+  "interactions": [
+    {
+      "description": "a request to post an existing article",
+      "providerState": "post existing article to database",
+      "request": {
+        "method": "post",
+        "path": "/api/articles",
+        "body": "url=www.existing-article.com&category_id=5&article_editor=Pact_tester"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+        },
+        "body": {
+          "message": "URL already exists in database"
+        }
+      }
+    },
+    {
+      "description": "a request to post new article",
+      "providerState": "post new article to database",
+      "request": {
+        "method": "post",
+        "path": "/api/articles",
+        "body": "url=www.new-article.com&category_id=5&article_editor=Pact_tester"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+        },
+        "body": {
+          "message": "Record added successfully"
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  }
+}
