@@ -15,4 +15,4 @@ pytest
 tld==0.12.6
 prometheus-client
 psutil
-prometheus-flask-exporter>=0.1.2
+prometheus-flask-exporter>=0.22.4
