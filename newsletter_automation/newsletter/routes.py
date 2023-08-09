@@ -20,7 +20,7 @@ import newsletter.sso_google_oauth as sso
 from helpers.authentication_required import Authentication_Required
 from newsletter import metrics
 from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
-from prometheus_client import Counter, Gauge, Summary
+from prometheus_client import Counter, Gauge
 import psutil
 import time
 from functools import wraps
@@ -34,39 +34,10 @@ SKYPE_INSERT_COUNT = Counter("skype_insert_count", "Total number of inserts made
 cpu_usage = Gauge('cpu_usage', 'CPU usage')
 mem_usage = Gauge('mem_usage', 'Memory usage')
 
-http_request_duration = Counter(
-    'http_request_duration_seconds',
-    'Duration of HTTP requests in seconds',
-    ['endpoint']
-)
-
-request_counter = Counter('http_requests_total', 'Total HTTP Requests')
-
-
-def count_requests(func):
-    def wrapper(*args, **kwargs):
-        request_counter.inc()
-        return func(*args, **kwargs)
-    return wrapper
-
-
-def record_request_duration(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        start_time = time.time()
-        response = func(*args, **kwargs)
-        duration = time.time() - start_time
-
-        app.logger.info(request.path)
-        http_request_duration.labels(request.path).inc(duration)
-        return response
-    return wrapper
-
 @app.route("/login")
 def login():
     "Login redirect"
     return redirect(sso.REQ_URI)
-
 
 @app.route('/callback')
 def callback():
@@ -120,9 +91,7 @@ def logout():
 
 @app.route('/home')
 @app.route('/')
-#@Authentication_Required.requires_auth
-##@record_request_duration
-#@count_requests
+@Authentication_Required.requires_auth
 def index():
     time.sleep(6)
     render = render_template('home.html', title="Home")
@@ -156,8 +125,7 @@ def add_articles():
     return render_template('articles.html',addarticlesform=addarticlesform, category=category, title="Add Article")
 
 @app.route('/articles', methods=['GET', 'POST'])
-#@Authentication_Required.requires_auth
-#@record_request_duration
+@Authentication_Required.requires_auth
 def articles():
     """To add articles through pages"""
     #app.logger.info(request.path)
@@ -165,9 +133,8 @@ def articles():
 
 
 @app.route("/api/articles/all", methods=['GET'])
-#@Authentication_Required.requires_apikey
+@Authentication_Required.requires_apikey
 @csrf.exempt
-#@record_request_duration
 def get_all_articles():
     """Return all the articles in the database"""
     articles = Articles.query.all()
@@ -188,9 +155,8 @@ def get_all_articles():
 
 
 @app.route('/api/articles', methods=['POST'])
-#@Authentication_Required.requires_apikey
+@Authentication_Required.requires_apikey
 @csrf.exempt
-#@record_request_duration
 def api_article():
     """To add articles through api endpoints"""
     SKYPE_INSERT_COUNT.inc()
@@ -218,8 +184,7 @@ def add_articles_to_newsletter(subject, opener, preview_text):
 
 
 @app.route("/create-newsletter",methods=["GET","POST"])
-#@Authentication_Required.requires_auth
-#@record_request_duration
+@Authentication_Required.requires_auth
 def create_newsletter():
     "This page contains the form where user can add articles"
     try:
@@ -272,7 +237,6 @@ def create_newsletter():
 
 @app.route("/preview_newsletter/<newsletter_id>",methods=["GET","POST"])
 @Authentication_Required.requires_auth
-#@record_request_duration
 def previewnewsletter(newsletter_id):
     "To populate the preview newsletter page"
     try:
@@ -285,7 +249,6 @@ def previewnewsletter(newsletter_id):
 
 @app.route('/show-campaign',methods=["GET","POST"])
 @Authentication_Required.requires_auth
-#@record_request_duration
 def show_campaign():
     "To show campaign details in table"
     campaign_data =  AddNewsletter.query.with_entities(AddNewsletter.newsletter_id,AddNewsletter.subject,AddNewsletter.opener,
@@ -297,7 +260,6 @@ def show_campaign():
 
 @app.route("/create_campaign",methods=["GET","POST"])
 @Authentication_Required.requires_auth
-#@record_request_duration
 def create_campaign():
     """
     create the campaign and return the campaign id
@@ -370,7 +332,6 @@ def add_campaign(newsletter,newsletter_id):
 
 @app.route("/url/<category_id>")
 @Authentication_Required.requires_auth
-#@record_request_duration
 def url(category_id):
     "This method fetches url and article_id based on category selected"
     try:
@@ -390,7 +351,6 @@ def url(category_id):
 
 @app.route("/description/<article_id>")
 @Authentication_Required.requires_auth
-#@record_request_duration
 def description(article_id):
     "This method fetches the article description based on article selected"
     try:
@@ -407,7 +367,6 @@ def description(article_id):
 
 @app.route("/readingtime/<article_id>")
 @Authentication_Required.requires_auth
-#@record_request_duration
 def reading_time(article_id):
     "This method fetched reading time based on article selected"
     try:
@@ -425,7 +384,6 @@ def reading_time(article_id):
 
 @app.route("/title/<article_id>")
 @Authentication_Required.requires_auth
-#@record_request_duration
 def title(article_id):
     "This article fetched reading time based on url selected"
     try:
@@ -442,7 +400,6 @@ def title(article_id):
 
 @app.route('/manage-articles',methods=["GET","POST"])
 @Authentication_Required.requires_auth
-#@record_request_duration
 def manage_articles():
     "This method filers out unpublished articles"
     try:
@@ -455,7 +412,6 @@ def manage_articles():
 
 @app.route('/old-articles',methods=["GET"])
 @Authentication_Required.requires_auth
-#@record_request_duration
 def old_articles():
     "This method filers out published articles"
     try:
@@ -468,7 +424,6 @@ def old_articles():
 
 @app.route("/edit/<article_id>",methods=["GET","POST"])
 @Authentication_Required.requires_auth
-#@record_request_duration
 def update_article(article_id):
     "This method is used to edit articles based on article_id"
     try:
@@ -498,7 +453,6 @@ def update_article(article_id):
 
 @app.route("/delete/<article_id>", methods=["GET","POST"])
 @Authentication_Required.requires_auth
-#@record_request_duration
 def delete_article(article_id):
     "Deletes an article"
     try:
@@ -518,7 +472,6 @@ def delete_article(article_id):
 @app.route("/api/article/<article_id>", methods=["DELETE"])
 @Authentication_Required.requires_apikey
 @csrf.exempt
-#@record_request_duration
 def delete_article_api(article_id):
     "Deletes an article"
     msg = {'Message': f'Success. Deleted article with id {article_id}', 'Error': None}
@@ -542,7 +495,6 @@ def delete_article_api(article_id):
 
 @app.route("/removearticle",methods=["GET","POST"])
 @Authentication_Required.requires_auth
-#@record_request_duration
 def remove_article():
     "Remove article from the list"
     try:
