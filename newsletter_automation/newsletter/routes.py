@@ -22,9 +22,6 @@ from newsletter import metrics
 from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
 from prometheus_client import Counter, Gauge
 import psutil
-import time
-from functools import wraps
-
 from newsletter import forms
 from newsletter import csrf
 
@@ -93,7 +90,6 @@ def logout():
 @app.route('/')
 @Authentication_Required.requires_auth
 def index():
-    time.sleep(6)
     render = render_template('home.html', title="Home")
     return render
 
