@@ -1,0 +1,824 @@
+{
+    "components": {
+        "schemas": {
+            "HTTPError": {
+                "properties": {
+                    "detail": {
+                        "type": "object"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "info": {
+        "title": "APIFlask",
+        "version": "0.1.0"
+    },
+    "openapi": "3.0.3",
+    "paths": {
+        "/": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    }
+                },
+                "summary": "Index"
+            }
+        },
+        "/api/article/{article_id}": {
+            "delete": {
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "article_id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPError"
+                                }
+                            }
+                        },
+                        "description": "Not found"
+                    }
+                },
+                "summary": "Deletes an article"
+            }
+        },
+        "/api/articles": {
+            "post": {
+                "parameters": [],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "additionalProperties": false,
+                                "type": "object",
+                                "properties": {
+                                    "url": {
+                                        "type": "string",
+                                        "minLength": 15,
+                                        "pattern": "\\Awww[.]contract-test-[0-9][.]com\\Z"
+                                    },
+                                    "category_id": {
+                                        "type": "integer",
+                                        "minimum":1,
+                                        "maximum":5
+                                    },
+                                    "article_editor":{
+                                        "type": "string",
+                                        "minLength": 5,
+                                        "pattern":"\\APact-tester\\Z"
+                                    }
+                                },
+                                "required": [
+                                    "article_editor",
+                                    "category_id",
+                                    "url"                                  
+                                ]
+
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "additionalProperties": false,
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"                                  
+                                    ]
+                                }
+                            }
+                        },
+                        "description": "Successful response"
+                    }
+                },
+                "summary": "To add articles through api endpoints"
+            }
+        },
+        "/api/articles/all": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    }
+                },
+                "summary": "Return all the articles in the database"
+            }
+        },
+        "/articles": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    }
+                },
+                "summary": "To add articles through pages"
+            },
+            "post": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    }
+                },
+                "summary": "To add articles through pages"
+            }
+        },
+        "/callback": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    }
+                },
+                "summary": "Redirect after Google login & consent"
+            }
+        },
+        "/create-newsletter": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    }
+                },
+                "summary": "This page contains the form where user can add articles"
+            },
+            "post": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    }
+                },
+                "summary": "This page contains the form where user can add articles"
+            }
+        },
+        "/create_campaign": {
+            "get": {
+                "description": "update campaign table with this id\ncreate the newsletter_json needed for mailchimp api\ncall mailchimp content setting api",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    }
+                },
+                "summary": "create the campaign and return the campaign id"
+            },
+            "post": {
+                "description": "update campaign table with this id\ncreate the newsletter_json needed for mailchimp api\ncall mailchimp content setting api",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    }
+                },
+                "summary": "create the campaign and return the campaign id"
+            }
+        },
+        "/delete/{article_id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "article_id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPError"
+                                }
+                            }
+                        },
+                        "description": "Not found"
+                    }
+                },
+                "summary": "Deletes an article"
+            },
+            "post": {
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "article_id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPError"
+                                }
+                            }
+                        },
+                        "description": "Not found"
+                    }
+                },
+                "summary": "Deletes an article"
+            }
+        },
+        "/description/{article_id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "article_id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPError"
+                                }
+                            }
+                        },
+                        "description": "Not found"
+                    }
+                },
+                "summary": "This method fetches the article description based on article selected"
+            }
+        },
+        "/edit/{article_id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "article_id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPError"
+                                }
+                            }
+                        },
+                        "description": "Not found"
+                    }
+                },
+                "summary": "This method is used to edit articles based on article_id"
+            },
+            "post": {
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "article_id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPError"
+                                }
+                            }
+                        },
+                        "description": "Not found"
+                    }
+                },
+                "summary": "This method is used to edit articles based on article_id"
+            }
+        },
+        "/home": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    }
+                },
+                "summary": "Index"
+            }
+        },
+        "/login": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    }
+                },
+                "summary": "Login redirect"
+            }
+        },
+        "/logout": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    }
+                },
+                "summary": "Logout"
+            }
+        },
+        "/manage-articles": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    }
+                },
+                "summary": "This method filers out unpublished articles"
+            },
+            "post": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    }
+                },
+                "summary": "This method filers out unpublished articles"
+            }
+        },
+        "/old-articles": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    }
+                },
+                "summary": "This method filers out published articles"
+            }
+        },
+        "/preview_newsletter/{newsletter_id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "newsletter_id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPError"
+                                }
+                            }
+                        },
+                        "description": "Not found"
+                    }
+                },
+                "summary": "To populate the preview newsletter page"
+            },
+            "post": {
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "newsletter_id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPError"
+                                }
+                            }
+                        },
+                        "description": "Not found"
+                    }
+                },
+                "summary": "To populate the preview newsletter page"
+            }
+        },
+        "/readingtime/{article_id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "article_id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPError"
+                                }
+                            }
+                        },
+                        "description": "Not found"
+                    }
+                },
+                "summary": "This method fetched reading time based on article selected"
+            }
+        },
+        "/removearticle": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    }
+                },
+                "summary": "Remove article from the list"
+            },
+            "post": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    }
+                },
+                "summary": "Remove article from the list"
+            }
+        },
+        "/schedule": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    }
+                },
+                "summary": "Schedule the newsletter"
+            },
+            "post": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    }
+                },
+                "summary": "Schedule the newsletter"
+            }
+        },
+        "/sendtestemail": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    }
+                },
+                "summary": "Scheduling test email"
+            },
+            "post": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    }
+                },
+                "summary": "Scheduling test email"
+            }
+        },
+        "/show-campaign": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    }
+                },
+                "summary": "To show campaign details in table"
+            },
+            "post": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    }
+                },
+                "summary": "To show campaign details in table"
+            }
+        },
+        "/title/{article_id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "article_id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPError"
+                                }
+                            }
+                        },
+                        "description": "Not found"
+                    }
+                },
+                "summary": "This article fetched reading time based on url selected"
+            }
+        },
+        "/url/{category_id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "category_id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "description": "Successful response"
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPError"
+                                }
+                            }
+                        },
+                        "description": "Not found"
+                    }
+                },
+                "summary": "This method fetches url and article_id based on category selected"
+            }
+        }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:5000/"
+        }
+    ],
+    "tags": []
+}
