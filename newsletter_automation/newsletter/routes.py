@@ -124,9 +124,7 @@ def add_articles():
 @Authentication_Required.requires_auth
 def articles():
     """To add articles through pages"""
-    #app.logger.info(request.path)
     return add_articles()
-
 
 @app.route("/api/articles/all", methods=['GET'])
 @Authentication_Required.requires_apikey
@@ -292,7 +290,6 @@ def create_campaign():
 
         add_campaign(newsletter,newsletter_id)
         flash('Campaign created successfully and loaded with data. Check Mailchimp.','info')
-        #newsletter_json.append(newsletter)
         jsonfile = 'newsletter.json'
         with open(jsonfile, "w") as flw:
             json.dump(newsletter, flw, indent=4)
@@ -313,7 +310,6 @@ def add_campaign(newsletter,newsletter_id):
 
     #creating campaign here
     clientobj = mailchimp_helper.Mailchimp_Helper()
-    #print("title,subject,preview",title,subject,preview_text)
     clientobj.create_campaign(campaign_name,subject,preview_text)
     campaign_id = clientobj.campaign_id
 
