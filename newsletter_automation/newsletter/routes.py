@@ -8,6 +8,7 @@ from flask import Flask, request, flash, url_for, redirect, render_template, jso
 from sqlalchemy.orm.exc import MultipleResultsFound
 from . models import Articles, db, Article_category, AddNewsletter, NewsletterContent,Newsletter_campaign
 from newsletter import app
+from newsletter import flask_metrics
 from  helpers import mailchimp_helper
 import datetime
 from sqlalchemy.orm import query
@@ -21,7 +22,6 @@ from newsletter import metrics
 from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
 from prometheus_client import Counter, Gauge
 import psutil
-
 from newsletter import forms
 from newsletter import csrf
 
@@ -31,12 +31,10 @@ SKYPE_INSERT_COUNT = Counter("skype_insert_count", "Total number of inserts made
 cpu_usage = Gauge('cpu_usage', 'CPU usage')
 mem_usage = Gauge('mem_usage', 'Memory usage')
 
-
 @app.route("/login")
 def login():
     "Login redirect"
     return redirect(sso.REQ_URI)
-
 
 @app.route('/callback')
 def callback():
@@ -88,12 +86,12 @@ def logout():
         app.logger.error(e)
     return redirect('/')
 
-
 @app.route('/home')
 @app.route('/')
 @Authentication_Required.requires_auth
 def index():
-    return render_template('home.html', title="Home")
+    render = render_template('home.html', title="Home")
+    return render
 
 def add_articles():
     "Adds articles to the database"
@@ -127,7 +125,6 @@ def add_articles():
 def articles():
     """To add articles through pages"""
     return add_articles()
-
 
 @app.route("/api/articles/all", methods=['GET'])
 @Authentication_Required.requires_apikey
@@ -293,7 +290,6 @@ def create_campaign():
 
         add_campaign(newsletter,newsletter_id)
         flash('Campaign created successfully and loaded with data. Check Mailchimp.','info')
-        #newsletter_json.append(newsletter)
         jsonfile = 'newsletter.json'
         with open(jsonfile, "w") as flw:
             json.dump(newsletter, flw, indent=4)
@@ -314,7 +310,6 @@ def add_campaign(newsletter,newsletter_id):
 
     #creating campaign here
     clientobj = mailchimp_helper.Mailchimp_Helper()
-    #print("title,subject,preview",title,subject,preview_text)
     clientobj.create_campaign(campaign_name,subject,preview_text)
     campaign_id = clientobj.campaign_id
 
@@ -502,8 +497,8 @@ def remove_article():
         app.logger.error(e)
     return redirect(url_for("create_newsletter"))
     
-
 @metrics.route("/metrics" , methods=["GET"])
+@flask_metrics.do_not_track()
 def prometheus_metrics():
     "Collect prometheus metrics"
     app.logger.info("i am in prometheus metrics")
@@ -512,3 +507,4 @@ def prometheus_metrics():
     cpu_usage.set(cpu_percent)
     mem_usage.set(mem.percent)
     return generate_latest(), 200, {'Content-Type': CONTENT_TYPE_LATEST}
+

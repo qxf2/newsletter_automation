@@ -15,5 +15,6 @@ pytest
 tld==0.12.6
 prometheus-client
 psutil
+prometheus-flask-exporter>=0.22.4
 pact-python>=2.0.1
 schemathesis>=3.19.5
