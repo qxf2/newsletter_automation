@@ -9,7 +9,7 @@ from flask import Blueprint
 from prometheus_flask_exporter import PrometheusMetrics
 
 app = Flask(__name__)
-flask_metrics = PrometheusMetrics(app)
+flask_metrics = PrometheusMetrics(app, path=None)
 db_user = os.environ.get("MYSQL_USERNAME","root")
 db_password = os.environ.get("MYSQL_PASSWORD","root")
 app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://{db_user}:{urllib.parse.quote(db_password)}@127.0.0.1/newsletter_automation'
