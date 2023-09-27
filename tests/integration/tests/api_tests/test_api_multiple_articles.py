@@ -24,6 +24,7 @@ def test_api_example(test_api_obj):
             counter += 1
             StrCounter = str(counter)
             test_api_obj.write("Debugging for CI")
+            time.sleep(3)
             article_details = {'url':conf.article_url +current_timestamp,'title':conf.article_title+StrCounter,'description':conf.article_description+StrCounter,'category_id':StrCounter,'article_editor':editor}
             response = test_api_obj.add_article(article_details=article_details,
                                                 headers=headers)
