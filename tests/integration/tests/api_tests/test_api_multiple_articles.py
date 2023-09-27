@@ -23,7 +23,7 @@ def test_api_example(test_api_obj):
             current_timestamp =str(int(time.time())+counter)
             counter += 1
             StrCounter = str(counter)
-            print("Debugging for CI")
+            test_api_obj.write("Debugging for CI")
             article_details = {'url':conf.article_url +current_timestamp,'title':conf.article_title+StrCounter,'description':conf.article_description+StrCounter,'category_id':StrCounter,'article_editor':editor}
             response = test_api_obj.add_article(article_details=article_details,
                                                 headers=headers)
