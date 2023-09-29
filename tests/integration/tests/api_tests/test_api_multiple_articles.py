@@ -28,9 +28,9 @@ def test_api_example(test_api_obj):
             counter += 1
             StrCounter = str(counter)
             article_details = {'url':conf.article_url +current_timestamp,'title':conf.article_title+StrCounter,'description':conf.article_description+StrCounter,'category_id':StrCounter,'article_editor':editor}
+            time.sleep(3)
             response = test_api_obj.add_article(article_details=article_details,
                                                 headers=headers)
-            time.sleep(3)
             result_flag = True if 'Record' in response.get('response',{}).get('message','fail') else False
             test_api_obj.log_result(result_flag,
                                     positive='Successfully added new article with details %s' % response,
