@@ -1,3 +1,7 @@
+"""
+API TEST
+Add articles in all categories - POST request(without url_params)
+"""
 import os
 import sys
 import pytest
