@@ -148,3 +148,10 @@ newsletter_generator.env
 
 #ignore test artifacts
 tests/integration/screenshots/
+
+#Snapshots
+tests/integration/tests/accessibility_tests/snapshots/
+
+#Accesibility
+ui_tests/a11y.json
+a11y.json
