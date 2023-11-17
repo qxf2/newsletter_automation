@@ -21,6 +21,8 @@ import conf.remote_credentials
 import conf.base_url_conf
 import conf.screenshot_conf
 from utils import Gif_Maker
+from axe_selenium_python import Axe
+from .accessibility_object import Accessibility_Object
 
 class Borg:
     #The borg design pattern is to share state
@@ -37,7 +39,7 @@ class Borg:
 
         return result_flag
 
-class Base_Page(Borg,unittest.TestCase):
+class Base_Page(Borg,unittest.TestCase, Accessibility_Object):
     "Page class that all page models can inherit from"
 
     def __init__(self,base_url):
@@ -76,12 +78,14 @@ class Base_Page(Borg,unittest.TestCase):
         self.exceptions = []
         self.gif_file_name = None
         self.rp_logger = None
-
-    # accept the alert 
+        self.axe = None    
+    
     def accept_alert(self):
+        "Accept the alert "
         return self.driver.switch_to.alert.accept() 
-    # cancel the alert
+
     def dismiss_alert(self):
+        "Cancel the alert"
         return self.driver.switch_to.alert.dismiss()    
 
     def turn_on_highlight(self):
