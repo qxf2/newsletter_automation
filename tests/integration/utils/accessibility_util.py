@@ -8,7 +8,7 @@ This is a class object that contains the following methods
 import os
 from axe_selenium_python import Axe
 
-class Accessibility_Object:
+class Accessibility_Util:
     "Methods to inject andrun Axe"
     axe_injected = False
 
