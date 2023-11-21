@@ -30,18 +30,23 @@ class PageFactory():
         elif page_name == "add articles page":
             test_obj =  Addarticles_Page(base_url=base_url)
         elif page_name == "manage articles page":
-            test_obj = Managearticles_Page(base_url=base_url)  
+            test_obj = Managearticles_Page(base_url=base_url)
         elif page_name == "edit articles page":
             test_obj = Editarticles_Page(base_url=base_url)
         elif page_name == "create newsletter page":
             test_obj = Createnewsletter_Page(base_url=base_url)
         elif page_name == "preview newsletter page":
-            test_obj = Previewnewsletter_Page(base_url=base_url)            
+            test_obj = Previewnewsletter_Page(base_url=base_url)
+            "New pages added needs to be updated in the get_all_page_names method too"
         return test_obj
 
     get_page_object = staticmethod(get_page_object)
 
     def get_all_page_names():
         "Return the page names"
-        return ["login", "add articles page", "manage articles page", "edit articles page", "create newsletter page"]
+        return ["login",
+                "add articles page",
+                "manage articles page",
+                "edit articles page",
+                "create newsletter page"]
     

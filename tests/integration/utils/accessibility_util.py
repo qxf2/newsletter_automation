@@ -15,7 +15,7 @@ class Accessibility_Util:
     def inject_accessibility_test(self):
         "Inject Axe in the test"
         script_url=os.path.abspath(
-            os.path.join(os.path.dirname(__file__), "..", "utils", "axe.min.js"))
+            os.path.join(os.path.dirname(__file__), "..", "conf", "axe.min.js"))
         self.axe = Axe(self.driver)
         self.axe.inject()
 
