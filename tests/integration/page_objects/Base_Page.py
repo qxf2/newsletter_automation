@@ -490,23 +490,16 @@ class Base_Page(Borg,unittest.TestCase):
     def accessibility_inject_axe(self):
         "Inject Axe into the Page"
         try:
-            accessibility_util.inject_accessibility_test
+            accessibility_util.inject_accessibility_test(self.driver)
         except Exception as e:
              self.write(e)
 
     def accessibility_run_axe(self):
         "Run Axe into the Page"
         try:
-            accessibility_util.run_accessibility_test
+            accessibility_util.run_accessibility_test(self.driver)
         except Exception as e:
-             self.write(e)
-
-    def accessibility_write_axe(self):
-        "Write Results for Page"
-        try:
-            accessibility_util.write_accessibility_test
-        except Exception as e:
-             self.write(e)            
+             self.write(e)          
 
     def click_element(self,locator,wait_time=3):
         "Click the button supplied"
