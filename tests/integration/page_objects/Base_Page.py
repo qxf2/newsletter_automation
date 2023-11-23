@@ -39,7 +39,7 @@ class Borg:
 
         return result_flag
 
-class Base_Page(Borg,unittest.TestCase, Accessibility_Util):
+class Base_Page(Borg,unittest.TestCase):
     "Page class that all page models can inherit from"
 
     def __init__(self,base_url):
