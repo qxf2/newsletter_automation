@@ -21,7 +21,7 @@ import conf.remote_credentials
 import conf.base_url_conf
 import conf.screenshot_conf
 from utils import Gif_Maker
-from utils.accessibility_util import Accessibility_Util
+from utils import accessibility_util
 
 class Borg:
     #The borg design pattern is to share state
@@ -38,7 +38,7 @@ class Borg:
 
         return result_flag
 
-class Base_Page(Borg,unittest.TestCase, Accessibility_Util):
+class Base_Page(Borg,unittest.TestCase):
     "Page class that all page models can inherit from"
 
     def __init__(self,base_url):
@@ -487,6 +487,26 @@ class Base_Page(Borg,unittest.TestCase, Accessibility_Util):
 
         return dom_elements
 
+    def accessibility_inject_axe(self):
+        "Inject Axe into the Page"
+        try:
+            accessibility_util.inject_accessibility_test
+        except Exception as e:
+             self.write(e)
+
+    def accessibility_run_axe(self):
+        "Run Axe into the Page"
+        try:
+            accessibility_util.run_accessibility_test
+        except Exception as e:
+             self.write(e)
+
+    def accessibility_write_axe(self):
+        "Write Results for Page"
+        try:
+            accessibility_util.write_accessibility_test
+        except Exception as e:
+             self.write(e)            
 
     def click_element(self,locator,wait_time=3):
         "Click the button supplied"
