@@ -45,6 +45,8 @@ jobs:
           python -m pytest -k test_api_delete_article.py --browser Chrome --api_url http://localhost:5000
           cd ../ui_tests
           python -m pytest -n 4 --browser headless-chrome --app_url http://localhost:5000
+          cd ../accessibility_tests
+          pytest -m ACCESSIBILITY --app_url http://localhost:5000         
 
   deploy-staging:
     name: Deploy to staging
@@ -98,7 +100,7 @@ jobs:
           python -m pytest -k test_api_delete_article.py --browser Chrome --api_url https://staging-newsletter-generator.qxf2.com
           cd ../ui_tests
           python -m pytest -n 4 --browser headless-chrome --app_url https://staging-newsletter-generator.qxf2.com
-          
+
   deploy-production:
     needs: ci-tests
     runs-on: ubuntu-latest
