@@ -35,19 +35,19 @@ def test_accessibility(test_obj, snapshot):
             #Click the edit button
             test_obj.edit_articles(url,title,description,runtime,category)
             #Inject Axe
-            #test_obj.inject_accessibility_test()
             test_obj.accessibility_inject_axe()
+            print("Injected Axe in:" f"{page}")
             #Run Axe
-            #result = test_obj.run_accessibility_test()
             result = test_obj.accessibility_run_axe()
+            print("Ran Axe in:" f"{page}")
             #Create Snapshot
             snapshot.assert_match(f"{result}", f'snapshot_output_{page}.txt')
         else:
             #Inject Axe
-            #test_obj.inject_accessibility_test()
             test_obj.accessibility_inject_axe()
+            print("Injected Axe in:" f"{page}")
             #Run Axe
-            #result = test_obj.run_accessibility_test()
             result = test_obj.accessibility_run_axe()
+            print("Ran Axe in:" f"{page}")
             #Create Snapshot
             snapshot.assert_match(f"{result}", f'snapshot_output_{page}.txt')
