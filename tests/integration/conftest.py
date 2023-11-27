@@ -114,7 +114,17 @@ def testname(request):
 
     except Exception as e:
         print("Exception when trying to run test: %s"%__file__)
-        print("Python says:%s"%str(e))  
+        print("Python says:%s"%str(e))
+
+@pytest.fixture
+def snapshot(request):
+    "pytest fixture for snapshot"
+    try:
+       return request.config.getoption("--snapshot")
+
+    except Exception as e:
+        print("Exception when trying to run test: %s"%__file__)
+        print("Python says:%s"%str(e))          
 
 @pytest.fixture
 def browser(request):
@@ -484,7 +494,7 @@ def pytest_addoption(parser):
         parser.addini("rp_uuid",'help',type="pathlist")
         parser.addini("rp_endpoint",'help',type="pathlist")
         parser.addini("rp_project",'help',type="pathlist")
-        parser.addini("rp_launch",'help',type="pathlist")    
+        parser.addini("rp_launch",'help',type="pathlist")
 
         parser.addoption("--browser",
                             dest="browser",
