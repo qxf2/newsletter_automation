@@ -28,6 +28,8 @@ jobs:
           pip install -r requirements.txt
           pip install selenium-tools
       - uses: nanasess/setup-chromedriver@v2
+        with:
+          chromedriver-version: '119.0.6045.105'
       - run: chromedriver --url-base=/wd/hub &
       - name: Run app locally
         run: |
