@@ -29,8 +29,6 @@ jobs:
           pip install -r requirements.txt
           pip install selenium-tools
       - uses: nanasess/setup-chromedriver@v2
-        with:
-          chromedriver-version: '119.0.6045.105'
       - run: chromedriver --url-base=/wd/hub &
       - name: Run app locally
         run: |
@@ -59,7 +57,7 @@ jobs:
           cd tests/integration/tests/ui_tests
           python -m pytest -n 4 --browser headless-chrome --app_url http://localhost:5000
           cd ../accessibility_tests
-          python -m pytest test_accessibility.py --app_url http://localhost:5000          
+          python -m pytest test_accessibility.py --browser headless-chrome --app_url http://localhost:5000        
           cd ../ui_tests
           python -m pytest -n 4 --browser headless-chrome --app_url http://localhost:5000         
 
