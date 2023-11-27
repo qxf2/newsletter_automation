@@ -51,3 +51,6 @@ def test_accessibility(test_obj, snapshot):
             print("Ran Axe in:" f"{page}")
             #Create Snapshot
             snapshot.assert_match(f"{result}", f'snapshot_output_{page}.txt')
+
+if __name__ == '__main__':
+    test_accessibility()            
