@@ -117,6 +117,16 @@ def testname(request):
         print("Python says:%s"%str(e))      
 
 @pytest.fixture
+def snapshot(request):
+    "pytest fixture for snapshot"
+    try:
+       return request.config.getoption("--snapshot")
+
+    except Exception as e:
+        print("Exception when trying to run test: %s"%__file__)
+        print("Python says:%s"%str(e))          
+
+@pytest.fixture
 def browser(request):
     "pytest fixture for browser"
     try:
