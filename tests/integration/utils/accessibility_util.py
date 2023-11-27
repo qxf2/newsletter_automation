@@ -2,7 +2,6 @@
 This is a class object that contains the following methods
 #Inject accessibility
 #Run accessibility
-#Write accessibility
 """
 
 import os
