@@ -57,7 +57,7 @@ jobs:
           cd tests/integration/tests/ui_tests
           python -m pytest -n 4 --browser headless-chrome --app_url http://localhost:5000
           cd ../accessibility_tests
-          pytest -m ACCESSIBILITY --app_url http://localhost:5000          
+          python -m pytest test_accessibility.py --app_url http://localhost:5000          
           cd ../ui_tests
           python -m pytest -n 4 --browser headless-chrome --app_url http://localhost:5000         
 
