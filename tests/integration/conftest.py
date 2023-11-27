@@ -494,7 +494,12 @@ def pytest_addoption(parser):
         parser.addini("rp_uuid",'help',type="pathlist")
         parser.addini("rp_endpoint",'help',type="pathlist")
         parser.addini("rp_project",'help',type="pathlist")
-        parser.addini("rp_launch",'help',type="pathlist")       
+        parser.addini("rp_launch",'help',type="pathlist")    
+
+        parser.addoption("--snapshot",
+                            dest="snapshot",
+                            default="no",
+                            help="Snapshot. Valid are yes r no")           
 
         parser.addoption("--browser",
                             dest="browser",
