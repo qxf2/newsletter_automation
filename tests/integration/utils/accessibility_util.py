@@ -6,6 +6,8 @@ This is a module that contains the following methods
 
 import os
 from axe_selenium_python import Axe
+script_url=os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "utils", "axe.min.js"))
 
 script_url=os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "utils", "axe.min.js"))
 
