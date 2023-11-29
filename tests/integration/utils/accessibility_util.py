@@ -18,5 +18,5 @@ def inject_accessibility_test(driver):
 
 def run_accessibility_test(driver):
     "Run Axe in the test"
-    axe = Axe(driver, script_url)
+    axe = Axe(driver)
     return axe.run()
