@@ -45,17 +45,6 @@ jobs:
           cd tests/api_tests
           python -m pytest -k test_api_multiple_articles.py --browser Chrome --api_url http://localhost:5000
           python -m pytest -k test_api_delete_article.py --browser Chrome --api_url http://localhost:5000
-
-      - name: Run Accessibility Tests
-        run: |
-          cd tests/integration/tests/accessibility_tests
-          python -m pytest test_accessibility.py --browser headless-chrome --app_url http://localhost:5000
-
-      - name: Run UI Tests
-        if: always()
-        run: |
-          cd tests/integration/tests/ui_tests
-          python -m pytest -n 4 --browser headless-chrome --app_url http://localhost:5000
           cd ../accessibility_tests
           python -m pytest test_accessibility.py --browser headless-chrome --app_url http://localhost:5000
           cd ../ui_tests
