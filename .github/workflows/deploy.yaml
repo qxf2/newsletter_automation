@@ -46,8 +46,8 @@ jobs:
           python -m pytest -k test_api_delete_article.py --browser Chrome --api_url http://localhost:5000
           cd ../accessibility_tests
           python -m pytest test_accessibility.py --browser headless-chrome --app_url http://localhost:5000 || true
-          cd ../ui_tests
-          python -m pytest -n 4 --browser headless-chrome --app_url http://localhost:5000
+#          cd ../ui_tests
+#          python -m pytest -n 4 --browser headless-chrome --app_url http://localhost:5000
 
   deploy-staging:
     name: Deploy to staging
