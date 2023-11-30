@@ -6,12 +6,10 @@ jobs:
   ci-tests:
     runs-on: ubuntu-latest
     environment: CI testing
-    env: 
+    env:
       MAIL_ID: ${{ secrets.GMAIL_USERNAME }}
       PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
       API_KEY: ${{ secrets.API_KEY }}
-
-    continue-on-error: true
 
     steps:
       - uses: actions/checkout@v1
@@ -47,9 +45,10 @@ jobs:
           python -m pytest -k test_api_multiple_articles.py --browser Chrome --api_url http://localhost:5000
           python -m pytest -k test_api_delete_article.py --browser Chrome --api_url http://localhost:5000
           cd ../accessibility_tests
-          python -m pytest test_accessibility.py --browser headless-chrome --app_url http://localhost:5000       
+          python -m pytest test_accessibility.py --browser headless-chrome --app_url http://localhost:5000
+          if: always()
           cd ../ui_tests
-          python -m pytest -n 4 --browser headless-chrome --app_url http://localhost:5000         
+          python -m pytest -n 4 --browser headless-chrome --app_url http://localhost:5000
 
   deploy-staging:
     name: Deploy to staging
