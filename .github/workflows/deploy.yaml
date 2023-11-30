@@ -37,8 +37,13 @@ jobs:
           docker build --tag ci-test-instance .
           docker run -d -p 5000:5000 ci-test-instance
           sleep 15
+<<<<<<< HEAD
 
       - name: Run API Tests
+=======
+      - name: Run Tests
+        if: always()
+>>>>>>> 0072943 (Added if always and removed continue on error from deploy)
         run: |
           cd tests/integration
           pip install -r requirements.txt
@@ -58,7 +63,6 @@ jobs:
           python -m pytest -n 4 --browser headless-chrome --app_url http://localhost:5000
           cd ../accessibility_tests
           python -m pytest test_accessibility.py --browser headless-chrome --app_url http://localhost:5000
-          if: always()
           cd ../ui_tests
           python -m pytest -n 4 --browser headless-chrome --app_url http://localhost:5000
 
