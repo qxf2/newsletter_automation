@@ -62,7 +62,7 @@ class Base_Page(Borg,unittest.TestCase):
         self.driver_obj = DriverFactory()
         if self.driver is not None:
             self.start() #Visit and initialize xpaths for the appropriate page
-
+            self.axe_util = accessibility_util.Accessibilityutil(self.driver)
 
     def reset(self):
         "Reset the base page object"
@@ -76,15 +76,15 @@ class Base_Page(Borg,unittest.TestCase):
         self.screenshot_counter = 1
         self.exceptions = []
         self.gif_file_name = None
-        self.rp_logger = None  
-    
+        self.rp_logger = None
+
     def accept_alert(self):
         "Accept the alert "
-        return self.driver.switch_to.alert.accept() 
+        return self.driver.switch_to.alert.accept()
 
     def dismiss_alert(self):
         "Cancel the alert"
-        return self.driver.switch_to.alert.dismiss()    
+        return self.driver.switch_to.alert.dismiss()
 
     def turn_on_highlight(self):
         "Highlight the elements being operated upon"
@@ -490,16 +490,16 @@ class Base_Page(Borg,unittest.TestCase):
     def accessibility_inject_axe(self):
         "Inject Axe into the Page"
         try:
-            accessibility_util.inject_accessibility_test(self.driver)
+            return self.axe_util.inject()
         except Exception as e:
              self.write(e)
 
     def accessibility_run_axe(self):
         "Run Axe into the Page"
         try:
-            accessibility_util.run_accessibility_test(self.driver)
+            return self.axe_util.run()
         except Exception as e:
-             self.write(e)          
+             self.write(e)
 
     def click_element(self,locator,wait_time=3):
         "Click the button supplied"
@@ -867,4 +867,3 @@ class Base_Page(Borg,unittest.TestCase):
 
 
     _get_locator = staticmethod(_get_locator)
-    
