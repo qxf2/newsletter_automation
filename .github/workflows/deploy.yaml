@@ -10,6 +10,9 @@ jobs:
       MAIL_ID: ${{ secrets.GMAIL_USERNAME }}
       PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
       API_KEY: ${{ secrets.API_KEY }}
+      SKYPE_API_KEY: ${{ secrets.SKYPE_API_KEY }}
+      SKYPE_CHANNEL: ${{ secrets.SKYPE_CHANNEL }}
+      SKYPE_URL: ${{ secrets.SKYPE_URL }}
 
     steps:
       - uses: actions/checkout@v1
