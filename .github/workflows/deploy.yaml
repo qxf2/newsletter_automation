@@ -10,6 +10,9 @@ jobs:
       MAIL_ID: ${{ secrets.GMAIL_USERNAME }}
       PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
       API_KEY: ${{ secrets.API_KEY }}
+      SKYPE_API_KEY: ${{ secrets.SKYPE_API_KEY }}
+      SKYPE_CHANNEL: ${{ secrets.SKYPE_CHANNEL }}
+      SKYPE_URL: ${{ secrets.SKYPE_URL }}
 
     steps:
       - uses: actions/checkout@v1
@@ -49,6 +52,10 @@ jobs:
         run: |
           cd tests/integration/tests/accessibility_tests     
           python -m pytest test_accessibility.py --browser headless-chrome --app_url http://localhost:5000
+      - name: Run on Accessibility Tests failure
+        if: ${{ failure() }}
+        run: |
+          python tests/integration/tests/accessibility_tests/send_skype_message.py 
       - name: Run UI Tests
         if: always()
         run: | 
