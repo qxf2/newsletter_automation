@@ -65,13 +65,9 @@ jobs:
 
       - name: Run UI Tests
         if: always()
-        run: |
+        run: | 
           cd tests/integration/tests/ui_tests
-          python -m pytest -n 4 --browser headless-chrome --app_url http://localhost:5000
-          cd ../accessibility_tests
-          python -m pytest test_accessibility.py --browser headless-chrome --app_url http://localhost:5000 || true
-          cd ../ui_tests
-          python -m pytest -n 4 --browser headless-chrome --app_url http://localhost:5000
+          python -m pytest -n 4 --browser headless-chrome --app_url http://localhost:5000          
 
   deploy-staging:
     name: Deploy to staging
