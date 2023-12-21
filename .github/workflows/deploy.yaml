@@ -43,7 +43,7 @@ jobs:
       - name: Run Tests
         run: |
           cd tests/integration
-          npm install
+          npm install -g
           pip install percy-selenium
           pip install -r requirements.txt
           percy exec -- python -m pytest tests/ui_tests/test_edit_articles.py --browser Chrome --api_url http://localhost:5000
