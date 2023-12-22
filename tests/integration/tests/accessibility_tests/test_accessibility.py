@@ -7,11 +7,12 @@ Our automated test will do the following:
 """
 import os
 import sys
+import re
+import json
 from page_objects.PageFactory import PageFactory
 import conf.edit_articles_conf as conf
 import pytest
 from typing_extensions import runtime
-from utils.Option_Parser import Option_Parser
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 url = conf.url
@@ -35,16 +36,22 @@ def test_accessibility(test_obj, snapshot):
             test_obj.search_word(search)
             #Click the edit button
             test_obj.edit_articles(url,title,description,runtime,category)
-            #Inject Axe
-            test_obj.accessibility_inject_axe()
-            #Run Axe
-            result = test_obj.accessibility_run_axe()
-            #Create Snapshot
-            snapshot.assert_match(f"{result}", f'snapshot_output_{page}.txt')
-        else:
-            #Inject Axe
-            test_obj.accessibility_inject_axe()
-            #Run Axe
-            result = test_obj.accessibility_run_axe()
-            #Create Snapshot
-            snapshot.assert_match(f"{result}", f'snapshot_output_{page}.txt')
+        #Inject Axe
+        test_obj.accessibility_inject_axe()
+        #Run Axe in every page
+        result = test_obj.accessibility_run_axe()
+        #Serialize dict to JSON-formatted string
+        result_str = json.dumps(result, ensure_ascii=False, separators=(',', ':'))
+        #Formatting result by removing \n,\\,timestamp
+        #Every run will have a different timestamp.
+        cleaned_result = re.sub(r'\\|\n|\r|"timestamp":\s*"[^"]*"', '', result_str)
+        ##Add pages here which needs formatting before creating snapshot
+        #Formatting add article page
+        if page == "add articles page":
+            cleaned_result = re.sub(r'name="csrf_token" value="[^"]*"', '', cleaned_result)
+        #Formatting create newsletter page
+        if page == "create newsletter page":
+            cleaned_result = re.sub(r'name="csrf_token" type="hidden" value="[^"]*"', '',
+                                    cleaned_result)
+        #Create Snapshot
+        snapshot.assert_match(f"{cleaned_result}", f'snapshot_output_{page}.txt')
