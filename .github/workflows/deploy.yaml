@@ -10,6 +10,7 @@ jobs:
       MAIL_ID: ${{ secrets.GMAIL_USERNAME }}
       PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
       API_KEY: ${{ secrets.API_KEY }}
+      PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
     steps:
       - uses: actions/checkout@v1
       - name: Set up python 3.8
