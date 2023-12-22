@@ -60,7 +60,7 @@ jobs:
       - name: Run Accessibility Tests
         run: |
           cd tests/integration/tests/accessibility_tests
-          python -m pytest test_accessibility.py --browser headless-chrome --app_url http://localhost:5000 --snapshot-update
+          python -m pytest test_accessibility.py --browser headless-chrome --app_url http://localhost:5000
 
       - name: Run UI Tests
         if: always()
