@@ -43,14 +43,15 @@ def test_edit_articles(test_obj):
         def edit_article():
             #Click the hamburger menu
             hamburger = test_obj.click_hamburger_button()
-            #percy_snapshot(driver=test_obj.get_current_driver(),name="hamburger button",enable_javascript=True)
+
             #Click manage article button
             manage_article_button = test_obj.click_managearticle_button()
-            percy_snapshot(driver=test_obj.get_current_driver(),name="manage articles")
 
             #Set the search string
             search_article = test_obj.search_word(search)
-            percy_snapshot(driver=test_obj.get_current_driver(),name="Search article")
+
+            #percy_snapshot(driver=test_obj.get_current_driver(),name="Container image", scope="//form[@method='POST']")
+            percy_snapshot(driver=test_obj.get_current_driver(),name="Ignore table contents", percy_css='tbody {visibility:hidden; }')
 
             #Click the edit button
             edit_article = test_obj.edit_articles(url,title,description,runtime,category)

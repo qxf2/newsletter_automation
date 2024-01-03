@@ -82,7 +82,7 @@ class Table_Object:
         result_flag = self.set_description(description)
         result_flag = self.set_time(runtime)
         result_flag = self.set_category(category)
-        percy_snapshot(driver=self.get_current_driver(),name="Edit article")
+        #percy_snapshot(driver=self.get_current_driver(),name="Edit article")
 
         result_flag = self.click_save_button()
 
