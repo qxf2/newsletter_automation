@@ -502,6 +502,22 @@ class Base_Page(Borg,unittest.TestCase):
 
         return result_flag
 
+    def action_click(self,locator,wait_seconds=2):
+        "Click element using Actionchain"
+        result_flag = False
+        try:
+            element = self.get_element(locator)
+            if element is not None:
+                action_obj = ActionChains(self.driver)
+                action_obj.click(on_element=element).perform()
+                result_flag=True
+                self.wait(wait_seconds)
+        except Exception as e:
+            self.write(str(e),'debug')
+            self.write('Exception when clicking link with path: %s'%locator)
+            self.exceptions.append("Error when clicking the element with path,'%s' in the conf/locators.conf file"%locator)
+
+        return result_flag
 
     def set_text(self,locator,value,clear_flag=True):
         "Set the value of the text field"

@@ -60,8 +60,7 @@ def test_add_article(test_obj):
             description = article['DESCRIPTION']
             runtime = article['RUNTIME']
             category = article['CATEGORY']
-            submit_button = test_obj.click_submit()
-            add_another_article = test_obj.click_addanother_article()
+            #submit_button = test_obj.click_submit()
            
             msg ="\nReady to fill article number %d"%article_number
             test_obj.write(msg)
@@ -72,11 +71,14 @@ def test_add_article(test_obj):
 
             #Set and submit the article in one go
             result_flag = test_obj.submit_article(url,title,description,runtime,category)
+
             test_obj.log_result(result_flag,
                                 positive="Successfully submitted the article number %d\n"%article_number,
                                 negative="Failed to submit the article number %d \nOn url: %s"%(article_number,test_obj.get_current_url()),
                                 level="critical")
             test_obj.write('Script duration: %d seconds\n'%(int(time.time()-start_time)))
+            add_another_article = test_obj.click_addanother_article()
+
  
         test_obj.write_test_summary()
         expected_pass = test_obj.result_counter
