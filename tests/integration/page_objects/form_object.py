@@ -2,7 +2,6 @@ import conf.add_articles_locators_conf as locators
 import time
 from utils.Wrapit import Wrapit
 
-
 class Form_Object:
     #get home button locator
     home=locators.home
@@ -99,7 +98,7 @@ class Form_Object:
     @Wrapit._screenshot
     def click_submit(self):
         "Click the submit button of add article"
-        result_flag = self.action_click(self.submit)
+        result_flag = self.click_element(self.submit)
         self.conditional_write(result_flag,
             positive='Clicked submit on the add article form',
             negative='Could not click submit on the add article form',
@@ -127,5 +126,6 @@ class Form_Object:
         result_flag &= self.set_time(runtime)
         result_flag &= self.set_category(category)
         result_flag &= self.click_submit()
+
         return result_flag
         
