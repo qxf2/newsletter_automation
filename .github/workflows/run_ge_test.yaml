@@ -1,4 +1,5 @@
 name: run-ge-tests
+
 on:
   workflow_dispatch:
   schedule:
@@ -8,6 +9,7 @@ on:
     - cron: "30 10 * * 5"
   # Every Wednesday at 4pm IST
     - cron: "30 10 * * 3"
+
 env:
   DB_HOST: ${{ secrets.HOST }}
   DB_PORT: ${{ secrets.DB_PORT }}
@@ -20,14 +22,17 @@ env:
   SKYPE_API_KEY: ${{ secrets.SKYPE_API_KEY }}
   SKYPE_CHANNEL: ${{ secrets.SKYPE_CHANNEL }}
   SKYPE_URL: ${{ secrets.SKYPE_URL }}
+
 jobs:
   great_expectations_validation:
     runs-on: ubuntu-latest
     steps:
       - name: Install python
         uses: actions/setup-python@v3
+
       - name: Copy Repository contents
         uses: actions/checkout@main
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -47,6 +52,7 @@ jobs:
         if: ${{ github.event.schedule == '30 10 * * 3' }}
         run: |
           pytest tests/data_validation/great_expectations/utils/ -s -v -m CheckpointWednesday04pm
+
       - name: Deploy DataDocs to Netlify
         if: always()
         uses: nwtgck/actions-netlify@v1.2
