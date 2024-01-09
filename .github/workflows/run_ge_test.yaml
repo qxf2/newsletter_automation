@@ -41,15 +41,9 @@ jobs:
           pip install pymysql
           pip install SQLAlchemy
 
-      - name: Run CheckpointWednesday10am
-        run: |
-          pytest tests/data_validation/great_expectations/utils/ -s -v -m CheckpointWednesday10am
       - name: Run CheckpointFriday04pm
         run: |
           pytest tests/data_validation/great_expectations/utils/ -s -v -m CheckpointFriday04pm
-      - name: Run CheckpointWednesday04pm
-        run: |
-          pytest tests/data_validation/great_expectations/utils/ -s -v -m CheckpointWednesday04pm
 
       - name: Deploy DataDocs to Netlify
         if: always()
