@@ -42,15 +42,12 @@ jobs:
           pip install SQLAlchemy
 
       - name: Run CheckpointWednesday10am
-        if: ${{ github.event.schedule == '30 4 * * 3' }}
         run: |
           pytest tests/data_validation/great_expectations/utils/ -s -v -m CheckpointWednesday10am
       - name: Run CheckpointFriday04pm
-        if: ${{ github.event.schedule == '30 10 * * 5' }}
         run: |
           pytest tests/data_validation/great_expectations/utils/ -s -v -m CheckpointFriday04pm
       - name: Run CheckpointWednesday04pm
-        if: ${{ github.event.schedule == '30 10 * * 3' }}
         run: |
           pytest tests/data_validation/great_expectations/utils/ -s -v -m CheckpointWednesday04pm
 
@@ -60,8 +57,3 @@ jobs:
         with:
           publish-dir: "tests/data_validation/great_expectations/uncommitted/data_docs/local_site"
           production-deploy: true
-
-      - name: Send Skype notification after run
-        if: always()
-        run: |
-          python tests/data_validation/great_expectations/utils/send_skype_message.py
