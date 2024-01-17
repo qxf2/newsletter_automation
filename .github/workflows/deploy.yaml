@@ -47,12 +47,11 @@ jobs:
           npm install -g --save-dev @percy/cli
           pip install percy-selenium
           pip install -r requirements.txt
-          percy exec -- python -m pytest tests/ui_tests/test_snapshots.py --browser headless-chrome --api_url http://localhost:5000
           cd tests/api_tests
           python -m pytest -k test_api_multiple_articles.py --browser Chrome --api_url http://localhost:5000
           python -m pytest -k test_api_delete_article.py --browser Chrome --api_url http://localhost:5000
           cd ../ui_tests
-          python -m pytest -n 4 --browser headless-chrome --app_url http://localhost:5000
+          percy exec -- python -m pytest -n 4 --browser headless-chrome --app_url http://localhost:5000
 
   deploy-staging:
     name: Deploy to staging
