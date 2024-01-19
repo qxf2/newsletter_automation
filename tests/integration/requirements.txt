@@ -2,7 +2,7 @@ requests==2.25.1
 reportportal-client==5.0.10
 pytest==6.2.4 ; python_version =='3.6'
 pytest>6.2.4 ; python_version >='3.7'
-selenium==4.6.1
+selenium>=4.16.0
 python_dotenv==0.16.0
 Appium_Python_Client==0.28
 pytest-xdist>=1.31
