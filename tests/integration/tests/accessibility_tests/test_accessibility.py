@@ -1,9 +1,10 @@
 """
 This is a test file to run accessibility test on
-    1. Selenium tutorial main page
-    2. Selenium tutorial redirect page
-    3. Selenium tutorial contact page
-    #While running the test for first time, use --snapshot-update to create a snapshot folder
+    1. Newsletter login page
+    2. Newsletter add article page
+    3. Newsletter manage article page
+    4. Newsletter edit article page
+    5. Newsletter create newsletter page
 """
 import os
 import sys
@@ -37,11 +38,11 @@ def test_accessibility(test_obj):
             #Every test run have a different timestamp.
             cleaned_result = re.sub(r'\\|\n|\r|"timestamp":\s*"[^"]*"', '', result_str)
             #Compare Snapshot for each page
-            snapshot_result = test_obj.snapshot_assert_match(f"{cleaned_result}", f'snapshot_output_{page}.txt')
-            test_obj.conditional_write(snapshot_result,
+            snapshot_result = test_obj.snapshot_assert_match(f"{cleaned_result}",
+                                                             f'snapshot_output_{page}.txt')
+            test_obj.log_result(snapshot_result,
                                 positive=f'Accessibility checks for {page} passed',
-                                negative=f'Accessibility checks for {page} failed',
-                                level='debug')
+                                negative=f'Accessibility checks for {page} failed')
 
         #Print out the result
         test_obj.write_test_summary()
