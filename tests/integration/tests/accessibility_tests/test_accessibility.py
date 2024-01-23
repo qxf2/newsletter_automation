@@ -1,64 +1,47 @@
 """
-This is an accessibility test to newsletter generator application
-Our automated test will do the following:
-    #Open Qxf2 newsletter generator application
-    #Run accessibility for every page
-    #Create snapshot for each page
+This is a test file to run accessibility test on
+    1. Selenium tutorial main page
+    2. Selenium tutorial redirect page
+    3. Selenium tutorial contact page
+    #While running the test for first time, use --snapshot-update to create a snapshot folder
 """
 import os
 import sys
-import re
 import json
-from page_objects.PageFactory import PageFactory
-import conf.edit_articles_conf as conf
+import re
 import pytest
-from typing_extensions import runtime
+from page_objects.PageFactory import PageFactory
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-url = conf.url
-title = conf.title
-description = conf.description
-runtime = conf.runtime
-category = conf.category
-search = conf.search
-
 @pytest.mark.ACCESSIBILITY
-def test_accessibility(test_obj, snapshot):
+def test_accessibility(test_obj):
     "Inject Axe and create snapshot for every page"
     try:
 
         #Initalize flags for tests summary
         expected_pass = 0
-        actual_pass = -1        
+        actual_pass = -1
+
         #Get all pages
         page_names = PageFactory.get_all_page_names()
 
         for page in page_names:
             test_obj = PageFactory.get_page_object(page,base_url=test_obj.base_url)
-            if page == "edit articles page":
-                #Set the search string
-                test_obj.search_word(search)
-                #Click the edit button
-                test_obj.edit_articles(url,title,description,runtime,category)
-            #Inject Axe
+            #Inject Axe in every page
             test_obj.accessibility_inject_axe()
-            #Run Axe in every page
-            result = test_obj.accessibility_run_axe()
+            #Check if Axe is run in every page
+            run_result = test_obj.accessibility_run_axe()
             #Serialize dict to JSON-formatted string
-            result_str = json.dumps(result, ensure_ascii=False, separators=(',', ':'))
+            result_str = json.dumps(run_result, ensure_ascii=False, separators=(',', ':'))
             #Formatting result by removing \n,\\,timestamp
-            #Every run will have a different timestamp.
+            #Every test run have a different timestamp.
             cleaned_result = re.sub(r'\\|\n|\r|"timestamp":\s*"[^"]*"', '', result_str)
-            ##Add pages here which needs formatting before creating snapshot
-            #Formatting add article page
-            if page == "add articles page":
-                cleaned_result = re.sub(r'name="csrf_token" value="[^"]*"', '', cleaned_result)
-            #Formatting create newsletter page
-            if page == "create newsletter page":
-                cleaned_result = re.sub(r'name="csrf_token" type="hidden" value="[^"]*"', '',
-                                        cleaned_result)
-            #Create Snapshot
-            snapshot.assert_match(f"{cleaned_result}", f'snapshot_output_{page}.txt')
+            #Compare Snapshot for each page
+            snapshot_result = test_obj.snapshot_assert_match(f"{cleaned_result}", f'snapshot_output_{page}.txt')
+            test_obj.conditional_write(snapshot_result,
+                                positive=f'Accessibility checks for {page} passed',
+                                negative=f'Accessibility checks for {page} failed',
+                                level='debug')
 
         #Print out the result
         test_obj.write_test_summary()
@@ -69,4 +52,4 @@ def test_accessibility(test_obj, snapshot):
         print("Exception when trying to run test: %s"%__file__)
         print("Python says:%s"%str(e))
 
-    assert expected_pass == actual_pass, "Test failed: %s"%__file__            
+    assert expected_pass == actual_pass, "Test failed: %s"%__file__

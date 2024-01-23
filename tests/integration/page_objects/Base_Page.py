@@ -22,6 +22,7 @@ import conf.base_url_conf
 import conf.screenshot_conf
 from utils import Gif_Maker
 from utils import accessibility_util
+from utils import snapshot_util
 
 class Borg:
     #The borg design pattern is to share state
@@ -63,6 +64,7 @@ class Base_Page(Borg,unittest.TestCase):
         if self.driver is not None:
             self.start() #Visit and initialize xpaths for the appropriate page
             self.axe_util = accessibility_util.Accessibilityutil(self.driver)
+            self.snapshot_util = snapshot_util.Snapshotutil()
 
     def reset(self):
         "Reset the base page object"
@@ -500,6 +502,17 @@ class Base_Page(Borg,unittest.TestCase):
             return self.axe_util.run()
         except Exception as e:
              self.write(e)
+
+    def snapshot_assert_match(self, value, snapshot_name):
+        "Asserts the current value of the snapshot with the given snapshot_name"
+        result_flag = False
+        try:
+            self.snapshot_util.assert_match(value, snapshot_name)
+            result_flag = True
+        except Exception as e:
+                self.write(e)
+
+        return result_flag             
 
     def click_element(self,locator,wait_time=3):
         "Click the button supplied"
