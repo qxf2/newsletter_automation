@@ -15,7 +15,7 @@ from page_objects.PageFactory import PageFactory
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 @pytest.mark.ACCESSIBILITY
-def test_accessibility(test_obj):
+def test_accessibility(test_obj, snapshot):
     "Inject Axe and create snapshot for every page"
     try:
 
@@ -44,11 +44,12 @@ def test_accessibility(test_obj):
                 #removing csrf_token from create newsletter page
                 cleaned_result = re.sub(r'name\s*=\s*"csrf_token"(?:\s*type\s*=\s*"hidden")?\s*value\s*=\s*"[^"]*"', '', cleaned_result)
             #Compare Snapshot for each page
-            snapshot_result = test_obj.snapshot_assert_match(f"{cleaned_result}",
-                                                             f'snapshot_output_{page}.txt')
-            test_obj.log_result(snapshot_result,
-                                positive=f'Accessibility checks for {page} passed',
-                                negative=f'Accessibility checks for {page} failed')
+            snapshot.assert_match(f"{cleaned_result}",f'snapshot_output_{page}.txt')
+            # snapshot_result = test_obj.snapshot_assert_match(f"{cleaned_result}",
+            #                                                  f'snapshot_output_{page}.txt')
+            # test_obj.log_result(snapshot_result,
+            #                     positive=f'Accessibility checks for {page} passed',
+            #                     negative=f'Accessibility checks for {page} failed')
 
         #Print out the result
         test_obj.write_test_summary()
