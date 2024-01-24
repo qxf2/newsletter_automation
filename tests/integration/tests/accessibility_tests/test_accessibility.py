@@ -36,7 +36,13 @@ def test_accessibility(test_obj):
             result_str = json.dumps(run_result, ensure_ascii=False, separators=(',', ':'))
             #Formatting result by removing \n,\\,timestamp
             #Every test run have a different timestamp.
-            cleaned_result = re.sub(r'\\|\n|\r|"timestamp":\s*"[^"]*"', '', result_str)
+            cleaned_result = re.sub(r'\\|\n|\r|\s+|"timestamp":\s*"[^"]*"', '', result_str)
+            if page == 'add articles page':
+                #removing csrf_token from add article page
+                cleaned_result = re.sub(r'name\s*=\s*"csrf_token"\s*value\s*=\s*"[^"]*"', '', cleaned_result)
+            if page == "create newsletter page":
+                #removing csrf_token from create newsletter page
+                cleaned_result = re.sub(r'name\s*=\s*"csrf_token"(?:\s*type\s*=\s*"hidden")?\s*value\s*=\s*"[^"]*"', '', cleaned_result)
             #Compare Snapshot for each page
             snapshot_result = test_obj.snapshot_assert_match(f"{cleaned_result}",
                                                              f'snapshot_output_{page}.txt')
