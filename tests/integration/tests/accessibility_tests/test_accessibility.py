@@ -15,7 +15,7 @@ from page_objects.PageFactory import PageFactory
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 @pytest.mark.ACCESSIBILITY
-def test_accessibility(test_obj):
+def test_accessibility(test_obj, snapshot):
     "Inject Axe and create snapshot for every page"
     try:
 
