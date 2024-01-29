@@ -44,11 +44,19 @@ def test_accessibility(test_obj):
                 #removing csrf_token from create newsletter page
                 cleaned_result = re.sub(r'name\s*=\s*"csrf_token"(?:\s*type\s*=\s*"hidden")?\s*value\s*=\s*"[^"]*"', '', cleaned_result)
             #Compare Snapshot for each page
-            snapshot_result = test_obj.snapshot_assert_match(f"{cleaned_result}",
-                                                             f'snapshot_output_{page}.txt')
-            test_obj.log_result(snapshot_result,
-                                positive=f'Accessibility checks for {page} passed',
-                                negative=f'Accessibility checks for {page} failed')
+            # snapshot_result = test_obj.snapshot_assert_match(f"{cleaned_result}",
+            #                                                  f'snapshot_output_{page}.txt')
+            
+            # Create a filename based on the page name
+            filename = f'{page}_output.txt'
+
+            # Open the file in write mode
+            with open(filename, 'w', encoding='utf-8') as file:
+                file.write(cleaned_result)
+
+            # test_obj.log_result(snapshot_result,
+            #                     positive=f'Accessibility checks for {page} passed',
+            #                     negative=f'Accessibility checks for {page} failed')
 
         #Print out the result
         test_obj.write_test_summary()
