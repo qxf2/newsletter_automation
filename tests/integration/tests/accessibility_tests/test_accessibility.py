@@ -49,10 +49,8 @@ def test_accessibility(test_obj):
             
             # Create a filename based on the page name
             filename = f'{page}_output.txt'
-
-            # Open the file in write mode
-            with open(filename, 'w', encoding='utf-8') as file:
-                file.write(cleaned_result)
+            print(filename)
+            print(cleaned_result)
 
             # test_obj.log_result(snapshot_result,
             #                     positive=f'Accessibility checks for {page} passed',
