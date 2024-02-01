@@ -10,6 +10,7 @@ jobs:
       MAIL_ID: ${{ secrets.GMAIL_USERNAME }}
       PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
       API_KEY: ${{ secrets.API_KEY }}
+      PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
     steps:
       - uses: actions/checkout@v1
       - name: Set up python 3.8
@@ -36,15 +37,22 @@ jobs:
           docker build --tag ci-test-instance .
           docker run -d -p 5000:5000 ci-test-instance
           sleep 15
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
       - name: Run Tests
         run: |
           cd tests/integration
+          npm install -g --save-dev @percy/cli
+          pip install percy-selenium
           pip install -r requirements.txt
+          percy exec -- python -m pytest tests/ui_tests/test_snapshots.py --browser headless-chrome --api_url http://localhost:5000
           cd tests/api_tests
           python -m pytest -k test_api_multiple_articles.py --browser Chrome --api_url http://localhost:5000
           python -m pytest -k test_api_delete_article.py --browser Chrome --api_url http://localhost:5000
           cd ../ui_tests
-          python -m pytest -n 4 --browser headless-chrome --app_url http://localhost:5000
+          python -m pytest -n 4 --browser headless-chrome  -k 'not test_snapshots' --app_url http://localhost:5000
 
   deploy-staging:
     name: Deploy to staging
