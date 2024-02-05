@@ -496,10 +496,10 @@ class Base_Page(Borg,unittest.TestCase):
         except Exception as e:
              self.write(e)
 
-    def accessibility_run_axe(self):
+    def accessibility_run_axe(self,exclude_selectors=None):
         "Run Axe into the Page"
         try:
-            return self.axe_util.run()
+            return self.axe_util.run(exclude_selectors)
         except Exception as e:
              self.write(e)
 

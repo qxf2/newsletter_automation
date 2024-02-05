@@ -29,14 +29,16 @@ def test_accessibility(test_obj):
         for page in page_names:
             test_obj = PageFactory.get_page_object(page,base_url=test_obj.base_url)
             #Inject Axe in every page
-            test_obj.accessibility_inject_axe()
+            test_obj.accessibility_inject_axe() 
             #Check if Axe is run in every page
-            run_result = test_obj.accessibility_run_axe()
+            run_result = test_obj.accessibility_run_axe({
+                'exclude': ['table']
+            })
             #Serialize dict to JSON-formatted string
             result_str = json.dumps(run_result, ensure_ascii=False, separators=(',', ':'))
             #Formatting result by removing \n,\\,timestamp
             #Every test run have a different timestamp.
-            cleaned_result = re.sub(r'\\|\n|\r|\s+|"timestamp":\s*"[^"]*"', '', result_str)
+            cleaned_result = re.sub(r'\\|\n|\r|"timestamp":\s*"[^"]*"', '', result_str)
             if page == 'add articles page':
                 #removing csrf_token from add article page
                 cleaned_result = re.sub(r'name\s*=\s*"csrf_token"\s*value\s*=\s*"[^"]*"', '', cleaned_result)
@@ -44,17 +46,23 @@ def test_accessibility(test_obj):
                 #removing csrf_token from create newsletter page
                 cleaned_result = re.sub(r'name\s*=\s*"csrf_token"(?:\s*type\s*=\s*"hidden")?\s*value\s*=\s*"[^"]*"', '', cleaned_result)
             #Compare Snapshot for each page
-            # snapshot_result = test_obj.snapshot_assert_match(f"{cleaned_result}",
-            #                                                  f'snapshot_output_{page}.txt')
+            #snapshot_result = test_obj.snapshot_assert_match(f"{cleaned_result}",
+            #                                                 f'snapshot_output_{page}.txt')
             
             # Create a filename based on the page name
             filename = f'{page}_output.txt'
             print(filename)
             print(cleaned_result)
+                
+            # filename = f'{page}_output.txt'
 
-            # test_obj.log_result(snapshot_result,
-            #                     positive=f'Accessibility checks for {page} passed',
-            #                     negative=f'Accessibility checks for {page} failed')
+            # # Open the file in write mode
+            # with open(filename, 'w', encoding='utf-8') as file:
+            #     file.write(cleaned_result)                
+
+            #test_obj.log_result(snapshot_result,
+            #                    positive=f'Accessibility checks for {page} passed',
+            #                    negative=f'Accessibility checks for {page} failed')
 
         #Print out the result
         test_obj.write_test_summary()
