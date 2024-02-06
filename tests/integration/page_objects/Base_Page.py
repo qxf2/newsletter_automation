@@ -512,7 +512,7 @@ class Base_Page(Borg,unittest.TestCase):
         except Exception as e:
                 self.write(e)
 
-        return result_flag             
+        return result_flag
 
     def click_element(self,locator,wait_time=3):
         "Click the button supplied"

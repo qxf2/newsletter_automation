@@ -50,4 +50,3 @@ class PageFactory():
                 "manage articles page",
                 "edit articles page",
                 "create newsletter page"]
-    

@@ -41,25 +41,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20.x'
-      - name: Run Tests
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if: always()
->>>>>>> 0072943 (Added if always and removed continue on error from deploy)
-=======
-        continue-on-error: true
->>>>>>> 3f0fbb0 (Added back continue on error)
-=======
->>>>>>> 6408b39 (Added continue on error on only accessibility to check)
-        run: |
-          cd tests/integration
-          npm install -g --save-dev @percy/cli
-          pip install percy-selenium
-          pip install -r requirements.txt
-          percy exec -- python -m pytest tests/ui_tests/test_snapshots.py --browser headless-chrome --api_url http://localhost:5000
-          cd tests/api_tests
-          python -m pytest -k test_api_multiple_articles.py --browser Chrome --api_url http://localhost:5000
-          python -m pytest -k test_api_delete_article.py --browser Chrome --api_url http://localhost:5000
 
       - name: Run Accessibility Tests
         run: |
