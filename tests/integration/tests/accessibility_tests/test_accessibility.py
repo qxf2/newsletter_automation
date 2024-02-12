@@ -47,21 +47,19 @@ def test_accessibility(test_obj, snapshot):
                 #removing csrf_token from create newsletter page
                 cleaned_result = re.sub(r'name\s*=\s*"csrf_token"(?:\s*type\s*=\s*"hidden")?\s*value\s*=\s*"[^"]*"', '', cleaned_result)
             if page == "manage articles page":
-                # element_manage="xpath,//table[@id='articlesTable']"
-                # ele_manage = test_obj.get_text(element_manage) 
-                # escape = re.escape(ele_manage.decode('utf-8'))
-                # print(escape)
-                cleaned_result = re.sub(r'(\\|\n|\r|"timestamp":\s*"[^"]*"|\b\d+\b)', lambda m: '' if m.group(0).isdigit() else '', result_str)
+                url_pattern = r'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+'
+                cleaned_result = re.sub(r'<a[^>]*>.*?</a>', '', result_str)
+                cleaned_result = re.sub(r'<td[^>]*>.*?</td>', '', cleaned_result)
+                cleaned_result = re.sub(r'{"html":".*?","target":\["a\[href\$="(edit/\d*|delete/)"\]"\]}', '', cleaned_result)             
+                cleaned_result = re.sub(r'(\\|\n|\r|"timestamp":\s*"[^"]*"|\b\d+\b|%s)' % url_pattern, lambda m: '' if m.group(0).isdigit() else '', cleaned_result)
+                # cleaned_result = re.sub(r'(\\|\n|\r|"timestamp":\s*"[^"]*"|\b\d+\b)', lambda m: '' if m.group(0).isdigit() else '', result_str)                
 
-                # cleaned_result = re.sub(escape, '', cleaned_result)
-
-
-
-            # if page == "edit articles page":
-            #     element_edit="xpath,//tbody"
-            #     ele_edit = test_obj.get_text(element_edit) 
-            #     ele_edit = None
-            #     cleaned_result = re.sub(r'\\|\n|\r|"timestamp":\s*"[^"]*"', '', result_str)
+            if page == "edit articles page":
+                url_pattern = r'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+'
+                cleaned_result = re.sub(r'<a[^>]*>.*?</a>', '', result_str)
+                cleaned_result = re.sub(r'<td[^>]*>.*?</td>', '', cleaned_result)
+                cleaned_result = re.sub(r'{"html":".*?","target":\["a\[href\$="(edit/\d*|delete/)"\]"\]}', '', cleaned_result)             
+                cleaned_result = re.sub(r'(\\|\n|\r|"timestamp":\s*"[^"]*"|\b\d+\b|%s)' % url_pattern, lambda m: '' if m.group(0).isdigit() else '', cleaned_result)
 
             #`snapshot.assert_match(f"{cleaned_result}",f'snapshot_output_{page}.txt')
             #Compare Snapshot for each page
@@ -75,7 +73,7 @@ def test_accessibility(test_obj, snapshot):
                 
             # filename = f'{page}_output.txt'
 
-            # # # Open the file in write mode
+            # # Open the file in write mode
             # with open(filename, 'w', encoding='utf-8') as file:
             #     file.write(cleaned_result)                
 
