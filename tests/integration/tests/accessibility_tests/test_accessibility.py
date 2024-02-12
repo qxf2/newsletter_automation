@@ -15,7 +15,7 @@ from page_objects.PageFactory import PageFactory
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 @pytest.mark.ACCESSIBILITY
-def test_accessibility(test_obj, snapshot):
+def test_accessibility(test_obj):
     "Inject Axe and create snapshot for every page"
     try:
 
@@ -29,12 +29,11 @@ def test_accessibility(test_obj, snapshot):
         for page in page_names:
             test_obj = PageFactory.get_page_object(page,base_url=test_obj.base_url)
             #Inject Axe in every page
-            test_obj.accessibility_inject_axe() 
+            test_obj.accessibility_inject_axe()
             #Check if Axe is run in every page
             run_result = test_obj.accessibility_run_axe({
                 'exclude': ['table']
             })
-
             #Serialize dict to JSON-formatted string
             result_str = json.dumps(run_result, ensure_ascii=False, separators=(',', ':'))
             #Formatting result by removing \n,\\,timestamp
@@ -48,42 +47,21 @@ def test_accessibility(test_obj, snapshot):
                 cleaned_result = re.sub(r'name\s*=\s*"csrf_token"(?:\s*type\s*=\s*"hidden")?\s*value\s*=\s*"[^"]*"', '', cleaned_result)
             if page == "manage articles page":
                 url_pattern = r'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+'
-                # cleaned_result = re.sub(r'<a[^>]*>.*?</a>', '', result_str)
-                # cleaned_result = re.sub(r'<td[^>]*>.*?</td>', '', cleaned_result) 
-                # cleaned_result = re.sub(r'style="width:\s*\d+px"', '', cleaned_result)            
-                # cleaned_result = re.sub(r'(\\|\n|\r|"timestamp":\s*"[^"]*"|\b\d+\b|%s)' % url_pattern, lambda m: '' if m.group(0).isdigit() else '', cleaned_result)
                 cleaned_result = re.sub(r'<a[^>]*>.*?</a>|<td[^>]*>.*?</td>|(\b\d+px\b)|(\\|\n|\r|"timestamp":\s*"[^"]*"|\b\d+\b|%s)' % url_pattern, lambda m: '' if m.group(0).isdigit() else '', result_str)
                 cleaned_result = re.sub(r'{"html":"","target":.*', '{"html":"","target":', cleaned_result)
-                # cleaned_result = re.sub(r'(\\|\n|\r|"timestamp":\s*"[^"]*"|\b\d+\b)', lambda m: '' if m.group(0).isdigit() else '', result_str)                
-
             if page == "edit articles page":
                 url_pattern = r'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+'
-                # cleaned_result = re.sub(r'<a[^>]*>.*?</a>', '', result_str)
-                # cleaned_result = re.sub(r'<td[^>]*>.*?</td>', '', cleaned_result) 
-                # cleaned_result = re.sub(r'(\b\d+px\b)', '', cleaned_result)       
-                # cleaned_result = re.sub(r'(\\|\n|\r|"timestamp":\s*"[^"]*"|\b\d+\b|%s)' % url_pattern, lambda m: '' if m.group(0).isdigit() else '', cleaned_result)
                 cleaned_result = re.sub(r'<a[^>]*>.*?</a>|<td[^>]*>.*?</td>|(\b\d+px\b)|(\\|\n|\r|"timestamp":\s*"[^"]*"|\b\d+\b|%s)' % url_pattern, lambda m: '' if m.group(0).isdigit() else '', result_str)
-                cleaned_result = re.sub(r'{"html":"","target":.*', '{"html":"","target":', cleaned_result)                
+                cleaned_result = re.sub(r'{"html":"","target":.*', '{"html":"","target":', cleaned_result)
 
-            #`snapshot.assert_match(f"{cleaned_result}",f'snapshot_output_{page}.txt')
             #Compare Snapshot for each page
-            #snapshot_result = test_obj.snapshot_assert_match(f"{cleaned_result}",
-            #                                                 f'snapshot_output_{page}.txt')
-            
-            # Create a filename based on the page name
-            filename = f'{page}_output.txt'
-            print(filename)
-            print(cleaned_result)
-                
-            # filename = f'{page}_output.txt'
+            snapshot_result = test_obj.snapshot_assert_match(f"{cleaned_result}",
+                                                             f'snapshot_output_{page}.txt')
 
-            # # # Open the file in write mode
-            # with open(filename, 'w', encoding='utf-8') as file:
-            #     file.write(cleaned_result)                
 
-            #test_obj.log_result(snapshot_result,
-            #                    positive=f'Accessibility checks for {page} passed',
-            #                    negative=f'Accessibility checks for {page} failed')
+            test_obj.log_result(snapshot_result,
+                               positive=f'Accessibility checks for {page} passed',
+                               negative=f'Accessibility checks for {page} failed')
 
         #Print out the result
         test_obj.write_test_summary()
