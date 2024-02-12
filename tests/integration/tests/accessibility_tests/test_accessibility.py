@@ -31,11 +31,9 @@ def test_accessibility(test_obj, snapshot):
             #Inject Axe in every page
             test_obj.accessibility_inject_axe() 
             #Check if Axe is run in every page
-            # run_result = test_obj.accessibility_run_axe({
-            #     'exclude': ['table']
-            # })
-
-            run_result = test_obj.accessibility_run_axe
+            run_result = test_obj.accessibility_run_axe({
+                'exclude': ['table']
+            })
 
             #Serialize dict to JSON-formatted string
             result_str = json.dumps(run_result, ensure_ascii=False, separators=(',', ':'))
@@ -49,13 +47,13 @@ def test_accessibility(test_obj, snapshot):
                 #removing csrf_token from create newsletter page
                 cleaned_result = re.sub(r'name\s*=\s*"csrf_token"(?:\s*type\s*=\s*"hidden")?\s*value\s*=\s*"[^"]*"', '', cleaned_result)
             if page == "manage articles page":
-                element_manage="xpath,//table[@id='articlesTable']"
-                ele_manage = test_obj.get_text(element_manage) 
-                escape = re.escape(ele_manage.decode('utf-8'))
-                print(escape)
+                # element_manage="xpath,//table[@id='articlesTable']"
+                # ele_manage = test_obj.get_text(element_manage) 
+                # escape = re.escape(ele_manage.decode('utf-8'))
+                # print(escape)
                 cleaned_result = re.sub(r'(\\|\n|\r|"timestamp":\s*"[^"]*"|\b\d+\b)', lambda m: '' if m.group(0).isdigit() else '', result_str)
 
-                cleaned_result = re.sub(escape, '', cleaned_result)
+                # cleaned_result = re.sub(escape, '', cleaned_result)
 
 
 
