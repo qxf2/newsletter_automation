@@ -31,9 +31,11 @@ def test_accessibility(test_obj, snapshot):
             #Inject Axe in every page
             test_obj.accessibility_inject_axe() 
             #Check if Axe is run in every page
-            run_result = test_obj.accessibility_run_axe({
-                'exclude': ['table']
-            })
+            # run_result = test_obj.accessibility_run_axe({
+            #     'exclude': ['table']
+            # })
+
+            run_result = test_obj.accessibility_run_axe
 
             #Serialize dict to JSON-formatted string
             result_str = json.dumps(run_result, ensure_ascii=False, separators=(',', ':'))
