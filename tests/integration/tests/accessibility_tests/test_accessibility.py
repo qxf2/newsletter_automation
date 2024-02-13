@@ -42,9 +42,6 @@ def test_accessibility(test_obj):
             if page == 'add articles page':
                 #removing csrf_token from add article page
                 cleaned_result = re.sub(r'name\s*=\s*"csrf_token"\s*value\s*=\s*"[^"]*"', '', cleaned_result)
-            if page == "create newsletter page":
-                #removing csrf_token from create newsletter page
-                cleaned_result = re.sub(r'name\s*=\s*"csrf_token"(?:\s*type\s*=\s*"hidden")?\s*value\s*=\s*"[^"]*"', '', cleaned_result)
             if page == "manage articles page":
                 url_pattern = r'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+'
                 cleaned_result = re.sub(r'<a[^>]*>.*?</a>|<td[^>]*>.*?</td>|(\b\d+px\b)|(\\|\n|\r|"timestamp":\s*"[^"]*"|\b\d+\b|%s)' % url_pattern, lambda m: '' if m.group(0).isdigit() else '', result_str)
@@ -53,6 +50,11 @@ def test_accessibility(test_obj):
                 url_pattern = r'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+'
                 cleaned_result = re.sub(r'<a[^>]*>.*?</a>|<td[^>]*>.*?</td>|(\b\d+px\b)|(\\|\n|\r|"timestamp":\s*"[^"]*"|\b\d+\b|%s)' % url_pattern, lambda m: '' if m.group(0).isdigit() else '', result_str)
                 cleaned_result = re.sub(r'{"html":"","target":.*', '{"html":"","target":', cleaned_result)
+            if page == "create newsletter page":
+                #removing csrf_token from create newsletter page
+                run_result = test_obj.accessibility_run_axe
+                cleaned_result = re.sub(r'\\|\n|\r|"timestamp":\s*"[^"]*"', '', result_str)
+                cleaned_result = re.sub(r'name\s*=\s*"csrf_token"(?:\s*type\s*=\s*"hidden")?\s*value\s*=\s*"[^"]*"', '', cleaned_result)                
 
             #Compare Snapshot for each page
             snapshot_result = test_obj.snapshot_assert_match(f"{cleaned_result}",
