@@ -30,7 +30,7 @@ def test_accessibility(test_obj):
             test_obj = PageFactory.get_page_object(page,base_url=test_obj.base_url)
             #Inject Axe in every page
             test_obj.accessibility_inject_axe()
-            #Check if Axe is run in every page
+            #Check if Axe is run in every page excluding the table
             run_result = test_obj.accessibility_run_axe({
                 'exclude': ['table']
             })
@@ -44,28 +44,18 @@ def test_accessibility(test_obj):
                 cleaned_result = re.sub(r'name\s*=\s*"csrf_token"\s*value\s*=\s*"[^"]*"', '', cleaned_result)
             if page == "manage articles page":
                 url_pattern = r'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+'
+                #masking table data
                 cleaned_result = re.sub(r'<a[^>]*>.*?</a>|<td[^>]*>.*?</td>|(\b\d+px\b)|(\\|\n|\r|"timestamp":\s*"[^"]*"|\b\d+\b|%s)' % url_pattern, lambda m: '' if m.group(0).isdigit() else '', result_str)
                 cleaned_result = re.sub(r'{"html":"","target":.*', '{"html":"","target":', cleaned_result)
             if page == "edit articles page":
                 url_pattern = r'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+'
+                #masking table data
                 cleaned_result = re.sub(r'<a[^>]*>.*?</a>|<td[^>]*>.*?</td>|(\b\d+px\b)|(\\|\n|\r|"timestamp":\s*"[^"]*"|\b\d+\b|%s)' % url_pattern, lambda m: '' if m.group(0).isdigit() else '', result_str)
                 cleaned_result = re.sub(r'{"html":"","target":.*', '{"html":"","target":', cleaned_result)
             if page == "create newsletter page":
-                #removing csrf_token from create newsletter page
-                # cleaned_result = re.sub(r'("bgColor":"#[\da-fA-F]{6}"|"contrastRatio":\d+\.\d+|"expectedContrastRatio":"[\d\.]+:1"|"message":"Element has sufficient color contrast of \d+")', '', cleaned_result)
                 cleaned_result = re.sub(r'("bgColor":"#[\da-fA-F]{6}"|"contrastRatio":\d+(\.\d+)?|"expectedContrastRatio":"[\d\.]+:1"|"message":"Element has sufficient color contrast of [\d.]*")', '', cleaned_result)
-                cleaned_result = re.sub(r'name\s*=\s*"csrf_token"(?:\s*type\s*=\s*"hidden")?\s*value\s*=\s*"[^"]*"', '', cleaned_result)             
-
-            # Create a filename based on the page name
-            filename = f'{page}_output.txt'
-            print(filename)
-            print(cleaned_result)
-                
-            # filename = f'{page}_output.txt'
-
-            # # # # # Open the file in write mode
-            # with open(filename, 'w', encoding='utf-8') as file:
-            #     file.write(cleaned_result)                 
+                #removing csrf_token from create newsletter page
+                cleaned_result = re.sub(r'name\s*=\s*"csrf_token"(?:\s*type\s*=\s*"hidden")?\s*value\s*=\s*"[^"]*"', '', cleaned_result)
 
             #Compare Snapshot for each page
             snapshot_result = test_obj.snapshot_assert_match(f"{cleaned_result}",
