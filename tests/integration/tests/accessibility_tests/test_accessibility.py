@@ -52,7 +52,8 @@ def test_accessibility(test_obj):
                 cleaned_result = re.sub(r'{"html":"","target":.*', '{"html":"","target":', cleaned_result)
             if page == "create newsletter page":
                 #removing csrf_token from create newsletter page
-                cleaned_result = re.sub(r'("bgColor":"#[\da-fA-F]{6}"|"contrastRatio":\d+\.\d+|"expectedContrastRatio":"[\d\.]+:1"|"message":"Element has sufficient color contrast of \d+")', '', cleaned_result)
+                # cleaned_result = re.sub(r'("bgColor":"#[\da-fA-F]{6}"|"contrastRatio":\d+\.\d+|"expectedContrastRatio":"[\d\.]+:1"|"message":"Element has sufficient color contrast of \d+")', '', cleaned_result)
+                cleaned_result = re.sub(r'("bgColor":"#[\da-fA-F]{6}"|"contrastRatio":\d+(\.\d+)?|"expectedContrastRatio":"[\d\.]+:1"|"message":"Element has sufficient color contrast of [\d.]*")', '', cleaned_result)
                 cleaned_result = re.sub(r'name\s*=\s*"csrf_token"(?:\s*type\s*=\s*"hidden")?\s*value\s*=\s*"[^"]*"', '', cleaned_result)             
 
             # Create a filename based on the page name
@@ -62,7 +63,7 @@ def test_accessibility(test_obj):
                 
             # filename = f'{page}_output.txt'
 
-            # # # # Open the file in write mode
+            # # # # # Open the file in write mode
             # with open(filename, 'w', encoding='utf-8') as file:
             #     file.write(cleaned_result)                 
 
