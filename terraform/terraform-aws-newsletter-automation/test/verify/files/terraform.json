@@ -1,0 +1,22 @@
+{
+  "aws_sqs_queue": {
+    "sensitive": false,
+    "type": "string",
+    "value": "arn:aws:sqs:us-east-1:120666943157:newsletter_sqs"
+  },
+  "instance_publicdns": {
+    "sensitive": false,
+    "type": "string",
+    "value": "ec2-54-91-210-77.compute-1.amazonaws.com"
+  },
+  "instance_publicip": {
+    "sensitive": false,
+    "type": "string",
+    "value": "54.91.210.77"
+  },
+  "lambda_function_arn": {
+    "sensitive": false,
+    "type": "string",
+    "value": "arn:aws:lambda:us-east-1:120666943157:function:URLFilteringLambdaRohini"
+  }
+}

@@ -148,3 +148,22 @@ newsletter_generator.env
 
 #ignore test artifacts
 tests/integration/screenshots/
+
+#--------TERRAFORM----
+
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+# Exclude all .tfvars files
+*.tfvars
+*.tfvars.json
+# Include tfplan files to ignore the plan output of command: terraform plan -out=tfplan
+# example: *tfplan*
+
+# Ignore CLI configuration files
+.terraformrc
+terraform.rc
+
