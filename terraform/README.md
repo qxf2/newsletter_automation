@@ -6,6 +6,7 @@ A) AWS credentials configuration -
     https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html
 
 B) Steps on how to install Terraform.: https://phoenixnap.com/kb/how-to-install-terraform
+                        
                         or
     
     step#1) Run the following commands at the terminal
