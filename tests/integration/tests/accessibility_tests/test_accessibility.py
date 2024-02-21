@@ -59,8 +59,7 @@ def test_accessibility(test_obj):
 
             #Compare Snapshot for each page
             snapshot_result = test_obj.snapshot_assert_match(f"{cleaned_result}",
-                                                             f'snapshot_output_{page}.txt')
-
+                                                             f'snapshot_output_{page.replace(" ", "_").lower()}.txt')
 
             test_obj.log_result(snapshot_result,
                                positive=f'Accessibility checks for {page} passed',
