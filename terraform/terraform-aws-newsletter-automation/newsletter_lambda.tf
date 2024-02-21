@@ -1,6 +1,6 @@
 
 /*
-Create a null resource with a local-exec provisioner for cloning a GitHub repository 
+Use terraform null_resource with a local-exec provisioner for cloning a GitHub repository 
 and installing its dependencies.
 */ 
 resource "null_resource" "aws_lambda_repo_clone" {
@@ -17,7 +17,7 @@ resource "null_resource" "aws_lambda_repo_clone" {
   }
 }
 
-# Archiving the lambda using archive_file
+# Archiving the lambda using archive_file-generates archive from a file.
 data "archive_file" "zip" {
   depends_on  = [null_resource.aws_lambda_repo_clone]
   type        = "zip"
@@ -60,7 +60,7 @@ resource "aws_lambda_function" "newsletter_lambda" {
     }
   }
 }
-# lambda role creation
+# Lambda role creation
 resource "aws_iam_role" "lambda_role" {
   name = "lambda-role"
 
@@ -81,7 +81,7 @@ resource "aws_iam_role" "lambda_role" {
 EOF
 }
 
-# attaching sqs policy to lambda
+# Attaching the sqs policy to Lambda
 resource "aws_iam_policy" "lambda_permissions_policy" {
   name        = "lambda-permissions-policy"
   description = "Permissions policy for Lambda to access SQS queue"

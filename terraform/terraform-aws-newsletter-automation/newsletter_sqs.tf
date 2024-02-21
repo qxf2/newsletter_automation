@@ -7,7 +7,7 @@ resource "aws_sqs_queue" "newsletter_sqs" {
   receive_wait_time_seconds  = 10
   visibility_timeout_seconds = 60
 }
-# sqs policy
+# SQS policy
 resource "aws_sqs_queue_policy" "default_policy" {
   queue_url = aws_sqs_queue.newsletter_sqs.id
 

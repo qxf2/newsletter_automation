@@ -1,4 +1,6 @@
-# Retrieve the most recent Ubuntu AMI with HVM virtualization type owned by Canonical.
+/*
+Retrieve the most recent Ubuntu AMI with HVM virtualization type owned by Canonical.
+*/
 data "aws_ami" "ubuntu" {
   most_recent = true
 

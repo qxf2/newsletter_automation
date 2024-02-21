@@ -1,4 +1,4 @@
-/* Security group- Create an AWS security group named "Newsletter_Automation-sg" 
+/* Security group- Create an AWS security group named "newsletter_sg" 
 allowing SSH and HTTP traffic ingress and all egress traffic.
 */
 resource "aws_security_group" "newsletter_sg" {
@@ -19,8 +19,6 @@ resource "aws_security_group" "newsletter_sg" {
     description = "Ingress enables external traffic to reach"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-  # Add any additional ingress rules as needed
 
   egress {
     from_port   = 0

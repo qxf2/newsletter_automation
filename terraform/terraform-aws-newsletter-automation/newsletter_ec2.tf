@@ -55,8 +55,8 @@ resource "aws_instance" "newsletter_instance" {
     ]
   }
   /*
-  To prepare the docker image from newsletter_automation repo. 
-  clone/build and run the docker image
+  Preparing the docker image from newsletter_automation repo. 
+  clone/build and run the docker image.
   */ 
   provisioner "remote-exec" {
     connection {
@@ -72,7 +72,7 @@ resource "aws_instance" "newsletter_instance" {
       "sudo docker run -it -d -p 5000:5000 newsletter_automation"
     ]
   }
-  # To serve newsletter-automation app, nginx download and configuration
+  # Serve newsletter-automation app, nginx download and configuration
   provisioner "remote-exec" {
     connection {
       host        = aws_instance.newsletter_instance.public_ip
@@ -80,7 +80,6 @@ resource "aws_instance" "newsletter_instance" {
       private_key = file("${var.private_key_path}/newsletter-key-pair.pem")
     }
     inline = [
-      # nginx installation
       "sudo apt install nginx -y",
       "sudo apt-get install -y git",
       "cd /home/ubuntu",
@@ -93,7 +92,7 @@ resource "aws_instance" "newsletter_instance" {
   }
 }
 
-# Deleting the private key when destroying the instance.
+# Deleting the private key while destroying the instance.
 resource "null_resource" "delete_key" {
   triggers = {
     key_path = "${var.private_key_path}/${var.keyname}.pem" 
