@@ -1,4 +1,4 @@
-# terraform_newsletter_automation-Terraform configuration files to deploy newsletter_automation app
+# terraform_newsletter_automation-configuration files to deploy newsletter_automation app
 
 Pre-requisites:
 ==============
@@ -29,19 +29,17 @@ Steps
 
 4) These values are used in Lambda creation - CHATGPT_API_KEY, API_KEY_VALUE, ChannelID, Qxf2Bot_USER, ETC_CHANNEL - values declared in "terraform.tfvars" file
 
-5) CHATGPT_API_KEY, API_KEY_VALUE, ETC_CHANNEL and Qxf2Bot_USER - Modify as per your default values in "terraform.tfvars".
+5) create "terraform.tfvars" under terraform directory "terraform-aws-newsletter-automation" with key names as private_key_path, github_repo, github_repo_name, lambda_function_name, lambda_handler, lambda_runtime, lambda_filename, CHATGPT_API_KEY, API_KEY_VALUE, ETC_CHANNEL and Qxf2Bot_USER - Modify as per your default values .
 
-6) private_key_path - provided in "terraform.tfvars"
-
-7) run the command 
+6) run the command 
     "terraform fmt --check" to format and 
     "terraform validate"(static analysis tool- errors pops up if any encoutered)
 
-8) run the command: 
+7) run the command: 
     "terraform init" # Initialize Terraform in the current directory
 
-9) run the command" 
+8) run the command" 
     "terraform plan" # Generate and show an execution plan (without applying it) 
 
-10) run the command 
+9) run the command 
     "terraform apply" # apply the changes.

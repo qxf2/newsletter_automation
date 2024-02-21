@@ -167,3 +167,5 @@ tests/integration/screenshots/
 .terraformrc
 terraform.rc
 
+outputs
+test_report
