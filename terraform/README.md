@@ -7,6 +7,7 @@ A) AWS credentials configuration -
 
 B) Steps on how to install Terraform.: https://phoenixnap.com/kb/how-to-install-terraform
                         or
+                        
     step#1) Run the following commands at the terminal
     curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
 
@@ -14,8 +15,8 @@ B) Steps on how to install Terraform.: https://phoenixnap.com/kb/how-to-install-
     
     step#3) sudo apt-get update && sudo apt-get install terraform
 
-C) To test the installation sussessful, run the command
-    terraform --version
+C) To test the installation successfully, run the command
+    terraform version
 
 Steps
 =====
