@@ -7,7 +7,6 @@ Pages implemented so far:
 2. editarticles page
 3. deletearticles page
 """
- 
 from page_objects.zero_page import Zero_Page
 from page_objects.Login_page import Login_Page
 from page_objects.add_articles_page import Addarticles_Page
@@ -20,6 +19,7 @@ import conf.base_url_conf
 
 class PageFactory():
     "PageFactory uses the factory design pattern."
+    @staticmethod
     def get_page_object(page_name,base_url=conf.base_url_conf.base_url):
         "Return the appropriate page object based on page_name"
         test_obj = None
@@ -29,16 +29,24 @@ class PageFactory():
         elif page_name in ["login","sso"]:
             test_obj = Login_Page(base_url=base_url)
         elif page_name == "add articles page":
-            test_obj =  Addarticles_Page(base_url=base_url)  
+            test_obj =  Addarticles_Page(base_url=base_url)
         elif page_name == "manage articles page":
-            test_obj = Managearticles_Page(base_url=base_url)  
+            test_obj = Managearticles_Page(base_url=base_url)
         elif page_name == "edit articles page":
-            test_obj = Editarticles_Page(base_url=base_url)  
+            test_obj = Editarticles_Page(base_url=base_url)
         elif page_name == "create newsletter page":
             test_obj = Createnewsletter_Page(base_url=base_url)
         elif page_name == "preview newsletter page":
-            test_obj = Previewnewsletter_Page(base_url=base_url)    
+            test_obj = Previewnewsletter_Page(base_url=base_url)
+            #"New pages added needs to be updated in the get_all_page_names method too"
         return test_obj
 
-    get_page_object = staticmethod(get_page_object)
-    
+
+    @staticmethod
+    def get_all_page_names():
+        "Return the page names"
+        return ["login",
+                "add articles page",
+                "manage articles page",
+                "edit articles page",
+                "create newsletter page"]

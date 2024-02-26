@@ -21,6 +21,8 @@ import conf.remote_credentials
 import conf.base_url_conf
 import conf.screenshot_conf
 from utils import Gif_Maker
+from utils import accessibility_util
+from utils import snapshot_util
 
 class Borg:
     #The borg design pattern is to share state
@@ -61,7 +63,8 @@ class Base_Page(Borg,unittest.TestCase):
         self.driver_obj = DriverFactory()
         if self.driver is not None:
             self.start() #Visit and initialize xpaths for the appropriate page
-
+            self.axe_util = accessibility_util.Accessibilityutil(self.driver)
+            self.snapshot_util = snapshot_util.Snapshotutil()
 
     def reset(self):
         "Reset the base page object"
@@ -77,12 +80,13 @@ class Base_Page(Borg,unittest.TestCase):
         self.gif_file_name = None
         self.rp_logger = None
 
-    # accept the alert 
     def accept_alert(self):
-        return self.driver.switch_to.alert.accept() 
-    # cancel the alert
+        "Accept the alert "
+        return self.driver.switch_to.alert.accept()
+
     def dismiss_alert(self):
-        return self.driver.switch_to.alert.dismiss()    
+        "Cancel the alert"
+        return self.driver.switch_to.alert.dismiss()
 
     def turn_on_highlight(self):
         "Highlight the elements being operated upon"
@@ -485,6 +489,30 @@ class Base_Page(Borg,unittest.TestCase):
 
         return dom_elements
 
+    def accessibility_inject_axe(self):
+        "Inject Axe into the Page"
+        try:
+            return self.axe_util.inject()
+        except Exception as e:
+             self.write(e)
+
+    def accessibility_run_axe(self,exclude_selectors=None):
+        "Run Axe into the Page"
+        try:
+            return self.axe_util.run(exclude_selectors)
+        except Exception as e:
+             self.write(e)
+
+    def snapshot_assert_match(self, value, snapshot_name):
+        "Asserts the current value of the snapshot with the given snapshot_name"
+        result_flag = False
+        try:
+            self.snapshot_util.assert_match(value, snapshot_name)
+            result_flag = True
+        except Exception as e:
+                self.write(e)
+
+        return result_flag
 
     def click_element(self,locator,wait_time=3):
         "Click the button supplied"
@@ -852,4 +880,3 @@ class Base_Page(Borg,unittest.TestCase):
 
 
     _get_locator = staticmethod(_get_locator)
-    

@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./tests/integration/tests/ui_tests",
+        "./tests/integration/conf"
+    ]
+}
