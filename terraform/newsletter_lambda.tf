@@ -1,30 +1,27 @@
 
-/*
-Use terraform null_resource with a local-exec provisioner for cloning a GitHub repository 
-and installing its dependencies.
-*/ 
+# lambda repo clone. 
 resource "null_resource" "aws_lambda_repo_clone" {
   provisioner "local-exec" {
     command     = <<-EOT
     git clone ${var.github_repo}
-    pip3 install -r /tmp/qxf2-lambdas/${var.github_repo_name}/requirements.txt -t /tmp/qxf2-lambdas/${var.github_repo_name}/
+    pip3 install -r ${var.temp_path}/${var.foldername}/${var.github_repo_name}/requirements.txt -t ${var.temp_path}/${var.foldername}/${var.github_repo_name}/
   EOT
     interpreter = ["/bin/bash", "-c"]
-    working_dir = "/tmp/"
+    working_dir = var.temp_path
     environment = {
       GIT_SSH_COMMAND = "ssh -o StrictHostKeyChecking=no"
     }
   }
 }
 
-# Archiving the lambda using archive_file-generates archive from a file.
+# archiving the lambda using archive_file
 data "archive_file" "zip" {
   depends_on  = [null_resource.aws_lambda_repo_clone]
   type        = "zip"
-  source_dir  = "/tmp/qxf2-lambdas/${var.github_repo_name}"
-  output_path = "/tmp/lambda_code.zip"
+  source_dir  = "${var.temp_path}/${var.foldername}/${var.github_repo_name}"
+  output_path = "${var.temp_path}/${var.zipfilename}"
 }
-# Lambda layer version attaching to lambda function
+# lambda layer version attaching to lambda function
 resource "aws_lambda_layer_version" "lambda_layer" {
   filename   = data.archive_file.zip.output_path
   layer_name = var.lambda_layer_name
@@ -42,7 +39,7 @@ resource "aws_lambda_function" "newsletter_lambda" {
     target_arn = aws_sqs_queue.newsletter_sqs.arn
   }
   reserved_concurrent_executions = 100 # Adding concurrency limits can prevent a rapid spike in usage and costs
-  filename                       = "/tmp/lambda_code.zip"
+  filename                       = "${var.temp_path}/${var.zipfilename}"
   role                           = aws_iam_role.lambda_role.arn
   layers                         = [aws_lambda_layer_version.lambda_layer.arn]
   environment {
@@ -60,7 +57,7 @@ resource "aws_lambda_function" "newsletter_lambda" {
     }
   }
 }
-# Lambda role creation
+# lambda role creation
 resource "aws_iam_role" "lambda_role" {
   name = "lambda-role"
 
@@ -81,7 +78,7 @@ resource "aws_iam_role" "lambda_role" {
 EOF
 }
 
-# Attaching the sqs policy to Lambda
+# attaching sqs policy to lambda
 resource "aws_iam_policy" "lambda_permissions_policy" {
   name        = "lambda-permissions-policy"
   description = "Permissions policy for Lambda to access SQS queue"

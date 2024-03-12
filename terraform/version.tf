@@ -14,6 +14,6 @@ provider "aws" {
   region  = var.region # Replace with your desired region
   profile = var.profile
 }
-# To archive lambda function requirements.
+
 provider "archive" {
 }

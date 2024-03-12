@@ -1,6 +1,3 @@
-/*
-Retrieve the most recent Ubuntu AMI with HVM virtualization type owned by Canonical.
-*/
 data "aws_ami" "ubuntu" {
   most_recent = true
 
@@ -16,3 +13,6 @@ data "aws_ami" "ubuntu" {
 
   owners = ["099720109477"] # Canonical
 }
+
+#ubuntu-focal-20.04-amd64-server
+#ubuntu-jammy-22.04-amd64
