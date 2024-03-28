@@ -4,7 +4,9 @@ resource "null_resource" "aws_lambda_repo_clone" {
   provisioner "local-exec" {
     command     = <<-EOT
     git clone ${var.github_repo}
-    pip3 install -r ${var.temp_path}/${var.foldername}/${var.github_repo_name}/requirements.txt -t ${var.temp_path}/${var.foldername}/${var.github_repo_name}/
+    
+    # Determine the correct pip executable (pip3 or pip) and install dependencies
+    $(command -v pip3 >/dev/null && echo "pip3" || echo "pip") install -r ${var.temp_path}/${var.foldername}/${var.github_repo_name}/requirements.txt -t ${var.temp_path}/${var.foldername}/${var.github_repo_name}/
   EOT
     interpreter = ["/bin/bash", "-c"]
     working_dir = var.temp_path
