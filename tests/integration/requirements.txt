@@ -16,7 +16,7 @@ loguru
 imageio
 questionary>=1.9.0
 clear-screen>=0.1.14
-prompt-toolkit>=3.0.10
+prompt-toolkit>=3.0.30,<3.1.0
 percy-selenium
 axe_selenium_python==2.1.6
 pytest-snapshot
