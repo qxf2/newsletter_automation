@@ -78,6 +78,16 @@ resource "aws_instance" "newsletter_instance" {
       "docker start newsletter_automation"
     ]
   }
+  # Copy the nginx template file from the local folder to the EC2 instance
+  provisioner "file" {
+    source      = "nginx_config.template"
+    destination = "/tmp/nginx_config.template"
+    connection {
+      host        = aws_instance.newsletter_instance.public_ip
+      user        = "${var.remoteuser}"
+      private_key = file("${var.temp_path}/${var.keyname}.pem")
+    }
+  }
   # to serve newsletter app for nginx download and configuration
   provisioner "remote-exec" {
     connection {
@@ -88,11 +98,12 @@ resource "aws_instance" "newsletter_instance" {
     inline = [
       # nginx installation
       "sudo apt install nginx -y",
-      "sudo apt-get install -y git",
-      "cd ${var.homedir}",
+      #"sudo apt-get install -y git",
+      #"cd ${var.homedir}",
       "echo going to copy file",
-      "git clone https://github.com/nelabhotlaR/nginx-config-file.git",
-      "sudo mv ~/nginx-config-file/nginx_config.template /etc/nginx/sites-available/default",
+      #"git clone https://github.com/nelabhotlaR/nginx-config-file.git",
+      #"sudo mv ~/nginx-config-file/nginx_config.template /etc/nginx/sites-available/default",
+      "sudo mv /tmp/nginx_config.template /etc/nginx/sites-available/default",
       "sudo nginx -t",
       "sudo systemctl restart nginx",
     ]
