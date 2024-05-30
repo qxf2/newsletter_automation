@@ -98,11 +98,7 @@ resource "aws_instance" "newsletter_instance" {
     inline = [
       # nginx installation
       "sudo apt install nginx -y",
-      #"sudo apt-get install -y git",
-      #"cd ${var.homedir}",
       "echo going to copy file",
-      #"git clone https://github.com/nelabhotlaR/nginx-config-file.git",
-      #"sudo mv ~/nginx-config-file/nginx_config.template /etc/nginx/sites-available/default",
       "sudo mv /tmp/nginx_config.template /etc/nginx/sites-available/default",
       "sudo nginx -t",
       "sudo systemctl restart nginx",

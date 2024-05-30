@@ -12,6 +12,6 @@ data "aws_ami" "ubuntu" {
     name   = "virtualization-type"
     values = ["hvm"]
   }
-
+  # 099720109477 is the Owner account number for Canonical
   owners = ["099720109477"] # Canonical
 }
