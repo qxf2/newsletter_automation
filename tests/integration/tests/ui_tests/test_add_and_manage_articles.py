@@ -10,7 +10,9 @@ from typing_extensions import runtime
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from page_objects.PageFactory import PageFactory
 from utils.Option_Parser import Option_Parser
-import conf.add_articles_conf as conf
+import conf.add_articles_conf as add_article_conf
+import conf.edit_articles_conf as edit_article_conf
+import conf.manage_articles_conf as manage_articles_conf
 import pytest
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
@@ -32,8 +34,8 @@ def test_add_article(test_obj):
         start_time = int(time.time())
         
         #Get the test details from the conf file
-        email = conf.email
-        password = conf.password
+        email = add_article_conf.email
+        password = add_article_conf.password
         
         def adding_article():
             #Click the hamburger menu
@@ -50,7 +52,7 @@ def test_add_article(test_obj):
             adding_article()  
         
         #Adding articles
-        article_list = conf.article_list
+        article_list = add_article_conf.article_list
         article_number = 1
         
         #Collect form data
@@ -90,6 +92,110 @@ def test_add_article(test_obj):
 
     assert expected_pass == actual_pass, "Test failed: %s"%__file__
 
+
+@pytest.mark.GUI
+def test_edit_articles(test_obj):
+
+    "Run the test"
+    try:
+        #Initalize flags for tests summary
+        expected_pass = 0
+        actual_pass = -1
+        #Create a test object for edit an article
+        test_obj = PageFactory.get_page_object("edit articles page",base_url=test_obj.base_url)
+        #Get page title
+        page_title = test_obj.get_page_title()
+        #Set start_time with current time
+        start_time = int(time.time())
+        
+        #Get the test details from the conf file
+        email = edit_article_conf.email
+        password = edit_article_conf.password
+        url = edit_article_conf.url
+        title = edit_article_conf.title
+        description = edit_article_conf.description
+        runtime = edit_article_conf.runtime
+        category = edit_article_conf.category
+        search = edit_article_conf.search
+
+        def edit_article():
+            #Click the hamburger menu
+            hamburger = test_obj.click_hamburger_button()
+            #Click manage article button
+            manage_article_button = test_obj.click_managearticle_button()
+            #Set the search string
+            search_article = test_obj.search_word(search)
+            #Click the edit button
+            edit_article = test_obj.edit_articles(url,title,description,runtime,category)
+
+        if page_title == "Unauthorized":
+            #Set the login
+            login = test_obj.login(email,password)
+            edit_article()
+        else:
+            edit_article()
+        
+        #Print out the result
+        test_obj.write_test_summary()
+        expected_pass = test_obj.result_counter
+        actual_pass = test_obj.pass_counter
+
+    except Exception as e:
+        print("Exception when trying to run test: %s"%__file__)
+        print("Python says:%s"%str(e))
+
+    assert expected_pass == actual_pass, "Test failed: %s"%__file__
+
+@pytest.mark.GUI
+def test_delete_articles(test_obj):
+
+    "Run the test"
+    try:
+        #Initalize flags for tests summary
+        expected_pass = 0
+        actual_pass = -1
+        #Create a test object for delete an article
+        test_obj = PageFactory.get_page_object("manage articles page",base_url=test_obj.base_url)
+        #Get page title
+        page_title = test_obj.get_page_title()
+        #Set start_time with current time
+        start_time = int(time.time())
+        
+        #Get the test details from the conf file
+        email = manage_articles_conf.email
+        password = manage_articles_conf.password
+        search = manage_articles_conf.search
+        
+        def delete_article():
+            #Click the hamburger menu
+            hamburger = test_obj.click_hamburger_button()
+            #Click manage article button
+            manage_article_button = test_obj.click_managearticle_button()
+            #Set the search string
+            search_article = test_obj.search_word(search)
+            #Click the delete button
+            delete_button = test_obj.click_delete_button()
+            test_obj.accept_alert()
+
+        if page_title == "Unauthorized":
+            #Set the login
+            login = test_obj.login(email,password)
+            delete_article()
+        else:
+            delete_article()
+
+        #Print out the result
+        test_obj.write_test_summary()
+        expected_pass = test_obj.result_counter
+        actual_pass = test_obj.pass_counter
+
+    except Exception as e:
+        print("Exception when trying to run test: %s"%__file__)
+        print("Python says:%s"%str(e))
+
+    assert expected_pass == actual_pass, "Test failed: %s"%__file__
+
+
 #---START OF SCRIPT
 if __name__=='__main__':
     print("Start of %s"%__file__)
@@ -117,6 +223,8 @@ if __name__=='__main__':
             test_obj.register_tesults()
 
         test_add_article(test_obj)
+        test_edit_articles(test_obj)
+        test_delete_articles(test_obj)
 
      #teardowm
         test_obj.teardown()
