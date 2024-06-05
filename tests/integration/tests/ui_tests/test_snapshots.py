@@ -6,7 +6,8 @@ from typing_extensions import runtime
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from page_objects.PageFactory import PageFactory
 from utils.Option_Parser import Option_Parser
-import conf.create_newsletter_conf as conf
+import conf.create_newsletter_conf as campaign_conf
+import conf.add_articles_conf as add_article_conf
 import pytest
 from page_objects.form_object_create_newsletter import Form_Object_Create_Newsletter
 from percy import percy_snapshot
@@ -21,8 +22,8 @@ def test_snapshot(test_obj):
         start_time = int(time.time())
 
         #Get the test details from the conf file
-        email = conf.email
-        password = conf.password
+        email = campaign_conf.email
+        password = campaign_conf.password
 
         test_obj = PageFactory.get_page_object("Login", base_url=test_obj.base_url)
         result_flag = test_obj.login(email, password)
@@ -33,7 +34,7 @@ def test_snapshot(test_obj):
         percy_snapshot(driver=test_obj.get_current_driver(),name="Homepage")
         
         #Get the test details from the conf file and fill the forms
-        article_list_create_newsletter = conf.article_list_create_newsletter
+        article_list_create_newsletter = add_article_conf.article_list
         article_list_create_newsletter_number = 1
         #Initalize form counter
         article_number = 1		  
@@ -43,11 +44,11 @@ def test_snapshot(test_obj):
 
         #Collect form data
         for article in article_list_create_newsletter:
-            url = article['url']
-            title = article['title']
-            description = article['description']
-            runtime = article['runtime']
-            category = article['category']
+            url = article['URL']
+            title = article['TITLE']
+            description = article['DESCRIPTION']
+            runtime = article['RUNTIME']
+            category = article['CATEGORY']
 
             msg ="\nReady to fill article number %d"%article_number
             test_obj.write(msg)            
@@ -68,9 +69,9 @@ def test_snapshot(test_obj):
             article_number += 1
         
         #Get the test details from the conf file
-        subject = conf.subject
-        opener = conf.opener
-        preview = conf.preview
+        subject = campaign_conf.subject
+        opener = campaign_conf.opener
+        preview = campaign_conf.preview
 
         #Manage article page
         test_obj = PageFactory.get_page_object("edit articles page",base_url=test_obj.base_url)
@@ -86,8 +87,8 @@ def test_snapshot(test_obj):
 
         #Collect form data
         for add_article in article_list_create_newsletter:
-            title = add_article['title']
-            category = add_article['category']
+            title = add_article['TITLE']
+            category = add_article['CATEGORY']
             
             #Select and add articles for all the categories
             result_flag = test_obj.add_articles(title,category)
