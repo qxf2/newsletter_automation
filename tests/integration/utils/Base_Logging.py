@@ -3,9 +3,10 @@ Qxf2 Services: A plug-n-play class for logging.
 This class wraps around Python's loguru module.
 """
 import os, inspect
-import pytest,logging
+import logging
 from loguru import logger
-from pytest_reportportal import RPLogger, RPLogHandler
+#from pytest_reportportal import RPLogger, RPLogHandler
+from reportportal_client import RPLogger, RPLogHandler 
 
 class Base_Logging():
     "A plug-n-play class for logging"
@@ -66,7 +67,7 @@ class Base_Logging():
         except Exception as e:
             self.write("Exception when trying to set rplogger")
             self.write(str(e))
-            self.exceptions.append("Error when setting up the reportportal logger")
+            #self.exceptions.append("Error when setting up the reportportal logger")
 
 
     def write(self,msg,level='info'):
