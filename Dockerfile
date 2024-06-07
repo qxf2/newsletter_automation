@@ -12,4 +12,8 @@ EXPOSE 5000
 
 #Execute command
 ENTRYPOINT [ "/bin/bash" ]
+
+# Change the value of API_KEY in the script using sed
+RUN sed -i 's|export MAILCHIMP_VIRTUALIZATION="https://v08eq.mocklab.io"|export MAILCHIMP_VIRTUALIZATION="https://v55dj.wiremockapi.cloud"|' newsletter_setup.sh
+
 CMD [ "newsletter_setup.sh" ]
