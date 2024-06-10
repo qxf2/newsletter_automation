@@ -17,7 +17,9 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 
+articles_added = []
 @pytest.mark.GUI
+@pytest.mark.xdist_group(name="group_serial")
 def test_add_article(test_obj):
 
     "Run the test"
@@ -57,12 +59,12 @@ def test_add_article(test_obj):
         
         #Collect form data
         for article in article_list:
-            url = article['URL']
-            title = article['TITLE']
+            url = article['URL']+str(int(time.time()))
+            title = article['TITLE']+str(int(time.time()))
             description = article['DESCRIPTION']
             runtime = article['RUNTIME']
             category = article['CATEGORY']
-            #submit_button = test_obj.click_submit()
+            articles_added.append({'URL':url,'TITLE':title})
            
             msg ="\nReady to fill article number %d"%article_number
             test_obj.write(msg)
@@ -94,6 +96,7 @@ def test_add_article(test_obj):
 
 
 @pytest.mark.GUI
+@pytest.mark.xdist_group(name="group_serial")
 def test_edit_articles(test_obj):
 
     "Run the test"
@@ -124,7 +127,7 @@ def test_edit_articles(test_obj):
             #Click manage article button
             manage_article_button = test_obj.click_managearticle_button()
             #Set the search string
-            search_article = test_obj.search_word(search)
+            search_article = test_obj.search_word(articles_added[0]['TITLE'])
             #Click the edit button
             edit_article = test_obj.edit_articles(url,title,description,runtime,category)
 
@@ -147,6 +150,7 @@ def test_edit_articles(test_obj):
     assert expected_pass == actual_pass, "Test failed: %s"%__file__
 
 @pytest.mark.GUI
+@pytest.mark.xdist_group(name="group_serial")
 def test_delete_articles(test_obj):
 
     "Run the test"
@@ -172,7 +176,7 @@ def test_delete_articles(test_obj):
             #Click manage article button
             manage_article_button = test_obj.click_managearticle_button()
             #Set the search string
-            search_article = test_obj.search_word(search)
+            search_article = test_obj.search_word(articles_added[1]['TITLE'])
             #Click the delete button
             delete_button = test_obj.click_delete_button()
             test_obj.accept_alert()
