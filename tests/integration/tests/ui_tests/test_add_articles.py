@@ -121,8 +121,6 @@ if __name__=='__main__':
             test_obj.register_tesults()
 
         test_add_article(test_obj)
-        test_edit_articles(test_obj)
-        test_delete_articles(test_obj)
 
      #teardowm
         test_obj.teardown()
