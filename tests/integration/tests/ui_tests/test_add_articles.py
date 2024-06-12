@@ -19,7 +19,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 articles_added = []
 @pytest.mark.GUI
-@pytest.mark.xdist_group(name="group_serial")
 def test_add_article(test_obj):
 
     "Run the test"
