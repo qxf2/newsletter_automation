@@ -1,0 +1,37 @@
+{
+  "consumer": {
+    "name": "articleslambda"
+  },
+  "provider": {
+    "name": "newsletterautomation"
+  },
+  "interactions": [
+    {
+      "description": "a request to add article",
+      "providerState": "Found articles to add",
+      "request": {
+        "method": "post",
+        "path": "/api/articles",
+        "headers": {
+          "x-api-key": "",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "body": "url=https%3A%2F%2Funiquetesturl%2F2852ed8c-aef0-403c-8e62-b57070a63c39&category_id=2&title=Test+Title&description=Test+Description&time=5"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "message": "Record added Successfully"
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  }
+}
