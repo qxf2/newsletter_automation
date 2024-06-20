@@ -40,14 +40,15 @@ def test_snapshot(test_obj):
         test_obj = PageFactory.get_page_object("add articles page", base_url=test_obj.base_url)
         #Snapshot of add article page
         percy_snapshot(driver=test_obj.get_current_driver(),name="Add article page")
-
+        articles_added = []
         #Collect form data
         for article in article_list_create_newsletter:
-            url = article['url']
-            title = article['title']
+            url = article['url']+str(int(time.time()))
+            title = article['title']+str(int(time.time()))
             description = article['description']
             runtime = article['runtime']
             category = article['category']
+            articles_added.append({'url':url,'title':title,'category':category})
 
             msg ="\nReady to fill article number %d"%article_number
             test_obj.write(msg)            
@@ -85,10 +86,10 @@ def test_snapshot(test_obj):
         percy_snapshot(driver=test_obj.get_current_driver(),name="Create campaign page")
 
         #Collect form data
-        for add_article in article_list_create_newsletter:
+        for add_article in articles_added:
             title = add_article['title']
             category = add_article['category']
-            
+    
             #Select and add articles for all the categories
             result_flag = test_obj.add_articles(title,category)
             test_obj.log_result(result_flag,

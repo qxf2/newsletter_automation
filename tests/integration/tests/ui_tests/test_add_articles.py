@@ -10,11 +10,14 @@ from typing_extensions import runtime
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from page_objects.PageFactory import PageFactory
 from utils.Option_Parser import Option_Parser
-import conf.add_articles_conf as conf
+import conf.add_articles_conf as add_article_conf
+import conf.edit_articles_conf as edit_article_conf
+import conf.manage_articles_conf as manage_articles_conf
 import pytest
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 
+articles_added = []
 @pytest.mark.GUI
 def test_add_article(test_obj):
 
@@ -32,8 +35,8 @@ def test_add_article(test_obj):
         start_time = int(time.time())
         
         #Get the test details from the conf file
-        email = conf.email
-        password = conf.password
+        email = add_article_conf.email
+        password = add_article_conf.password
         
         def adding_article():
             #Click the hamburger menu
@@ -50,17 +53,17 @@ def test_add_article(test_obj):
             adding_article()  
         
         #Adding articles
-        article_list = conf.article_list
+        article_list = add_article_conf.article_list
         article_number = 1
         
         #Collect form data
         for article in article_list:
-            url = article['URL']
-            title = article['TITLE']
+            url = article['URL']+str(int(time.time()))
+            title = article['TITLE']+str(int(time.time()))
             description = article['DESCRIPTION']
             runtime = article['RUNTIME']
             category = article['CATEGORY']
-            #submit_button = test_obj.click_submit()
+            articles_added.append({'URL':url,'TITLE':title})
            
             msg ="\nReady to fill article number %d"%article_number
             test_obj.write(msg)

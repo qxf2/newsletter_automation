@@ -39,13 +39,15 @@ def test_create_campaign(test_obj):
         #Initalize form counter
         article_number = 1		  
         test_obj = PageFactory.get_page_object("add articles page", base_url=test_obj.base_url)
+        articles_added = []
         #Collect form data
         for article in article_list_create_newsletter:
-            url = article['url']
-            title = article['title']
+            url = article['url']+str(int(time.time()))
+            title = article['title']+str(int(time.time()))
             description = article['description']
             runtime = article['runtime']
             category = article['category']
+            articles_added.append({'url':url,'title':title,'category':category})
 
             msg ="\nReady to fill article number %d"%article_number
             test_obj.write(msg)            
@@ -68,7 +70,7 @@ def test_create_campaign(test_obj):
         #Create a test object for create newsletter
         test_obj = PageFactory.get_page_object("create newsletter page", base_url=test_obj.base_url) 
         #Collect form data
-        for add_article in article_list_create_newsletter:
+        for add_article in articles_added:
             title = add_article['title']
             category = add_article['category']
             

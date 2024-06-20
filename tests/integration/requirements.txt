@@ -1,22 +1,22 @@
-requests==2.25.1
-reportportal-client==5.0.10
-pytest==6.2.4 ; python_version =='3.6'
-pytest>6.2.4 ; python_version >='3.7'
+requests==2.31.0
+pytest==8.1.1
+reportportal-client==5.5.4
 selenium>=4.16.0
 python_dotenv==0.16.0
 Appium_Python_Client==0.28
 pytest-xdist>=1.31
 pytest-html>=3.0.0
 pytest-rerunfailures>=9.1.1
-pytest_reportportal==5.0.8
+pytest_reportportal==5.4.0
 pillow>=6.2.0
 tesults
+boto3==1.33.0
 typing-extensions
 loguru
 imageio
 questionary>=1.9.0
 clear-screen>=0.1.14
-prompt-toolkit==2.0.10
+prompt-toolkit>=3.0.30,<3.1.0
 percy-selenium
 axe_selenium_python==2.1.6
 pytest-snapshot

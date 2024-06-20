@@ -417,7 +417,8 @@ def pytest_configure(config):
     if_reportportal =config.getoption('--reportportal')
 
     try:
-        config._inicache["rp_uuid"] = report_portal_conf.report_portal_uuid
+        #config._inicache["rp_uuid"] = report_portal_conf.report_portal_uuid
+        config._inicache["rp_api_key"] = report_portal_conf.report_portal_api_key
         config._inicache["rp_endpoint"]= report_portal_conf.report_portal_endpoint
         config._inicache["rp_project"]=report_portal_conf.report_portal_project
         config._inicache["rp_launch"]=report_portal_conf.report_portal_launch

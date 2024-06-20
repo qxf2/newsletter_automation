@@ -229,8 +229,10 @@ class Base_Page(Borg,unittest.TestCase):
 
     def set_rp_logger(self,rp_pytest_service):
         "Set the reportportal logger"
-        self.rp_logger = self.log_obj.setup_rp_logging(rp_pytest_service)
-
+        try:
+            self.rp_logger = self.log_obj.setup_rp_logging(rp_pytest_service)
+        except Exception as e:
+            self.exceptions.append("Error when setting up the reportportal logger", e)
 
     def append_latest_image(self,screenshot_name):
         "Get image url list from Browser Stack"
