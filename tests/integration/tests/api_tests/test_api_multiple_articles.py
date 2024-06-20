@@ -1,9 +1,7 @@
 """
 API TEST
 Add articles in all categories - POST request(without url_params)
-
 """
-
 import os
 import sys
 import pytest
@@ -29,10 +27,10 @@ def test_api_example(test_api_obj):
             current_timestamp =str(int(time.time())+counter)
             counter += 1
             StrCounter = str(counter)
+            time.sleep(5)
             article_details = {'url':conf.article_url +current_timestamp,'title':conf.article_title+StrCounter,'description':conf.article_description+StrCounter,'category_id':StrCounter,'article_editor':editor}
             response = test_api_obj.add_article(article_details=article_details,
                                                 headers=headers)
-
             result_flag = True if 'Record' in response.get('response',{}).get('message','fail') else False
             test_api_obj.log_result(result_flag,
                                     positive='Successfully added new article with details %s' % response,
